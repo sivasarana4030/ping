@@ -1,6008 +1,8500 @@
-var Utils, Elements, previousTime, canvasX, canvasY, sound, music, assetLib, preAssetLib, delta, prevGameState, panel, background, aLevelUps, levelBonusScore, bonusScore, panelFrame, oLogoBut, tableTop, userBat, enemyBat, aSeasonFlags, aSeasonFlagsRender, startTouchY, aEffects, gameType, aProgressButs, curTournLevelId, isSpecialGame, lastUnlockedChar, curTime, hitFirstShot, bottleGameState, batShop, prevGameplayState, aBalls, awardPanel, __extends = this && this.__extends || function() {
-    var e = function(t, a) {
-        return (e = Object.setPrototypeOf || ({
-            __proto__: []
-        }) instanceof Array && function(e, t) {
-            e.__proto__ = t
-        } || function(e, t) {
-            for (var a in t) t.hasOwnProperty(a) && (e[a] = t[a])
-        })(t, a)
-    };
-    return function(t, a) {
-        function s() {
-            this.constructor = t
+var _0x47ff64 = _0x2ef4;
+(function(_0x4f07f4, _0x231aa0) {
+    var _0x1ad00a = _0x2ef4
+      , _0x45e9d5 = _0x4f07f4();
+    while (!![]) {
+        try {
+            var _0x2aed86 = parseInt(_0x1ad00a(0x1a4)) / 0x1 + parseInt(_0x1ad00a(0x29d)) / 0x2 + -parseInt(_0x1ad00a(0xf3)) / 0x3 * (parseInt(_0x1ad00a(0x24b)) / 0x4) + -parseInt(_0x1ad00a(0x325)) / 0x5 + parseInt(_0x1ad00a(0x3e9)) / 0x6 + -parseInt(_0x1ad00a(0x234)) / 0x7 * (parseInt(_0x1ad00a(0x194)) / 0x8) + parseInt(_0x1ad00a(0x138)) / 0x9 * (parseInt(_0x1ad00a(0x1b9)) / 0xa);
+            if (_0x2aed86 === _0x231aa0)
+                break;
+            else
+                _0x45e9d5['push'](_0x45e9d5['shift']());
+        } catch (_0x164082) {
+            _0x45e9d5['push'](_0x45e9d5['shift']());
         }
-        e(t, a), t.prototype = null === a ? Object.create(a) : (s.prototype = a.prototype, new s)
     }
-}();
-! function(e) {
-    var t = function() {
-        function e(e, t, a, s, i, r) {
-            void 0 === r && (r = !0), this.oAssetData = {}, this.assetsLoaded = 0, this.textData = {}, this.spinnerRot = 0, this.totalAssets = t.length, this.showBar = r;
-            for (var o = 0; o < t.length; o++) - 1 != t[o].file.indexOf(".json") ? this.loadJSON(t[o]) : this.loadImage(t[o]);
-            r && (this.oLoaderImgData = preAssetLib.getData("loader"), this.oLoadSpinnerImgData = preAssetLib.getData("loadSpinner"))
+}(_0xd407, 0xb6990));
+var __extends = this && this[_0x47ff64(0x3a6)] || (function() {
+    var _0x689e1b = function(_0x2e651d, _0x346039) {
+        var _0x31e53e = _0x2ef4;
+        return _0x689e1b = Object[_0x31e53e(0x22e)] || {
+            '__proto__': []
+        }instanceof Array && function(_0x52fd21, _0x1ccf11) {
+            _0x52fd21['__proto__'] = _0x1ccf11;
         }
-        return e.prototype.render = function() {
-            ctx.fillStyle = "rgba(0, 0, 0, 1)", ctx.fillRect(0, 0, canvas.width, canvas.height), ctx.fillStyle = "#FFFFFF", ctx.fillRect(canvas.width / 2 - 150, canvas.height / 2 + 20, 300 / this.totalAssets * this.assetsLoaded, 30), ctx.drawImage(this.oLoaderImgData.img, canvas.width / 2 - this.oLoaderImgData.img.width / 2, canvas.height / 2 - this.oLoaderImgData.img.height / 2), this.spinnerRot += 3 * delta, ctx.save(), ctx.translate(canvas.width / 2 - 38, canvas.height / 2 - 16), ctx.scale(.7 + Math.sin(2 * this.spinnerRot) / 10, .7 + Math.sin(2 * this.spinnerRot) / 10), ctx.rotate(this.spinnerRot), ctx.drawImage(this.oLoadSpinnerImgData.img, -this.oLoadSpinnerImgData.img.width / 2, -this.oLoadSpinnerImgData.img.height / 2), ctx.restore(), this.displayNumbers()
-        }, e.prototype.displayNumbers = function() {
-            ctx.textAlign = "left", ctx.font = "bold 40px arial", ctx.fillStyle = "#ffffff", ctx.fillText(Math.round(this.assetsLoaded / this.totalAssets * 100) + "%", canvas.width / 2 - 0, canvas.height / 2 - 1)
-        }, e.prototype.loadExtraAssets = function(e, t) {
-            this.showBar = !1, this.totalAssets = t.length, this.assetsLoaded = 0, this.loadedCallback = e;
-            for (var a = 0; a < t.length; a++) - 1 != t[a].file.indexOf(".json") ? this.loadJSON(t[a]) : this.loadImage(t[a])
-        }, e.prototype.loadJSON = function(e) {
-            var t = this,
-                a = new XMLHttpRequest;
-            a.open("GET", e.file, !0), a.onreadystatechange = function() {
-                4 == a.readyState && 200 == a.status && (t.textData[e.id] = JSON.parse(a.responseText), ++t.assetsLoaded, t.checkLoadComplete())
-            }, a.send(null)
-        }, e.prototype.loadImage = function(e) {
-            var t = this,
-                a = new Image;
-            a.onload = function() {
-                t.oAssetData[e.id] = {}, t.oAssetData[e.id].img = a, t.oAssetData[e.id].oData = {};
-                var s = t.getSpriteSize(e.file);
-                0 != s[0] ? (t.oAssetData[e.id].oData.spriteWidth = s[0], t.oAssetData[e.id].oData.spriteHeight = s[1]) : (t.oAssetData[e.id].oData.spriteWidth = t.oAssetData[e.id].img.width, t.oAssetData[e.id].oData.spriteHeight = t.oAssetData[e.id].img.height), e.oAnims && (t.oAssetData[e.id].oData.oAnims = e.oAnims), e.oAtlasData ? t.oAssetData[e.id].oData.oAtlasData = e.oAtlasData : t.oAssetData[e.id].oData.oAtlasData = {
-                    none: {
-                        x: 0,
-                        y: 0,
-                        width: t.oAssetData[e.id].oData.spriteWidth,
-                        height: t.oAssetData[e.id].oData.spriteHeight
-                    }
-                }, ++t.assetsLoaded, t.checkLoadComplete()
-            }, a.src = e.file
-        }, e.prototype.getSpriteSize = function(e) {
-            for (var t = [], a = "", s = "", i = 0, r = e.lastIndexOf("."), o = !0; o;) r--, 0 == i && this.isNumber(e.charAt(r)) ? a = e.charAt(r) + a : 0 == i && a.length > 0 && "x" == e.charAt(r) ? (r--, i = 1, s = e.charAt(r) + s) : 1 == i && this.isNumber(e.charAt(r)) ? s = e.charAt(r) + s : 1 == i && s.length > 0 && "_" == e.charAt(r) ? (o = !1, t = [parseInt(s), parseInt(a)]) : (o = !1, t = [0, 0]);
-            return t
-        }, e.prototype.isNumber = function(e) {
-            return !isNaN(parseFloat(e)) && isFinite(e)
-        }, e.prototype.checkLoadComplete = function() {
-            this.assetsLoaded == this.totalAssets && this.loadedCallback()
-        }, e.prototype.onReady = function(e) {
-            this.loadedCallback = e
-        }, e.prototype.getImg = function(e) {
-            return this.oAssetData[e].img
-        }, e.prototype.getData = function(e) {
-            return this.oAssetData[e]
-        }, e
-    }();
-    e.AssetLoader = t
-}(Utils || (Utils = {})),
-function(e) {
-    var t = function() {
-        function e(e, t, a, s) {
-            this.x = 0, this.y = 0, this.rotation = 0, this.radius = 10, this.removeMe = !1, this.frameInc = 0, this.animType = "loop", this.offsetX = 0, this.offsetY = 0, this.scaleX = 1, this.scaleY = 1, this.alpha = 1, this.oImgData = e, this.oAnims = this.oImgData.oData.oAnims, this.fps = t, this.radius = a, this.animId = s, this.centreX = Math.round(this.oImgData.oData.spriteWidth / 2), this.centreY = Math.round(this.oImgData.oData.spriteHeight / 2)
+        || function(_0x1ac564, _0x3074d0) {
+            var _0x4998fe = _0x31e53e;
+            for (var _0x5b9b1a in _0x3074d0)
+                if (_0x3074d0[_0x4998fe(0x3e3)](_0x5b9b1a))
+                    _0x1ac564[_0x5b9b1a] = _0x3074d0[_0x5b9b1a];
         }
-        return e.prototype.updateAnimation = function(e) {
-            this.frameInc += this.fps * e
-        }, e.prototype.changeImgData = function(e, t) {
-            this.oImgData = e, this.oAnims = this.oImgData.oData.oAnims, this.animId = t, this.centreX = Math.round(this.oImgData.oData.spriteWidth / 2), this.centreY = Math.round(this.oImgData.oData.spriteHeight / 2), this.resetAnim()
-        }, e.prototype.resetAnim = function() {
-            this.frameInc = 0
-        }, e.prototype.setFrame = function(e) {
-            this.fixedFrame = e
-        }, e.prototype.setAnimType = function(e, t, a) {
-            switch (void 0 === a && (a = !0), this.animId = t, this.animType = e, a && this.resetAnim(), e) {
-                case "loop":
-                    break;
-                case "once":
-                    this.maxIdx = this.oAnims[this.animId].length - 1
-            }
-        }, e.prototype.render = function(e) {
-            if (e.save(), e.translate(this.x, this.y), e.rotate(this.rotation), e.scale(this.scaleX, this.scaleY), e.globalAlpha = this.alpha, null != this.animId) {
-                var t = this.oAnims[this.animId].length,
-                    a = Math.floor(this.frameInc);
-                this.curFrame = this.oAnims[this.animId][a % t];
-                var s = this.curFrame * this.oImgData.oData.spriteWidth % this.oImgData.img.width,
-                    i = Math.floor(this.curFrame / (this.oImgData.img.width / this.oImgData.oData.spriteWidth)) * this.oImgData.oData.spriteHeight;
-                if ("once" == this.animType && a > this.maxIdx) {
-                    this.fixedFrame = this.oAnims[this.animId][t - 1], this.animId = null, null != this.animEndedFunc && this.animEndedFunc();
-                    var s = this.fixedFrame * this.oImgData.oData.spriteWidth % this.oImgData.img.width,
-                        i = Math.floor(this.fixedFrame / (this.oImgData.img.width / this.oImgData.oData.spriteWidth)) * this.oImgData.oData.spriteHeight
-                }
-            } else var s = this.fixedFrame * this.oImgData.oData.spriteWidth % this.oImgData.img.width,
-                i = Math.floor(this.fixedFrame / (this.oImgData.img.width / this.oImgData.oData.spriteWidth)) * this.oImgData.oData.spriteHeight;
-            e.drawImage(this.oImgData.img, s, i, this.oImgData.oData.spriteWidth, this.oImgData.oData.spriteHeight, -this.centreX + this.offsetX, -this.centreY + this.offsetY, this.oImgData.oData.spriteWidth, this.oImgData.oData.spriteHeight), e.restore()
-        }, e.prototype.renderSimple = function(e) {
-            if (null != this.animId) {
-                var t = this.oAnims[this.animId].length,
-                    a = Math.floor(this.frameInc);
-                this.curFrame = this.oAnims[this.animId][a % t];
-                var s = this.curFrame * this.oImgData.oData.spriteWidth % this.oImgData.img.width,
-                    i = Math.floor(this.curFrame / (this.oImgData.img.width / this.oImgData.oData.spriteWidth)) * this.oImgData.oData.spriteHeight;
-                if ("once" == this.animType && a > this.maxIdx) {
-                    this.fixedFrame = this.oAnims[this.animId][t - 1], this.animId = null, null != this.animEndedFunc && this.animEndedFunc();
-                    var s = this.fixedFrame * this.oImgData.oData.spriteWidth % this.oImgData.img.width,
-                        i = Math.floor(this.fixedFrame / (this.oImgData.img.width / this.oImgData.oData.spriteWidth)) * this.oImgData.oData.spriteHeight
-                }
-            } else var s = this.fixedFrame * this.oImgData.oData.spriteWidth % this.oImgData.img.width,
-                i = Math.floor(this.fixedFrame / (this.oImgData.img.width / this.oImgData.oData.spriteWidth)) * this.oImgData.oData.spriteHeight;
-            e.drawImage(this.oImgData.img, s, i, this.oImgData.oData.spriteWidth, this.oImgData.oData.spriteHeight, this.x - (this.centreX - this.offsetX) * this.scaleX, this.y - (this.centreY - this.offsetY) * this.scaleY, this.oImgData.oData.spriteWidth * this.scaleX, this.oImgData.oData.spriteHeight * this.scaleY)
-        }, e
-    }();
-    e.AnimSprite = t
-}(Utils || (Utils = {})),
-function(e) {
-    var t = function() {
-        function e(e, t, a) {
-            void 0 === a && (a = 0), this.x = 0, this.y = 0, this.rotation = 0, this.radius = 10, this.removeMe = !1, this.offsetX = 0, this.offsetY = 0, this.scaleX = 1, this.scaleY = 1, this.oImgData = e, this.radius = t, this.setFrame(a)
+        ,
+        _0x689e1b(_0x2e651d, _0x346039);
+    };
+    return function(_0x4abbe7, _0x577871) {
+        var _0x4fab77 = _0x2ef4;
+        _0x689e1b(_0x4abbe7, _0x577871);
+        function _0x54abc6() {
+            this['constructor'] = _0x4abbe7;
         }
-        return e.prototype.setFrame = function(e) {
-            this.frameNum = e
-        }, e.prototype.render = function(e) {
-            e.save(), e.translate(this.x, this.y), e.rotate(this.rotation), e.scale(this.scaleX, this.scaleY);
-            var t = this.frameNum * this.oImgData.oData.spriteWidth % this.oImgData.img.width,
-                a = Math.floor(this.frameNum / (this.oImgData.img.width / this.oImgData.oData.spriteWidth)) * this.oImgData.oData.spriteHeight;
-            e.drawImage(this.oImgData.img, t, a, this.oImgData.oData.spriteWidth, this.oImgData.oData.spriteHeight, -this.oImgData.oData.spriteWidth / 2 + this.offsetX, -this.oImgData.oData.spriteHeight / 2 + this.offsetY, this.oImgData.oData.spriteWidth, this.oImgData.oData.spriteHeight), e.restore()
-        }, e
-    }();
-    e.BasicSprite = t
-}(Utils || (Utils = {})),
-function(e) {
-    var t = function() {
-        function e(e, t) {
-            var a = this;
-            this.prevHitTime = 0, this.pauseIsOn = !1, this.isDown = !1, this.sensitiveLevel = 2, this.aSensitiveRates = [.25, .5, 1, 1.5, 2], this.pointerLockState = 0, this.isBugBrowser = t, this.keyDownEvtFunc = function(e) {
-                a.keyDown(e)
-            }, this.keyUpEvtFunc = function(e) {
-                a.keyUp(e)
-            }, document.addEventListener("mousemove", function(e) {
-                a.mouseX = e.pageX *= canvasScale, a.mouseY = e.pageY *= canvasScale, !isMobile && (userBat && (userBat.targX = a.mouseX, userBat.targY = a.mouseY), batShop && "batShop" == gameState && batShop.glowBut(a.mouseX, a.mouseY))
-            }, !1), e.addEventListener("contextmenu", function(e) {
-                return e.preventDefault()
-            }), e.addEventListener("touchstart", function(e) {
-                for (var t = 0; t < e.changedTouches.length; t++) a.hitDown(e, e.changedTouches[t].pageX * canvasScale, e.changedTouches[t].pageY * canvasScale, e.changedTouches[t].identifier)
-            }, !1), e.addEventListener("touchend", function(e) {
-                for (var t = 0; t < e.changedTouches.length; t++) a.hitUp(e, e.changedTouches[t].pageX * canvasScale, e.changedTouches[t].pageY * canvasScale, e.changedTouches[t].identifier)
-            }, !1), e.addEventListener("touchcancel", function(e) {
-                for (var t = 0; t < e.changedTouches.length; t++) a.hitCancel(e, e.changedTouches[t].pageX * canvasScale, e.changedTouches[t].pageY * canvasScale, e.changedTouches[t].identifier)
-            }, !1), e.addEventListener("touchmove", function(e) {
-                for (var t = 0; t < e.changedTouches.length; t++) a.move(e, e.changedTouches[t].pageX * canvasScale, e.changedTouches[t].pageY * canvasScale, e.changedTouches[t].identifier, !0)
-            }, !1), e.addEventListener("wheel", function(e) {
-                a.wheelScroll(e, e.deltaY)
-            }, !1), e.addEventListener("mousedown", function(e) {
-                a.isDown = !0, a.hitDown(e, a.mouseX, a.mouseY, 1)
-            }, !1), e.addEventListener("mouseup", function(e) {
-                a.isDown = !1, a.hitUp(e, a.mouseX, a.mouseY, 1)
-            }, !1), e.addEventListener("mousemove", function(e) {
-                a.move(e, a.mouseX, a.mouseY, 1, a.isDown)
-            }, !1), e.addEventListener("mouseout", function(e) {
-                2 != e.button && (clearButtonOvers(), a.isDown = !1, a.hitUp(e, Math.abs(a.mouseX), Math.abs(a.mouseY), 1))
-            }, !1), this.aHitAreas = [], this.aKeys = []
+        _0x4abbe7[_0x4fab77(0x1f7)] = _0x577871 === null ? Object[_0x4fab77(0x1a3)](_0x577871) : (_0x54abc6['prototype'] = _0x577871['prototype'],
+        new _0x54abc6());
+    }
+    ;
+}()), Utils;
+(function(_0xdd4f03) {
+    var _0x4d7e93 = _0x47ff64
+      , _0x4ca70e = (function() {
+        var _0x473a65 = _0x2ef4;
+        function _0x1a3de0(_0x363ce1, _0x3b36e9, _0x6b96fa, _0x22a826, _0x54e5c7, _0x3ebe0c) {
+            var _0x4c5cde = _0x2ef4;
+            _0x3ebe0c === void 0x0 && (_0x3ebe0c = !![]);
+            this[_0x4c5cde(0x266)] = {},
+            this[_0x4c5cde(0x36d)] = 0x0,
+            this[_0x4c5cde(0x3f9)] = {},
+            this[_0x4c5cde(0x371)] = 0x0,
+            this[_0x4c5cde(0x34c)] = _0x3b36e9[_0x4c5cde(0x3f5)],
+            this[_0x4c5cde(0x249)] = _0x3ebe0c;
+            for (var _0x58b9da = 0x0; _0x58b9da < _0x3b36e9[_0x4c5cde(0x3f5)]; _0x58b9da++) {
+                _0x3b36e9[_0x58b9da]['file'][_0x4c5cde(0x124)]('.json') != -0x1 ? this['loadJSON'](_0x3b36e9[_0x58b9da]) : this[_0x4c5cde(0x189)](_0x3b36e9[_0x58b9da]);
+            }
+            _0x3ebe0c && (this['oLoaderImgData'] = preAssetLib[_0x4c5cde(0x2d8)]('loader'),
+            this[_0x4c5cde(0x282)] = preAssetLib['getData'](_0x4c5cde(0x2e0)));
         }
-        return e.prototype.pointerLockOn = function() {}, e.prototype.pointerLockOff = function() {}, e.prototype.wheelScroll = function(e, t) {
-            e.preventDefault(), e.stopPropagation(), "batShop" == gameState && (batShop.targY -= t)
-        }, e.prototype.hitDown = function(e, t, a, s) {
-            if (e.preventDefault(), e.stopPropagation(), hasFocus || visibleResume(), !this.pauseIsOn) {
-                for (var i = new Date().getTime(), r = 0; r < this.aHitAreas.length; r++)
-                    if (this.aHitAreas[r].rect) {
-                        var o = canvas.width * this.aHitAreas[r].align[0],
-                            n = canvas.height * this.aHitAreas[r].align[1];
-                        if (t > o + this.aHitAreas[r].area[0] && a > n + this.aHitAreas[r].area[1] && t < o + this.aHitAreas[r].area[2] && a < n + this.aHitAreas[r].area[3]) {
-                            if (this.aHitAreas[r].aTouchIdentifiers.push(s), this.aHitAreas[r].oData.hasLeft = !1, this.aHitAreas[r].oData.isUp = !1, !this.aHitAreas[r].oData.isDown) {
-                                if (this.aHitAreas[r].oData.isDown = !0, this.aHitAreas[r].oData.x = t, this.aHitAreas[r].oData.y = a, this.aHitAreas[r].oData.button = e.button, i - this.prevHitTime < 500 && ("game" != gameState || "pause" == this.aHitAreas[r].id) && isBugBrowser) return;
-                                this.aHitAreas[r].callback(this.aHitAreas[r].id, this.aHitAreas[r].oData)
-                            }
-                            break
-                        }
-                    }
-                this.prevHitTime = i
-            }
-        }, e.prototype.hitUp = function(e, t, a, s) {
-            if (ios9FirstTouch || (playSound("silence"), ios9FirstTouch = !0), !this.pauseIsOn) {
-                e.preventDefault(), e.stopPropagation();
-                for (var i = 0; i < this.aHitAreas.length; i++)
-                    if (this.aHitAreas[i].rect) {
-                        var r = canvas.width * this.aHitAreas[i].align[0],
-                            o = canvas.height * this.aHitAreas[i].align[1];
-                        if (t > r + this.aHitAreas[i].area[0] && a > o + this.aHitAreas[i].area[1] && t < r + this.aHitAreas[i].area[2] && a < o + this.aHitAreas[i].area[3]) {
-                            for (var n = 0; n < this.aHitAreas[i].aTouchIdentifiers.length; n++) this.aHitAreas[i].aTouchIdentifiers[n] == s && (this.aHitAreas[i].aTouchIdentifiers.splice(n, 1), n -= 1);
-                            0 == this.aHitAreas[i].aTouchIdentifiers.length && (this.aHitAreas[i].oData.isDown = !1), this.aHitAreas[i].oData.isUp = !0, this.aHitAreas[i].oData.multiTouch && (this.aHitAreas[i].oData.x = t, this.aHitAreas[i].oData.y = a, this.aHitAreas[i].oData.button = e.button, this.aHitAreas[i].callback(this.aHitAreas[i].id, this.aHitAreas[i].oData));
-                            break
-                        }
-                    }
-            }
-        }, e.prototype.hitCancel = function(e, t, a, s) {
-            e.preventDefault(), e.stopPropagation();
-            for (var i = 0; i < this.aHitAreas.length; i++) this.aHitAreas[i].oData.isDown && (this.aHitAreas[i].oData.isDown = !1, this.aHitAreas[i].aTouchIdentifiers = [], this.aHitAreas[i].oData.multiTouch && (this.aHitAreas[i].oData.x = t, this.aHitAreas[i].oData.y = a, this.aHitAreas[i].callback(this.aHitAreas[i].id, this.aHitAreas[i].oData)))
-        }, e.prototype.move = function(e, t, a, s, i) {
-            if (!isMobile && (userBat && (userBat.targX = t * canvasScale, userBat.targY = a * canvasScale), batShop && "batShop" == gameState && batShop.glowBut(t * canvasScale, a * canvasScale)), !this.pauseIsOn && i) {
-                for (var r = 0; r < this.aHitAreas.length; r++)
-                    if (this.aHitAreas[r].rect) {
-                        var o = canvas.width * this.aHitAreas[r].align[0],
-                            n = canvas.height * this.aHitAreas[r].align[1];
-                        if (t > o + this.aHitAreas[r].area[0] && a > n + this.aHitAreas[r].area[1] && t < o + this.aHitAreas[r].area[2] && a < n + this.aHitAreas[r].area[3]) this.aHitAreas[r].oData.hasLeft = !1, this.aHitAreas[r].oData.isDraggable && !this.aHitAreas[r].oData.isDown && (this.aHitAreas[r].oData.isDown = !0, this.aHitAreas[r].oData.x = t, this.aHitAreas[r].oData.y = a, this.aHitAreas[r].aTouchIdentifiers.push(s), this.aHitAreas[r].oData.multiTouch && this.aHitAreas[r].callback(this.aHitAreas[r].id, this.aHitAreas[r].oData)), this.aHitAreas[r].oData.isDraggable && (this.aHitAreas[r].oData.isBeingDragged = !0, this.aHitAreas[r].oData.x = t, this.aHitAreas[r].oData.y = a, this.aHitAreas[r].callback(this.aHitAreas[r].id, this.aHitAreas[r].oData), this.aHitAreas[r] && (this.aHitAreas[r].oData.isBeingDragged = !1));
-                        else if (this.aHitAreas[r].oData.isDown && !this.aHitAreas[r].oData.hasLeft) {
-                            for (var l = 0; l < this.aHitAreas[r].aTouchIdentifiers.length; l++) this.aHitAreas[r].aTouchIdentifiers[l] == s && (this.aHitAreas[r].aTouchIdentifiers.splice(l, 1), l -= 1);
-                            0 == this.aHitAreas[r].aTouchIdentifiers.length && (this.aHitAreas[r].oData.hasLeft = !0, this.aHitAreas[r].oData.isBeingDragged || (this.aHitAreas[r].oData.isDown = !1), this.aHitAreas[r].oData.multiTouch && this.aHitAreas[r].callback(this.aHitAreas[r].id, this.aHitAreas[r].oData))
-                        }
-                    }
-            }
-        }, e.prototype.keyDown = function(e) {
-            for (var t = 0; t < this.aKeys.length; t++) e.keyCode == this.aKeys[t].keyCode && (e.preventDefault(), this.aKeys[t].oData.isDown = !0, this.aKeys[t].callback(this.aKeys[t].id, this.aKeys[t].oData))
-        }, e.prototype.keyUp = function(e) {
-            for (var t = 0; t < this.aKeys.length; t++) e.keyCode == this.aKeys[t].keyCode && (e.preventDefault(), this.aKeys[t].oData.isDown = !1, this.aKeys[t].callback(this.aKeys[t].id, this.aKeys[t].oData))
-        }, e.prototype.checkKeyFocus = function() {
-            window.focus(), this.aKeys.length > 0 && (window.removeEventListener("keydown", this.keyDownEvtFunc, !1), window.removeEventListener("keyup", this.keyUpEvtFunc, !1), window.addEventListener("keydown", this.keyDownEvtFunc, !1), window.addEventListener("keyup", this.keyUpEvtFunc, !1))
-        }, e.prototype.addKey = function(e, t, a, s) {
-            null == a && (a = {}), this.aKeys.push({
-                id: e,
-                callback: t,
-                oData: a,
-                keyCode: s
-            }), this.checkKeyFocus()
-        }, e.prototype.removeKey = function(e) {
-            for (var t = 0; t < this.aKeys.length; t++) this.aKeys[t].id == e && (this.aKeys.splice(t, 1), t -= 1)
-        }, e.prototype.addHitArea = function(e, t, a, s, i, r) {
-            void 0 === r && (r = !1), null == a && (a = {}), r && this.removeHitArea(e), i.scale || (i.scale = 1), i.align || (i.align = [0, 0]);
-            var o, n = [];
-            switch (s) {
-                case "image":
-                    o = [i.aPos[0] - i.oImgData.oData.oAtlasData[i.id].width / 2 * i.scale, i.aPos[1] - i.oImgData.oData.oAtlasData[i.id].height / 2 * i.scale, i.aPos[0] + i.oImgData.oData.oAtlasData[i.id].width / 2 * i.scale, i.aPos[1] + i.oImgData.oData.oAtlasData[i.id].height / 2 * i.scale], this.aHitAreas.push({
-                        id: e,
-                        aTouchIdentifiers: n,
-                        callback: t,
-                        oData: a,
-                        rect: !0,
-                        area: o,
-                        align: i.align
-                    });
-                    break;
-                case "rect":
-                    this.aHitAreas.push({
-                        id: e,
-                        aTouchIdentifiers: n,
-                        callback: t,
-                        oData: a,
-                        rect: !0,
-                        area: i.aRect,
-                        align: i.align
-                    })
-            }
-        }, e.prototype.removeHitArea = function(e) {
-            for (var t = 0; t < this.aHitAreas.length; t++) this.aHitAreas[t].id == e && (this.aHitAreas.splice(t, 1), t -= 1)
-        }, e.prototype.resetAll = function() {
-            for (var e = 0; e < this.aHitAreas.length; e++) this.aHitAreas[e].oData.isDown = !1, this.aHitAreas[e].oData.isBeingDragged = !1, this.aHitAreas[e].aTouchIdentifiers = [];
-            this.isDown = !1
-        }, e
-    }();
-    e.UserInput = t
-}(Utils || (Utils = {})),
-function(e) {
-    var t = function() {
-        function e(e) {
-            this.updateFreq = 10, this.updateInc = 0, this.frameAverage = 0, this.display = 1, this.log = "", this.render = function(e) {
-                this.frameAverage += this.delta / this.updateFreq, ++this.updateInc >= this.updateFreq && (this.updateInc = 0, this.display = this.frameAverage, this.frameAverage = 0), e.textAlign = "left", ctx.font = "10px Helvetica", e.fillStyle = "#333333", e.beginPath(), e.rect(0, this.canvasHeight - 15, 40, 15), e.closePath(), e.fill(), e.fillStyle = "#ffffff", e.fillText(Math.round(1e3 / (1e3 * this.display)) + " fps " + this.log, 5, this.canvasHeight - 5)
-            }, this.canvasHeight = e
+        return _0x1a3de0['prototype'][_0x473a65(0x2be)] = function() {
+            var _0xd7f318 = _0x473a65;
+            ctx[_0xd7f318(0x3c9)] = _0xd7f318(0x3bc),
+            ctx['fillRect'](0x0, 0x0, canvas[_0xd7f318(0xeb)], canvas[_0xd7f318(0x2f8)]),
+            ctx[_0xd7f318(0x3c9)] = _0xd7f318(0x13c),
+            ctx[_0xd7f318(0x381)](canvas[_0xd7f318(0xeb)] / 0x2 - 0x96, canvas[_0xd7f318(0x2f8)] / 0x2 + 0x14, 0x12c / this[_0xd7f318(0x34c)] * this['assetsLoaded'], 0x1e),
+            ctx[_0xd7f318(0x23c)](this[_0xd7f318(0x32e)][_0xd7f318(0x436)], canvas[_0xd7f318(0xeb)] / 0x2 - this['oLoaderImgData'][_0xd7f318(0x436)][_0xd7f318(0xeb)] / 0x2, canvas[_0xd7f318(0x2f8)] / 0x2 - this[_0xd7f318(0x32e)][_0xd7f318(0x436)][_0xd7f318(0x2f8)] / 0x2),
+            this[_0xd7f318(0x371)] += delta * 0x3,
+            ctx[_0xd7f318(0x425)](),
+            ctx[_0xd7f318(0xde)](canvas['width'] / 0x2 - 0x26, canvas[_0xd7f318(0x2f8)] / 0x2 - 0x10),
+            ctx[_0xd7f318(0x284)](0.7 + Math[_0xd7f318(0x374)](this[_0xd7f318(0x371)] * 0x2) / 0xa, 0.7 + Math[_0xd7f318(0x374)](this[_0xd7f318(0x371)] * 0x2) / 0xa),
+            ctx[_0xd7f318(0x20d)](this['spinnerRot']),
+            ctx[_0xd7f318(0x23c)](this[_0xd7f318(0x282)][_0xd7f318(0x436)], -this[_0xd7f318(0x282)][_0xd7f318(0x436)]['width'] / 0x2, -this[_0xd7f318(0x282)][_0xd7f318(0x436)][_0xd7f318(0x2f8)] / 0x2),
+            ctx[_0xd7f318(0x10d)](),
+            this[_0xd7f318(0x2fe)]();
         }
-        return e.prototype.update = function(e) {
-            this.delta = e
-        }, e
-    }();
-    e.FpsMeter = t
-}(Utils || (Utils = {})),
-function(e) {
-    var t = function() {
-        function e() {
-            this.bgId = 0, this.inc = 0
+        ,
+        _0x1a3de0[_0x473a65(0x1f7)]['displayNumbers'] = function() {
+            var _0x2b9e95 = _0x473a65;
+            ctx[_0x2b9e95(0x2b9)] = _0x2b9e95(0x126),
+            ctx['font'] = _0x2b9e95(0x254),
+            ctx['fillStyle'] = '#ffffff',
+            ctx[_0x2b9e95(0x1c6)](Math[_0x2b9e95(0x226)](this[_0x2b9e95(0x36d)] / this[_0x2b9e95(0x34c)] * 0x64) + '%', canvas[_0x2b9e95(0xeb)] / 0x2 - 0x0, canvas[_0x2b9e95(0x2f8)] / 0x2 - 0x1);
         }
-        return e.prototype.setRandom = function() {
-            var e = this.bgId;
-            for (this.bgId = Math.floor(5 * Math.random()); e == this.bgId;) this.bgId = Math.floor(5 * Math.random());
-            4 == gameVariation && (this.bgId = Math.floor(4 * Math.random()) + 1)
-        }, e.prototype.render = function() {
-            (0 == gameplayState || 0 == gameVariation) && (this.bgId = Math.floor(curLevel / levelsPerWorld) % 5), this.oImgData = assetLib.getData("bg" + this.bgId);
-            var e = Math.max(canvas.width, canvas.height) / 900;
-            ctx.drawImage(this.oImgData.img, 0, 0, this.oImgData.img.width, this.oImgData.img.height, canvas.width / 2 - this.oImgData.img.width / 2 * e, canvas.height / 2 - this.oImgData.img.height / 2 * e, this.oImgData.img.height * e, this.oImgData.img.height * e)
-        }, e
-    }();
-    e.Background = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function t(e, t) {
-            this.timer = .3, this.endTime = 0, this.posY = 0, this.incY = 0, this.flareRot = 0, this.cupFlipInc = 0, this.userCardScale = 1, this.enemyCardScale = 1, this.userBatX = 0, this.userBatY = 0, this.enemyBatX = 0, this.enemyBatY = 0, this.ballX = 0, this.ballY = 0, this.ballHeight = 0, this.flashInc = 0, this.promptOffScreen = !1, this.starsY = 0, this.starsX = 0, this.levelCompleteInc = 0, this.batRotation = 0, this.batScale = 1, this.batSpin = 1, this.scoreSideY0 = 0, this.scoreSideY1 = 0, this.bugTimeY = 1, this.adBlockInc = 1, this.congratsInc = 1, this.congratsId = 0, this.mapState = 0, this.mapInc = 1, this.mapScale = 1, this.mapPinScale = 0, this.mapPos = 0, this.linkTextId = 0, this.shareButOn = !1, this.disconnectInc = 0, this.pvpStartInc = 1, this.oSplashLogoImgData = assetLib.getData("splashLogo"), this.oUiElementsImgData = assetLib.getData("uiElements"), this.oGameElementsImgData = assetLib.getData("gameElements"), this.oUiButsImgData = assetLib.getData("uiButs"), this.oSpecialSpinnerImgData = assetLib.getData("specialSpinner"), this.oTopFlareImgData = assetLib.getData("flare"), this.panelType = e, this.aButs = t, this.cupFlipInc = 0
+        ,
+        _0x1a3de0['prototype']['loadExtraAssets'] = function(_0x4a227c, _0x2a5b04) {
+            var _0x5eff24 = _0x473a65;
+            this['showBar'] = ![],
+            this[_0x5eff24(0x34c)] = _0x2a5b04['length'],
+            this[_0x5eff24(0x36d)] = 0x0,
+            this[_0x5eff24(0x212)] = _0x4a227c;
+            for (var _0x4be52d = 0x0; _0x4be52d < _0x2a5b04[_0x5eff24(0x3f5)]; _0x4be52d++) {
+                _0x2a5b04[_0x4be52d][_0x5eff24(0x34f)][_0x5eff24(0x124)](_0x5eff24(0x1c2)) != -0x1 ? this[_0x5eff24(0x197)](_0x2a5b04[_0x4be52d]) : this[_0x5eff24(0x189)](_0x2a5b04[_0x4be52d]);
+            }
         }
-        return t.prototype.update = function() {
-            this.incY += 10 * delta
-        }, t.prototype.clipboardCallback = function(e) {
-            0 == e ? this.linkTextId = 2 : 1 == e && (this.linkTextId = 1)
-        }, t.prototype.showDisconnect = function(e) {
-            var t = this;
-            this.adBlocktween && this.adBlocktween.kill(), this.errorText = e, this.disconnectInc = 0, this.adBlocktween = TweenLite.to(this, .5, {
-                disconnectInc: 1,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    t.adBlocktween = TweenLite.to(t, .5, {
-                        disconnectInc: 0,
-                        delay: 3,
-                        ease: "Cubic.easeIn"
-                    })
-                }
-            })
-        }, t.prototype.adBlockInfo = function() {
-            1 != this.adBlockInc && (ctx.fillStyle = "rgba(100, 0, 0, 1)", ctx.fillRect(canvas.width / 2 - 260, canvas.height - 60 + 100 * this.adBlockInc, 520, 50), addText(0, 40, 500, "center", canvas.width / 2, canvas.height - 25 + 100 * this.adBlockInc, "adBlock", "#FFFFFF"))
-        }, t.prototype.showAdBlockMessage = function() {
-            var e = this;
-            this.adBlocktween && this.adBlocktween.kill(), this.adBlockInc = 1, this.adBlocktween = TweenLite.to(this, .5, {
-                adBlockInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    e.adBlocktween = TweenLite.to(e, .5, {
-                        adBlockInc: 1,
-                        delay: 3,
-                        ease: "Cubic.easeIn"
-                    })
-                }
-            })
-        }, t.prototype.showPvpStartMessage = function() {
-            var e = this;
-            this.pvpStartInc = 1, TweenLite.to(this, .3, {
-                pvpStartInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    TweenLite.to(e, .3, {
-                        pvpStartInc: 1,
-                        delay: .5,
-                        ease: "Cubic.easeIn"
-                    })
-                }
-            })
-        }, t.prototype.mapIntro = function() {
-            var t = this;
-            this.mapState = 0, this.mapScale = 2, this.mapPos = 0, playSound("worldComplete", .3), TweenLite.to(this, .5, {
-                mapScale: 1,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    playSound("arcadeWin", 1), t.mapState = 1, t.mapPinScale = 0;
-                    for (var a = 0; a < 200; a++) {
-                        var s = new e.Confetti(Math.random() * canvas.width, Math.random() * canvas.height);
-                        aEffects.push(s)
-                    }
-                    TweenLite.to(t, 1, {
-                        mapScale: 1.6,
-                        mapPos: 1,
-                        ease: "Cubic.easeInOut",
-                        onComplete: function() {}
-                    }), TweenLite.to(t, .5, {
-                        mapPinScale: 1,
-                        ease: "Back.easeOut",
-                        onComplete: function() {
-                            playSound("hitTarget", .6), addMapButs(), t.mapState = 2
-                        }
-                    })
-                }
-            })
-        }, t.prototype.congratsUpdate = function() {
-            1 != this.congratsInc && (addText(0, 100, canvas.width - 100, "center", canvas.width / 2, .9 * canvas.height + 100 * this.congratsInc + 2, "congrats" + this.congratsId, "#D700FF"), addText(0, 100, canvas.width - 100, "center", canvas.width / 2, .9 * canvas.height + 100 * this.congratsInc, "congrats" + this.congratsId, "#FFFFFF"))
-        }, t.prototype.showCongrats = function() {
-            var e = this;
-            this.congratsTween && this.congratsTween.kill(), tableTop.tweenColours(), this.congratsInc = 1, this.congratsId = Math.floor(20 * Math.random()), this.congratsTween = TweenLite.to(this, .25, {
-                congratsInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    e.congratsTween = TweenLite.to(e, .25, {
-                        congratsInc: 1,
-                        delay: 1,
-                        ease: "Cubic.easeIn"
-                    })
-                }
-            })
-        }, t.prototype.startTween = function() {
-            this.posY = 500, TweenLite.to(this, .5, {
-                posY: 0,
-                ease: "Back.easeOut"
-            }), this.butsY = 500, TweenLite.to(this, .3, {
-                butsY: 0,
-                ease: "Cubic.easeOut"
-            })
-        }, t.prototype.startGameTween = function() {
-            this.starsTween && this.starsTween.kill(), this.starsY = 1, this.scoreSideY0 = 1, this.scoreSideY1 = 1, this.starsTween = TweenLite.to(this, .5, {
-                starsY: 0,
-                scoreSideY0: 0,
-                scoreSideY1: 0,
-                ease: "Back.easeOut"
-            })
-        }, t.prototype.tweenStars = function(e) {
-            var t = this;
-            this.starsTween && this.starsTween.kill(), e ? this.starsTween = TweenLite.to(this, .1, {
-                starsY: -.4,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    t.starsTween = TweenLite.to(t, .6, {
-                        starsY: 0,
-                        ease: "Bounce.easeOut",
-                        onComplete: function() {}
-                    })
-                }
-            }) : (this.starsX = -.3, this.starsTween = TweenLite.to(this, 1, {
-                starsX: 0,
-                ease: "Elastic.easeOut"
-            }))
-        }, t.prototype.tweenTargetGameComplete = function() {
-            this.levelCompleteTween && this.levelCompleteTween.kill(), this.levelCompleteInc = 1, this.levelCompleteTween = TweenLite.to(this, .5, {
-                levelCompleteInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {}
-            }), Math.round(curTargetScore / 2) > 0 && (this.aWinGems = [], this.winGemTarg = Math.round(curTargetScore / 2), this.winGemCount = this.winGemTarg + 30, setTimeout(function() {
-                playSound("gemTweenOut")
-            }, 800))
-        }, t.prototype.tweenBugGameComplete = function() {
-            this.levelCompleteTween && this.levelCompleteTween.kill(), this.levelCompleteInc = 1, this.levelCompleteTween = TweenLite.to(this, .5, {
-                levelCompleteInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {}
-            }), Math.ceil(bugScore / 4) > 0 && (this.aWinGems = [], this.winGemTarg = Math.ceil(bugScore / 4), this.winGemCount = this.winGemTarg + 30, setTimeout(function() {
-                playSound("gemTweenOut")
-            }, 800))
-        }, t.prototype.addBugTime = function() {
-            var e = this;
-            bugTime = Math.max(bugTime - bugBonusTime, 0), this.bugTimeTween && this.bugTimeTween.kill(), this.bugTimeY = 1, this.bugTimeTween = TweenLite.to(this, .5, {
-                bugTimeY: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    e.bugTimeTween = TweenLite.to(e, .5, {
-                        bugTimeY: -1,
-                        delay: 1,
-                        ease: "Cubic.easeIn",
-                        onComplete: function() {
-                            e.bugTimeY = 1
-                        }
-                    })
-                }
-            })
-        }, t.prototype.tweenPvpGameComplete = function() {
-            this.levelCompleteTween && this.levelCompleteTween.kill(), this.levelCompleteInc = 1, this.levelCompleteTween = TweenLite.to(this, .5, {
-                levelCompleteInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {}
-            }), this.aWinGems = [], userScore > enemyScore ? this.winGemTarg = userScore + 25 : this.winGemTarg = enemyScore, setTimeout(function() {
-                playSound("gemTweenOut")
-            }, 800), this.winGemCount = this.winGemTarg + 30
-        }, t.prototype.tweenCustomGameComplete = function() {
-            this.levelCompleteTween && this.levelCompleteTween.kill(), this.levelCompleteInc = 1, this.levelCompleteTween = TweenLite.to(this, .5, {
-                levelCompleteInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {}
-            }), this.aWinGems = [], userSets > enemySets ? this.winGemTarg = 50 + 10 * saveDataHandler.getSeason() + saveDataHandler.getRound() : this.winGemTarg = 25, setTimeout(function() {
-                playSound("gemTweenOut")
-            }, 800), this.winGemCount = this.winGemTarg + 30
-        }, t.prototype.tweenTargetGameScore = function() {
-            this.starsTween && this.starsTween.kill(), this.starsY = 1, this.starsTween = TweenLite.to(this, .5, {
-                starsY: 0,
-                ease: "Bounce.easeOut"
-            })
-        }, t.prototype.tweenCustomGameScore = function(e) {
-            var t;
-            this.starsTween && this.starsTween.kill(), this["scoreSideY" + e] = 1, this.starsTween = TweenLite.to(this, .5, ((t = {})["scoreSideY" + e] = 0, t.ease = "Bounce.easeOut", t))
-        }, t.prototype.tweenLevelComplete = function() {
-            if (this.levelCompleteTween && this.levelCompleteTween.kill(), this.levelCompleteInc = 1, this.levelCompleteTween = TweenLite.to(this, .5, {
-                    levelCompleteInc: 0,
-                    ease: "Cubic.easeOut",
-                    onComplete: function() {}
-                }), this.aWinGems = [], (curLevel + 1) % levelsPerWorld == 0) {
-                this.winGemTarg = aPointScores[1];
-                for (var e = Math.floor((curLevel + 1) / levelsPerWorld), t = 0; t < aBatData.length; t++)
-                    if (aBatData[t].unlockWorld == e) {
-                        batUnlockedId = t;
-                        break
-                    }
-            } else this.winGemTarg = aPointScores[0];
-            setTimeout(function() {
-                playSound("gemTweenOut")
-            }, 800), this.winGemCount = this.winGemTarg + 30
-        }, t.prototype.tweenWorldComplete = function() {
-            this.levelCompleteTween && this.levelCompleteTween.kill(), this.levelCompleteInc = 1, this.levelCompleteTween = TweenLite.to(this, .5, {
-                levelCompleteInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {}
-            }), this.batScale = 3, TweenLite.to(this, 1.5, {
-                batScale: 1.5,
-                ease: "Back.easeIn",
-                onComplete: function() {}
-            })
-        }, t.prototype.tweenGem = function() {
-            TweenLite.to(this, .5, {
-                levelCompleteInc: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {}
-            })
-        }, t.prototype.startTut = function() {
-            var e = this;
-            this.userBatX = -50, this.userBatY = 85, this.enemyBatX = 0, this.enemyBatY = -130, this.ballX = 0, this.ballY = 19, TweenLite.to(this, .55, {
-                delay: .35,
-                userBatX: 50,
-                userBatY: -60,
-                ease: "Back.easeOut",
-                onComplete: function() {
-                    e.movePlayerBat(0)
-                }
-            }), TweenLite.to(this, .5, {
-                delay: .8,
-                enemyBatX: 50,
-                ease: "Back.easeOut",
-                onComplete: function() {}
-            }), this.ballHeight = 30, TweenLite.to(this, .55, {
-                delay: .5,
-                ballX: 30,
-                ballY: -100,
-                ease: "Linear.easeNone",
-                onComplete: function() {}
-            }), TweenLite.to(this, .6, {
-                delay: .6,
-                ballHeight: -30,
-                ease: "Quad.easeIn",
-                onComplete: function() {}
-            })
-        }, t.prototype.movePlayerBat = function(e) {
-            var t = this;
-            switch (e) {
-                case 0:
-                    TweenLite.to(this, .5, {
-                        userBatX: 130,
-                        userBatY: 85,
-                        ease: "Quad.easeInOut",
-                        onComplete: function() {
-                            t.movePlayerBat(1)
-                        }
-                    }), TweenLite.to(this, .65, {
-                        delay: .25,
-                        ballX: 75,
-                        ballY: 50,
-                        ease: "Quad.easeIn",
-                        onComplete: function() {
-                            TweenLite.to(t, .65, {
-                                ballX: -20,
-                                ballY: -100,
-                                ease: "Quad.easeOut",
-                                onComplete: function() {}
-                            })
-                        }
-                    }), TweenLite.to(this, .65, {
-                        delay: .25,
-                        ballHeight: 40,
-                        ease: "Quad.easeIn",
-                        onComplete: function() {
-                            TweenLite.to(t, .65, {
-                                ballHeight: -30,
-                                ease: "Quad.easeIn",
-                                onComplete: function() {}
-                            })
-                        }
-                    });
-                    break;
-                case 1:
-                    TweenLite.to(this, .5, {
-                        delay: .3,
-                        userBatX: -30,
-                        userBatY: -60,
-                        ease: "Back.easeOut",
-                        onComplete: function() {
-                            t.movePlayerBat(2)
-                        }
-                    }), TweenLite.to(this, .5, {
-                        delay: .8,
-                        enemyBatX: -30,
-                        ease: "Back.easeOut",
-                        onComplete: function() {}
-                    });
-                    break;
-                case 2:
-                    TweenLite.to(this, .5, {
-                        userBatX: -130,
-                        userBatY: 85,
-                        ease: "Quad.easeInOut",
-                        onComplete: function() {
-                            t.movePlayerBat(3)
-                        }
-                    }), TweenLite.to(this, .65, {
-                        delay: .25,
-                        ballX: -75,
-                        ballY: 50,
-                        ease: "Quad.easeIn",
-                        onComplete: function() {
-                            TweenLite.to(t, .65, {
-                                ballX: 20,
-                                ballY: -100,
-                                ease: "Quad.easeOut",
-                                onComplete: function() {}
-                            })
-                        }
-                    }), TweenLite.to(this, .65, {
-                        delay: .25,
-                        ballHeight: 40,
-                        ease: "Quad.easeIn",
-                        onComplete: function() {
-                            TweenLite.to(t, .65, {
-                                ballHeight: -30,
-                                ease: "Quad.easeIn",
-                                onComplete: function() {}
-                            })
-                        }
-                    });
-                    break;
-                case 3:
-                    TweenLite.to(this, .5, {
-                        delay: .3,
-                        userBatX: 30,
-                        userBatY: -60,
-                        ease: "Back.easeOut",
-                        onComplete: function() {
-                            t.movePlayerBat(0)
-                        }
-                    }), TweenLite.to(this, .5, {
-                        delay: .8,
-                        enemyBatX: 30,
-                        ease: "Back.easeOut",
-                        onComplete: function() {}
-                    })
+        ,
+        _0x1a3de0[_0x473a65(0x1f7)][_0x473a65(0x197)] = function(_0x5f2023) {
+            var _0x37dd5e = _0x473a65
+              , _0xc9a2e3 = this
+              , _0x405fd3 = new XMLHttpRequest();
+            _0x405fd3[_0x37dd5e(0x2df)](_0x37dd5e(0x42f), _0x5f2023[_0x37dd5e(0x34f)], !![]),
+            _0x405fd3['onreadystatechange'] = function() {
+                var _0x5dbca4 = _0x37dd5e;
+                _0x405fd3[_0x5dbca4(0x305)] == 0x4 && _0x405fd3['status'] == 0xc8 && (_0xc9a2e3[_0x5dbca4(0x3f9)][_0x5f2023['id']] = JSON[_0x5dbca4(0x2b0)](_0x405fd3['responseText']),
+                ++_0xc9a2e3[_0x5dbca4(0x36d)],
+                _0xc9a2e3[_0x5dbca4(0x1ef)]());
             }
-        }, t.prototype.switchBut = function(e, t, a, s, i) {
-            void 0 === s && (s = null), void 0 === i && (i = null);
-            for (var r = null, o = 0; o < this.aButs.length; o++) this.aButs[o].id == e && (this.aButs[o].id = t, this.aButs[o].idOver = a, r = this.aButs[o], s && (this.aButs[o].aPos = s), i && (this.aButs[o].align = i));
-            return r
-        }, t.prototype.removeBut = function(e) {
-            for (var t = 0; t < this.aButs.length; t++) this.aButs[t].id == e && (this.aButs.splice(t, 1), t -= 1)
-        }, t.prototype.render = function(t) {
-            var a = this;
-            switch (void 0 === t && (t = !0), t || this.addButs(), gameState) {
-                case "splash":
-                    break;
-                case "network":
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.5)", ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    var s = 0,
-                        i = "#000000",
-                        r = "#FFFFFF";
-                    1 == this.linkTextId && (addText(0, 50, canvas.width - 200, "center", canvas.width / 2, canvas.height / 2 - 30, "waiting", "#FFFFFF"), addText(1, 50, canvas.width - 200, "center", canvas.width / 2, canvas.height / 2 + 20, "join", "#FFFF00"), Math.sin(this.incY) > 0 && (s = 1), r = "#000000", i = "#FFFFFF");
-                    var o = getSpriteData(assetLib.getData("uiElements"), "shareHeader" + s);
-                    ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - o.bWidth / 2, canvas.height / 2 - 250, o.bWidth, o.bHeight);
-                    var n = netLib.shareURL;
-                    "" == n && (n = assetLib.textData.langText.creating[curLang]);
-                    var l = Math.min(getDirectWidth(1, 40, n), canvas.width - 200) + 40;
-                    if (ctx.fillStyle = r, ctx.fillRect(canvas.width / 2 - l / 2, canvas.height / 2 + 70 - 12, l, 60), ctx.strokeStyle = i, ctx.lineWidth = 2, ctx.strokeRect(canvas.width / 2 - l / 2, canvas.height / 2 + 70 - 12, l, 60), addDirectText(1, 40, canvas.width - 200, "center", canvas.width / 2, canvas.height / 2 + 100, n, i), 0 == this.linkTextId) addText(0, 50, canvas.width - 200, "center", canvas.width / 2, canvas.height / 2 + 40, "invite", "#FFFFFF"), this.shareButOn && addText(0, 26, 140, "center", canvas.width / 2, canvas.height / 2 + 320 + this.butsY, "copyLink", "#FFFFFF");
-                    else if (1 == this.linkTextId) {
-                        addText(0, 50, canvas.width - 200, "left", canvas.width / 2 - 100, canvas.height / 2 + 250, "linkSuccess", "#00F981");
-                        var o = getSpriteData(assetLib.getData("uiElements"), "shareTick");
-                        ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - 100 - 60, canvas.height / 2 + 250 - 40, o.bWidth, o.bHeight)
-                    } else 2 == this.linkTextId && addText(0, 50, canvas.width - 200, "center", canvas.width / 2, canvas.height / 2 + 70, "linkError", "#FF5501");
-                    break;
-                case "credits":
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.5)", ctx.fillRect(0, 0, canvas.width, canvas.height), addText(0, 75, canvas.width - 350, "center", canvas.width / 2, 80 + this.butsY, "settings", "#FFFFFF"), addText(0, 23, canvas.width - 100, "center", canvas.width / 2, canvas.height - 170 + this.butsY, "createdBy", "#ffffff");
-                    var m = assetLib.getData("info");
-                    ctx.drawImage(m.img, 0, 0, m.img.width, m.img.height, canvas.width / 2 - m.img.width / 2, canvas.height - 120 - m.img.height / 2 + this.butsY, m.img.width, m.img.height), addText(0, 23, canvas.width - 110, "right", canvas.width - 95, canvas.height - 15 + this.butsY, "reset", "#ffffff");
-                    var h = .3 * canvas.height;
-                    addText(0, 50, canvas.width - 100, "center", canvas.width / 2, h + this.butsY, "careerSetting0", "#FFFFFF"), addDirectText(0, 50, canvas.width - 100, "center", .5 * canvas.width, h + this.butsY + 81, this.twoDigit(saveDataHandler.getCareerGames()), "#FFFC01"), addText(0, 50, canvas.width - 100, "center", canvas.width / 2, h + this.butsY + 170, "careerSetting1", "#FFFFFF"), addDirectText(0, 50, canvas.width - 100, "center", .5 * canvas.width, h + this.butsY + 81 + 170, this.twoDigit(saveDataHandler.getCareerSets()), "#FFFC01"), addDirectText(0, 23, canvas.width / 2, "center", canvas.width / 2, canvas.height - 15 + this.butsY, "v2.0.1", "#ffffff");
-                    break;
-                case "resetConfirm":
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.65)", ctx.fillRect(0, 0, canvas.width, canvas.height), addText(0, 60, canvas.width - 100, "center", canvas.width / 2, canvas.height / 2 - 100 + this.butsY, "resetConfirm0", "#FFFFFF"), addText(0, 40, canvas.width - 100, "center", canvas.width / 2, canvas.height / 2 - 40 + this.butsY, "resetConfirm1", "#FCEA02");
-                    break;
-                case "game":
-                    if (gameplayState >= 3) {
-                        var s = 0;
-                        0 == gameVariation ? 3 == gameplayState || 4 == gameplayState ? s = 0 : (5 == gameplayState || 6 == gameplayState) && (s = 1) : (1 == gameVariation || 2 == gameVariation || 3 == gameVariation || 4 == gameVariation) && (s = 2);
-                        var d = assetLib.getData("fadeBg" + s);
-                        ctx.save(), ctx.globalAlpha = 1 - this.levelCompleteInc, ctx.translate(canvas.width / 2, canvas.height / 2), canvas.width > canvas.height ? ctx.scale(canvas.width / canvas.height, 1) : ctx.scale(1, canvas.height / canvas.width), ctx.scale(1.62, 1.62), ctx.rotate(.05 * this.incY), ctx.drawImage(d.img, 0, 0, d.img.width, d.img.height, -d.img.width / 2, -d.img.height / 2, d.img.width, d.img.height), ctx.restore()
-                    }
-                    if (3 == gameplayState || 4 == gameplayState) {
-                        var u, c, g, p, $, v, h = Math.max(onScreenY - 200, 60) + 120,
-                            I = this.twoDigit(curLevel + 1);
-                        addDirectText(0, 75, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 3 + 5 * Math.sin(this.incY), getText("level", 0) + " " + I + " " + getText("complete", 0), "#2E24B4"), addDirectText(0, 75, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 5 * Math.sin(this.incY), getText("level", 0) + " " + I + " " + getText("complete", 0), "#FFFFFF");
-                        for (var b = 0; b < 5; b++) {
-                            c = curLevel % levelsPerWorld >= b && b == levelsPerWorld - 1 ? curLevel % levelsPerWorld == b && Math.sin(this.incY) > 0 ? 3 : 2 : b == levelsPerWorld - 1 ? 2 : curLevel % levelsPerWorld >= b ? curLevel % levelsPerWorld == b && Math.sin(this.incY) > 0 ? 0 : 1 : 0;
-                            var o = getSpriteData(assetLib.getData("uiElements"), "progressCup" + c),
-                                _ = canvas.width / 2 + 110 * b - (levelsPerWorld / 2 - .5) * 110;
-                            if (ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, _ - o.bWidth / 2, h + 120 - o.bHeight + 200 * this.levelCompleteInc, o.bWidth, o.bHeight), b < levelsPerWorld - 1) {
-                                var o = getSpriteData(assetLib.getData("uiElements"), "progressLine0");
-                                ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, _ - o.bWidth / 2 + 55, h + 120 - o.bHeight - 20 + 200 * this.levelCompleteInc, o.bWidth, o.bHeight)
-                            }
-                            I = this.twoDigit(Math.floor(curLevel / levelsPerWorld) * levelsPerWorld + 1 + b), addDirectText(0, 40, 110, "center", _, h + 160 + 200 * this.levelCompleteInc, I, "#FFFFFF")
-                        }(curLevel + 1) % levelsPerWorld == 0 ? (g = this.twoDigit(aPointScores[1]), p = aPointScores[1]) : (g = this.twoDigit(aPointScores[0]), p = aPointScores[0]), rewardGemTotal = 2 * p, addDirectText(0, 150, canvas.width / 2, "left", canvas.width / 2 - 10, h + 260 + 200 * this.levelCompleteInc + 45, g, "#FFFFFF");
-                        var o = getSpriteData(assetLib.getData("uiElements"), "bigGem");
-                        if (ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - 85 - o.bWidth / 2 * (1 + .05 * Math.sin(this.incY)), h - o.bHeight / 2 * (1 - .05 * Math.sin(this.incY)) + 250 + 200 * this.levelCompleteInc, o.bWidth * (1 + .05 * Math.sin(this.incY)), o.bHeight * (1 - .05 * Math.sin(this.incY))), this.winGemCount -= 35 * delta, this.winGemCount < this.winGemTarg && this.winGemCount > 0) {
-                            this.winGemTarg -= 1;
-                            var B = {
-                                x: canvas.width / 2 - 85,
-                                y: h + 250 + 200 * this.levelCompleteInc,
-                                inc: 1
-                            };
-                            this.aWinGems.push(B), $ = .5 * this.winGemCount, v = 125 + 200 * Math.random(), TweenLite.to(B, .25, {
-                                x: B.x + v * Math.cos($),
-                                y: B.y + v * Math.sin($),
-                                ease: "Quad.easeOut",
-                                onCompleteParams: [B],
-                                onComplete: function(e) {
-                                    D = a.twoDigit(gems), TweenLite.to(e, .5, {
-                                        x: canvas.width - getDirectWidth(0, 75, D) - 95 + 27,
-                                        y: canvas.height - 80 + 25,
-                                        inc: 0,
-                                        ease: "Quad.easeIn",
-                                        onComplete: function() {
-                                            gems++, playSound("gem" + Math.floor(5 * Math.random()), .3)
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                        for (var b = 0; b < this.aWinGems.length; b++)
-                            if (this.aWinGems[b].inc > 0) {
-                                var o = getSpriteData(assetLib.getData("uiElements"), "bigGem");
-                                u = .5 + .5 * this.aWinGems[b].inc, ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, this.aWinGems[b].x - o.bWidth / 2, this.aWinGems[b].y - o.bHeight / 2, o.bWidth * u, o.bHeight * u)
-                            } else {
-                                for (var f = 360 * Math.random() * radian, w = 0; w < 5; w++) {
-                                    var S = new e.Particle(this.aWinGems[b].x, this.aWinGems[b].y, 1 * Math.random() + 1, 300, f + 72 * w * radian, 20, 1, 50);
-                                    aEffects.push(S)
-                                }
-                                this.aWinGems.splice(b, 1), b -= 1, this.aWinGems.length <= 0 && initLevelCompleteButs()
-                            }
-                        if (Math.random() > .5) {
-                            var S = new e.Particle(canvas.width / 2, h + 250 + 200 * this.levelCompleteInc, 1 * Math.random() + 1, 300, 360 * Math.random() * radian, 20, 1, 200);
-                            aEffects.push(S)
-                        }
-                        4 == gameplayState && (this.incY, anyWorldBatsLeft() && (curLevel + 1) % levelsPerWorld == 0 ? Math.sin(this.incY) > 0 && addText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY, "batUnlocked", "#FFFFFF") : (Math.sin(this.incY) > 0 && addText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY, "nextLevel", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 210 + 90 + this.butsY, "batCollectionBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 390 + 90 + this.butsY, "challengeBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY, "careerBut", "#FFFFFF"), addDirectText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY + 23, "rank " + this.twoDigit(saveDataHandler.getRank()), "#FFFC01"), addText(0, 26, 140, "center", 90, canvas.height - 570 + 90 + this.butsY, "bugGameBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 390 + 90 + this.butsY, "pvpBut", "#FFFFFF")))
-                    } else if (5 == gameplayState || 6 == gameplayState) {
-                        var h = Math.max(onScreenY - 200, 60) + 120,
-                            y = Math.floor((curLevel + 1) / levelsPerWorld),
-                            I = this.twoDigit(y);
-                        addDirectText(0, 75, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 3 + 5 * Math.sin(this.incY), getText("world", 0) + " " + I + " " + getText("complete", 0), "#0BFF3C"), addDirectText(0, 75, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 5 * Math.sin(this.incY), getText("world", 0) + " " + I + " " + getText("complete", 0), "#FFFFFF");
-                        var u = Math.min((canvas.height - 500) / 400, 1);
-                        if (this.renderBat(batUnlockedId, canvas.width / 2, h + 270 * u, u * this.batScale), Math.random() > .5) {
-                            var S = new e.Particle(canvas.width / 2, h + 270 * u, 1 * Math.random() + 1, 300, 360 * Math.random() * radian, 20, 1, 100);
-                            aEffects.push(S)
-                        }
-                        6 == gameplayState && (addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 210 + 90 + this.butsY, "batCollectionBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 390 + 90 + this.butsY, "challengeBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY, "careerBut", "#FFFFFF"), addDirectText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY + 23, "rank " + this.twoDigit(saveDataHandler.getRank()), "#FFFC01"), addText(0, 26, 140, "center", 90, canvas.height - 570 + 90 + this.butsY, "bugGameBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 390 + 90 + this.butsY, "pvpBut", "#FFFFFF"), addText(0, 40, canvas.width, "center", canvas.width / 2, h + 60 + 200 * this.levelCompleteInc, "batUnlocked", "#FFFFFF"), Math.sin(this.incY) > 0 && addText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY, "nextLevel", "#FFFFFF"), Math.sin(this.incY) > 0 && addText(0, 40, 100, "center", canvas.width - 90, canvas.height - 290, "new", "#FFFFFF"))
-                    } else if (gameplayState >= 7 && gameplayState < 9) {
-                        var h = Math.max(onScreenY - 200, 60) + 30;
-                        if (Math.random() > .5) {
-                            var S = new e.Particle(canvas.width / 2, h + 100, 1 * Math.random() + 1, 300, 360 * Math.random() * radian, 20, 1, 125);
-                            aEffects.push(S)
-                        }
-                        if (addText(0, 75, canvas.width - 350, "center", canvas.width / 2, h + 200 * this.levelCompleteInc, "targetsHit", "#FFFFFF"), addDirectText(0, 200, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 3 + 5 * Math.sin(this.incY) + 175, this.twoDigit(curTargetScore), "#F658FF"), addDirectText(0, 200, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 5 * Math.sin(this.incY) + 175, this.twoDigit(curTargetScore), "#FFFFFF"), curTargetScore > localTargetHighscore ? addText(0, 50, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 340, "newBest", "#FFFC01") : (addText(0, 30, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 340 - 25, "best", "#FFFC01"), addDirectText(0, 75, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 340 + 38, this.twoDigit(saveDataHandler.getBestTargetScore()), "#FFFC01")), Math.round(curTargetScore / 2) > 0) {
-                            addDirectText(0, 75, canvas.width / 2, "left", canvas.width / 2, h + 200 * this.levelCompleteInc + 200 + 50 + 5 * Math.sin(this.incY), this.twoDigit(Math.round(curTargetScore / 2)), "#FFFFFF");
-                            var $, v, o = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                            if (ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - o.bWidth, h + 200 * this.levelCompleteInc + 190 + 5 * Math.sin(this.incY), o.bWidth, o.bHeight), this.winGemCount -= 35 * delta, this.winGemCount < this.winGemTarg && this.winGemCount > 0) {
-                                this.winGemTarg -= 1;
-                                var B = {
-                                    x: canvas.width / 2 - 25,
-                                    y: h + 200 * this.levelCompleteInc + 190 + 25,
-                                    inc: 1
-                                };
-                                this.aWinGems.push(B), $ = .5 * this.winGemCount, v = 125 + 200 * Math.random(), TweenLite.to(B, .25, {
-                                    x: B.x + v * Math.cos($),
-                                    y: B.y + v * Math.sin($),
-                                    ease: "Quad.easeOut",
-                                    onCompleteParams: [B],
-                                    onComplete: function(e) {
-                                        D = a.twoDigit(gems), TweenLite.to(e, .5, {
-                                            x: canvas.width - getDirectWidth(0, 75, D) - 95 + 27,
-                                            y: canvas.height - 80 + 25,
-                                            inc: 0,
-                                            ease: "Quad.easeIn",
-                                            onComplete: function() {
-                                                gems++, playSound("gem" + Math.floor(5 * Math.random()), .3)
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                            for (var b = 0; b < this.aWinGems.length; b++)
-                                if (this.aWinGems[b].inc > 0) {
-                                    var o = getSpriteData(assetLib.getData("uiElements"), "bigGem");
-                                    u = .5 + .5 * this.aWinGems[b].inc, ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, this.aWinGems[b].x - o.bWidth / 2, this.aWinGems[b].y - o.bHeight / 2, o.bWidth * u, o.bHeight * u)
-                                } else {
-                                    for (var f = 360 * Math.random() * radian, w = 0; w < 5; w++) {
-                                        var S = new e.Particle(this.aWinGems[b].x, this.aWinGems[b].y, 1 * Math.random() + 1, 300, f + 72 * w * radian, 20, 1, 50);
-                                        aEffects.push(S)
-                                    }
-                                    this.aWinGems.splice(b, 1), b -= 1, this.aWinGems.length <= 0 && initTargetGameEndButs()
-                                }
-                        }
-                        8 == gameplayState && (Math.round(curTargetScore / 2) > 0 ? (rewardGemTotal = 2 * Math.round(curTargetScore / 2), Math.sin(this.incY) > 0 && rewardButHit) : addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 390 + 90 + this.butsY, "awardsBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 210 + 90 + this.butsY, "batCollectionBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 390 + 90 + this.butsY, "arcadeBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY, "careerBut", "#FFFFFF"), addDirectText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY + 23, "rank " + this.twoDigit(saveDataHandler.getRank()), "#FFFC01"), addText(0, 26, 140, "center", 90, canvas.height - 570 + 90 + this.butsY, "bugGameBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 390 + 90 + this.butsY, "pvpBut", "#FFFFFF"), Math.sin(this.incY) > 0 && addText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY, "tryAgain", "#FFFFFF"))
-                    } else if (gameplayState >= 9 && gameplayState < 11) {
-                        var F, $, v, h = Math.max(onScreenY - 200, 60) + 120;
-                        if (Math.random() > .5) {
-                            var S = new e.Particle(canvas.width / 2, h + 100, 1 * Math.random() + 1, 300, 360 * Math.random() * radian, 20, 1, 125);
-                            aEffects.push(S)
-                        }
-                        userSets > enemySets ? addText(0, 75, canvas.width - 350, "center", canvas.width / 2, h + 200 * this.levelCompleteInc - 30, "youWon", "#FFFFFF") : addText(0, 75, canvas.width - 350, "center", canvas.width / 2, h + 200 * this.levelCompleteInc - 30, "youLost", "#FFFFFF"), addDirectText(0, 200, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 3 + 5 * Math.sin(this.incY) + 175 - 30, userSets + "-" + enemySets, "#F658FF"), addDirectText(0, 200, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 5 * Math.sin(this.incY) + 175 - 30, userSets + "-" + enemySets, "#FFFFFF"), rankChange > 0 ? addDirectText(0, 75, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 300, getText("rank", 0) + " +" + rankChange, "#FFFC01") : rankChange < 0 && addDirectText(0, 75, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 300, getText("rank", 0) + " " + rankChange, "#A34522"), F = userSets > enemySets ? 50 + 10 * saveDataHandler.getSeason() + saveDataHandler.getRound() : 25, addDirectText(0, 75, canvas.width / 2, "left", canvas.width / 2, h + 200 * this.levelCompleteInc + 200 + 50 + 5 * Math.sin(this.incY) - 30, this.twoDigit(F), "#FFFFFF");
-                        var o = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                        if (ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - o.bWidth, h + 200 * this.levelCompleteInc + 190 + 5 * Math.sin(this.incY) - 30, o.bWidth, o.bHeight), this.winGemCount -= 35 * delta, this.winGemCount < this.winGemTarg && this.winGemCount > 0) {
-                            this.winGemTarg -= 1;
-                            var B = {
-                                x: canvas.width / 2 - 25,
-                                y: h + 200 * this.levelCompleteInc + 190 + 25,
-                                inc: 1
-                            };
-                            this.aWinGems.push(B), $ = .5 * this.winGemCount, v = 125 + 200 * Math.random(), TweenLite.to(B, .25, {
-                                x: B.x + v * Math.cos($),
-                                y: B.y + v * Math.sin($),
-                                ease: "Quad.easeOut",
-                                onCompleteParams: [B],
-                                onComplete: function(e) {
-                                    D = a.twoDigit(gems), TweenLite.to(e, .5, {
-                                        x: canvas.width - getDirectWidth(0, 75, D) - 95 + 27,
-                                        y: canvas.height - 80 + 25,
-                                        inc: 0,
-                                        ease: "Quad.easeIn",
-                                        onComplete: function() {
-                                            gems++, playSound("gem" + Math.floor(5 * Math.random()), .3)
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                        for (var b = 0; b < this.aWinGems.length; b++)
-                            if (this.aWinGems[b].inc > 0) {
-                                var o = getSpriteData(assetLib.getData("uiElements"), "bigGem");
-                                u = .5 + .5 * this.aWinGems[b].inc, ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, this.aWinGems[b].x - o.bWidth / 2, this.aWinGems[b].y - o.bHeight / 2, o.bWidth * u, o.bHeight * u)
-                            } else {
-                                for (var f = 360 * Math.random() * radian, w = 0; w < 5; w++) {
-                                    var S = new e.Particle(this.aWinGems[b].x, this.aWinGems[b].y, 1 * Math.random() + 1, 300, f + 72 * w * radian, 20, 1, 50);
-                                    aEffects.push(S)
-                                }
-                                this.aWinGems.splice(b, 1), b -= 1, this.aWinGems.length <= 0 && initCustomGameEndButs()
-                            }
-                        10 == gameplayState && (rewardGemTotal = userSets > enemySets ? (50 + 10 * saveDataHandler.getSeason() + saveDataHandler.getRound()) * 2 : 50, this.incY, addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 210 + 90 + this.butsY, "batCollectionBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 390 + 90 + this.butsY, "challengeBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY, "arcadeBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 570 + 90 + this.butsY, "bugGameBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 390 + 90 + this.butsY, "pvpBut", "#FFFFFF"), Math.sin(this.incY) > 0 && addText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY, "next", "#FFFFFF"))
-                    } else if (gameplayState >= 11 && gameplayState < 13) {
-                        var h = Math.max(onScreenY - 200, 60) + 30;
-                        if (Math.random() > .5) {
-                            var S = new e.Particle(canvas.width / 2, h + 100, 1 * Math.random() + 1, 300, 360 * Math.random() * radian, 20, 1, 125);
-                            aEffects.push(S)
-                        }
-                        if (addText(0, 75, canvas.width - 350, "center", canvas.width / 2, h + 200 * this.levelCompleteInc, "bugsHit", "#FFFFFF"), addDirectText(0, 200, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 3 + 5 * Math.sin(this.incY) + 175, this.twoDigit(bugScore), "#F658FF"), addDirectText(0, 200, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 5 * Math.sin(this.incY) + 175, this.twoDigit(bugScore), "#FFFFFF"), bugScore > localTargetHighscore ? addText(0, 50, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 340, "newBest", "#FFFC01") : (addText(0, 30, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 340 - 25, "best", "#FFFC01"), addDirectText(0, 75, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 340 + 38, this.twoDigit(saveDataHandler.getBestBugScore()), "#FFFC01")), Math.ceil(bugScore / 4) > 0) {
-                            addDirectText(0, 75, canvas.width / 2, "left", canvas.width / 2, h + 200 * this.levelCompleteInc + 200 + 50 + 5 * Math.sin(this.incY), this.twoDigit(Math.ceil(bugScore / 4)), "#FFFFFF");
-                            var $, v, o = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                            if (ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - o.bWidth, h + 200 * this.levelCompleteInc + 190 + 5 * Math.sin(this.incY), o.bWidth, o.bHeight), this.winGemCount -= 35 * delta, this.winGemCount < this.winGemTarg && this.winGemCount > 0) {
-                                this.winGemTarg -= 1;
-                                var B = {
-                                    x: canvas.width / 2 - 25,
-                                    y: h + 200 * this.levelCompleteInc + 190 + 25,
-                                    inc: 1
-                                };
-                                this.aWinGems.push(B), $ = .5 * this.winGemCount, v = 125 + 200 * Math.random(), TweenLite.to(B, .25, {
-                                    x: B.x + v * Math.cos($),
-                                    y: B.y + v * Math.sin($),
-                                    ease: "Quad.easeOut",
-                                    onCompleteParams: [B],
-                                    onComplete: function(e) {
-                                        D = a.twoDigit(gems), TweenLite.to(e, .5, {
-                                            x: canvas.width - getDirectWidth(0, 75, D) - 95 + 27,
-                                            y: canvas.height - 80 + 25,
-                                            inc: 0,
-                                            ease: "Quad.easeIn",
-                                            onComplete: function() {
-                                                gems++, playSound("gem" + Math.floor(5 * Math.random()), .3)
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                            for (var b = 0; b < this.aWinGems.length; b++)
-                                if (this.aWinGems[b].inc > 0) {
-                                    var o = getSpriteData(assetLib.getData("uiElements"), "bigGem");
-                                    u = .5 + .5 * this.aWinGems[b].inc, ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, this.aWinGems[b].x - o.bWidth / 2, this.aWinGems[b].y - o.bHeight / 2, o.bWidth * u, o.bHeight * u)
-                                } else {
-                                    for (var f = 360 * Math.random() * radian, w = 0; w < 5; w++) {
-                                        var S = new e.Particle(this.aWinGems[b].x, this.aWinGems[b].y, 1 * Math.random() + 1, 300, f + 72 * w * radian, 20, 1, 50);
-                                        aEffects.push(S)
-                                    }
-                                    this.aWinGems.splice(b, 1), b -= 1, this.aWinGems.length <= 0 && initBugGameEndButs()
-                                }
-                        }
-                        12 == gameplayState && (Math.ceil(bugScore / 4) > 0 ? (rewardGemTotal = 2 * Math.ceil(bugScore / 4), Math.sin(this.incY) > 0 && rewardButHit) : addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 390 + 90 + this.butsY, "awardsBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 210 + 90 + this.butsY, "batCollectionBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 390 + 90 + this.butsY, "arcadeBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY, "careerBut", "#FFFFFF"), addDirectText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY + 23, "rank " + this.twoDigit(saveDataHandler.getRank()), "#FFFC01"), addText(0, 26, 140, "center", 90, canvas.height - 570 + 90 + this.butsY, "challengeBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 390 + 90 + this.butsY, "pvpBut", "#FFFFFF"), Math.sin(this.incY) > 0 && addText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY, "tryAgain", "#FFFFFF"))
-                    } else if (gameplayState >= 13 && gameplayState < 15) {
-                        var F, $, v, h = Math.max(onScreenY - 200, 60) + 120;
-                        if (Math.random() > .5) {
-                            var S = new e.Particle(canvas.width / 2, h + 100, 1 * Math.random() + 1, 300, 360 * Math.random() * radian, 20, 1, 125);
-                            aEffects.push(S)
-                        }
-                        userScore > enemyScore ? addText(0, 75, canvas.width - 350, "center", canvas.width / 2, h + 200 * this.levelCompleteInc - 30, "youWon", "#FFFFFF") : addText(0, 75, canvas.width - 350, "center", canvas.width / 2, h + 200 * this.levelCompleteInc - 30, "youLost", "#FFFFFF"), addDirectText(0, 200, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 3 + 5 * Math.sin(this.incY) + 175 - 30, userScore + "-" + enemyScore, "#F658FF"), addDirectText(0, 200, canvas.width - 100, "center", canvas.width / 2, h + 200 * this.levelCompleteInc + 5 * Math.sin(this.incY) + 175 - 30, userScore + "-" + enemyScore, "#FFFFFF"), F = userScore > enemyScore ? userScore + 25 : enemyScore, addDirectText(0, 75, canvas.width / 2, "left", canvas.width / 2, h + 200 * this.levelCompleteInc + 200 + 50 + 5 * Math.sin(this.incY) - 30, this.twoDigit(F), "#FFFFFF");
-                        var o = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                        if (ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - o.bWidth, h + 200 * this.levelCompleteInc + 190 + 5 * Math.sin(this.incY) - 30, o.bWidth, o.bHeight), this.winGemCount -= 35 * delta, this.winGemCount < this.winGemTarg && this.winGemCount > 0) {
-                            this.winGemTarg -= 1;
-                            var B = {
-                                x: canvas.width / 2 - 25,
-                                y: h + 200 * this.levelCompleteInc + 190 + 25,
-                                inc: 1
-                            };
-                            this.aWinGems.push(B), $ = .5 * this.winGemCount, v = 125 + 200 * Math.random(), TweenLite.to(B, .25, {
-                                x: B.x + v * Math.cos($),
-                                y: B.y + v * Math.sin($),
-                                ease: "Quad.easeOut",
-                                onCompleteParams: [B],
-                                onComplete: function(e) {
-                                    D = a.twoDigit(gems), TweenLite.to(e, .5, {
-                                        x: canvas.width - getDirectWidth(0, 75, D) - 95 + 27,
-                                        y: canvas.height - 80 + 25,
-                                        inc: 0,
-                                        ease: "Quad.easeIn",
-                                        onComplete: function() {
-                                            gems++, playSound("gem" + Math.floor(5 * Math.random()), .3)
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                        for (var b = 0; b < this.aWinGems.length; b++)
-                            if (this.aWinGems[b].inc > 0) {
-                                var o = getSpriteData(assetLib.getData("uiElements"), "bigGem");
-                                u = .5 + .5 * this.aWinGems[b].inc, ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, this.aWinGems[b].x - o.bWidth / 2, this.aWinGems[b].y - o.bHeight / 2, o.bWidth * u, o.bHeight * u)
-                            } else {
-                                for (var f = 360 * Math.random() * radian, w = 0; w < 5; w++) {
-                                    var S = new e.Particle(this.aWinGems[b].x, this.aWinGems[b].y, 1 * Math.random() + 1, 300, f + 72 * w * radian, 20, 1, 50);
-                                    aEffects.push(S)
-                                }
-                                this.aWinGems.splice(b, 1), b -= 1, this.aWinGems.length <= 0 && initPvpGameEndButs()
-                            }
-                        14 == gameplayState && Math.sin(this.incY) > 0 && addText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY, "playAgain", "#FFFFFF")
-                    }
-                    var D = this.twoDigit(gems);
-                    addDirectText(0, 75, canvas.width / 2, "right", canvas.width - 25, canvas.height - 20 + this.butsY, D, "#FFFFFF");
-                    var o = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                    if (ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width - getDirectWidth(0, 75, D) - 95, canvas.height - 80 + this.butsY, o.bWidth, o.bHeight), 0 == gameplayState || 0 == gameVariation && 1 == gameplayState) {
-                        addDirectText(0, 75, canvas.width / 2, "left", 90, canvas.height - 20 + this.butsY, this.twoDigit(curLevel + 1), "#FFFFFF");
-                        var o = getSpriteData(assetLib.getData("uiElements"), "smallCup");
-                        ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, 24, canvas.height - 77 + this.butsY, o.bWidth, o.bHeight)
-                    }
-                    if (0 == gameplayState) {
-                        saveDataHandler.getLevel() > 0 ? canvas.width / canvas.height < .6 ? (addText(0, 26, 140, "center", canvas.width / 2 + 160, canvas.height - 250 + 90 + this.butsY, "awardsBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width / 2 + 320, canvas.height - 250 + 90 + this.butsY, "batCollectionBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width / 2 - 160, canvas.height - 250 + 90 + this.butsY, "challengeBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width / 2, canvas.height - 250 + 90 + this.butsY, "careerBut", "#FFFFFF"), addDirectText(0, 26, 140, "center", canvas.width / 2, canvas.height - 250 + 90 + this.butsY + 23, "rank " + this.twoDigit(saveDataHandler.getRank()), "#FFFC01"), addText(0, 26, 140, "center", canvas.width / 2 - 320, canvas.height - 250 + 90 + this.butsY, "bugGameBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width / 2 + 320, canvas.height - 250 - 90 + this.butsY, "pvpBut", "#FFFFFF")) : (addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 390 + 90 + this.butsY, "awardsBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 210 + 90 + this.butsY, "batCollectionBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 390 + 90 + this.butsY, "challengeBut", "#FFFFFF"), addText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY, "careerBut", "#FFFFFF"), addDirectText(0, 26, 140, "center", 90, canvas.height - 210 + 90 + this.butsY + 23, "rank " + this.twoDigit(saveDataHandler.getRank()), "#FFFC01"), addText(0, 26, 140, "center", 90, canvas.height - 570 + 90 + this.butsY, "bugGameBut", "#FFFFFF"), addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 570 + 90 + this.butsY, "pvpBut", "#FFFFFF")) : canvas.width / canvas.height < .6 ? addText(0, 26, 140, "center", canvas.width / 2 + 320, canvas.height - 250 + 90 + this.butsY, "pvpBut", "#FFFFFF") : addText(0, 26, 140, "center", canvas.width - 90, canvas.height - 210 + 90 + this.butsY, "pvpBut", "#FFFFFF"), ctx.beginPath(), ctx.arc(canvas.width / 2, onScreenY + 340, 12 * this.incY % 75.7 + 25, 0, 2 * Math.PI, !1), ctx.lineWidth = Math.max((75.7 - 12 * this.incY % 75.7) * .2, 1), ctx.strokeStyle = "#FFFFFF", ctx.stroke();
-                        var o = getSpriteData(assetLib.getData("uiElements"), "startFinger");
-                        ctx.save(), ctx.translate(canvas.width / 2 + 180, onScreenY + 320), ctx.rotate(.5 * Math.abs(Math.sin(.5 * this.incY)) - 100 * radian), ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, -o.bWidth / 2, -(.75 * o.bHeight), o.bWidth, o.bHeight), ctx.restore(), this.disconnectInc > 0 && (addText(0, 75, canvas.width - 350, "center", canvas.width / 2, canvas.height * (.2 * this.disconnectInc) + 3, this.errorText, "#000000"), Math.sin(this.incY) > 0 ? addText(0, 75, canvas.width - 350, "center", canvas.width / 2, canvas.height * (.2 * this.disconnectInc), this.errorText, "#FFFFFF") : addText(0, 75, canvas.width - 350, "center", canvas.width / 2, canvas.height * (.2 * this.disconnectInc), this.errorText, "#FFFF00"))
-                    } else if (gameplayState < 5 && 0 == gameVariation)
-                        for (var b = 0; b < levelStarTarg; b++) {
-                            var s = 0;
-                            curLevelStars > b && (s = 1);
-                            var o = getSpriteData(assetLib.getData("uiElements"), "star" + s);
-                            ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - o.bWidth / 2 + 70 * b - 70 * (levelStarTarg / 2 - .5) - 100 * this.starsX, Math.max(onScreenY - 200, 60) - o.bWidth / 2 - 100 * this.starsY, o.bWidth, o.bHeight)
-                        }
-                    if (1 == gameVariation && 1 == gameplayState) {
-                        addText(0, 30, canvas.width / 2, "left", 24, canvas.height - 85 + this.butsY, "best", "#FFFFFF"), addDirectText(0, 75, canvas.width / 2, "left", 90, canvas.height - 20 + this.butsY, this.twoDigit(localTargetHighscore), "#FFFFFF");
-                        var o = getSpriteData(assetLib.getData("uiElements"), "targetIcon");
-                        ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, 24, canvas.height - 77 + this.butsY, o.bWidth, o.bHeight), addDirectText(0, 120, canvas.width / 2, "center", canvas.width / 2, Math.max(onScreenY - 170, 100) - 10 * this.starsY, this.twoDigit(curTargetScore), "#FFFFFF")
-                    } else if (2 == gameVariation && 1 == gameplayState) {
-                        var o = getSpriteData(assetLib.getData("uiElements"), "setsBg");
-                        ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - o.bWidth / 2, Math.max(onScreenY - 170, 100) - 10 * this.starsY - 83, o.bWidth, o.bHeight), addDirectText(0, 120, canvas.width / 2, "right", canvas.width / 2 - 50, Math.max(onScreenY - 170, 100) - 10 * this.scoreSideY0, userScore.toString(), "#FFFFFF"), addDirectText(0, 50, canvas.width / 2, "center", canvas.width / 2 - 21, Math.max(onScreenY - 170, 100) - 10 * this.starsY - 41, userSets.toString(), "#FFFC01"), addDirectText(0, 120, canvas.width / 2, "left", canvas.width / 2 + 50, Math.max(onScreenY - 170, 100) - 10 * this.scoreSideY1, enemyScore.toString(), "#FFFFFF"), addDirectText(0, 50, canvas.width / 2, "center", canvas.width / 2 + 21, Math.max(onScreenY - 170, 100) - 10 * this.starsY - 41, enemySets.toString(), "#FFFC01");
-                        var o = getSpriteData(assetLib.getData("flags"), "flag" + aSeasonFlags[saveDataHandler.getRound()].id),
-                            u = 1;
-                        ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, 65 - o.bWidth / 2 * u, canvas.height - 65 - o.bHeight / 2 * u, o.bWidth * u, o.bHeight * u)
-                    } else if (4 == gameVariation && 1 == gameplayState) {
-                        ctx.save(), ctx.translate(canvas.width / 2 + 20, Math.max(onScreenY - 170, 100) - 83 + 45 - 10 * this.scoreSideY0), ctx.scale(.31, .31), ctx.rotate(45 * radian);
-                        var x, H = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].x,
-                            A = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].y,
-                            T = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].width,
-                            G = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].height;
-                        ctx.drawImage(this.oGameElementsImgData.img, H, A, T, G, -T / 2, -G / 2, T, G), ctx.restore(), ctx.save(), ctx.translate(canvas.width / 2 - 20, Math.max(onScreenY - 170, 100) - 83 + 45 - 10 * this.scoreSideY0), ctx.scale(.31, .31), ctx.rotate(-45 * radian);
-                        var H = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + curBat]].x,
-                            A = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + curBat]].y,
-                            T = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + curBat]].width,
-                            G = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + curBat]].height;
-                        if (ctx.drawImage(this.oGameElementsImgData.img, H, A, T, G, -T / 2, -G / 2, T, G), ctx.restore(), addDirectText(0, 120, canvas.width / 2, "right", canvas.width / 2 - 65, Math.max(onScreenY - 170, 100) - 10 * this.scoreSideY0, userScore.toString(), "#FFFFFF"), addDirectText(0, 120, canvas.width / 2, "left", canvas.width / 2 + 65, Math.max(onScreenY - 170, 100) - 10 * this.scoreSideY1, enemyScore.toString(), "#FFFFFF"), saveDataHandler.getPvpWins() > 0) {
-                            x = getDirectWidth(0, 120, userScore.toString());
-                            var o = getSpriteData(assetLib.getData("uiElements"), "crown");
-                            ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 - 75 - x - +getDirectWidth(0, 55, saveDataHandler.getPvpWins().toString()) / 2 - o.bWidth / 2, Math.max(onScreenY - 170, 100) - 83 - 10 * this.scoreSideY0, o.bWidth, o.bHeight), addDirectText(0, 55, canvas.width / 2, "right", canvas.width / 2 - 75 - x, Math.max(onScreenY - 170, 100) - 10 - 10 * this.scoreSideY0, saveDataHandler.getPvpWins().toString(), "#FFFF00")
-                        }
-                        if (opPvpWins > 0) {
-                            x = getDirectWidth(0, 120, enemyScore.toString());
-                            var o = getSpriteData(assetLib.getData("uiElements"), "crown");
-                            ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 + 75 + x + getDirectWidth(0, 55, opPvpWins.toString()) / 2 - o.bWidth / 2, Math.max(onScreenY - 170, 100) - 83 - 10 * this.scoreSideY0, o.bWidth, o.bHeight), addDirectText(0, 55, canvas.width / 2, "left", canvas.width / 2 + 75 + x, Math.max(onScreenY - 170, 100) - 10 - 10 * this.scoreSideY0, opPvpWins.toString(), "#FFFF00")
-                        }
-                        this.pvpStartInc < 1 && (addText(0, 100, canvas.width - 200, "center", canvas.width / 2, tableTop.netY + 75 - 500 * this.pvpStartInc + 3, "gameOn", "#000000"), Math.sin(2 * this.incY) > 0 ? addText(0, 100, canvas.width - 200, "center", canvas.width / 2, tableTop.netY + 75 - 500 * this.pvpStartInc, "gameOn", "#FFFF00") : addText(0, 100, canvas.width - 200, "center", canvas.width / 2, tableTop.netY + 75 - 500 * this.pvpStartInc, "gameOn", "#FFFFFF")), addDirectText(1, 30, canvas.width / 2, "left", 10, canvas.height - 20, "Ping: " + getText("latency" + this.getLatencyStatus(netLib.peer.latency.average), 1) + " (" + Math.round(netLib.peer.latency.average) + "ms)", "#FFFFFF")
-                    } else if (3 == gameVariation && 1 == gameplayState) {
-                        if (addText(0, 30, canvas.width / 2, "left", 24, canvas.height - 85 + this.butsY, "best", "#FFFFFF"), addDirectText(0, 120, canvas.width / 2, "right", canvas.width / 2 + 30, Math.max(onScreenY - 170, 100) - 10 * this.starsY, this.twoDigit(bugScore), "#FFFFFF"), bugTime < bugTimeTarg && (bugTime += delta) >= bugTimeTarg && initBugGameEnd(), bugTime < bugTimeTarg - 5 || Math.sin(this.incY) > 0) {
-                            var o = getSpriteData(assetLib.getData("uiElements"), "stopWatch");
-                            ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width / 2 + 45, Math.max(onScreenY - 170, 100) - 83, o.bWidth, o.bHeight);
-                            var x = canvas.width / 2 + 45 + 35.5,
-                                k = Math.max(onScreenY - 170, 100) - 83 + 46.5;
-                            ctx.fillStyle = "#FFFFFF", ctx.beginPath(), ctx.moveTo(x, k), ctx.arc(x, k, 25, -.5 * Math.PI, 2 * Math.PI / bugTimeTarg * bugTime - .5 * Math.PI), ctx.lineTo(x, k), ctx.fill()
-                        }
-                        addDirectText(0, 75, canvas.width / 2, "left", 90, canvas.height - 20 + this.butsY, this.twoDigit(localTargetHighscore), "#FFFFFF");
-                        var o = getSpriteData(assetLib.getData("uiElements"), "bugIcon");
-                        ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, 24, canvas.height - 77 + this.butsY, o.bWidth, o.bHeight), this.bugTimeY < 1 && addDirectText(0, 50, canvas.width / 2, "left", canvas.width / 2 + 125, Math.max(onScreenY - 170, 100) - 23 + 100 * this.bugTimeY, "+" + bugBonusTime + " SECS", "#FFFFFF")
-                    }
-                    1 == netLib.connectState && (ctx.fillStyle = "rgba(0, 0, 0, 0.75)", ctx.fillRect(0, 0, canvas.width, canvas.height), addText(0, 75, canvas.width - 350, "center", canvas.width / 2, .5 * canvas.height + 3, "connecting", "#000000"), Math.sin(this.incY) > 0 ? addText(0, 75, canvas.width - 350, "center", canvas.width / 2, .5 * canvas.height, "connecting", "#FFFFFF") : addText(0, 75, canvas.width - 350, "center", canvas.width / 2, .5 * canvas.height, "connecting", "#FFFF00"));
-                    break;
-                case "batShop":
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.5)", ctx.fillRect(0, 0, canvas.width, canvas.height), addText(0, 75, canvas.width - 350, "center", canvas.width / 2, 75, "batCollection", "#FFFFFF");
-                    var D = this.twoDigit(gems);
-                    addDirectText(0, 75, canvas.width / 2, "right", canvas.width - 25, canvas.height - 20, D, "#FFFFFF");
-                    var o = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                    ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width - getDirectWidth(0, 75, D) - 95, canvas.height - 80, o.bWidth, o.bHeight);
-                    break;
-                case "awards":
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.5)", ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    for (var b = 0; b < 16; b++) {
-                        var s = 16;
-                        1 == saveDataHandler.getAwardState(b) && (s = b);
-                        var o = getSpriteData(assetLib.getData("awards"), "award" + s),
-                            _ = canvas.width / 2 - 285 + b % 4 * 190,
-                            h = canvas.height / 2 + 70 - 400 + 199 * Math.floor(b / 4) + this.posY,
-                            u = .9;
-                        ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, _ - o.bWidth / 2 * u, h - o.bHeight / 2 * u, o.bWidth * u, o.bHeight * u);
-                        for (var C = getMultiLineTextByChars("awardInfo" + b, 16, 1), w = 0; w < C.length; w++) addDirectText(1, 25, 200, "center", _, h + 93 + 25 * w, C[w], "#FFFFFF")
-                    }
-                    break;
-                case "mapScreen":
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.5)", ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    var o = getSpriteData(assetLib.getData("uiElements"), "map"),
-                        E = o.bWidth / 2,
-                        Y = aFlags[aSeasonFlags[saveDataHandler.getRound()].id].x,
-                        L = aFlags[aSeasonFlags[saveDataHandler.getRound()].id].y,
-                        u = Math.min(1, canvas.width / o.bWidth) * this.mapScale,
-                        _ = canvas.width / 2 - Y * u * this.mapPos * E,
-                        h = .5 * canvas.height - L * u * this.mapPos * E + 800 / canvas.height * 70 * this.mapPos;
-                    ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, _ - o.bWidth / 2 * u, h - o.bHeight / 2 * u, o.bWidth * u, o.bHeight * u), ctx.strokeStyle = "#FFFFFF", ctx.lineWidth = 5 * u, ctx.setLineDash([10 * u, 5 * u]), ctx.lineCap = "butt";
-                    for (var b = 1; b < aSeasonFlags.length; b++) {
-                        var P = _ + aFlags[aSeasonFlags[b - 1].id].x * E * u,
-                            W = h + aFlags[aSeasonFlags[b - 1].id].y * E * u,
-                            O = _ + aFlags[aSeasonFlags[b].id].x * E * u,
-                            X = h + aFlags[aSeasonFlags[b].id].y * E * u;
-                        b <= saveDataHandler.getRound() && (ctx.beginPath(), ctx.moveTo(P, W), ctx.quadraticCurveTo(P + (O - P) / 2, W + (X - W) / 2 - 100 * u, O, X), ctx.stroke())
-                    }
-                    ctx.setLineDash([]);
-                    for (var b = 0; b < aSeasonFlagsRender.length; b++) {
-                        var M, V = 1,
-                            R = 0;
-                        aSeasonFlagsRender[b].aSeasonFlagsIndex < saveDataHandler.getRound() ? M = 2 : aSeasonFlagsRender[b].aSeasonFlagsIndex > saveDataHandler.getRound() ? M = 1 : 0 == this.mapState ? M = 1 : this.mapState > 0 && (M = 0, V = this.mapPinScale, R = 29);
-                        var o = getSpriteData(assetLib.getData("uiElements"), "pin" + M);
-                        if (ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, _ + (aFlags[aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id].x * E - o.bWidth / 2 * V) * u, h + (aFlags[aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id].y * E - o.bHeight * V + R) * u, o.bWidth * u * V, o.bHeight * u * V), 0 == M) {
-                            var o = getSpriteData(assetLib.getData("flags"), "flag" + aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id);
-                            ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, _ + (aFlags[aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id].x * E - (o.bWidth / 2 + 43) * V) * u, h + (aFlags[aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id].y * E - (o.bHeight / 2 + 91) * V) * u, o.bWidth * u * V, o.bHeight * u * V), addText(0, 28 * u * V, canvas.width - 350, "center", _ + (aFlags[aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id].x * E + 43 * V) * u, h + (aFlags[aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id].y * E - 95 * V) * u, "rank", "#333333"), addDirectText(0, 37 * u * V, canvas.width - 350, "center", _ + (aFlags[aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id].x * E + 43 * V) * u, h + (aFlags[aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].id].y * E - 65 * V) * u, this.twoDigit(aSeasonFlags[aSeasonFlagsRender[b].aSeasonFlagsIndex].rank), "#333333")
-                        }
-                    }
-                    if (2 == this.mapState && (Math.sin(this.incY) > 0 && (addDirectText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY + 3, getText("playRound", 0) + " " + (saveDataHandler.getRound() + 1), "#333333"), addDirectText(0, 50, canvas.width - 100, "center", canvas.width / 2, .7 * canvas.height + 200 + this.butsY, getText("playRound", 0) + " " + (saveDataHandler.getRound() + 1), "#FFFFFF")), Math.random() > .5)) {
-                        var S = new e.Particle(canvas.width / 2, .45 * canvas.height, 1 * Math.random() + 1, 300, 360 * Math.random() * radian, 20, 1, 200);
-                        aEffects.push(S)
-                    }
-                    addDirectText(0, 75, canvas.width - 350, "center", canvas.width / 2, 78, getText("season", 0) + " " + (saveDataHandler.getSeason() + 1), "#333333"), addDirectText(0, 75, canvas.width - 350, "center", canvas.width / 2, 75, getText("season", 0) + " " + (saveDataHandler.getSeason() + 1), "#FFFFFF"), addText(0, 35, canvas.width - 350, "center", canvas.width / 2, 123, "rank", "#333333"), addText(0, 35, canvas.width - 350, "center", canvas.width / 2, 120, "rank", "#FFFC01"), addDirectText(0, 50, canvas.width - 350, "center", canvas.width / 2, 166, this.twoDigit(saveDataHandler.getRank()), "#333333"), addDirectText(0, 50, canvas.width - 350, "center", canvas.width / 2, 163, this.twoDigit(saveDataHandler.getRank()), "#FFFC01");
-                    var D = this.twoDigit(gems);
-                    addDirectText(0, 75, canvas.width / 2, "right", canvas.width - 25, canvas.height - 20 + this.butsY, D, "#FFFFFF");
-                    var o = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                    ctx.drawImage(o.img, o.bX, o.bY, o.bWidth, o.bHeight, canvas.width - getDirectWidth(0, 75, D) - 95, canvas.height - 80 + this.butsY, o.bWidth, o.bHeight);
-                    break;
-                case "pause":
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.5)", ctx.fillRect(0, 0, canvas.width, canvas.height), addText(0, 40, canvas.width / 2, "center", canvas.width / 2, canvas.height / 2 - 110 + 110 + this.butsY, "continue", "#FFFFFF"), addText(0, 40, canvas.width / 2, "center", canvas.width / 2, canvas.height / 2 + 110 + 110 + this.butsY, "quit", "#FFFFFF")
-            }
-            this.congratsUpdate(), t && this.addButs()
-        }, t.prototype.getLatencyStatus = function(e) {
-            return e <= 50 ? 0 : e <= 100 ? 1 : e <= 180 ? 2 : e <= 230 ? 3 : 4
-        }, t.prototype.renderPointer = function() {}, t.prototype.renderBat = function(e, t, a, s) {
-            void 0 === s && (s = 1), this.batRotation = 5 * Math.sin(.05 * this.incY), this.batSpin = Math.sin(.5 * this.incY), ctx.save(), ctx.translate(t, a), ctx.rotate(this.batRotation), ctx.scale(s * this.batSpin, s);
-            var i = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + e]].x,
-                r = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + e]].y,
-                o = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + e]].width,
-                n = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + e]].height;
-            ctx.drawImage(this.oGameElementsImgData.img, i, r, o, n, -o / 2, -n / 2, o, n), ctx.restore()
-        }, t.prototype.twoDigit = function(e) {
-            var t = e.toString();
-            return t.length < 2 && (t = "0" + t), t
-        }, t.prototype.flare = function(e, t, a, s, i) {
-            this.flareRot += delta / 2, ctx.save(), ctx.translate(e, t), ctx.scale(a, s), ctx.rotate(this.flareRot);
-            var r = this.oUiElementsImgData.oData.oAtlasData[oImageIds["flare" + i]].x,
-                o = this.oUiElementsImgData.oData.oAtlasData[oImageIds["flare" + i]].y,
-                n = this.oUiElementsImgData.oData.oAtlasData[oImageIds["flare" + i]].width,
-                l = this.oUiElementsImgData.oData.oAtlasData[oImageIds["flare" + i]].height;
-            ctx.drawImage(this.oUiElementsImgData.img, r, o, n, l, -n / 2, -l / 2, n, l), ctx.rotate(-(2 * this.flareRot)), ctx.drawImage(this.oUiElementsImgData.img, r, o, n, l, -n / 2, -l / 2, n, l), ctx.restore()
-        }, t.prototype.addButs = function() {
-            for (var e = !1, t = 0; t < this.aButs.length; t++)
-                if (this.aButs[t].isOver) {
-                    e = !0;
-                    break
-                }
-            for (var t = 0; t < this.aButs.length; t++) {
-                var a, s, i, r, o = 0,
-                    n = 0;
-                0 != this.incY && this.aButs[t].flash && (n = this.aButs[t].isOver ? 3 * Math.sin((this.incY + 2.5 * t) * 2) : 3 * Math.sin(this.incY + 2.5 * t)), this.aButs[t].scale || (this.aButs[t].scale = 1), a = this.aButs[t].oImgData.oData.oAtlasData[this.aButs[t].id].x, s = this.aButs[t].oImgData.oData.oAtlasData[this.aButs[t].id].y, i = this.aButs[t].oImgData.oData.oAtlasData[this.aButs[t].id].width, r = this.aButs[t].oImgData.oData.oAtlasData[this.aButs[t].id].height;
-                var l = canvas.width * this.aButs[t].align[0],
-                    m = canvas.height * this.aButs[t].align[1];
-                this.aButs[t].noTween || (o = m + this.aButs[t].aPos[1] > .1 * canvas.height ? this.butsY : -this.butsY), this.aButs[t].aOverData = [l + this.aButs[t].aPos[0] - i / 2 * this.aButs[t].scale - n / 2, m + this.aButs[t].aPos[1] - r / 2 * this.aButs[t].scale + o + n / 2, l + this.aButs[t].aPos[0] + i / 2 * this.aButs[t].scale - n / 2, m + this.aButs[t].aPos[1] + r / 2 * this.aButs[t].scale + o + n / 2], this.aButs[t].isOver && this.aButs[t].flash && (ctx.save(), ctx.translate(l + this.aButs[t].aPos[0], m + this.aButs[t].aPos[1]), ctx.scale(.65 + n / 50, .65 + n / 50), ctx.globalAlpha = 1, ctx.rotate(this.incY / 7), ctx.drawImage(this.oTopFlareImgData.img, -this.oTopFlareImgData.img.width / 2, -this.oTopFlareImgData.img.height / 2), ctx.restore()), ctx.drawImage(this.aButs[t].oImgData.img, a, s, i, r, this.aButs[t].aOverData[0], this.aButs[t].aOverData[1], i * this.aButs[t].scale + n, r * this.aButs[t].scale - n), (this.aButs[t].isOver || this.aButs[t].flash) && (ctx.save(), this.aButs[t].isOver ? ctx.globalAlpha = 1 : e ? ctx.globalAlpha = Math.max(Math.sin(this.incY / 2), 0) / 2 : ctx.globalAlpha = Math.max(Math.sin(this.incY / 2), 0), a = this.aButs[t].oImgData.oData.oAtlasData[this.aButs[t].idOver].x, s = this.aButs[t].oImgData.oData.oAtlasData[this.aButs[t].idOver].y, i = this.aButs[t].oImgData.oData.oAtlasData[this.aButs[t].idOver].width, r = this.aButs[t].oImgData.oData.oAtlasData[this.aButs[t].idOver].height, ctx.drawImage(this.aButs[t].oImgData.img, a, s, i, r, this.aButs[t].aOverData[0], this.aButs[t].aOverData[1], i * this.aButs[t].scale + n, r * this.aButs[t].scale - n), ctx.restore()), this.aButs[t].id == oImageIds.rewardMultiplyBut && addDirectText(0, 50, 125, "center", this.aButs[t].aOverData[0] + 125, this.aButs[t].aOverData[1] + 153, "+" + this.twoDigit(rewardGemTotal), "#FFFFFF")
-            }
-        }, t
-    }();
-    e.Panel = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function e() {
-            this.x = 0, this.y = 0, this.rotation = 0, this.scale = 1, this.inc = 0, this.startX = 0, this.startY = 0, this.startRotation = 0, this.startInc = 0, this.incY = 0, this.celebrateY = 0, this.flipInc = 0, this.flipX = Math.PI, this.flipY = 1, this.tutState = 0, this.tutY = 0, this.prevTutY = 0, this.tutInc = 0, this.oGameElementsImgData = assetLib.getData("gameElements"), this.targX = canvas.width / 2, this.targY = canvas.height - 150, this.batSpreadX = 1, this.batSpreadY = 1, this.batSpreadMultiplier = .03, this.reset()
+            ,
+            _0x405fd3[_0x37dd5e(0x46c)](null);
         }
-        return e.prototype.reset = function() {
-            this.celebrateY = 0, this.flipInc = 0
-        }, e.prototype.levelComplete = function() {
-            this.autotween && this.autotween.kill(), this.startY = this.y, setTimeout(function() {
-                initLevelComplete()
-            }, 1e3), this.flip()
-        }, e.prototype.flip = function() {
-            var e;
-            this.incY = 0, e = 0 == this.flipInc ? 720 : this.flipInc % 2 == 0 ? 360 : 0, this.flipInc++, this.autotween = TweenLite.to(this, 1, {
-                incY: 180 * radian,
-                rotation: e * radian,
-                x: canvas.width / 2,
-                y: onScreenY + 355,
-                ease: "none",
-                onComplete: function() {}
-            })
-        }, e.prototype.startHit = function() {
-            var e = this;
-            this.x = this.prevX = this.startX = canvas.width / 2, this.y = this.prevY = this.startY = onScreenY + 355, this.rotation = this.startRotation = 0, this.startInc = 1, TweenLite.to(this, .1, {
-                startY: onScreenY + 200,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    e.y = e.prevY = e.startY, TweenLite.to(e, .5, {
-                        startInc: 0,
-                        ease: "Cubic.easeInOut"
-                    })
-                }
-            })
-        }, e.prototype.successFlip = function() {
-            var e = this;
-            this.flipTween && this.flipTween.kill(), this.flipX = Math.PI, this.flipTween = TweenLite.to(this, 1, {
-                flipX: 4 * Math.PI,
-                ease: "Quad.easeOut",
-                onComplete: function() {
-                    e.flipX = Math.PI
-                }
-            })
-        }, e.prototype.update = function() {
-            0 == gameplayState ? (this.inc += delta, this.x = canvas.width / 2 + 30 * Math.sin(3 * this.inc), this.y = onScreenY + 355 + 10 * Math.sin(10 * this.inc), this.rotation = .1 * Math.sin(3 * this.inc)) : gameplayState >= 2 ? (this.celebrateY = -300 * Math.sin(this.incY), this.maxY = onScreenY + 200 / tableTop.segs * (.28 * tableTop.segs) * (1 + tableTop.offsetY / 3) + 50 * tableTop.offsetY, this.scale = .44 + (this.y - this.maxY) / 550) : 1 == gameplayState && (this.maxY = onScreenY + 200 / tableTop.segs * (.28 * tableTop.segs) * (1 + tableTop.offsetY / 3) + 50 * tableTop.offsetY, this.prevX = this.x, this.prevY = this.y, this.x = this.startX * this.startInc + this.targX * (1 - this.startInc), this.y = this.startY * this.startInc + Math.max(this.targY, this.maxY) * (1 - this.startInc), this.rotation = Math.max(Math.min((this.x - canvas.width / 2) / 200, 90 * radian), -90 * radian), this.scale = .44 + (this.y - this.maxY) / 550, 1 == this.tutState && (this.tutInc += delta, this.tutInc > 3 && (this.tutState = 2, this.tutInc = 0)))
-        }, e.prototype.getHitData = function(e, t) {
-            var a = Math.max(Math.min((this.prevY - this.y) / delta, 4500) / 4500, 0);
-            this.hitY = (1 - a) * .4;
-            var s = (this.x - this.prevX) / delta / 2e3;
-            return this.hitX = Math.max(Math.min(s + e, 1 - Math.min(.2 * e, 0)), -1 - Math.max(.2 * e, 0)), {
-                x: this.hitX,
-                y: this.hitY,
-                speed: (.3 + .3 / .4 * (.4 - this.hitY)) * .9,
-                spin: 0
-            }
-        }, e.prototype.render = function() {
-            if (1 == gameplayState && 2 == this.tutState && (this.tutInc += delta, ctx.save(), this.prevTutY = this.tutY, this.tutY = Math.abs(Math.sin(5 * this.tutInc)), this.prevTutY < this.tutY)) {
-                var e = Math.max(this.y - aBalls[curBallId].y + 100, 200);
-                ctx.translate(this.x + (canvas.width / 2 - this.x) * this.tutY * .3, this.y - (20 - this.celebrateY) * this.scale - this.tutY * e), ctx.scale(this.scale * (1 - .3 * this.tutY), this.scale * Math.min(1 - (this.y - .5 * canvas.height) / (.5 * canvas.height) * .3, 1) * (1 - .3 * this.tutY)), ctx.rotate(this.rotation), ctx.globalAlpha = 1 - this.tutY * this.tutY;
-                var t = 0,
-                    a = this.oGameElementsImgData.oData.oAtlasData[oImageIds["batBehind" + t]].x,
-                    s = this.oGameElementsImgData.oData.oAtlasData[oImageIds["batBehind" + t]].y,
-                    i = this.oGameElementsImgData.oData.oAtlasData[oImageIds["batBehind" + t]].width,
-                    r = this.oGameElementsImgData.oData.oAtlasData[oImageIds["batBehind" + t]].height;
-                ctx.drawImage(this.oGameElementsImgData.img, a, s, i, r, -i / 2 * (1 - Math.abs(Math.sin(this.flipX))), -r / 3, i * (1 - Math.abs(Math.sin(this.flipX))), r), ctx.restore()
-            }
-            ctx.save(), ctx.translate(this.x, this.y - (20 - this.celebrateY) * this.scale), ctx.scale(this.scale, this.scale * Math.min(1 - (this.y - .5 * canvas.height) / (.5 * canvas.height) * .3, 1)), ctx.rotate(this.rotation);
-            var o = curBat,
-                t = 0;
-            o >= 49 && (t = o);
-            var a = this.oGameElementsImgData.oData.oAtlasData[oImageIds["batBehind" + t]].x,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds["batBehind" + t]].y,
-                i = this.oGameElementsImgData.oData.oAtlasData[oImageIds["batBehind" + t]].width,
-                r = this.oGameElementsImgData.oData.oAtlasData[oImageIds["batBehind" + t]].height;
-            ctx.drawImage(this.oGameElementsImgData.img, a, s, i, r, -i / 2 * (1 - Math.abs(Math.sin(this.flipX))), -r / 3, i * (1 - Math.abs(Math.sin(this.flipX))), r), ctx.rotate(-this.rotation), ctx.translate(0, Math.min(7 * Math.max((this.y - .5 * canvas.height) / (.5 * canvas.height), 0), 7)), ctx.rotate(this.rotation);
-            var a = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + o]].x,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + o]].y,
-                i = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + o]].width,
-                r = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + o]].height;
-            ctx.drawImage(this.oGameElementsImgData.img, a, s, i, r, -i / 2 * (1 - Math.abs(Math.sin(this.flipX))), -r / 3, i * (1 - Math.abs(Math.sin(this.flipX))), r), ctx.restore()
-        }, e
-    }();
-    e.UserBat = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function e() {
-            this.x = 0, this.y = 0, this.rotation = 0, this.scale = 1, this.speedX = 3e3, this.maxAcc = 500, this.skillLevel = 0, this.powerLevel = 0, this.spinLevel = 0, this.id = 0, this.aEases = ["Quad.easeInOut", "Back.easeOut", "Cubic.easeOut", "Back.easeInOut"], this.trackBall = !0, this.slideInc = 0, this.flailInc = 0, this.inc = 0, this.incY = 0, this.celebrateY = 0, this.firstShot = !0, this.scoreDiff = 0, this.flipX = 1, this.flipY = 1, this.swipeOffsetX = 0, this.scoreDiffMax = .25, this.oGameElementsImgData = assetLib.getData("gameElements"), this.x = canvas.width / 2, this.targX = 0, this.targY = 0, this.accX = 0
-        }
-        return e.prototype.setEnemyLevel = function() {
-            if (0 == gameVariation) this.skillLevel = Math.min(Math.max(.2 * Math.random() + Math.min(curLevel / 30, .8) + this.scoreDiff, 0), 1), this.powerLevel = Math.min(Math.max(.2 * Math.random() + Math.min(curLevel / 20, .8) + this.scoreDiff, 0), 1), this.spinLevel = Math.min(Math.max(.2 * Math.random() + Math.min(curLevel / 20, .8) + this.scoreDiff, 0), 1);
-            else if (2 == gameVariation) {
-                var e = (500 - Math.min(aSeasonFlags[saveDataHandler.getRound()].rank, 500)) / 500 * .6;
-                this.skillLevel = Math.min(Math.max(.2 + .2 * Math.random() + e + this.scoreDiff, 0), 1), this.powerLevel = Math.min(Math.max(.2 + .2 * Math.random() + e + this.scoreDiff, 0), 1), this.spinLevel = Math.min(Math.max(.2 + .2 * Math.random() + e + this.scoreDiff, 0), 1)
-            }
-        }, e.prototype.reset = function() {
-            this.celebrateY = 0, this.scoreDiff = 0
-        }, e.prototype.levelComplete = function() {
-            this.autotween && this.autotween.kill(), this.incY = 0, this.autotween = TweenLite.to(this, 2, {
-                rotation: 360 * radian,
-                incY: 180 * radian,
-                scale: 0,
-                ease: "Quad.easeOut",
-                onComplete: function() {}
-            })
-        }, e.prototype.resetToCentre = function() {
-            this.trackBall = !1, this.moveTween && this.moveTween.kill(), this.targX = this.x - canvas.width / 2, this.moveTween = TweenLite.to(this, 1, {
-                targX: 0,
-                targY: 0,
-                ease: "Quad.easeInOut",
-                onComplete: function() {
-                    (0 == gameVariation || 2 == gameVariation) && "enemy" == aBalls[curBallId].lastHit && aBalls[curBallId].enemyServe()
-                }
-            })
-        }, e.prototype.flail = function() {
-            var e = this;
-            this.flailInc = 0;
-            var t = 1;
-            aBalls[curBallId].x < this.x && (t = -1), TweenLite.to(this, .5, {
-                flailInc: t,
-                ease: "Quad.easeInOut",
-                onComplete: function() {
-                    TweenLite.to(e, .5, {
-                        flailInc: 0,
-                        ease: "Quad.easeInOut"
-                    })
-                }
-            })
-        }, e.prototype.setBouncePos = function(e, t, a) {
-            var s = this;
-            if (this.moveTween && this.moveTween.kill(), (0 == a || 1 * Math.random() < .25) && 1 != aBalls[curBallId].servingState) {
-                this.trackBall = !1;
-                var i = 0;
-                1 * Math.random() > .75 + .25 * this.skillLevel && (i = 100 * Math.random() - 50);
-                var r = t * t * tableDepth * (1 + tableTop.offsetY / 2) / 2,
-                    o = r * (tableTop.offsetX + .6 * e) * num128 * (1 + tableTop.offsetY / 2) + e * tableBackWidth / 2 + 100 * a;
-                this.moveTween = TweenLite.to(this, .6 * Math.random() + .5 + (1 - this.skillLevel) * .75, {
-                    delay: .2 * Math.random(),
-                    targX: o + i,
-                    targY: r,
-                    ease: this.aEases[Math.floor(Math.random() * this.aEases.length)],
-                    onComplete: function() {
-                        "enemy" == aBalls[curBallId].lastHit && (s.moveTween = TweenLite.to(s, .6 * Math.random() + .5 + (1 - s.skillLevel) * .75, {
-                            delay: .6 * Math.random() * (1 + (1 - s.skillLevel) * 1),
-                            targX: 200 * Math.random() - 100,
-                            targY: 0,
-                            ease: "Quad.easeInOut"
-                        }))
+        ,
+        _0x1a3de0[_0x473a65(0x1f7)][_0x473a65(0x189)] = function(_0x3d42b2) {
+            var _0x3be767 = _0x473a65
+              , _0x4b8c10 = this
+              , _0xeed192 = new Image();
+            _0xeed192[_0x3be767(0x32b)] = function() {
+                var _0x3009d2 = _0x3be767;
+                _0x4b8c10['oAssetData'][_0x3d42b2['id']] = {},
+                _0x4b8c10['oAssetData'][_0x3d42b2['id']]['img'] = _0xeed192,
+                _0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']][_0x3009d2(0x35a)] = {};
+                var _0x177801 = _0x4b8c10[_0x3009d2(0x12b)](_0x3d42b2[_0x3009d2(0x34f)]);
+                _0x177801[0x0] != 0x0 ? (_0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']]['oData'][_0x3009d2(0x237)] = _0x177801[0x0],
+                _0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']][_0x3009d2(0x35a)]['spriteHeight'] = _0x177801[0x1]) : (_0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']][_0x3009d2(0x35a)][_0x3009d2(0x237)] = _0x4b8c10['oAssetData'][_0x3d42b2['id']][_0x3009d2(0x436)]['width'],
+                _0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']][_0x3009d2(0x35a)][_0x3009d2(0x15f)] = _0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']]['img']['height']),
+                _0x3d42b2[_0x3009d2(0x3a4)] && (_0x4b8c10['oAssetData'][_0x3d42b2['id']][_0x3009d2(0x35a)]['oAnims'] = _0x3d42b2['oAnims']),
+                _0x3d42b2[_0x3009d2(0x202)] ? _0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']]['oData'][_0x3009d2(0x202)] = _0x3d42b2[_0x3009d2(0x202)] : _0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']][_0x3009d2(0x35a)]['oAtlasData'] = {
+                    'none': {
+                        'x': 0x0,
+                        'y': 0x0,
+                        'width': _0x4b8c10[_0x3009d2(0x266)][_0x3d42b2['id']][_0x3009d2(0x35a)][_0x3009d2(0x237)],
+                        'height': _0x4b8c10['oAssetData'][_0x3d42b2['id']][_0x3009d2(0x35a)][_0x3009d2(0x15f)]
                     }
-                })
-            } else this.trackBall = !0, this.slideInc = 0, this.moveTween = TweenLite.to(this, (.6 * Math.random() + .5) * (1 + (1 - this.skillLevel) * 1), {
-                targY: 0,
-                ease: "Quad.easeInOut"
-            })
-        }, e.prototype.successFlip = function() {
-            var e = this;
-            this.swipeTween && this.swipeTween.kill(), this.flipX = 1, this.swipeTween = TweenLite.to(this, .5, {
-                flipX: -1,
-                ease: "Bounce.easeInOut",
-                onComplete: function() {
-                    e.flipX = 1
-                }
-            })
-        }, e.prototype.hitSwipe = function() {
-            var e, t, a = this;
-            this.swipeTween && this.swipeTween.kill(), this.swipeOffsetX = 0, Math.random() > .5 ? (e = .8 + .2 * Math.random(), t = 1) : (e = 1, t = .8 + .2 * Math.random()), this.swipeTween = TweenLite.to(this, .1, {
-                swipeOffsetX: 100 * Math.random() - 50,
-                flipX: e,
-                flipY: t,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    a.swipeTween = TweenLite.to(a, .5, {
-                        swipeOffsetX: 0,
-                        flipX: 1,
-                        flipY: 1,
-                        ease: "Back.easeOut",
-                        onComplete: function() {}
-                    })
-                }
-            })
-        }, e.prototype.update = function() {
-            0 == gameplayState ? (this.inc += delta, this.y = this.targY + onScreenY + 50 * tableTop.offsetY - 50, this.x = canvas.width / 2 + 50 * Math.sin(5 * this.inc), this.rotation = .3 * Math.sin(5 * this.inc), this.scale = .4 + (this.y - onScreenY) / 300) : 2 == gameplayState ? this.celebrateY = -50 * Math.sin(this.incY) : 1 == gameplayState && (this.y = this.targY + onScreenY + 50 * tableTop.offsetY - 50, this.trackBall ? (this.slideInc = (aBalls[curBallId].x - this.x) * (15 * this.skillLevel + 10), this.x += this.slideInc * delta, "enemy" == aBalls[curBallId].lastHit && (this.targX = this.x - canvas.width / 2, this.moveTween = TweenLite.to(this, (.6 * Math.random() + .5) * (1 + (1 - this.skillLevel) * 1), {
-                delay: .6 * Math.random() * (1 + (1 - this.skillLevel) * 1),
-                targX: 200 * Math.random() - 100,
-                targY: 0,
-                ease: "Quad.easeInOut"
-            }), this.trackBall = !1)) : this.x = this.targX + canvas.width / 2, this.rotation = (this.x - canvas.width / 2) / 200, this.scale = .4 + (this.y - onScreenY) / 300, this.x = Math.min(Math.max(this.x, canvas.width / 2 - 250), canvas.width / 2 + 250))
-        }, e.prototype.getHitData = function(e, t) {
-            0 == aBalls[curBallId].servingState ? (this.hitX = 2 * Math.random() - 1, this.hitY = .2 * Math.random() + .65) : (this.hitX = (1.8 * Math.random() - .9) * (1 + .25 * this.skillLevel), Math.random() > .8 + .2 * this.skillLevel && (this.x > canvas.width / 2 + 120 || this.x < canvas.width / 2 - 120) && (this.x > canvas.width / 2 ? this.hitX = 1.3 : this.hitX = -1.3), this.hitY = .4 * Math.random() + .65);
-            var a = 0;
-            this.hitY < .95 && (this.hitX > .1 ? a = -(.5 * Math.random() + .5) * this.spinLevel : this.hitX < -.1 && (a = (.5 * Math.random() + .5) * this.spinLevel));
-            var s = .3 + .3 / .4 * (this.hitY - .6) * (.25 + .9 * this.powerLevel);
-            return this.hitSwipe(), {
-                x: this.hitX,
-                y: this.hitY,
-                speed: s,
-                spin: a
-            }
-        }, e.prototype.render = function() {
-            ctx.save(), ctx.translate(this.x + (tableTop.offsetX + 1 * this.flailInc) * tableTop.sideMultiplier, this.y + this.celebrateY), ctx.rotate(this.rotation + 1 * this.flailInc), ctx.scale(this.scale * this.flipX, this.scale * this.flipY);
-            var e = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].x,
-                t = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].y,
-                a = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].width,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].height;
-            ctx.drawImage(this.oGameElementsImgData.img, e, t, a, s, -a / 2 + this.swipeOffsetX, -s / 3, a, s), ctx.restore()
-        }, e
-    }();
-    e.EnemyBat = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function t(e) {
-            void 0 === e && (e = "user"), this.x = 0, this.y = 0, this.height = 0, this.tablePosY = .5, this.tablePosX = 0, this.scale = 0, this.lastHit = "user", this.speed = .45, this.offTable = !1, this.pause = !1, this.spin = 0, this.spinInc = 0, this.servingState = 0, this.canHit = !1, this.serveFlip = !0, this.offSide = !1, this.bounceX = 0, this.bounceY = 0, this.ballShortState = 0, this.ballType = 0, this.hitStop = !1, this.trailSegs = 15, this.curBallState = 0, this.hasHitNetPvP = !1, this.offTablePvp = !1, this.oGameElementsImgData = assetLib.getData("gameElements"), "enemy" == e && (this.serveFlip = !1), this.resetServe(e)
-        }
-        return t.prototype.resetServe = function(e) {
-            var t = this;
-            2 != gameplayState && (this.servingState = 0, this.canHit = !1, this.hasHitNetPvP = !1, this.offTablePvp = !1, this.hitStop = !1, this.lastHit = e, this.hasHitNet = !1, 1 == gameVariation && "user" == this.lastHit ? tableTop.newTargetPos(0) : 0 == gameVariation || 2 == gameVariation ? enemyBat.resetToCentre() : 3 == gameVariation && (this.lastHit = "user"), tableTop.tweenToPos(0, 1, this.speed, this.lastHit, this.spin), enemyBat.setEnemyLevel(), rallyHits = 0, this.x = -100, this.bounceNum = 0, this.ballShortState = 0, this.offTable = !1, this.offSide = !1, "user" == this.lastHit ? (this.tablePosX = 0, this.tablePosY = .9, this.height = 37.5, this.heightInc = 0, this.aTrailPoints = [], this.tableVX = 0, this.tableVY = 0, userBat.tutInc = 0, userBat.tutState = 1) : (this.tablePosX = 0, this.tablePosY = .2, 0 == gameVariation || 2 == gameVariation || 4 == gameVariation ? this.height = 22.5 : (1 == gameVariation || 3 == gameVariation) && (this.height = 45), this.heightInc = 0, this.aTrailPoints = [], userBat.tutState = 0), 0 == gameplayState ? (this.servePosInc = 1, this.canHit = !0) : (this.servePosInc = 0, this.servePrepTween = TweenLite.to(this, .5, {
-                servePosInc: 1,
-                ease: "Quad.easeOut",
-                onComplete: function() {
-                    t.canHit = !0
-                }
-            })))
-        }, t.prototype.enemyServe = function() {
-            0 == gameVariation || 2 == gameVariation || 3 == gameVariation ? this.setBouncePoint(enemyBat.getHitData(this.tablePosX, this.tablePosY)) : 1 == gameVariation && (playSound("botThrow", .5), this.servingState = 2, this.setBouncePoint({
-                x: 1 * Math.random() - .5,
-                y: .8,
-                speed: .3,
-                spin: 0
-            }), tableTop.botTween && tableTop.botTween.kill(), tableTop.botY = 15, tableTop.botTween = TweenLite.to(tableTop, 1, {
-                botY: 0,
-                ease: "Elastic.easeOut",
-                onComplete: function() {}
-            }))
-        }, t.prototype.setBouncePoint = function(t) {
-            if (this.spin = .65 * t.spin, this.spinInc = 0, "enemy" == this.lastHit) this.targBounceX = t.x, this.targBounceY = t.y, this.speed = .5 * t.speed, tableTop.tweenToPos(this.targBounceX, this.targBounceY, this.speed, this.lastHit, this.spin), tableTop.changeStopVert(!1), 0 == this.servingState ? (this.servingState = 1, this.heightInc = -(1.3 * ((-2400 + 6 * this.height) * (.8 - this.speed) * 1.2))) : 0 == gameVariation || 2 == gameVariation || 3 == gameVariation || 4 == gameVariation ? this.heightInc = (-2400 + 6 * this.height) * (.8 - this.speed) * 1.3 : 1 == gameVariation && (this.heightInc = (-2e3 + 6 * this.height) * (.8 - this.speed) * 1.3);
-            else {
-                if (this.targBounceX = t.x, this.targBounceY = t.y, this.speed = .5 * t.speed, .27 == this.speed)
-                    for (var a = 360 * Math.random() * radian, s = 0; s < 8; s++) {
-                        var i = new e.Particle(this.x, this.y, 1, 200 * Math.random() + 100, a + 45 * s * radian, 1, .5);
-                        aEffects.push(i)
-                    }
-                0 == this.servingState ? (this.servingState = 1, this.heightInc = -(1.1 * ((-2400 + 6 * this.height) * (.8 - this.speed) * 1.2))) : this.heightInc = (-2400 + 6 * this.height) * (.8 - this.speed) * 1.3, tableTop.tweenToPos(0, 1, this.speed, this.lastHit, this.spin), (0 == gameVariation || 2 == gameVariation || 3 == gameVariation) && enemyBat.setBouncePos(this.targBounceX, this.targBounceY, this.spin)
-            }
-            this.tableVX = (this.targBounceX - this.tablePosX) / ((1 - this.speed) * 1.1), this.tableVY = (this.targBounceY - this.tablePosY) / ((1 - this.speed) * 1.1)
-        }, t.prototype.getTargetHitData = function(e, t) {
-            return {
-                x: e / 3,
-                y: .75,
-                speed: .3 + .3 / .4 * (.75 - .6) * .25,
-                spin: 0
-            }
-        }, t.prototype.userServe = function(e) {
-            void 0 === e && (e = !1), this.bounceNum = 0, this.lastHit = "user", hitFirstShot = !0, userBat.tutState = 0, playSound("hit" + Math.floor(6 * Math.random())), e ? 0 == gameVariation || 2 == gameVariation || 3 == gameVariation ? this.setBouncePoint({
-                x: 1 * Math.random() - .5,
-                y: .25,
-                speed: .3,
-                spin: 0
-            }) : 1 == gameVariation && this.setBouncePoint({
-                x: 0,
-                y: .25,
-                speed: .3,
-                spin: 0
-            }) : this.setBouncePoint(userBat.getHitData(this.tablePosX, this.tablePosY)), 4 == gameVariation && netLib.send(!0, "serveBounce", [Math.round(1e3 * this.targBounceX) / 1e3, Math.round((1 - this.targBounceY) * 1e3) / 1e3, Math.round(2e3 * this.speed) / 1e3, Math.round(1e3 * this.tablePosX) / 1e3, Math.round(1e3 * this.tablePosY) / 1e3, Math.round(1e3 * this.height) / 1e3])
-        }, t.prototype.hitNetPvP = function() {
-            playSound("hitNet"), this.tablePosY = .49, this.hasHitNet = !0, this.hasHitNetPvP = !1, this.tableVY *= -.5, this.tableVX *= .5, this.ballShortState = 2, this.heightInc *= .2
-        }, t.prototype.update = function() {
-            if (0 == gameplayState) this.y = onScreenY + 50 * tableTop.offsetY + this.tablePosY * this.tablePosY * tableDepth * (1 + tableTop.offsetY / 2) + (1 - this.servePosInc) * 100, this.tablePosX = Math.min(Math.max((userBat.x - canvas.width / 2) / 450, -.95), .95), this.x = canvas.width / 2, this.scale = .25 + (this.y - onScreenY) / 800;
-            else if (gameplayState >= 3) this.y = onScreenY + 50 * tableTop.offsetY + this.tablePosY * this.tablePosY * tableDepth * (1 + tableTop.offsetY / 2) + (1 - this.servePosInc) * 100, this.tablePosX = Math.min(Math.max((userBat.x - canvas.width / 2) / 450, -.95), .95), this.x = canvas.width / 2, this.scale = .25 + (this.y - onScreenY) / 800;
-            else if (1 == gameplayState) {
-                if (0 == this.servingState) {
-                    if ("user" == this.lastHit) {
-                        this.y = onScreenY + 50 * tableTop.offsetY + this.tablePosY * this.tablePosY * tableDepth * (1 + tableTop.offsetY / 2) + (1 - this.servePosInc) * 100, this.tablePosX = Math.min(Math.max((userBat.x - canvas.width / 2) / 450, -.95), .95), this.x = canvas.width / 2 + ((this.y - onScreenY) * (tableTop.offsetX + this.tablePosX * ballPosMultiplier) * num128 * (1 + tableTop.offsetY / 2) + this.tablePosX * tableBackWidth / 2 + tableTop.offsetX * tableTop.sideMultiplier) + -((1 - this.servePosInc) * 500), this.scale = .25 + (this.y - onScreenY) / 800;
-                        var t = userBat.x - this.x,
-                            a = userBat.y - 100 * userBat.scale + 130 * userBat.scale * Math.max(userBat.batSpreadX, userBat.batSpreadY) - (this.y - this.height * (3 * this.scale) - 16),
-                            s = Math.sqrt(t * t + a * a);
-                        this.canHit && userBat.getHitData(this.tablePosX, this.tablePosY).y < .4 && s < 130 * userBat.scale * Math.max(userBat.batSpreadX, userBat.batSpreadY) && this.userServe()
-                    } else this.y = onScreenY + 50 * tableTop.offsetY + this.tablePosY * this.tablePosY * tableDepth * (1 + tableTop.offsetY / 2) + (1 - this.servePosInc) * 100, this.tablePosX = 0, 4 == gameVariation && (this.tablePosX = Math.min(Math.max((enemyBat.x - canvas.width / 2) / 200, -.95), .95)), this.x = canvas.width / 2 + ((this.y - onScreenY) * (tableTop.offsetX + this.tablePosX * ballPosMultiplier) * num128 * (1 + tableTop.offsetY / 2) + this.tablePosX * tableBackWidth / 2 + tableTop.offsetX * tableTop.sideMultiplier) + -((1 - this.servePosInc) * 500), this.scale = .25 + (this.y - onScreenY) / 800
-                } else {
-                    if (this.offTable || ("user" == this.lastHit ? this.spinInc = Math.min(Math.max(this.spinInc + Math.pow(2.5 * this.spin, 3) * delta * (1 - this.tablePosY), -3), 3) : this.spinInc = Math.min(Math.max(this.spinInc + Math.pow(2 * this.spin, 3) * delta * this.tablePosY, -2), 2), this.tablePosX += (this.tableVX + this.spinInc) * delta, this.tablePosY += this.tableVY * delta), !this.offTable && "user" == this.lastHit && this.tablePosY < 0 && 4 != gameVariation && (this.offTable = !0, this.offTableVX = (this.x - this.aTrailPoints[Math.max(this.aTrailPoints.length - 5, 0)].x) * 10, this.offTableVY = (this.y - this.aTrailPoints[Math.max(this.aTrailPoints.length - 5, 0)].y) * 10, this.offTableTween && this.offTableTween.kill(), this.offTableTween = TweenLite.to(this, 2, {
-                            offTableVX: 0,
-                            offTableVY: 0,
-                            ease: "Quad.easeOut"
-                        }), (0 == gameVariation || 2 == gameVariation) && enemyBat.flail(), (rallyHits > 8 || Math.random() > .8 || 0 == saveDataHandler.getLevel() && 0 == curLevelStars) && (0 == gameVariation || 2 == gameVariation))) {
-                        userBat.successFlip(), panel.showCongrats(), playSound("hitTarget", .3), playSound("cheer" + Math.floor(6 * Math.random()));
-                        for (var i = 0; i < 25; i++) {
-                            var r = new e.Confetti(canvas.width / 2 + 400 * Math.random() - 200, .9 * canvas.height);
-                            aEffects.push(r)
-                        }
-                    }
-                    if (this.heightInc += 5700 * delta, this.height -= this.heightInc * this.speed * delta, 4 == gameVariation && this.hasHitNetPvP && this.hitNetPvP(), 1 == this.ballShortState && this.tablePosY <= .5 && "user" == this.lastHit && (playSound("hitNet"), this.hasHitNet = !0, this.tableVY *= -.5, this.tableVX *= .5, this.ballShortState = 2, this.heightInc *= .2, 4 == gameVariation && netLib.send(!0, "hitNet")), 3 == gameVariation && "user" == this.lastHit && this.tablePosY < .5 && 0 == this.curBallState && this.height < 30 && tableTop.checkZombieHit(this.x, this.y), this.tablePosX > -1 && this.tablePosX < 1 && this.tablePosY > 0 && this.tablePosY < 1 && this.height <= 0 && !this.offSide) {
-                        if (this.height = 0, this.heightInc *= -.85, 0 == this.ballShortState ? playSound("bounce" + Math.floor(6 * Math.random())) : this.height = -3, this.bounceNum++, this.bounceX = this.tablePosX, this.bounceY = this.tablePosY, tableTop.bounce(Math.max(Math.min(-this.heightInc / 1500, 1), .1)), "user" == this.lastHit && this.tablePosY > .5 && this.servingState > 1 && (this.spin = 0, this.ballShortState = 1), 1 == gameVariation && "user" == this.lastHit && this.tablePosY < .5 && 0 == this.curBallState) {
-                            var o = this.x - tableTop.holeX,
-                                n = this.y - tableTop.holeY;
-                            o * o / ((306 * tableTop.holeScale + 50 * this.scale) * (306 * tableTop.holeScale + 50 * this.scale)) + n * n / ((112 * tableTop.holeScale + 25 * this.scale) * (112 * tableTop.holeScale + 25 * this.scale)) <= 1 ? (tableTop.holeHit(), setTimeout(function() {
-                                var t = new e.Ball("enemy");
-                                aBalls.push(t), t.enemyServe()
-                            }, 1e3)) : (tableTop.holeMiss(), userInput.removeHitArea("pause"), setTimeout(function() {
-                                playSound("targetGameEnd"), curTargetScore > 10 && playSound("cheer" + Math.floor(6 * Math.random())), initTargetGameEnd()
-                            }, 1e3)), this.curBallState = 1
-                        }
-                    } else(this.tablePosX < -1 || this.tablePosX > 1) && !this.offTable && this.tablePosY < 1 && this.height <= 0 && (this.offSide || netLib.send(!0, "offSide"), this.offSide = !0);
-                    if (4 == gameVariation && this.tablePosY < 0 && this.height <= 0 && ("user" == this.lastHit || this.hasHitNet ? this.offTable = !0 : this.offTable = !1), !this.offTablePvp && "user" == this.lastHit && this.tablePosY < 0 && (this.offTablePvp = !0, this.offTableVX = (this.x - this.aTrailPoints[Math.max(this.aTrailPoints.length - 5, 0)].x) * 10, this.offTableVY = (this.y - this.aTrailPoints[Math.max(this.aTrailPoints.length - 5, 0)].y) * 10, this.offTableTween && this.offTableTween.kill(), this.offTableTween = TweenLite.to(this, 2, {
-                            offTableVX: 0,
-                            offTableVY: 0,
-                            ease: "Quad.easeOut"
-                        })), (this.offTable || this.offSide) && this.height <= -200) {
-                        if (1 == this.curBallState) {
-                            this.curBallState = 2;
-                            return
-                        }
-                        "user" == this.lastHit ? 4 != gameVariation && (0 == this.bounceNum || this.hitStop || this.hasHitNet ? updateScore("enemy") : 1 == this.servingState && 1 == this.bounceNum ? updateScore("enemy") : updateScore("user")) : 0 == this.bounceNum || this.hasHitNet ? (updateScore("user"), 4 == gameVariation && netLib.send(!0, "ballOff", [0])) : (updateScore("enemy"), 4 == gameVariation && netLib.send(!0, "ballOff", [1])), "enemy" == this.lastHit || 4 != gameVariation ? this.nextServeChoice() : this.servingState = -1;
-                        return
-                    }
-                    if ((4 == gameVariation || this.offTable) && (4 != gameVariation || this.offTablePvp) ? (this.x += this.offTableVX * delta, this.y += this.offTableVY * delta) : (this.y = onScreenY + 50 * tableTop.offsetY + this.tablePosY * this.tablePosY * tableDepth * (1 + tableTop.offsetY / 2), this.x = canvas.width / 2 + (this.y - onScreenY) * (tableTop.offsetX + this.tablePosX * ballPosMultiplier) * num128 * (1 + tableTop.offsetY / 2) + this.tablePosX * tableBackWidth / 2 + tableTop.offsetX * tableTop.sideMultiplier), this.scale = .25 + (this.y - onScreenY) / 800, this.aTrailPoints.push({
-                            x: this.x,
-                            y: this.y,
-                            height: this.height,
-                            scale: this.scale,
-                            power: (this.speed - .12) / .12
-                        }), this.aTrailPoints.length > this.trailSegs && this.aTrailPoints.shift(), this.y > canvas.height) {
-                        if (1 == this.curBallState) {
-                            this.curBallState = 2;
-                            return
-                        }(0 == gameVariation || 2 == gameVariation || 4 == gameVariation) && (this.bounceNum > 0 || this.ballShortState > 0 ? (updateScore("enemy"), 4 == gameVariation && netLib.send(!0, "ballOff", [1])) : (updateScore("user"), 4 == gameVariation && netLib.send(!0, "ballOff", [0]))), this.nextServeChoice();
-                        return
-                    }
-                    var l = 1 + Math.min(Math.abs(userBat.prevX - userBat.x), 225) * userBat.batSpreadMultiplier,
-                        m = 1 + Math.min(Math.abs(userBat.prevY - userBat.y), 225) * userBat.batSpreadMultiplier;
-                    userBat.batSpreadX -= (userBat.batSpreadX - l) * .2, userBat.batSpreadY -= (userBat.batSpreadY - m) * .2;
-                    var t = userBat.x - this.x,
-                        a = userBat.y - 100 * userBat.scale + 130 * userBat.scale * Math.max(userBat.batSpreadX, userBat.batSpreadY) - (this.y - this.height * (3 * this.scale) - 16),
-                        s = Math.sqrt(t * t + a * a);
-                    "enemy" == this.lastHit && (2 == this.servingState && 1 == this.bounceNum || 1 == this.servingState && 2 == this.bounceNum) && this.tablePosY > .5 && s < 130 * userBat.scale * Math.max(userBat.batSpreadX, userBat.batSpreadY) && (playSound("hit" + Math.floor(6 * Math.random())), rallyHits++, this.servingState = 2, this.bounceNum = 0, this.lastHit = "user", this.setBouncePoint(userBat.getHitData(this.tablePosX, this.tablePosY)), 4 == gameVariation && netLib.send(!0, "hitBounce", [Math.round(1e3 * this.targBounceX) / 1e3, Math.round((1 - this.targBounceY) * 1e3) / 1e3, Math.round(2e3 * this.speed) / 1e3, Math.round(1e3 * this.tablePosX) / 1e3, Math.round(1e3 * this.tablePosY) / 1e3, Math.round(1e3 * this.height) / 1e3])), 0 == gameVariation || 2 == gameVariation ? "user" == this.lastHit && (2 == this.servingState && 1 == this.bounceNum || 1 == this.servingState && 2 == this.bounceNum) && this.tablePosY < .5 && this.tablePosY > 0 && enemyBat.x > this.x - 70 * enemyBat.scale && enemyBat.x < this.x + 70 * enemyBat.scale && enemyBat.y > this.y - this.height * (3 * this.scale) - 16 - 82 * enemyBat.scale && enemyBat.y < this.y - this.height * (3 * this.scale) - 16 + 82 * enemyBat.scale && (playSound("hit" + Math.floor(6 * Math.random())), rallyHits++, this.servingState = 2, this.bounceNum = 0, this.lastHit = "enemy", this.setBouncePoint(enemyBat.getHitData(this.tablePosX, this.tablePosY))) : 3 == gameVariation && "user" == this.lastHit && (2 == this.servingState || 1 == this.servingState) && this.tablePosY < .1 && (playSound("hit" + Math.floor(6 * Math.random())), this.servingState = 2, this.bounceNum = 0, this.lastHit = "enemy", this.setBouncePoint({
-                        x: Math.max(Math.min(.75 * this.tablePosX, .8), -.8),
-                        y: .8,
-                        speed: .3,
-                        spin: 0
-                    }))
-                }
-            }
-        }, t.prototype.nextServeChoice = function() {
-            ((oGameData.userScore + oGameData.enemyScore) % 2 == 0 || oGameData.userScore >= 10 && oGameData.enemyScore >= 10) && (this.serveFlip = !this.serveFlip), this.serveFlip && 1 != gameVariation ? this.resetServe("user") : (this.resetServe("enemy"), 1 == gameVariation && this.enemyServe())
-        }, t.prototype.render = function() {
-            if (!(gameplayState > 1)) {
-                if (this.tablePosX > -1 && this.tablePosX < 1 && this.tablePosY > 0 && this.tablePosY < 1) {
-                    ctx.save(), ctx.globalAlpha = Math.max(1 - this.height / 100, .25);
-                    var e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.ballShadow].x,
-                        t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.ballShadow].y,
-                        a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.ballShadow].width,
-                        s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.ballShadow].height;
-                    ctx.drawImage(this.oGameElementsImgData.img, e, t, a, s, this.x - a / 2 * this.scale, this.y - s / 2 * this.scale, a * this.scale, s * this.scale), ctx.restore()
-                }
-                "enemy" == this.lastHit && 0 == this.ballShortState && this.renderTrail();
-                var e = this.oGameElementsImgData.oData.oAtlasData[oImageIds["ball" + this.ballType]].x,
-                    t = this.oGameElementsImgData.oData.oAtlasData[oImageIds["ball" + this.ballType]].y,
-                    a = this.oGameElementsImgData.oData.oAtlasData[oImageIds["ball" + this.ballType]].width,
-                    s = this.oGameElementsImgData.oData.oAtlasData[oImageIds["ball" + this.ballType]].height;
-                ctx.drawImage(this.oGameElementsImgData.img, e, t, a, s, this.x - a / 2 * this.scale, this.y - s / 2 * this.scale - this.height * (3 * this.scale) - 23, a * this.scale, s * this.scale), "user" == this.lastHit && 0 == this.ballShortState && this.renderTrail()
-            }
-        }, t.prototype.renderTrail = function() {
-            if (this.aTrailPoints.length > 1 && this.scale > 0)
-                for (var e = 0; e < this.aTrailPoints.length; e++) ctx.fillStyle = "rgba(255, 255, 100," + e / this.aTrailPoints.length * .3 + ")", ctx.beginPath(), ctx.arc(this.aTrailPoints[e].x, this.aTrailPoints[e].y - this.aTrailPoints[e].height * (3 * this.aTrailPoints[e].scale) - 23, 20 * this.scale, 0, 2 * Math.PI), ctx.fill()
-        }, t
-    }();
-    e.Ball = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function t() {
-            this.segs = 100, this.offsetX = 0, this.offsetY = 0, this.netY = 0, this.segMultiplier = 1, this.netHeight = 0, this.id = 0, this.sideMultiplier = 100, this.bounceMarkScale = 0, this.targetX = 0, this.stopHeight = 0, this.stopOffsetX = 0, this.canChangeStop = !1, this.holeFixedScale = 1, this.holeHitScale = 0, this.blockOffsetY = 0, this.tableHeight = 352, this.edgeMultuplier = 1.46, this.botY = 0, this.zoomScale = 0, this.zoomAlpha = 0, this.targId = 0, this.aZombies = [], this.zombieScale = 90, this.aColours = ["#00e9b2", "#00ddd9", "#00d2f5", "#0bc4ff", "#7ab2ff", "#8babff", "#a4a3ff", "#c098ff", "#e085ff", "#ff70fd", "#ff6dd4", "#ff70b1", "#ff7092", "#ff6e71", "#fc7954", "#ff874c", "#ff9644", "#ffa53c", "#ffb434", "#ffc42e", "#e4d026", "#c5da2e", "#a3e342", "#7bea5c", "#42f079", "#42f079"], this.aBugColours = ["#E6B763", "#61F295", "#CFE458", "#FC8995", "#F7E497", "#F1394B", "#DF7FAB", "#80EEF3"], this.oGameElementsImgData = assetLib.getData("gameElements"), this.id = 0, this.setTableCol()
-        }
-        return t.prototype.setZombieStart = function() {
-            this.zombieBase = {
-                x: 0,
-                y: 0,
-                offsetX: 0,
-                offsetY: .25,
-                energy: 1,
-                height: 0
-            }, this.aZombies = [];
-            for (var e = 0; e < Math.min(bugWave + 5, 15); e++) this.aZombies.push(this.resetZombie(e))
-        }, t.prototype.resetZombie = function(e) {
-            var t = {
-                    id: e,
-                    x: 0,
-                    y: 0,
-                    offsetX: 0,
-                    offsetY: 0,
-                    startX: 2 * Math.random() - 1,
-                    startY: .3 * Math.random() + .1,
-                    endX: 1.6 * Math.random() - .8,
-                    endY: .3 * Math.random() + .1,
-                    energy: 1,
-                    height: 0,
-                    speed: .05 * Math.random() + .05,
-                    scale: 1,
-                    tweenScale: 0,
-                    canHit: !0
                 },
-                a = TweenLite.to(t, .5, {
-                    tweenScale: 1,
-                    ease: "Back.easeOut",
-                    onComplete: function() {}
-                });
-            return t.tween = a, t
-        }, t.prototype.checkZombieHit = function(t, a) {
-            for (var s = this, i = 0; i < this.aZombies.length; i++) {
-                var r = t - this.aZombies[i].x,
-                    o = a - this.aZombies[i].y;
-                if (this.aZombies[i].canHit && r * r / (this.zombieScale * this.aZombies[i].scale * (this.zombieScale * this.aZombies[i].scale)) + o * o / (.5 * this.zombieScale * this.aZombies[i].scale * (.37 * this.zombieScale * this.aZombies[i].scale)) <= 1) {
-                    bugScore++;
-                    for (var n = 30 * radian, l = 0; l < 5; l++) {
-                        var m = new e.Particle(this.aZombies[i].x, this.aZombies[i].y, .5 * Math.random() + .75, 200 * Math.random() + 200, n + 30 * l * radian + (10 * Math.random() - 5) * radian, 15, 1, 25, this.aBugColours[this.aZombies[i].id % 8]);
-                        aEffects.push(m)
+                ++_0x4b8c10['assetsLoaded'],
+                _0x4b8c10[_0x3009d2(0x1ef)]();
+            }
+            ,
+            _0xeed192['src'] = _0x3d42b2[_0x3be767(0x34f)];
+        }
+        ,
+        _0x1a3de0[_0x473a65(0x1f7)][_0x473a65(0x12b)] = function(_0x5b1541) {
+            var _0x4252a2 = _0x473a65
+              , _0x398247 = new Array()
+              , _0xcbb27d = ''
+              , _0x21e9bb = ''
+              , _0x4970f7 = 0x0
+              , _0xce01f3 = _0x5b1541[_0x4252a2(0xdf)]('.')
+              , _0x43c9ac = !![];
+            while (_0x43c9ac) {
+                _0xce01f3--;
+                if (_0x4970f7 == 0x0 && this['isNumber'](_0x5b1541[_0x4252a2(0x1a1)](_0xce01f3)))
+                    _0xcbb27d = _0x5b1541[_0x4252a2(0x1a1)](_0xce01f3) + _0xcbb27d;
+                else {
+                    if (_0x4970f7 == 0x0 && _0xcbb27d[_0x4252a2(0x3f5)] > 0x0 && _0x5b1541['charAt'](_0xce01f3) == 'x')
+                        _0xce01f3--,
+                        _0x4970f7 = 0x1,
+                        _0x21e9bb = _0x5b1541[_0x4252a2(0x1a1)](_0xce01f3) + _0x21e9bb;
+                    else {
+                        if (_0x4970f7 == 0x1 && this[_0x4252a2(0x167)](_0x5b1541[_0x4252a2(0x1a1)](_0xce01f3)))
+                            _0x21e9bb = _0x5b1541[_0x4252a2(0x1a1)](_0xce01f3) + _0x21e9bb;
+                        else
+                            _0x4970f7 == 0x1 && _0x21e9bb[_0x4252a2(0x3f5)] > 0x0 && _0x5b1541['charAt'](_0xce01f3) == '_' ? (_0x43c9ac = ![],
+                            _0x398247 = [parseInt(_0x21e9bb), parseInt(_0xcbb27d)]) : (_0x43c9ac = ![],
+                            _0x398247 = [0x0, 0x0]);
                     }
-                    panel.tweenTargetGameScore(), this.aZombies[i].canHit = !1, playSound("bugSplat" + Math.floor(5 * Math.random()), .5 * Math.random() + .3), this.aZombies[i].tween && this.aZombies[i].tween.kill();
-                    var h = this.aZombies[i].id;
-                    this.aZombies[i].tween = TweenLite.to(this.aZombies[i], .25, {
-                        tweenScale: 0,
-                        ease: "Cubic.easeOut",
-                        onCompleteParams: [this, h],
-                        onComplete: function(e, t) {
-                            ++bugWaveKilled >= Math.min(bugWave + 5, 15) && (playSound("winSet", .3), playSound("cheer" + Math.floor(6 * Math.random())), s.tweenColours(), bugWave++, bugWaveKilled = 0, s.setZombieStart(), panel.addBugTime())
-                        }
-                    })
                 }
             }
-        }, t.prototype.setTableCol = function() {
-            0 == gameplayState || 0 == gameVariation ? this.colourId = Math.floor(curLevel) % this.aColours.length : this.colourId = Math.floor(Math.random() * this.aColours.length), this.gradientId = this.colourId
-        }, t.prototype.tweenColours = function() {
-            this.fadeTween && this.fadeTween.kill(), this.gradientId = this.colourId, this.fadeTween = TweenLite.to(this, .75, {
-                gradientId: this.colourId + this.aColours.length,
-                ease: "none"
-            })
-        }, t.prototype.startBot = function() {
-            this.botTween && this.botTween.kill(), this.botY = 50, this.botTween = TweenLite.to(this, .5, {
-                botY: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {}
-            })
-        }, t.prototype.zoomTarget = function() {
-            this.targetZoomTween && this.targetZoomTween.kill(), this.zoomScale = this.holeScale, this.zoomX = this.holeX, this.zoomY = this.holeY, this.zoomAlpha = 1, this.targetZoomTween = TweenLite.to(tableTop, .5, {
-                zoomScale: 3 * this.zoomScale,
-                zoomAlpha: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {}
-            })
-        }, t.prototype.setTarget = function() {
-            this.holeX = 0, this.holeY = 0, this.holeOffsetX = 0, this.holeOffsetY = .3, this.holeTween && this.holeTween.kill(), this.holeTween = TweenLite.to(this, .25, {
-                holeOffsetX: 0,
-                holeOffsetY: .3,
-                holeHitScale: Math.max(this.holeFixedScale *= .97, .35),
-                ease: "Quad.easeInOut",
-                onComplete: function() {}
-            })
-        }, t.prototype.changeHolePos = function() {
-            this.targId = 0, this.holeTween = TweenLite.to(this, .25, {
-                holeOffsetX: 1.2 * Math.random() - .6,
-                holeOffsetY: .25 * Math.random() + .2,
-                holeHitScale: Math.max(this.holeFixedScale *= .97, .35),
-                ease: "Quad.easeInOut",
-                onComplete: function() {}
-            })
-        }, t.prototype.holeHit = function() {
-            var t = this;
-            this.holeTween && this.holeTween.kill(), playSound("hitTarget", .3), this.tweenColours(), curTargetScore++, saveDataHandler.setBestTargetScore(curTargetScore), panel.tweenTargetGameScore(), this.zoomTarget(), this.targId = 1, curTargetScore >= 10 && curTargetScore % 5 == 0 && playSound("cheer" + Math.floor(6 * Math.random())), this.holeTween = TweenLite.to(this, .25, {
-                holeHitScale: 0,
-                ease: "Back.easeIn",
-                onComplete: function() {
-                    t.changeHolePos()
+            return _0x398247;
+        }
+        ,
+        _0x1a3de0[_0x473a65(0x1f7)][_0x473a65(0x167)] = function(_0x478932) {
+            return !isNaN(parseFloat(_0x478932)) && isFinite(_0x478932);
+        }
+        ,
+        _0x1a3de0[_0x473a65(0x1f7)][_0x473a65(0x1ef)] = function() {
+            var _0xd662e3 = _0x473a65;
+            this[_0xd662e3(0x36d)] == this['totalAssets'] && this['loadedCallback']();
+        }
+        ,
+        _0x1a3de0['prototype'][_0x473a65(0x25b)] = function(_0x33af6c) {
+            var _0x4f13ba = _0x473a65;
+            this[_0x4f13ba(0x212)] = _0x33af6c;
+        }
+        ,
+        _0x1a3de0[_0x473a65(0x1f7)][_0x473a65(0x442)] = function(_0x4217c0) {
+            var _0x2e6bb2 = _0x473a65;
+            return this['oAssetData'][_0x4217c0][_0x2e6bb2(0x436)];
+        }
+        ,
+        _0x1a3de0[_0x473a65(0x1f7)][_0x473a65(0x2d8)] = function(_0x140cee) {
+            var _0x4c2733 = _0x473a65;
+            return this[_0x4c2733(0x266)][_0x140cee];
+        }
+        ,
+        _0x1a3de0;
+    }());
+    _0xdd4f03[_0x4d7e93(0x39a)] = _0x4ca70e;
+}(Utils || (Utils = {})));
+var Utils;
+(function(_0x25d0c6) {
+    var _0x1a2e91 = (function() {
+        var _0x29d2b4 = _0x2ef4;
+        function _0x17766a(_0x3da507, _0x1d47c2, _0x5f2ccb, _0x3a53e8) {
+            var _0x279267 = _0x2ef4;
+            this['x'] = 0x0,
+            this['y'] = 0x0,
+            this[_0x279267(0x1d8)] = 0x0,
+            this[_0x279267(0x335)] = 0xa,
+            this[_0x279267(0x418)] = ![],
+            this['frameInc'] = 0x0,
+            this['animType'] = _0x279267(0x355),
+            this[_0x279267(0x31d)] = 0x0,
+            this[_0x279267(0x340)] = 0x0,
+            this[_0x279267(0x42d)] = 0x1,
+            this[_0x279267(0x368)] = 0x1,
+            this[_0x279267(0x1b4)] = 0x1,
+            this[_0x279267(0x116)] = _0x3da507,
+            this[_0x279267(0x3a4)] = this[_0x279267(0x116)][_0x279267(0x35a)][_0x279267(0x3a4)],
+            this[_0x279267(0x414)] = _0x1d47c2,
+            this[_0x279267(0x335)] = _0x5f2ccb,
+            this[_0x279267(0x3e1)] = _0x3a53e8,
+            this[_0x279267(0x163)] = Math[_0x279267(0x226)](this[_0x279267(0x116)][_0x279267(0x35a)][_0x279267(0x237)] / 0x2),
+            this[_0x279267(0x159)] = Math['round'](this[_0x279267(0x116)][_0x279267(0x35a)][_0x279267(0x15f)] / 0x2);
+        }
+        return _0x17766a[_0x29d2b4(0x1f7)]['updateAnimation'] = function(_0x21549a) {
+            var _0x276d35 = _0x29d2b4;
+            this[_0x276d35(0x35b)] += this[_0x276d35(0x414)] * _0x21549a;
+        }
+        ,
+        _0x17766a[_0x29d2b4(0x1f7)][_0x29d2b4(0x439)] = function(_0x12a58a, _0x18775f) {
+            var _0x790f54 = _0x29d2b4;
+            this['oImgData'] = _0x12a58a,
+            this[_0x790f54(0x3a4)] = this[_0x790f54(0x116)][_0x790f54(0x35a)][_0x790f54(0x3a4)],
+            this[_0x790f54(0x3e1)] = _0x18775f,
+            this[_0x790f54(0x163)] = Math[_0x790f54(0x226)](this[_0x790f54(0x116)]['oData']['spriteWidth'] / 0x2),
+            this[_0x790f54(0x159)] = Math[_0x790f54(0x226)](this[_0x790f54(0x116)][_0x790f54(0x35a)][_0x790f54(0x15f)] / 0x2),
+            this[_0x790f54(0x459)]();
+        }
+        ,
+        _0x17766a[_0x29d2b4(0x1f7)]['resetAnim'] = function() {
+            var _0x2115af = _0x29d2b4;
+            this[_0x2115af(0x35b)] = 0x0;
+        }
+        ,
+        _0x17766a[_0x29d2b4(0x1f7)]['setFrame'] = function(_0x2865fa) {
+            var _0x4871bb = _0x29d2b4;
+            this[_0x4871bb(0x49c)] = _0x2865fa;
+        }
+        ,
+        _0x17766a[_0x29d2b4(0x1f7)]['setAnimType'] = function(_0x8624b4, _0x3f9d2b, _0x318a96) {
+            var _0x5f1291 = _0x29d2b4;
+            _0x318a96 === void 0x0 && (_0x318a96 = !![]);
+            this[_0x5f1291(0x3e1)] = _0x3f9d2b,
+            this[_0x5f1291(0x417)] = _0x8624b4;
+            _0x318a96 && this[_0x5f1291(0x459)]();
+            switch (_0x8624b4) {
+            case 'loop':
+                break;
+            case _0x5f1291(0x379):
+                this['maxIdx'] = this[_0x5f1291(0x3a4)][this[_0x5f1291(0x3e1)]][_0x5f1291(0x3f5)] - 0x1;
+                break;
+            }
+        }
+        ,
+        _0x17766a[_0x29d2b4(0x1f7)][_0x29d2b4(0x2be)] = function(_0x20dcf5) {
+            var _0x151685 = _0x29d2b4;
+            _0x20dcf5['save'](),
+            _0x20dcf5[_0x151685(0xde)](this['x'], this['y']),
+            _0x20dcf5['rotate'](this['rotation']),
+            _0x20dcf5['scale'](this['scaleX'], this[_0x151685(0x368)]),
+            _0x20dcf5['globalAlpha'] = this[_0x151685(0x1b4)];
+            if (this['animId'] != null) {
+                var _0x1c539a = this[_0x151685(0x3a4)][this[_0x151685(0x3e1)]]['length']
+                  , _0x3afdee = Math[_0x151685(0x3b4)](this[_0x151685(0x35b)]);
+                this[_0x151685(0x48f)] = this[_0x151685(0x3a4)][this[_0x151685(0x3e1)]][_0x3afdee % _0x1c539a];
+                var _0x34b223 = this[_0x151685(0x48f)] * this[_0x151685(0x116)][_0x151685(0x35a)][_0x151685(0x237)] % this[_0x151685(0x116)][_0x151685(0x436)][_0x151685(0xeb)]
+                  , _0x295908 = Math[_0x151685(0x3b4)](this[_0x151685(0x48f)] / (this[_0x151685(0x116)]['img']['width'] / this[_0x151685(0x116)][_0x151685(0x35a)][_0x151685(0x237)])) * this[_0x151685(0x116)][_0x151685(0x35a)]['spriteHeight'];
+                if (this['animType'] == 'once') {
+                    if (_0x3afdee > this[_0x151685(0x2a7)]) {
+                        this[_0x151685(0x49c)] = this[_0x151685(0x3a4)][this[_0x151685(0x3e1)]][_0x1c539a - 0x1],
+                        this[_0x151685(0x3e1)] = null;
+                        this[_0x151685(0x488)] != null && this[_0x151685(0x488)]();
+                        var _0x34b223 = this['fixedFrame'] * this['oImgData']['oData'][_0x151685(0x237)] % this[_0x151685(0x116)][_0x151685(0x436)][_0x151685(0xeb)]
+                          , _0x295908 = Math[_0x151685(0x3b4)](this[_0x151685(0x49c)] / (this[_0x151685(0x116)]['img'][_0x151685(0xeb)] / this[_0x151685(0x116)][_0x151685(0x35a)][_0x151685(0x237)])) * this[_0x151685(0x116)][_0x151685(0x35a)]['spriteHeight'];
+                    }
+                }
+            } else
+                var _0x34b223 = this[_0x151685(0x49c)] * this[_0x151685(0x116)][_0x151685(0x35a)][_0x151685(0x237)] % this['oImgData'][_0x151685(0x436)]['width']
+                  , _0x295908 = Math['floor'](this[_0x151685(0x49c)] / (this[_0x151685(0x116)][_0x151685(0x436)][_0x151685(0xeb)] / this[_0x151685(0x116)][_0x151685(0x35a)]['spriteWidth'])) * this['oImgData'][_0x151685(0x35a)][_0x151685(0x15f)];
+            _0x20dcf5[_0x151685(0x23c)](this['oImgData'][_0x151685(0x436)], _0x34b223, _0x295908, this[_0x151685(0x116)][_0x151685(0x35a)][_0x151685(0x237)], this['oImgData']['oData'][_0x151685(0x15f)], -this[_0x151685(0x163)] + this['offsetX'], -this[_0x151685(0x159)] + this['offsetY'], this[_0x151685(0x116)][_0x151685(0x35a)][_0x151685(0x237)], this[_0x151685(0x116)]['oData'][_0x151685(0x15f)]),
+            _0x20dcf5[_0x151685(0x10d)]();
+        }
+        ,
+        _0x17766a[_0x29d2b4(0x1f7)][_0x29d2b4(0x3c2)] = function(_0x2b9d4d) {
+            var _0x31643f = _0x29d2b4;
+            if (this[_0x31643f(0x3e1)] != null) {
+                var _0x3fd3bd = this[_0x31643f(0x3a4)][this['animId']][_0x31643f(0x3f5)]
+                  , _0x163eb2 = Math[_0x31643f(0x3b4)](this[_0x31643f(0x35b)]);
+                this['curFrame'] = this[_0x31643f(0x3a4)][this[_0x31643f(0x3e1)]][_0x163eb2 % _0x3fd3bd];
+                var _0x2ea880 = this[_0x31643f(0x48f)] * this['oImgData']['oData'][_0x31643f(0x237)] % this[_0x31643f(0x116)][_0x31643f(0x436)][_0x31643f(0xeb)]
+                  , _0x5ee2bd = Math[_0x31643f(0x3b4)](this['curFrame'] / (this[_0x31643f(0x116)][_0x31643f(0x436)][_0x31643f(0xeb)] / this[_0x31643f(0x116)]['oData'][_0x31643f(0x237)])) * this['oImgData'][_0x31643f(0x35a)][_0x31643f(0x15f)];
+                if (this[_0x31643f(0x417)] == _0x31643f(0x379)) {
+                    if (_0x163eb2 > this['maxIdx']) {
+                        this[_0x31643f(0x49c)] = this['oAnims'][this['animId']][_0x3fd3bd - 0x1],
+                        this['animId'] = null;
+                        this[_0x31643f(0x488)] != null && this[_0x31643f(0x488)]();
+                        var _0x2ea880 = this[_0x31643f(0x49c)] * this[_0x31643f(0x116)]['oData'][_0x31643f(0x237)] % this[_0x31643f(0x116)][_0x31643f(0x436)][_0x31643f(0xeb)]
+                          , _0x5ee2bd = Math['floor'](this[_0x31643f(0x49c)] / (this[_0x31643f(0x116)][_0x31643f(0x436)]['width'] / this[_0x31643f(0x116)][_0x31643f(0x35a)][_0x31643f(0x237)])) * this[_0x31643f(0x116)][_0x31643f(0x35a)][_0x31643f(0x15f)];
+                    }
+                }
+            } else
+                var _0x2ea880 = this[_0x31643f(0x49c)] * this['oImgData'][_0x31643f(0x35a)][_0x31643f(0x237)] % this[_0x31643f(0x116)][_0x31643f(0x436)][_0x31643f(0xeb)]
+                  , _0x5ee2bd = Math[_0x31643f(0x3b4)](this[_0x31643f(0x49c)] / (this[_0x31643f(0x116)][_0x31643f(0x436)][_0x31643f(0xeb)] / this[_0x31643f(0x116)][_0x31643f(0x35a)]['spriteWidth'])) * this[_0x31643f(0x116)][_0x31643f(0x35a)]['spriteHeight'];
+            _0x2b9d4d[_0x31643f(0x23c)](this[_0x31643f(0x116)][_0x31643f(0x436)], _0x2ea880, _0x5ee2bd, this[_0x31643f(0x116)]['oData'][_0x31643f(0x237)], this[_0x31643f(0x116)][_0x31643f(0x35a)][_0x31643f(0x15f)], this['x'] - (this[_0x31643f(0x163)] - this['offsetX']) * this['scaleX'], this['y'] - (this[_0x31643f(0x159)] - this[_0x31643f(0x340)]) * this[_0x31643f(0x368)], this[_0x31643f(0x116)][_0x31643f(0x35a)][_0x31643f(0x237)] * this[_0x31643f(0x42d)], this[_0x31643f(0x116)][_0x31643f(0x35a)][_0x31643f(0x15f)] * this[_0x31643f(0x368)]);
+        }
+        ,
+        _0x17766a;
+    }());
+    _0x25d0c6['AnimSprite'] = _0x1a2e91;
+}(Utils || (Utils = {})));
+var Utils;
+(function(_0x54748e) {
+    var _0xea41df = _0x47ff64
+      , _0x427637 = (function() {
+        var _0x7f59b2 = _0x2ef4;
+        function _0xfea982(_0x2a5500, _0x5e256d, _0x2c2f8d) {
+            var _0x5137e0 = _0x2ef4;
+            _0x2c2f8d === void 0x0 && (_0x2c2f8d = 0x0),
+            this['x'] = 0x0,
+            this['y'] = 0x0,
+            this[_0x5137e0(0x1d8)] = 0x0,
+            this[_0x5137e0(0x335)] = 0xa,
+            this['removeMe'] = ![],
+            this['offsetX'] = 0x0,
+            this[_0x5137e0(0x340)] = 0x0,
+            this[_0x5137e0(0x42d)] = 0x1,
+            this['scaleY'] = 0x1,
+            this['oImgData'] = _0x2a5500,
+            this[_0x5137e0(0x335)] = _0x5e256d,
+            this['setFrame'](_0x2c2f8d);
+        }
+        return _0xfea982[_0x7f59b2(0x1f7)][_0x7f59b2(0x347)] = function(_0x4d911a) {
+            var _0x5e17c1 = _0x7f59b2;
+            this[_0x5e17c1(0x1f2)] = _0x4d911a;
+        }
+        ,
+        _0xfea982[_0x7f59b2(0x1f7)][_0x7f59b2(0x2be)] = function(_0x56fd79) {
+            var _0xd4b7 = _0x7f59b2;
+            _0x56fd79[_0xd4b7(0x425)](),
+            _0x56fd79[_0xd4b7(0xde)](this['x'], this['y']),
+            _0x56fd79[_0xd4b7(0x20d)](this[_0xd4b7(0x1d8)]),
+            _0x56fd79[_0xd4b7(0x284)](this['scaleX'], this['scaleY']);
+            var _0xb171c3 = this['frameNum'] * this['oImgData'][_0xd4b7(0x35a)]['spriteWidth'] % this[_0xd4b7(0x116)][_0xd4b7(0x436)]['width']
+              , _0x39a559 = Math[_0xd4b7(0x3b4)](this[_0xd4b7(0x1f2)] / (this[_0xd4b7(0x116)]['img'][_0xd4b7(0xeb)] / this[_0xd4b7(0x116)][_0xd4b7(0x35a)][_0xd4b7(0x237)])) * this[_0xd4b7(0x116)][_0xd4b7(0x35a)][_0xd4b7(0x15f)];
+            _0x56fd79[_0xd4b7(0x23c)](this['oImgData'][_0xd4b7(0x436)], _0xb171c3, _0x39a559, this[_0xd4b7(0x116)][_0xd4b7(0x35a)][_0xd4b7(0x237)], this[_0xd4b7(0x116)][_0xd4b7(0x35a)][_0xd4b7(0x15f)], -this[_0xd4b7(0x116)][_0xd4b7(0x35a)]['spriteWidth'] / 0x2 + this[_0xd4b7(0x31d)], -this[_0xd4b7(0x116)][_0xd4b7(0x35a)]['spriteHeight'] / 0x2 + this[_0xd4b7(0x340)], this[_0xd4b7(0x116)][_0xd4b7(0x35a)][_0xd4b7(0x237)], this['oImgData'][_0xd4b7(0x35a)][_0xd4b7(0x15f)]),
+            _0x56fd79['restore']();
+        }
+        ,
+        _0xfea982;
+    }());
+    _0x54748e[_0xea41df(0x129)] = _0x427637;
+}(Utils || (Utils = {})));
+var Utils;
+(function(_0x279da5) {
+    var _0x2069da = _0x47ff64
+      , _0x67f844 = (function() {
+        var _0x2c1fdf = _0x2ef4;
+        function _0x49ee94(_0xb85c63, _0x2d6dca) {
+            var _0x15dc36 = _0x2ef4
+              , _0x3c2c7d = this;
+            this[_0x15dc36(0xee)] = 0x0,
+            this[_0x15dc36(0x48b)] = ![],
+            this['isDown'] = ![],
+            this['sensitiveLevel'] = 0x2,
+            this[_0x15dc36(0x24e)] = new Array(0.25,0.5,0x1,1.5,0x2),
+            this[_0x15dc36(0x1a6)] = 0x0,
+            this[_0x15dc36(0x140)] = _0x2d6dca,
+            this[_0x15dc36(0x2ee)] = function(_0x23ee6a) {
+                _0x3c2c7d['keyDown'](_0x23ee6a);
+            }
+            ,
+            this[_0x15dc36(0x131)] = function(_0x5c8c4a) {
+                var _0x15227a = _0x15dc36;
+                _0x3c2c7d[_0x15227a(0x203)](_0x5c8c4a);
+            }
+            ,
+            document['body'][_0x15dc36(0x34e)][_0x15dc36(0x269)] = 'none',
+            document[_0x15dc36(0x302)](_0x15dc36(0xca), function(_0x5c73c9) {
+                var _0x5f22af = _0x15dc36;
+                _0x3c2c7d[_0x5f22af(0x1a6)] == 0x1 ? (_0x3c2c7d[_0x5f22af(0x3ba)] += _0x5c73c9['movementX'] *= canvasScale * _0x3c2c7d[_0x5f22af(0x24e)][_0x3c2c7d[_0x5f22af(0x369)]],
+                _0x3c2c7d[_0x5f22af(0x48e)] += _0x5c73c9['movementY'] *= canvasScale * _0x3c2c7d['aSensitiveRates'][_0x3c2c7d[_0x5f22af(0x369)]],
+                _0x3c2c7d['mouseX'] = Math[_0x5f22af(0x1cb)](Math[_0x5f22af(0x258)](_0x3c2c7d[_0x5f22af(0x3ba)], canvas['width']), 0x0),
+                _0x3c2c7d[_0x5f22af(0x48e)] = Math[_0x5f22af(0x1cb)](Math['min'](_0x3c2c7d[_0x5f22af(0x48e)], canvas[_0x5f22af(0x2f8)]), 0x0)) : (_0x3c2c7d[_0x5f22af(0x3ba)] = _0x5c73c9[_0x5f22af(0x1bf)] *= canvasScale,
+                _0x3c2c7d[_0x5f22af(0x48e)] = _0x5c73c9[_0x5f22af(0x11d)] *= canvasScale),
+                !isMobile && (userBat && (userBat[_0x5f22af(0x22c)] = _0x3c2c7d[_0x5f22af(0x3ba)],
+                userBat[_0x5f22af(0x292)] = _0x3c2c7d[_0x5f22af(0x48e)]),
+                batShop && gameState == _0x5f22af(0x2c7) && batShop['glowBut'](_0x3c2c7d[_0x5f22af(0x3ba)], _0x3c2c7d[_0x5f22af(0x48e)]));
+            }, ![]),
+            document[_0x15dc36(0x302)]('pointerlockchange', function() {
+                var _0xe489dd = _0x15dc36;
+                if (document[_0xe489dd(0x328)] === _0xb85c63)
+                    _0x3c2c7d[_0xe489dd(0x1a6)] = 0x1;
+                else
+                    _0x3c2c7d['pointerLockState'] == 0x1 && (_0x3c2c7d[_0xe489dd(0x1a6)] = 0x0);
+            }, ![]),
+            !isMobile && _0xb85c63[_0x15dc36(0x302)]('click', function(_0xca5a73) {
+                var _0x3dff41 = _0x15dc36;
+                _0x3c2c7d[_0x3dff41(0x1a6)] == 0x0 && (_0x3c2c7d['pointerLockState'] = 0x1,
+                _0x3c2c7d['mouseX'] = _0xca5a73[_0x3dff41(0x1bf)] *= canvasScale,
+                _0x3c2c7d[_0x3dff41(0x48e)] = _0xca5a73[_0x3dff41(0x11d)] *= canvasScale,
+                _0xb85c63[_0x3dff41(0x1ab)] = _0xb85c63[_0x3dff41(0x1ab)] || _0xb85c63[_0x3dff41(0x28b)] || _0xb85c63[_0x3dff41(0x3fb)],
+                _0xb85c63[_0x3dff41(0x1ab)]({
+                    'unadjustedMovement': !![]
+                }));
+            }),
+            _0xb85c63[_0x15dc36(0x302)](_0x15dc36(0x48c), function(_0x573669) {
+                var _0x1abe36 = _0x15dc36;
+                return _0x573669[_0x1abe36(0x2fd)]();
+            }),
+            _0xb85c63['addEventListener']('touchstart', function(_0x209fb4) {
+                var _0x5cd6ab = _0x15dc36;
+                for (var _0x441087 = 0x0; _0x441087 < _0x209fb4['changedTouches'][_0x5cd6ab(0x3f5)]; _0x441087++) {
+                    _0x3c2c7d['hitDown'](_0x209fb4, _0x209fb4['changedTouches'][_0x441087]['pageX'] * canvasScale, _0x209fb4[_0x5cd6ab(0x33d)][_0x441087][_0x5cd6ab(0x11d)] * canvasScale, _0x209fb4[_0x5cd6ab(0x33d)][_0x441087][_0x5cd6ab(0x1b3)]);
+                }
+            }, ![]),
+            _0xb85c63[_0x15dc36(0x302)]('touchend', function(_0x39de49) {
+                var _0x3a4256 = _0x15dc36;
+                for (var _0x1afc20 = 0x0; _0x1afc20 < _0x39de49['changedTouches'][_0x3a4256(0x3f5)]; _0x1afc20++) {
+                    _0x3c2c7d[_0x3a4256(0x21b)](_0x39de49, _0x39de49[_0x3a4256(0x33d)][_0x1afc20][_0x3a4256(0x1bf)] * canvasScale, _0x39de49[_0x3a4256(0x33d)][_0x1afc20][_0x3a4256(0x11d)] * canvasScale, _0x39de49[_0x3a4256(0x33d)][_0x1afc20]['identifier']);
+                }
+            }, ![]),
+            _0xb85c63['addEventListener'](_0x15dc36(0x240), function(_0x1ec99b) {
+                var _0x2c06d8 = _0x15dc36;
+                for (var _0x14d318 = 0x0; _0x14d318 < _0x1ec99b[_0x2c06d8(0x33d)]['length']; _0x14d318++) {
+                    _0x3c2c7d[_0x2c06d8(0x1c0)](_0x1ec99b, _0x1ec99b[_0x2c06d8(0x33d)][_0x14d318]['pageX'] * canvasScale, _0x1ec99b['changedTouches'][_0x14d318]['pageY'] * canvasScale, _0x1ec99b[_0x2c06d8(0x33d)][_0x14d318][_0x2c06d8(0x1b3)]);
+                }
+            }, ![]),
+            _0xb85c63['addEventListener'](_0x15dc36(0x426), function(_0x5a3d08) {
+                var _0x27d6d0 = _0x15dc36;
+                for (var _0x2405a9 = 0x0; _0x2405a9 < _0x5a3d08[_0x27d6d0(0x33d)]['length']; _0x2405a9++) {
+                    _0x3c2c7d[_0x27d6d0(0x2ba)](_0x5a3d08, _0x5a3d08[_0x27d6d0(0x33d)][_0x2405a9][_0x27d6d0(0x1bf)] * canvasScale, _0x5a3d08[_0x27d6d0(0x33d)][_0x2405a9][_0x27d6d0(0x11d)] * canvasScale, _0x5a3d08[_0x27d6d0(0x33d)][_0x2405a9][_0x27d6d0(0x1b3)], !![]);
+                }
+            }, ![]),
+            _0xb85c63['addEventListener'](_0x15dc36(0x200), function(_0x48df3f) {
+                var _0x494e9a = _0x15dc36;
+                _0x3c2c7d[_0x494e9a(0x477)](_0x48df3f, _0x48df3f[_0x494e9a(0x1f8)]);
+            }, ![]),
+            _0xb85c63[_0x15dc36(0x302)](_0x15dc36(0x1b0), function(_0x2c02b0) {
+                var _0x1f13f4 = _0x15dc36;
+                _0x3c2c7d[_0x1f13f4(0x344)] = !![],
+                _0x3c2c7d[_0x1f13f4(0x18f)](_0x2c02b0, _0x3c2c7d[_0x1f13f4(0x3ba)], _0x3c2c7d['mouseY'], 0x1);
+            }, ![]),
+            _0xb85c63[_0x15dc36(0x302)]('mouseup', function(_0x2b65a8) {
+                var _0x2cf5c6 = _0x15dc36;
+                _0x3c2c7d['isDown'] = ![],
+                _0x3c2c7d['hitUp'](_0x2b65a8, _0x3c2c7d[_0x2cf5c6(0x3ba)], _0x3c2c7d[_0x2cf5c6(0x48e)], 0x1);
+            }, ![]),
+            _0xb85c63['addEventListener'](_0x15dc36(0xca), function(_0x115191) {
+                var _0x5e6c80 = _0x15dc36;
+                _0x3c2c7d[_0x5e6c80(0x2ba)](_0x115191, _0x3c2c7d[_0x5e6c80(0x3ba)], _0x3c2c7d[_0x5e6c80(0x48e)], 0x1, _0x3c2c7d['isDown']);
+            }, ![]),
+            _0xb85c63[_0x15dc36(0x302)]('mouseout', function(_0x5d3bfa) {
+                var _0x2d37a2 = _0x15dc36;
+                if (_0x5d3bfa[_0x2d37a2(0x373)] == 0x2)
+                    return;
+                clearButtonOvers(),
+                _0x3c2c7d[_0x2d37a2(0x344)] = ![],
+                _0x3c2c7d[_0x2d37a2(0x21b)](_0x5d3bfa, Math[_0x2d37a2(0x247)](_0x3c2c7d[_0x2d37a2(0x3ba)]), Math[_0x2d37a2(0x247)](_0x3c2c7d[_0x2d37a2(0x48e)]), 0x1);
+            }, ![]),
+            this[_0x15dc36(0x14f)] = new Array(),
+            this[_0x15dc36(0x22b)] = new Array();
+        }
+        return _0x49ee94[_0x2c1fdf(0x1f7)][_0x2c1fdf(0x102)] = function() {
+            var _0x4bd9b7 = _0x2c1fdf;
+            !isMobile && (this[_0x4bd9b7(0x1a6)] = 0x0,
+            document[_0x4bd9b7(0x413)][_0x4bd9b7(0x34e)][_0x4bd9b7(0x269)] = _0x4bd9b7(0x3d1));
+        }
+        ,
+        _0x49ee94['prototype'][_0x2c1fdf(0x370)] = function() {
+            var _0x261593 = _0x2c1fdf;
+            !isMobile && (document[_0x261593(0x3f1)](),
+            this[_0x261593(0x1a6)] = 0x2,
+            document[_0x261593(0x413)][_0x261593(0x34e)][_0x261593(0x269)] = 'auto');
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)][_0x2c1fdf(0x477)] = function(_0xcf4d6a, _0x1dfd52) {
+            var _0x4b316d = _0x2c1fdf;
+            gameState == _0x4b316d(0x2c7) && (batShop[_0x4b316d(0x292)] -= _0x1dfd52);
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)][_0x2c1fdf(0x18f)] = function(_0x1eadaa, _0x16268f, _0x2651e3, _0x5050f3) {
+            var _0x52475d = _0x2c1fdf;
+            _0x1eadaa[_0x52475d(0x2fd)](),
+            _0x1eadaa['stopPropagation']();
+            !hasFocus && visibleResume();
+            if (this['pauseIsOn'])
+                return;
+            var _0x3077f9 = new Date()[_0x52475d(0x402)]();
+            for (var _0x50495a = 0x0; _0x50495a < this[_0x52475d(0x14f)]['length']; _0x50495a++) {
+                if (this['aHitAreas'][_0x50495a]['rect']) {
+                    var _0x4916d9 = canvas[_0x52475d(0xeb)] * this[_0x52475d(0x14f)][_0x50495a][_0x52475d(0x11c)][0x0]
+                      , _0x3d985d = canvas[_0x52475d(0x2f8)] * this[_0x52475d(0x14f)][_0x50495a][_0x52475d(0x11c)][0x1];
+                    if (_0x16268f > _0x4916d9 + this['aHitAreas'][_0x50495a][_0x52475d(0x3c1)][0x0] && _0x2651e3 > _0x3d985d + this['aHitAreas'][_0x50495a][_0x52475d(0x3c1)][0x1] && _0x16268f < _0x4916d9 + this['aHitAreas'][_0x50495a]['area'][0x2] && _0x2651e3 < _0x3d985d + this['aHitAreas'][_0x50495a][_0x52475d(0x3c1)][0x3]) {
+                        this['aHitAreas'][_0x50495a]['aTouchIdentifiers'][_0x52475d(0x397)](_0x5050f3),
+                        this[_0x52475d(0x14f)][_0x50495a][_0x52475d(0x35a)][_0x52475d(0x44a)] = ![],
+                        this[_0x52475d(0x14f)][_0x50495a]['oData'][_0x52475d(0x24f)] = ![];
+                        if (!this[_0x52475d(0x14f)][_0x50495a][_0x52475d(0x35a)][_0x52475d(0x344)]) {
+                            this[_0x52475d(0x14f)][_0x50495a]['oData'][_0x52475d(0x344)] = !![],
+                            this[_0x52475d(0x14f)][_0x50495a][_0x52475d(0x35a)]['x'] = _0x16268f,
+                            this[_0x52475d(0x14f)][_0x50495a][_0x52475d(0x35a)]['y'] = _0x2651e3,
+                            this['aHitAreas'][_0x50495a][_0x52475d(0x35a)]['button'] = _0x1eadaa[_0x52475d(0x373)];
+                            if (_0x3077f9 - this[_0x52475d(0xee)] < 0x1f4 && (gameState != _0x52475d(0x429) || this[_0x52475d(0x14f)][_0x50495a]['id'] == 'pause') && isBugBrowser)
+                                return;
+                            this[_0x52475d(0x14f)][_0x50495a][_0x52475d(0x30a)](this[_0x52475d(0x14f)][_0x50495a]['id'], this[_0x52475d(0x14f)][_0x50495a][_0x52475d(0x35a)]);
+                        }
+                        break;
+                    }
+                } else {}
+            }
+            this[_0x52475d(0xee)] = _0x3077f9;
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)][_0x2c1fdf(0x21b)] = function(_0x1e4385, _0x5def28, _0x2706b7, _0x1a541e) {
+            var _0x352922 = _0x2c1fdf;
+            !ios9FirstTouch && (playSound(_0x352922(0xd0)),
+            ios9FirstTouch = !![]);
+            if (this[_0x352922(0x48b)])
+                return;
+            _0x1e4385['preventDefault'](),
+            _0x1e4385[_0x352922(0x41d)]();
+            for (var _0x4ac603 = 0x0; _0x4ac603 < this[_0x352922(0x14f)][_0x352922(0x3f5)]; _0x4ac603++) {
+                if (this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x360)]) {
+                    var _0x18348c = canvas[_0x352922(0xeb)] * this[_0x352922(0x14f)][_0x4ac603]['align'][0x0]
+                      , _0x237c0e = canvas[_0x352922(0x2f8)] * this[_0x352922(0x14f)][_0x4ac603]['align'][0x1];
+                    if (_0x5def28 > _0x18348c + this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x3c1)][0x0] && _0x2706b7 > _0x237c0e + this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x3c1)][0x1] && _0x5def28 < _0x18348c + this[_0x352922(0x14f)][_0x4ac603]['area'][0x2] && _0x2706b7 < _0x237c0e + this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x3c1)][0x3]) {
+                        for (var _0x1c84f4 = 0x0; _0x1c84f4 < this[_0x352922(0x14f)][_0x4ac603]['aTouchIdentifiers'][_0x352922(0x3f5)]; _0x1c84f4++) {
+                            this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x2f3)][_0x1c84f4] == _0x1a541e && (this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x2f3)]['splice'](_0x1c84f4, 0x1),
+                            _0x1c84f4 -= 0x1);
+                        }
+                        this['aHitAreas'][_0x4ac603][_0x352922(0x2f3)][_0x352922(0x3f5)] == 0x0 && (this['aHitAreas'][_0x4ac603]['oData'][_0x352922(0x344)] = ![]);
+                        this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x35a)][_0x352922(0x24f)] = !![];
+                        this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x35a)][_0x352922(0x471)] && (this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x35a)]['x'] = _0x5def28,
+                        this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x35a)]['y'] = _0x2706b7,
+                        this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x35a)][_0x352922(0x373)] = _0x1e4385[_0x352922(0x373)],
+                        this[_0x352922(0x14f)][_0x4ac603][_0x352922(0x30a)](this[_0x352922(0x14f)][_0x4ac603]['id'], this[_0x352922(0x14f)][_0x4ac603]['oData']));
+                        break;
+                    }
+                } else {}
+            }
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)]['hitCancel'] = function(_0x39fdab, _0x5242a9, _0x26044f, _0x443b17) {
+            var _0x4d219a = _0x2c1fdf;
+            _0x39fdab['preventDefault'](),
+            _0x39fdab[_0x4d219a(0x41d)]();
+            for (var _0x445dbd = 0x0; _0x445dbd < this[_0x4d219a(0x14f)]['length']; _0x445dbd++) {
+                this['aHitAreas'][_0x445dbd]['oData'][_0x4d219a(0x344)] && (this[_0x4d219a(0x14f)][_0x445dbd][_0x4d219a(0x35a)][_0x4d219a(0x344)] = ![],
+                this['aHitAreas'][_0x445dbd][_0x4d219a(0x2f3)] = new Array(),
+                this[_0x4d219a(0x14f)][_0x445dbd]['oData'][_0x4d219a(0x471)] && (this[_0x4d219a(0x14f)][_0x445dbd][_0x4d219a(0x35a)]['x'] = _0x5242a9,
+                this[_0x4d219a(0x14f)][_0x445dbd][_0x4d219a(0x35a)]['y'] = _0x26044f,
+                this[_0x4d219a(0x14f)][_0x445dbd]['callback'](this[_0x4d219a(0x14f)][_0x445dbd]['id'], this[_0x4d219a(0x14f)][_0x445dbd][_0x4d219a(0x35a)])));
+            }
+        }
+        ,
+        _0x49ee94['prototype'][_0x2c1fdf(0x2ba)] = function(_0x2416a9, _0x2dcb41, _0x221a97, _0x4ec8f7, _0x4114eb) {
+            var _0x39537a = _0x2c1fdf;
+            !isMobile && this[_0x39537a(0x1a6)] == 0x0 && (userBat && (userBat[_0x39537a(0x22c)] = _0x2dcb41 * canvasScale,
+            userBat['targY'] = _0x221a97 * canvasScale),
+            batShop && gameState == _0x39537a(0x2c7) && batShop[_0x39537a(0x17a)](_0x2dcb41 * canvasScale, _0x221a97 * canvasScale));
+            if (this[_0x39537a(0x48b)])
+                return;
+            if (_0x4114eb)
+                for (var _0x542530 = 0x0; _0x542530 < this[_0x39537a(0x14f)]['length']; _0x542530++) {
+                    if (this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x360)]) {
+                        var _0x292e87 = canvas['width'] * this['aHitAreas'][_0x542530][_0x39537a(0x11c)][0x0]
+                          , _0x535324 = canvas[_0x39537a(0x2f8)] * this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x11c)][0x1];
+                        if (_0x2dcb41 > _0x292e87 + this[_0x39537a(0x14f)][_0x542530]['area'][0x0] && _0x221a97 > _0x535324 + this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x3c1)][0x1] && _0x2dcb41 < _0x292e87 + this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x3c1)][0x2] && _0x221a97 < _0x535324 + this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x3c1)][0x3])
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)][_0x39537a(0x44a)] = ![],
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)]['isDraggable'] && !this[_0x39537a(0x14f)][_0x542530]['oData'][_0x39537a(0x344)] && (this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)][_0x39537a(0x344)] = !![],
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)]['x'] = _0x2dcb41,
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)]['y'] = _0x221a97,
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x2f3)][_0x39537a(0x397)](_0x4ec8f7),
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)][_0x39537a(0x471)] && this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x30a)](this[_0x39537a(0x14f)][_0x542530]['id'], this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)])),
+                            this[_0x39537a(0x14f)][_0x542530]['oData'][_0x39537a(0x40f)] && (this['aHitAreas'][_0x542530][_0x39537a(0x35a)][_0x39537a(0xcb)] = !![],
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)]['x'] = _0x2dcb41,
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)]['y'] = _0x221a97,
+                            this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x30a)](this[_0x39537a(0x14f)][_0x542530]['id'], this['aHitAreas'][_0x542530]['oData']),
+                            this[_0x39537a(0x14f)][_0x542530] && (this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)][_0x39537a(0xcb)] = ![]));
+                        else {
+                            if (this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)][_0x39537a(0x344)] && !this[_0x39537a(0x14f)][_0x542530]['oData']['hasLeft']) {
+                                for (var _0x245c0c = 0x0; _0x245c0c < this['aHitAreas'][_0x542530]['aTouchIdentifiers']['length']; _0x245c0c++) {
+                                    this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x2f3)][_0x245c0c] == _0x4ec8f7 && (this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x2f3)][_0x39537a(0x272)](_0x245c0c, 0x1),
+                                    _0x245c0c -= 0x1);
+                                }
+                                this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x2f3)]['length'] == 0x0 && (this['aHitAreas'][_0x542530][_0x39537a(0x35a)][_0x39537a(0x44a)] = !![],
+                                !this[_0x39537a(0x14f)][_0x542530]['oData'][_0x39537a(0xcb)] && (this['aHitAreas'][_0x542530]['oData'][_0x39537a(0x344)] = ![]),
+                                this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)][_0x39537a(0x471)] && this['aHitAreas'][_0x542530][_0x39537a(0x30a)](this[_0x39537a(0x14f)][_0x542530]['id'], this[_0x39537a(0x14f)][_0x542530][_0x39537a(0x35a)]));
+                            }
+                        }
+                    }
+                }
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)]['keyDown'] = function(_0x2825cb) {
+            var _0x18071c = _0x2c1fdf;
+            for (var _0x101ada = 0x0; _0x101ada < this[_0x18071c(0x22b)]['length']; _0x101ada++) {
+                _0x2825cb[_0x18071c(0x473)] == this[_0x18071c(0x22b)][_0x101ada]['keyCode'] && (_0x2825cb[_0x18071c(0x2fd)](),
+                this['aKeys'][_0x101ada][_0x18071c(0x35a)][_0x18071c(0x344)] = !![],
+                this[_0x18071c(0x22b)][_0x101ada]['callback'](this[_0x18071c(0x22b)][_0x101ada]['id'], this[_0x18071c(0x22b)][_0x101ada]['oData']));
+            }
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)]['keyUp'] = function(_0x251288) {
+            var _0x1f16b1 = _0x2c1fdf;
+            for (var _0x10c907 = 0x0; _0x10c907 < this[_0x1f16b1(0x22b)]['length']; _0x10c907++) {
+                _0x251288['keyCode'] == this[_0x1f16b1(0x22b)][_0x10c907][_0x1f16b1(0x473)] && (_0x251288[_0x1f16b1(0x2fd)](),
+                this['aKeys'][_0x10c907][_0x1f16b1(0x35a)]['isDown'] = ![],
+                this[_0x1f16b1(0x22b)][_0x10c907][_0x1f16b1(0x30a)](this[_0x1f16b1(0x22b)][_0x10c907]['id'], this['aKeys'][_0x10c907][_0x1f16b1(0x35a)]));
+            }
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)]['checkKeyFocus'] = function() {
+            var _0x13af4a = _0x2c1fdf;
+            window[_0x13af4a(0x3b3)](),
+            this['aKeys'][_0x13af4a(0x3f5)] > 0x0 && (window[_0x13af4a(0x2ad)](_0x13af4a(0x2e4), this[_0x13af4a(0x2ee)], ![]),
+            window['removeEventListener'](_0x13af4a(0x16d), this[_0x13af4a(0x131)], ![]),
+            window[_0x13af4a(0x302)](_0x13af4a(0x2e4), this[_0x13af4a(0x2ee)], ![]),
+            window[_0x13af4a(0x302)]('keyup', this[_0x13af4a(0x131)], ![]));
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)][_0x2c1fdf(0x2fa)] = function(_0xd8db60, _0x229c12, _0x204129, _0x6486a8) {
+            var _0x3ef7fd = _0x2c1fdf;
+            _0x204129 == null && (_0x204129 = new Object()),
+            this[_0x3ef7fd(0x22b)][_0x3ef7fd(0x397)]({
+                'id': _0xd8db60,
+                'callback': _0x229c12,
+                'oData': _0x204129,
+                'keyCode': _0x6486a8
+            }),
+            this['checkKeyFocus']();
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)][_0x2c1fdf(0x2bb)] = function(_0x3721e4) {
+            var _0x2f4e27 = _0x2c1fdf;
+            for (var _0x1df618 = 0x0; _0x1df618 < this[_0x2f4e27(0x22b)][_0x2f4e27(0x3f5)]; _0x1df618++) {
+                this[_0x2f4e27(0x22b)][_0x1df618]['id'] == _0x3721e4 && (this[_0x2f4e27(0x22b)][_0x2f4e27(0x272)](_0x1df618, 0x1),
+                _0x1df618 -= 0x1);
+            }
+        }
+        ,
+        _0x49ee94['prototype'][_0x2c1fdf(0x19b)] = function(_0x4b7a76, _0x35d83e, _0x29343d, _0x442795, _0x36007b, _0x4fec24) {
+            var _0x27fc87 = _0x2c1fdf;
+            _0x4fec24 === void 0x0 && (_0x4fec24 = ![]);
+            _0x29343d == null && (_0x29343d = new Object());
+            _0x4fec24 && this[_0x27fc87(0x10e)](_0x4b7a76);
+            !_0x36007b[_0x27fc87(0x284)] && (_0x36007b[_0x27fc87(0x284)] = 0x1);
+            !_0x36007b[_0x27fc87(0x11c)] && (_0x36007b[_0x27fc87(0x11c)] = [0x0, 0x0]);
+            var _0x2e471d = new Array();
+            switch (_0x442795) {
+            case _0x27fc87(0x2b4):
+                var _0x41c5e3;
+                _0x41c5e3 = new Array(_0x36007b[_0x27fc87(0x1e9)][0x0] - _0x36007b[_0x27fc87(0x116)][_0x27fc87(0x35a)][_0x27fc87(0x202)][_0x36007b['id']][_0x27fc87(0xeb)] / 0x2 * _0x36007b['scale'],_0x36007b[_0x27fc87(0x1e9)][0x1] - _0x36007b[_0x27fc87(0x116)]['oData'][_0x27fc87(0x202)][_0x36007b['id']][_0x27fc87(0x2f8)] / 0x2 * _0x36007b[_0x27fc87(0x284)],_0x36007b[_0x27fc87(0x1e9)][0x0] + _0x36007b[_0x27fc87(0x116)][_0x27fc87(0x35a)]['oAtlasData'][_0x36007b['id']][_0x27fc87(0xeb)] / 0x2 * _0x36007b[_0x27fc87(0x284)],_0x36007b[_0x27fc87(0x1e9)][0x1] + _0x36007b[_0x27fc87(0x116)]['oData'][_0x27fc87(0x202)][_0x36007b['id']]['height'] / 0x2 * _0x36007b[_0x27fc87(0x284)]),
+                this[_0x27fc87(0x14f)][_0x27fc87(0x397)]({
+                    'id': _0x4b7a76,
+                    'aTouchIdentifiers': _0x2e471d,
+                    'callback': _0x35d83e,
+                    'oData': _0x29343d,
+                    'rect': !![],
+                    'area': _0x41c5e3,
+                    'align': _0x36007b[_0x27fc87(0x11c)]
+                });
+                break;
+            case 'rect':
+                this[_0x27fc87(0x14f)][_0x27fc87(0x397)]({
+                    'id': _0x4b7a76,
+                    'aTouchIdentifiers': _0x2e471d,
+                    'callback': _0x35d83e,
+                    'oData': _0x29343d,
+                    'rect': !![],
+                    'area': _0x36007b['aRect'],
+                    'align': _0x36007b[_0x27fc87(0x11c)]
+                });
+                break;
+            }
+        }
+        ,
+        _0x49ee94['prototype'][_0x2c1fdf(0x10e)] = function(_0x1658c2) {
+            var _0xbef14e = _0x2c1fdf;
+            for (var _0x1e8c35 = 0x0; _0x1e8c35 < this[_0xbef14e(0x14f)][_0xbef14e(0x3f5)]; _0x1e8c35++) {
+                this[_0xbef14e(0x14f)][_0x1e8c35]['id'] == _0x1658c2 && (this['aHitAreas'][_0xbef14e(0x272)](_0x1e8c35, 0x1),
+                _0x1e8c35 -= 0x1);
+            }
+        }
+        ,
+        _0x49ee94[_0x2c1fdf(0x1f7)][_0x2c1fdf(0x1e6)] = function() {
+            var _0x406d6a = _0x2c1fdf;
+            for (var _0x4f65cc = 0x0; _0x4f65cc < this[_0x406d6a(0x14f)][_0x406d6a(0x3f5)]; _0x4f65cc++) {
+                this[_0x406d6a(0x14f)][_0x4f65cc][_0x406d6a(0x35a)]['isDown'] = ![],
+                this[_0x406d6a(0x14f)][_0x4f65cc][_0x406d6a(0x35a)][_0x406d6a(0xcb)] = ![],
+                this['aHitAreas'][_0x4f65cc][_0x406d6a(0x2f3)] = new Array();
+            }
+            this[_0x406d6a(0x344)] = ![];
+        }
+        ,
+        _0x49ee94;
+    }());
+    _0x279da5[_0x2069da(0x183)] = _0x67f844;
+}(Utils || (Utils = {})));
+var Utils;
+(function(_0x417ef2) {
+    var _0x31b378 = _0x47ff64
+      , _0x7eaf8a = (function() {
+        var _0xdb2fca = _0x2ef4;
+        function _0x27dac9(_0xd5d20c) {
+            var _0xd62766 = _0x2ef4;
+            this[_0xd62766(0x1d1)] = 0xa,
+            this[_0xd62766(0x3c6)] = 0x0,
+            this[_0xd62766(0x177)] = 0x0,
+            this[_0xd62766(0x169)] = 0x1,
+            this[_0xd62766(0x125)] = '',
+            this[_0xd62766(0x2be)] = function(_0x27dfe1) {
+                var _0x43dbf4 = _0xd62766;
+                this[_0x43dbf4(0x177)] += this[_0x43dbf4(0x384)] / this[_0x43dbf4(0x1d1)],
+                ++this[_0x43dbf4(0x3c6)] >= this[_0x43dbf4(0x1d1)] && (this[_0x43dbf4(0x3c6)] = 0x0,
+                this['display'] = this['frameAverage'],
+                this[_0x43dbf4(0x177)] = 0x0),
+                _0x27dfe1[_0x43dbf4(0x2b9)] = _0x43dbf4(0x126),
+                ctx[_0x43dbf4(0x1ae)] = _0x43dbf4(0x244),
+                _0x27dfe1[_0x43dbf4(0x3c9)] = _0x43dbf4(0x2a2),
+                _0x27dfe1[_0x43dbf4(0x1df)](),
+                _0x27dfe1[_0x43dbf4(0x360)](0x0, this[_0x43dbf4(0x165)] - 0xf, 0x28, 0xf),
+                _0x27dfe1[_0x43dbf4(0x1a0)](),
+                _0x27dfe1[_0x43dbf4(0x23b)](),
+                _0x27dfe1[_0x43dbf4(0x3c9)] = _0x43dbf4(0x363),
+                _0x27dfe1[_0x43dbf4(0x1c6)](Math[_0x43dbf4(0x226)](0x3e8 / (this[_0x43dbf4(0x169)] * 0x3e8)) + '\x20fps\x20' + this[_0x43dbf4(0x125)], 0x5, this['canvasHeight'] - 0x5);
+            }
+            ,
+            this['canvasHeight'] = _0xd5d20c;
+        }
+        return _0x27dac9['prototype'][_0xdb2fca(0x33c)] = function(_0xefe94d) {
+            var _0x55a2d0 = _0xdb2fca;
+            this[_0x55a2d0(0x384)] = _0xefe94d;
+        }
+        ,
+        _0x27dac9;
+    }());
+    _0x417ef2[_0x31b378(0x32a)] = _0x7eaf8a;
+}(Utils || (Utils = {})));
+var Elements;
+(function(_0x42332b) {
+    var _0x35f45a = _0x47ff64
+      , _0x2acd3e = (function() {
+        var _0x1e3d12 = _0x2ef4;
+        function _0x51c0aa() {
+            var _0x34a4a8 = _0x2ef4;
+            this['bgId'] = 0x0,
+            this[_0x34a4a8(0x105)] = 0x0;
+        }
+        return _0x51c0aa[_0x1e3d12(0x1f7)][_0x1e3d12(0x117)] = function() {
+            var _0x1bfda4 = _0x1e3d12
+              , _0x2faec1 = this['bgId'];
+            this[_0x1bfda4(0x3b6)] = Math['floor'](Math[_0x1bfda4(0x14a)]() * 0x5);
+            while (_0x2faec1 == this[_0x1bfda4(0x3b6)]) {
+                this[_0x1bfda4(0x3b6)] = Math['floor'](Math[_0x1bfda4(0x14a)]() * 0x5);
+            }
+        }
+        ,
+        _0x51c0aa[_0x1e3d12(0x1f7)][_0x1e3d12(0x2be)] = function() {
+            var _0x6cccf9 = _0x1e3d12;
+            (gameplayState == 0x0 || gameVariation == 0x0) && (this['bgId'] = Math[_0x6cccf9(0x3b4)](curLevel / levelsPerWorld) % 0x5);
+            this[_0x6cccf9(0x116)] = assetLib['getData']('bg' + this[_0x6cccf9(0x3b6)]);
+            var _0x3d6b7f = Math[_0x6cccf9(0x1cb)](canvas[_0x6cccf9(0xeb)], canvas[_0x6cccf9(0x2f8)]) / 0x4b0;
+            ctx[_0x6cccf9(0x23c)](this[_0x6cccf9(0x116)]['img'], 0x0, 0x0, this[_0x6cccf9(0x116)][_0x6cccf9(0x436)][_0x6cccf9(0xeb)], this[_0x6cccf9(0x116)][_0x6cccf9(0x436)][_0x6cccf9(0x2f8)], canvas[_0x6cccf9(0xeb)] / 0x2 - this[_0x6cccf9(0x116)][_0x6cccf9(0x436)]['width'] / 0x2 * _0x3d6b7f, canvas[_0x6cccf9(0x2f8)] / 0x2 - this['oImgData']['img'][_0x6cccf9(0x2f8)] / 0x2 * _0x3d6b7f, this[_0x6cccf9(0x116)]['img'][_0x6cccf9(0x2f8)] * _0x3d6b7f, this[_0x6cccf9(0x116)][_0x6cccf9(0x436)][_0x6cccf9(0x2f8)] * _0x3d6b7f);
+        }
+        ,
+        _0x51c0aa;
+    }());
+    _0x42332b[_0x35f45a(0x10c)] = _0x2acd3e;
+}(Elements || (Elements = {})));
+var Elements;
+(function(_0x1affdf) {
+    var _0x4c29ba = _0x47ff64
+      , _0x163460 = (function() {
+        var _0x39f18e = _0x2ef4;
+        function _0x3b6676(_0x2ee246, _0xb79f7a) {
+            var _0xe453c3 = _0x2ef4;
+            this[_0xe453c3(0x3bd)] = 0.3,
+            this['endTime'] = 0x0,
+            this[_0xe453c3(0x10f)] = 0x0,
+            this['incY'] = 0x0,
+            this[_0xe453c3(0x2e8)] = 0x0,
+            this['cupFlipInc'] = 0x0,
+            this[_0xe453c3(0x192)] = 0x1,
+            this[_0xe453c3(0x186)] = 0x1,
+            this[_0xe453c3(0xf6)] = 0x0,
+            this[_0xe453c3(0xf0)] = 0x0,
+            this[_0xe453c3(0x135)] = 0x0,
+            this['enemyBatY'] = 0x0,
+            this[_0xe453c3(0x377)] = 0x0,
+            this[_0xe453c3(0x447)] = 0x0,
+            this['ballHeight'] = 0x0,
+            this[_0xe453c3(0x23a)] = 0x0,
+            this[_0xe453c3(0x43d)] = ![],
+            this[_0xe453c3(0x446)] = 0x0,
+            this['starsX'] = 0x0,
+            this[_0xe453c3(0x393)] = 0x0,
+            this['batRotation'] = 0x0,
+            this['batScale'] = 0x1,
+            this['batSpin'] = 0x1,
+            this[_0xe453c3(0x481)] = 0x0,
+            this['scoreSideY1'] = 0x0,
+            this[_0xe453c3(0x25c)] = 0x1,
+            this[_0xe453c3(0x1be)] = 0x1,
+            this[_0xe453c3(0x231)] = assetLib[_0xe453c3(0x2d8)]('splashLogo'),
+            this[_0xe453c3(0x421)] = assetLib[_0xe453c3(0x2d8)](_0xe453c3(0x2ae)),
+            this[_0xe453c3(0x181)] = assetLib[_0xe453c3(0x2d8)](_0xe453c3(0x1b7)),
+            this[_0xe453c3(0x3fd)] = assetLib[_0xe453c3(0x2d8)](_0xe453c3(0x24a)),
+            this[_0xe453c3(0x4a8)] = assetLib[_0xe453c3(0x2d8)](_0xe453c3(0x440)),
+            this[_0xe453c3(0x297)] = assetLib[_0xe453c3(0x2d8)](_0xe453c3(0x479)),
+            this[_0xe453c3(0x337)] = _0x2ee246,
+            this['aButs'] = _0xb79f7a,
+            this[_0xe453c3(0x29b)] = 0x0;
+        }
+        return _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x33c)] = function() {
+            var _0x58dc03 = _0x39f18e;
+            this[_0x58dc03(0x341)] += 0xa * delta;
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x26a)] = function() {
+            var _0x2b8404 = _0x39f18e;
+            this['adBlockInc'] != 0x1 && (ctx[_0x2b8404(0x3c9)] = _0x2b8404(0x16c),
+            ctx[_0x2b8404(0x381)](canvas[_0x2b8404(0xeb)] / 0x2 - 0x104, canvas[_0x2b8404(0x2f8)] - 0x3c + this['adBlockInc'] * 0x64, 0x208, 0x32),
+            addText(0x0, 0x28, 0x1f4, _0x2b8404(0x45c), canvas[_0x2b8404(0xeb)] / 0x2, canvas[_0x2b8404(0x2f8)] - 0x19 + this[_0x2b8404(0x1be)] * 0x64, _0x2b8404(0x3ae), _0x2b8404(0x13c)));
+        }
+        ,
+        _0x3b6676['prototype'][_0x39f18e(0x330)] = function() {
+            var _0x38d593 = _0x39f18e
+              , _0x430e3d = this;
+            this[_0x38d593(0x303)] && this[_0x38d593(0x303)][_0x38d593(0x2e1)](),
+            this[_0x38d593(0x1be)] = 0x1,
+            this[_0x38d593(0x303)] = TweenLite['to'](this, 0.5, {
+                'adBlockInc': 0x0,
+                'ease': 'Cubic.easeOut',
+                'onComplete': function() {
+                    _0x430e3d['adBlocktween'] = TweenLite['to'](_0x430e3d, 0.5, {
+                        'adBlockInc': 0x1,
+                        'delay': 0x3,
+                        'ease': 'Cubic.easeIn'
+                    });
                 }
             });
-            for (var a = 30 * radian, s = 0; s < 20; s++) {
-                var i = new e.Particle(aBalls[curBallId].x, aBalls[curBallId].y, .5 * Math.random() + .75, 200 * Math.random() + 200, a + 120 / 19 * s * radian, 15, 1, 25);
-                aEffects.push(i)
-            }
-        }, t.prototype.holeMiss = function() {
-            playSound("missTarget", .7), this.holeFixedScale = 1, this.holeTween = TweenLite.to(this, .25, {
-                holeHitScale: 0,
-                ease: "Back.easeIn",
-                onComplete: function() {}
-            }), tableTop.botTween && tableTop.botTween.kill(), tableTop.botTween = TweenLite.to(tableTop, 1, {
-                botY: 50,
-                ease: "Bounce.easeOut",
-                onComplete: function() {}
-            })
-        }, t.prototype.changeStopVert = function(e) {
-            e ? (this.stopTweenVert && this.stopTweenVert.kill(), this.canChangeStop = !1, this.stopTweenVert = TweenLite.to(this, .2, {
-                stopHeight: Math.floor(1.5 * Math.random()),
-                ease: "Quad.easeOut"
-            })) : (this.stopTweenVert && this.stopTweenVert.kill(), this.canChangeStop = !0, this.stopTweenVert = TweenLite.to(this, .2, {
-                stopHeight: 1,
-                stopOffsetX: 1 * Math.random() - .5,
-                ease: "Quad.easeOut"
-            }))
-        }, t.prototype.bounce = function(e) {
-            this.bounceMarkScale = e
-        }, t.prototype.tweenToPos = function(e, t, a, s, i) {
-            this.offsetTween && this.offsetTween.kill();
-            var r = 0,
-                o = 0;
-            (e > .3 || e < -.3) && (r = -e / 1.75 - i / 2);
-            var n = 1;
-            "enemy" == s && (n = .75, o = (1 - (t - .5) * 2) * (.3 - (a - .3)) / .3), this.offsetTween = TweenLite.to(this, n, {
-                offsetX: r,
-                offsetY: o,
-                ease: "Quad.easeOut"
-            })
-        }, t.prototype.newTargetPos = function(e) {
-            var t;
-            void 0 === e && (e = null), t = null == e ? 250 * Math.random() - 125 : e, this.targetTween && this.targetTween.kill(), this.targetTween = TweenLite.to(this, .75, {
-                targetX: t,
-                ease: "Quad.easeInOut"
-            })
-        }, t.prototype.render = function() {
-            var e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.net].height;
-            if (onScreenY = canvas.height < 1.2 * canvas.width ? canvas.height / 4 : .35 * canvas.height, this.genScale = 1 + this.offsetY / 3, this.netY = onScreenY - e + this.tableHeight / this.segs * (.282 * this.segs) * this.genScale + 50 * this.offsetY, this.netHeight = e * this.genScale, 1 == gameVariation) {
-                var t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.bot].x,
-                    a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.bot].y,
-                    s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.bot].width,
-                    e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.bot].height,
-                    i = onScreenY + 50 * this.offsetY;
-                ctx.drawImage(this.oGameElementsImgData.img, t, a, s, e, canvas.width / 2 - s / 2 * this.genScale + this.offsetX * (0 * this.segs) * 3 * this.edgeMultuplier * this.genScale + this.offsetX * this.edgeMultuplier * this.sideMultiplier, i - 100 * this.genScale + this.botY * this.genScale, s * this.genScale, e * this.genScale)
-            }
-            if (3 == gameVariation) {
-                var r = getSpriteData(assetLib.getData("bugs"), "bugBack"),
-                    o = canvas.width / 2 + this.offsetX * (0 * this.segs) * 3 * this.edgeMultuplier * this.genScale + this.offsetX * this.edgeMultuplier * this.sideMultiplier,
-                    n = onScreenY + 50 * this.offsetY;
-                ctx.drawImage(r.img, r.bX, r.bY, r.bWidth, r.bHeight, o - r.bWidth / 2 * this.genScale, n - .4 * r.bHeight * this.genScale, r.bWidth * this.genScale, r.bHeight * this.genScale), addDirectText(0, 50 * this.genScale, canvas.width / 2, "center", o, n - 20 * this.genScale, "WAVE " + panel.twoDigit(bugWave + 1), "#FF7000")
-            }
-            var t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.tableClip].x,
-                a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.tableClip].y,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.tableClip].width,
-                e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.tableClip].height;
-            ctx.drawImage(this.oGameElementsImgData.img, t, a, s, e, canvas.width / 2 - s / 2 * (1 + this.offsetY / 3) + this.offsetX * (.282 * this.segs) * 3 * this.edgeMultuplier * (1 + this.offsetY / 3) + this.offsetX * this.edgeMultuplier * this.sideMultiplier * this.segMultiplier, this.netY + this.netHeight - 3 * (1 + this.offsetY / 3), s * (1 + this.offsetY / 3), e * (1 + this.offsetY / 3));
-            var l = 176 * this.genScale,
-                m = (543 * .282 + 352) / 2 * this.genScale,
-                h = 447.5 * this.genScale,
-                i = onScreenY + 50 * this.offsetY,
-                d = this.netY + this.netHeight,
-                u = onScreenY + 352 * (1 + this.offsetY / 2) + 50 * this.offsetY,
-                c = this.offsetX * this.sideMultiplier * this.edgeMultuplier,
-                g = (this.offsetX * (.282 * 100) * 3 * this.genScale + this.offsetX * this.sideMultiplier) * this.edgeMultuplier,
-                p = (300 * this.offsetX * this.genScale + this.offsetX * this.sideMultiplier) * this.edgeMultuplier;
-            ctx.fillStyle = "#333333", ctx.beginPath(), ctx.moveTo(canvas.width / 2 - l + c, i), ctx.lineTo(canvas.width / 2 + l + c, i), ctx.lineTo(canvas.width / 2 + h + p, u), ctx.lineTo(canvas.width / 2 - h + p, u), ctx.lineTo(canvas.width / 2 - l + c, i), ctx.closePath(), ctx.fill(), ctx.fillStyle = "#FFFFFF", ctx.beginPath(), ctx.moveTo(canvas.width / 2 - l + c + 2 * this.genScale, i + 2 * this.genScale), ctx.lineTo(canvas.width / 2 + l + c - 2 * this.genScale, i + 2 * this.genScale), ctx.lineTo(canvas.width / 2 + h + p - 6 * this.genScale, u), ctx.lineTo(canvas.width / 2 - h + p + 6 * this.genScale, u), ctx.lineTo(canvas.width / 2 - l + c + 2 * this.genScale, i + 2 * this.genScale), ctx.closePath(), ctx.fill();
-            var $ = ctx.createLinearGradient(canvas.width / 2, i + 4 * this.genScale, canvas.width / 2, u - 13 * this.genScale);
-            if ($.addColorStop(0, this.aColours[Math.floor(this.gradientId) % this.aColours.length]), $.addColorStop(.5, this.aColours[Math.floor(this.gradientId + 1) % this.aColours.length]), $.addColorStop(1, this.aColours[Math.floor(this.gradientId + 2) % this.aColours.length]), ctx.fillStyle = $, ctx.beginPath(), ctx.moveTo(canvas.width / 2 - l + c + 10 * this.genScale, i + 4 * this.genScale), ctx.lineTo(canvas.width / 2 - 2 * this.genScale + c, i + 4 * this.genScale), ctx.lineTo(canvas.width / 2 - 8 * this.genScale + p, u - 13 * this.genScale), ctx.lineTo(canvas.width / 2 - h + p + 40 * this.genScale, u - 13 * this.genScale), ctx.lineTo(canvas.width / 2 - l + c + 10 * this.genScale, i + 4 * this.genScale), ctx.closePath(), ctx.fill(), ctx.beginPath(), ctx.moveTo(canvas.width / 2 + 2 * this.genScale + c, i + 4 * this.genScale), ctx.lineTo(canvas.width / 2 + l + c - 10 * this.genScale, i + 4 * this.genScale), ctx.lineTo(canvas.width / 2 + h + p - 40 * this.genScale, u - 13 * this.genScale), ctx.lineTo(canvas.width / 2 + 8 * this.genScale + p, u - 13 * this.genScale), ctx.lineTo(canvas.width / 2 + 2 * this.genScale + c, i + 4 * this.genScale), ctx.closePath(), ctx.fill(), 1 == gameVariation) {
-                ctx.save(), ctx.beginPath(), ctx.moveTo(canvas.width / 2 - l + c + 2 * this.genScale, i + 2 * this.genScale), ctx.lineTo(canvas.width / 2 + l + c - 2 * this.genScale, i + 2 * this.genScale), ctx.lineTo(canvas.width / 2 + m + g - 6 * this.genScale, d), ctx.lineTo(canvas.width / 2 - m + g + 6 * this.genScale, d), ctx.lineTo(canvas.width / 2 - l + c + 2 * this.genScale, i + 2 * this.genScale), ctx.closePath(), ctx.clip();
-                var t = this.oGameElementsImgData.oData.oAtlasData[oImageIds["target" + this.targId]].x,
-                    a = this.oGameElementsImgData.oData.oAtlasData[oImageIds["target" + this.targId]].y,
-                    s = this.oGameElementsImgData.oData.oAtlasData[oImageIds["target" + this.targId]].width,
-                    e = this.oGameElementsImgData.oData.oAtlasData[oImageIds["target" + this.targId]].height;
-                this.holeY = onScreenY + 50 * this.offsetY + this.holeOffsetY * this.holeOffsetY * tableDepth * (1 + this.offsetY / 2), this.holeX = canvas.width / 2 + (this.holeY - onScreenY) * (this.offsetX + this.holeOffsetX * ballPosMultiplier) * .85 * (1 + this.offsetY / 2) + this.holeOffsetX * tableBackWidth / 2 + this.offsetX * this.sideMultiplier, this.holeScale = this.genScale * (.3 + .5 * this.holeOffsetY) * this.holeHitScale, ctx.drawImage(this.oGameElementsImgData.img, t, a, s, e, this.holeX - s / 2 * this.holeScale, this.holeY - e / 2 * this.holeScale, s * this.holeScale, e * this.holeScale), ctx.restore()
-            }
-            if (3 == gameVariation) {
-                this.aZombies = sortBy(this.aZombies, "y");
-                for (var v = 0; v < this.aZombies.length; v++) {
-                    var r = getSpriteData(assetLib.getData("bugs"), "bug" + this.aZombies[v].id % 8);
-                    this.aZombies[v].offsetX = this.aZombies[v].startX + (this.aZombies[v].endX - this.aZombies[v].startX) * (Math.sin(panel.incY * this.aZombies[v].speed + this.aZombies[v].id) + 1) * .5, this.aZombies[v].offsetY = this.aZombies[v].startY + (this.aZombies[v].endY - this.aZombies[v].startY) * (Math.sin(panel.incY * this.aZombies[v].speed + this.aZombies[v].id) + 1) * .5, this.aZombies[v].y = onScreenY + 50 * this.offsetY + this.aZombies[v].offsetY * this.aZombies[v].offsetY * tableDepth * (1 + this.offsetY / 2), this.aZombies[v].x = canvas.width / 2 + (this.aZombies[v].y - onScreenY) * (this.offsetX + this.aZombies[v].offsetX * ballPosMultiplier) * .85 * (1 + this.offsetY / 2) + this.aZombies[v].offsetX * tableBackWidth / 2 + this.offsetX * this.sideMultiplier, this.aZombies[v].scale = this.genScale * (.3 + .5 * this.aZombies[v].offsetY);
-                    var I = 1 + .1 * Math.sin(panel.incY + this.aZombies[v].id);
-                    ctx.drawImage(r.img, r.bX, r.bY, r.bWidth, r.bHeight, this.aZombies[v].x - r.bWidth / 2 * this.aZombies[v].scale * this.aZombies[v].tweenScale, this.aZombies[v].y - .8 * r.bHeight * this.aZombies[v].scale * I * this.aZombies[v].tweenScale, r.bWidth * this.aZombies[v].scale * this.aZombies[v].tweenScale, r.bHeight * this.aZombies[v].scale * this.aZombies[v].tweenScale * I)
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x3b9)] = function() {
+            var _0x296756 = _0x39f18e;
+            this[_0x296756(0x10f)] = 0x1f4,
+            TweenLite['to'](this, 0.5, {
+                'posY': 0x0,
+                'ease': _0x296756(0x109)
+            }),
+            this['butsY'] = 0x1f4,
+            TweenLite['to'](this, 0.3, {
+                'butsY': 0x0,
+                'ease': 'Cubic.easeOut'
+            });
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)]['startGameTween'] = function() {
+            var _0x23566f = _0x39f18e;
+            this[_0x23566f(0x1c9)] && this[_0x23566f(0x1c9)][_0x23566f(0x2e1)](),
+            this[_0x23566f(0x446)] = 0x1,
+            this[_0x23566f(0x481)] = 0x1,
+            this[_0x23566f(0xda)] = 0x1,
+            this[_0x23566f(0x1c9)] = TweenLite['to'](this, 0.5, {
+                'starsY': 0x0,
+                'scoreSideY0': 0x0,
+                'scoreSideY1': 0x0,
+                'ease': _0x23566f(0x109)
+            });
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x289)] = function(_0x218a3f) {
+            var _0x3e472e = _0x39f18e
+              , _0x4a9fce = this;
+            this[_0x3e472e(0x1c9)] && this['starsTween'][_0x3e472e(0x2e1)](),
+            _0x218a3f ? this['starsTween'] = TweenLite['to'](this, 0.1, {
+                'starsY': -0.4,
+                'ease': _0x3e472e(0x44e),
+                'onComplete': function() {
+                    var _0x778b5d = _0x3e472e;
+                    _0x4a9fce[_0x778b5d(0x1c9)] = TweenLite['to'](_0x4a9fce, 0.6, {
+                        'starsY': 0x0,
+                        'ease': _0x778b5d(0xfa),
+                        'onComplete': function() {}
+                    });
                 }
-            }
-            ctx.save(), ctx.beginPath(), ctx.moveTo(canvas.width / 2 - l + c + 2 * this.genScale, i + 2 * this.genScale), ctx.lineTo(canvas.width / 2 + l + c - 2 * this.genScale, i + 2 * this.genScale), ctx.lineTo(canvas.width / 2 + h + p - 6 * this.genScale, u), ctx.lineTo(canvas.width / 2 - h + p + 6 * this.genScale, u), ctx.lineTo(canvas.width / 2 - l + c + 2 * this.genScale, i + 2 * this.genScale), ctx.closePath(), ctx.clip();
-            var t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.netReflect].x,
-                a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.netReflect].y,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.netReflect].width,
-                e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.netReflect].height;
-            ctx.drawImage(this.oGameElementsImgData.img, t, a, s, e, canvas.width / 2 - s / 2 * this.genScale + this.offsetX * (.282 * this.segs) * 3 * this.edgeMultuplier * this.genScale + this.offsetX * this.edgeMultuplier * this.sideMultiplier * this.segMultiplier, this.netY + (e - 4) * this.genScale, s * this.genScale, e * this.genScale);
-            var t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.batShadow].x,
-                a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.batShadow].y,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.batShadow].width,
-                e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.batShadow].height;
-            if (ctx.drawImage(this.oGameElementsImgData.img, t, a, s, e, userBat.x - s / 2 * userBat.scale, userBat.y - (e / 2 - 200) * userBat.scale, s * userBat.scale, e * userBat.scale), 0 == gameVariation || 2 == gameVariation || 4 == gameVariation) {
-                var t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.batShadow].x,
-                    a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.batShadow].y,
-                    s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.batShadow].width,
-                    e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.batShadow].height;
-                ctx.drawImage(this.oGameElementsImgData.img, t, a, s, e, enemyBat.x - s / 2 * enemyBat.scale + (this.offsetX + 1 * enemyBat.flailInc) * this.sideMultiplier + enemyBat.swipeOffsetX * enemyBat.scale, enemyBat.y - (e / 2 - 200) * enemyBat.scale, s * enemyBat.scale, e * enemyBat.scale)
-            }
-            ctx.restore();
-            var t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.tableEdge].x,
-                a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.tableEdge].y,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.tableEdge].width,
-                e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.tableEdge].height;
-            if (ctx.drawImage(this.oGameElementsImgData.img, t, a, s, e, canvas.width / 2 - s / 2 * (1 + this.offsetY / 3) + 300 * this.offsetX * this.edgeMultuplier * (1 + this.offsetY / 3) + this.offsetX * this.edgeMultuplier * this.sideMultiplier, onScreenY + this.tableHeight * (1 + this.offsetY / 2) + 50 * this.offsetY, s * (1 + this.offsetY / 3), e * (1 + this.offsetY / 3)), this.zoomAlpha > 0) {
-                var r = getSpriteData(assetLib.getData("gameElements"), "targetZoom");
-                ctx.save(), ctx.globalAlpha = this.zoomAlpha, ctx.drawImage(r.img, r.bX, r.bY, r.bWidth, r.bHeight, this.zoomX - r.bWidth / 2 * this.zoomScale, this.zoomY - r.bHeight / 2 * this.zoomScale, r.bWidth * this.zoomScale, r.bHeight * this.zoomScale), ctx.restore()
-            }
-            if (this.bounceMarkScale > 0 && aBalls.length > 0) {
-                this.bounceMarkScale -= 3 * delta;
-                var t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.bounceMark].x,
-                    a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.bounceMark].y,
-                    s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.bounceMark].width,
-                    e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.bounceMark].height,
-                    b = onScreenY + 50 * this.offsetY + aBalls[curBallId].bounceY * aBalls[curBallId].bounceY * tableDepth * (1 + this.offsetY / 2),
-                    _ = canvas.width / 2 + (b - onScreenY) * (this.offsetX + aBalls[curBallId].bounceX * ballPosMultiplier) * num128 * (1 + this.offsetY / 2) + aBalls[curBallId].bounceX * tableBackWidth / 2 + this.offsetX * this.sideMultiplier,
-                    B = .6 + (b - onScreenY) / 600;
-                ctx.drawImage(this.oGameElementsImgData.img, t, a, s, e, _ - s / 2 * (B * this.bounceMarkScale), b - e / 2 * (B * this.bounceMarkScale), s * (B * this.bounceMarkScale), e * (B * this.bounceMarkScale))
-            }
-        }, t.prototype.renderNet = function() {
-            var e = this.oGameElementsImgData.oData.oAtlasData[oImageIds.net].x,
-                t = this.oGameElementsImgData.oData.oAtlasData[oImageIds.net].y,
-                a = this.oGameElementsImgData.oData.oAtlasData[oImageIds.net].width,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds.net].height;
-            ctx.drawImage(this.oGameElementsImgData.img, e, t, a, s, canvas.width / 2 - a / 2 * this.genScale + this.offsetX * (.282 * this.segs) * 3 * this.edgeMultuplier * this.genScale + this.offsetX * this.edgeMultuplier * this.sideMultiplier * this.segMultiplier, this.netY, a * this.genScale, this.netHeight)
-        }, t
-    }();
-    e.TableTop = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function e() {
-            this.oTextData = {}, this.inc = 0, this.createTextObjects()
+            }) : (this['starsX'] = -0.3,
+            this['starsTween'] = TweenLite['to'](this, 0x1, {
+                'starsX': 0x0,
+                'ease': 'Elastic.easeOut'
+            }));
         }
-        return e.prototype.createTextObjects = function() {
-            for (var e in assetLib.textData.langText.text[curLang]) this.oTextData[e] = {}, this.oTextData[e].aLineData = this.getCharData(assetLib.textData.langText.text[curLang][e]["@text"], assetLib.textData.langText.text[curLang][e]["@fontId"]), this.oTextData[e].aLineWidths = this.getLineWidths(this.oTextData[e].aLineData), this.oTextData[e].blockWidth = this.getBlockWidth(this.oTextData[e].aLineData), this.oTextData[e].blockHeight = this.getBlockHeight(this.oTextData[e].aLineData, assetLib.textData.langText.text[curLang][e]["@fontId"]), this.oTextData[e].lineHeight = parseInt(assetLib.textData["fontData" + assetLib.textData.langText.text[curLang][e]["@fontId"]].text.common["@lineHeight"]), this.oTextData[e].oFontImgData = assetLib.getData("font" + assetLib.textData.langText.text[curLang][e]["@fontId"])
-        }, e.prototype.getLineWidths = function(e) {
-            for (var t, a = [], s = 0; s < e.length; s++) {
-                t = 0;
-                for (var i = 0; i < e[s].length; i++) t += parseInt(e[s][i]["@xadvance"]), 0 == i ? t -= parseInt(e[s][i]["@xoffset"]) : i == e[s].length - 1 && (t += parseInt(e[s][i]["@xoffset"]));
-                a.push(t)
-            }
-            return a
-        }, e.prototype.getBlockWidth = function(e) {
-            for (var t, a = 0, s = 0; s < e.length; s++) {
-                t = 0;
-                for (var i = 0; i < e[s].length; i++) t += parseInt(e[s][i]["@xadvance"]), 0 == i ? t -= parseInt(e[s][i]["@xoffset"]) : i == e[s].length - 1 && (t += parseInt(e[s][i]["@xoffset"]));
-                t > a && (a = t)
-            }
-            return a
-        }, e.prototype.getBlockHeight = function(e, t) {
-            return e.length * parseInt(assetLib.textData["fontData" + t].text.common["@lineHeight"])
-        }, e.prototype.getCharData = function(e, t) {
-            for (var a = [], s = 0; s < e.length; s++) {
-                a[s] = [];
-                for (var i = 0; i < e[s].length; i++)
-                    for (var r = 0; r < assetLib.textData["fontData" + t].text.chars.char.length; r++) e[s][i].charCodeAt(0) == assetLib.textData["fontData" + t].text.chars.char[r]["@id"] && a[s].push(assetLib.textData["fontData" + t].text.chars.char[r])
-            }
-            return a
-        }, e.prototype.renderText = function(e) {
-            var t, a = this.oTextData[e.text].aLineData,
-                s = this.oTextData[e.text].oFontImgData,
-                i = 0,
-                r = 0,
-                o = 0,
-                n = 1,
-                l = 0;
-            e.lineOffsetY && (o = e.lineOffsetY), e.scale && (n = e.scale);
-            var m = 1 * n;
-            e.maxWidth && this.oTextData[e.text].blockWidth * n > e.maxWidth && (m = e.maxWidth / this.oTextData[e.text].blockWidth), e.anim && (this.inc += 7 * delta);
-            for (var h = 0; h < a.length; h++) {
-                t = 0, "centre" == e.alignX && (i = this.oTextData[e.text].aLineWidths[h] / 2), "centre" == e.alignY && (r = this.oTextData[e.text].blockHeight / 2 + o * (a.length - 1) / 2);
-                for (var d = 0; d < a[h].length; d++) {
-                    var u = a[h][d]["@x"],
-                        c = a[h][d]["@y"],
-                        g = a[h][d]["@width"],
-                        p = a[h][d]["@height"];
-                    e.anim && (l = Math.sin(this.inc + d / 2) * (p / 15 * m)), ctx.drawImage(s.img, u, c, g, p, e.x + (t + parseInt(a[h][d]["@xoffset"]) - i) * m, e.y + (parseInt(a[h][d]["@yoffset"]) + h * this.oTextData[e.text].lineHeight + h * o - r) * m + l, g * m, p * m), t += parseInt(a[h][d]["@xadvance"])
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x27e)] = function() {
+            var _0x5497f9 = _0x39f18e;
+            this[_0x5497f9(0x401)] && this[_0x5497f9(0x401)][_0x5497f9(0x2e1)](),
+            this['levelCompleteInc'] = 0x1,
+            this[_0x5497f9(0x401)] = TweenLite['to'](this, 0.5, {
+                'levelCompleteInc': 0x0,
+                'ease': _0x5497f9(0x44e),
+                'onComplete': function() {}
+            }),
+            Math[_0x5497f9(0x226)](curTargetScore / 0x2) > 0x0 && (this[_0x5497f9(0x294)] = new Array(),
+            this[_0x5497f9(0x3ea)] = Math[_0x5497f9(0x226)](curTargetScore / 0x2),
+            this[_0x5497f9(0x372)] = this[_0x5497f9(0x3ea)] + 0x1e,
+            setTimeout(function() {
+                var _0x5bacc1 = _0x5497f9;
+                playSound(_0x5bacc1(0x235));
+            }, 0x320));
+        }
+        ,
+        _0x3b6676['prototype'][_0x39f18e(0x40b)] = function() {
+            var _0x38a603 = _0x39f18e;
+            this[_0x38a603(0x401)] && this['levelCompleteTween'][_0x38a603(0x2e1)](),
+            this[_0x38a603(0x393)] = 0x1,
+            this[_0x38a603(0x401)] = TweenLite['to'](this, 0.5, {
+                'levelCompleteInc': 0x0,
+                'ease': 'Cubic.easeOut',
+                'onComplete': function() {}
+            }),
+            Math[_0x38a603(0x32d)](bugScore / 0x4) > 0x0 && (this[_0x38a603(0x294)] = new Array(),
+            this['winGemTarg'] = Math[_0x38a603(0x32d)](bugScore / 0x4),
+            this['winGemCount'] = this[_0x38a603(0x3ea)] + 0x1e,
+            setTimeout(function() {
+                playSound('gemTweenOut');
+            }, 0x320));
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0xf5)] = function() {
+            var _0x450e65 = _0x39f18e
+              , _0x4a0a1a = this;
+            bugTime = Math[_0x450e65(0x1cb)](bugTime - bugBonusTime, 0x0),
+            this[_0x450e65(0x487)] && this[_0x450e65(0x487)][_0x450e65(0x2e1)](),
+            this[_0x450e65(0x25c)] = 0x1,
+            this[_0x450e65(0x487)] = TweenLite['to'](this, 0.5, {
+                'bugTimeY': 0x0,
+                'ease': _0x450e65(0x44e),
+                'onComplete': function() {
+                    var _0x4bf088 = _0x450e65;
+                    _0x4a0a1a['bugTimeTween'] = TweenLite['to'](_0x4a0a1a, 0.5, {
+                        'bugTimeY': -0x1,
+                        'delay': 0x1,
+                        'ease': _0x4bf088(0x15e),
+                        'onComplete': function() {
+                            _0x4a0a1a['bugTimeY'] = 0x1;
+                        }
+                    });
                 }
-            }
-        }, e
-    }();
-    e.TextDisplay = t
-}(Utils || (Utils = {})),
-function(e) {
-    var t = function() {
-        function e(e, t) {
-            void 0 === t && (t = !1), this.aAllCountryCodes = {
-                0: "ES",
-                1: "AU",
-                2: "AT",
-                3: "AG",
-                4: "AR",
-                5: "AM",
-                6: "BO",
-                7: "BQ",
-                8: "BA",
-                9: "TL",
-                10: "VN",
-                11: "GA",
-                12: "PT",
-                13: "AZ",
-                14: "",
-                15: "AW",
-                16: "BS",
-                17: "BD",
-                18: "BW",
-                19: "BR",
-                20: "BN",
-                21: "HW",
-                22: "GY",
-                23: "GM",
-                24: "",
-                25: "AL",
-                26: "DZ",
-                27: "BB",
-                28: "BH",
-                29: "BY",
-                30: "BF",
-                31: "BI",
-                32: "VU",
-                33: "GH",
-                34: "GP",
-                35: "GN",
-                36: "AI",
-                37: "AO",
-                38: "AD",
-                39: "BE",
-                40: "BJ",
-                41: "BG",
-                42: "GB",
-                43: "HU",
-                44: "VE",
-                45: "GN",
-                46: "GW",
-                47: "DE",
-                48: "ZW",
-                49: "IL",
-                50: "IN",
-                51: "KZ",
-                52: "CM",
-                53: "CA",
-                54: "CO",
-                55: "KM",
-                56: "CD",
-                57: "CW",
-                58: "LA",
-                59: "LV",
-                60: "ID",
-                61: "JO",
-                62: "IQ",
-                63: "QA",
-                64: "KE",
-                65: "CY",
-                66: "CG",
-                67: "KP",
-                68: "KR",
-                69: "LS",
-                70: "LR",
-                71: "LB",
-                72: "IR",
-                73: "IE",
-                74: "IS",
-                75: "",
-                76: "KG",
-                77: "KI",
-                78: "",
-                79: "CR",
-                80: "CI",
-                81: "LY",
-                82: "LT",
-                83: "LI",
-                84: "IT",
-                85: "",
-                86: "",
-                87: "CN",
-                88: "",
-                89: "",
-                90: "CU",
-                91: "",
-                92: "CK",
-                93: "",
-                94: "",
-                95: "",
-                96: "",
-                97: "",
-                98: "",
-                99: "",
-                100: "",
-                101: "",
-                102: "",
-                103: "",
-                104: "",
-                105: "NL",
-                106: "",
-                107: "NZ",
-                108: "",
-                109: "",
-                110: "",
-                111: "",
-                112: "",
-                113: "",
-                114: "",
-                115: "",
-                116: "",
-                117: "",
-                118: "",
-                119: "TR",
-                120: "RU",
-                121: "",
-                122: "",
-                123: "",
-                124: "",
-                125: "",
-                126: "",
-                127: "",
-                128: "",
-                129: "UZ",
-                130: "",
-                131: "UY",
-                132: "",
-                133: "WS",
-                134: "",
-                135: "",
-                136: "",
-                137: "",
-                138: "",
-                139: "",
-                140: "",
-                141: "",
-                142: "PH",
-                143: "FI",
-                144: "",
-                145: "",
-                146: "",
-                147: "",
-                148: "",
-                149: "US",
-                150: "",
-                151: "",
-                152: "",
-                153: "FR",
-                154: "",
-                155: "",
-                156: "",
-                157: "",
-                158: "",
-                159: "CZ",
-                160: "CL",
-                161: "CH",
-                162: "MG",
-                163: "",
-                164: "",
-                165: "",
-                166: "",
-                167: "",
-                168: "HK",
-                169: "",
-                170: "GL",
-                171: "SE",
-                172: "",
-                173: "EE",
-                174: "",
-                175: "MY",
-                176: "",
-                177: "",
-                178: "NO",
-                179: "",
-                180: "GR",
-                181: "",
-                182: "DK",
-                183: "ET",
-                184: "",
-                185: "ZA",
-                186: "",
-                187: "",
-                188: "",
-                189: "AE",
-                190: "PK",
-                191: "",
-                192: "",
-                193: "",
-                194: "",
-                195: "",
-                196: "JM",
-                197: "JP",
-                198: "PE",
-                199: "",
-                200: "PL",
-                201: "",
-                202: "",
-                203: "PG"
-            }, this.aIds = [];
-            for (var a = 0; a < e.length; a++) this.aIds.push(this.getIdFromISO(e[a]));
-            t && (this.aIds = this.randomise(this.aIds))
+            });
         }
-        return e.prototype.getIdFromISO = function(e) {
-            var t = 0;
-            for (var a in this.aAllCountryCodes) {
-                if (this.aAllCountryCodes[a] == e) break;
-                t++
-            }
-            return t
-        }, e.prototype.getBData = function(e) {
-            return {
-                bX: e % 12 * 124 + 30.5,
-                bY: 85.5 * Math.floor(e / 12) + 14,
-                bWidth: 85.5,
-                bHeight: 59
-            }
-        }, e.prototype.randomise = function(e) {
-            for (var t = e.length - 1; t > 0; t--) {
-                var a = Math.floor(Math.random() * (t + 1)),
-                    s = e[t];
-                e[t] = e[a], e[a] = s
-            }
-            return e
-        }, e
-    }();
-    e.CountryFlags = t
-}(Utils || (Utils = {})),
-function(e) {
-    var t = function(e) {
-        function t() {
-            var t = e.call(this, assetLib.getData("firework"), 30, 30, "explode") || this;
-            return t.vy = 0, t.setAnimType("once", "explode"), t.animEndedFunc = function() {
-                this.removeMe = !0
-            }, t.scaleX = .5, t.scaleY = .5, t
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)]['tweenCustomGameComplete'] = function() {
+            var _0x87183d = _0x39f18e;
+            this['levelCompleteTween'] && this[_0x87183d(0x401)][_0x87183d(0x2e1)](),
+            this[_0x87183d(0x393)] = 0x1,
+            this[_0x87183d(0x401)] = TweenLite['to'](this, 0.5, {
+                'levelCompleteInc': 0x0,
+                'ease': 'Cubic.easeOut',
+                'onComplete': function() {}
+            }),
+            this['aWinGems'] = new Array(),
+            userSets > enemySets ? this['winGemTarg'] = 0x64 : this[_0x87183d(0x3ea)] = 0x19,
+            setTimeout(function() {
+                var _0x55f605 = _0x87183d;
+                playSound(_0x55f605(0x235));
+            }, 0x320),
+            this['winGemCount'] = this[_0x87183d(0x3ea)] + 0x1e;
         }
-        return __extends(t, e), t.prototype.blowUp = function() {
-            TweenLite.to(this, .5, {
-                scaleX: this.endScale,
-                scaleY: this.endScale,
-                ease: "Quad.easeOut"
-            })
-        }, t.prototype.update = function(t, a) {
-            this.vy += 150 * delta, this.y += this.vy * delta, e.prototype.updateAnimation.call(this, delta)
-        }, t.prototype.render = function() {
-            e.prototype.renderSimple.call(this, ctx)
-        }, t
-    }(Utils.AnimSprite);
-    e.Firework = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function e(e) {
-            this.canStore = !1, this.batCount = 57, this.addedIndex = 56, this.saveDataId = e;
-            var t, a = "test",
-                s = !1;
-            try {
-                t = window.localStorage, s = !0
-            } catch (i) {
-                console.log("local storage denied"), s = !1, this.canStore = !1
-            }
-            if (s) try {
-                t.setItem(a, "1"), t.removeItem(a), this.canStore = !0
-            } catch (r) {
-                this.canStore = !1
-            }
-            this.clearData(), this.setInitialData(), 0 == this.getSeason() && 0 == this.getRound() && this.setRank(500), 0 == this.getCareerGames() && this.setCareerGames(11), 0 == this.getCareerSets() && this.setCareerSets(3)
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x45d)] = function() {
+            var _0x56d12b = _0x39f18e;
+            this[_0x56d12b(0x1c9)] && this[_0x56d12b(0x1c9)][_0x56d12b(0x2e1)](),
+            this[_0x56d12b(0x446)] = 0x1,
+            this[_0x56d12b(0x1c9)] = TweenLite['to'](this, 0.5, {
+                'starsY': 0x0,
+                'ease': _0x56d12b(0xfa)
+            });
         }
-        return e.prototype.clearData = function() {
-            this.aLevelStore = [], this.aLevelStore.push(0), this.aLevelStore.push(0), this.aLevelStore.push(0), this.aLevelStore.push(2), this.aLevelStore.push(0), this.aLevelStore.push(2), this.aLevelStore.push(0), this.aLevelStore.push(0), this.aLevelStore.push(0), this.aLevelStore.push(500), this.aLevelStore.push(11), this.aLevelStore.push(3), this.aLevelStore.push(0), this.aLevelStore.push(0);
-            for (var e = 0; e < 42; e++) this.aLevelStore.push(0);
-            for (var e = 0; e < this.batCount; e++) 0 == e ? this.aLevelStore.push(2) : e < 3 ? this.aLevelStore.push(1) : this.aLevelStore.push(0);
-            for (var e = 0; e < 16; e++) this.aLevelStore.push(0)
-        }, e.prototype.resetData = function() {
-            this.clearData(), this.saveData()
-        }, e.prototype.setInitialData = function() {
-            if (this.canStore && "undefined" != typeof Storage) {
-                if (null != localStorage.getItem(this.saveDataId) && "" != localStorage.getItem(this.saveDataId))
-                    for (var e in this.aLevelStore = localStorage.getItem(this.saveDataId).split(","), this.aLevelStore) this.aLevelStore[e] = parseInt(this.aLevelStore[e]);
-                else this.saveData()
-            }
-        }, e.prototype.setAudioState = function(e) {
-            this.aLevelStore[12] = e, this.saveData()
-        }, e.prototype.getAudioState = function() {
-            return this.aLevelStore[12]
-        }, e.prototype.addPvpWins = function() {
-            this.aLevelStore[13]++, this.saveData()
-        }, e.prototype.getPvpWins = function() {
-            return this.aLevelStore[13]
-        }, e.prototype.setCareerGames = function(e) {
-            this.aLevelStore[10] = e, this.saveData()
-        }, e.prototype.getCareerGames = function() {
-            return this.aLevelStore[10]
-        }, e.prototype.setCareerSets = function(e) {
-            this.aLevelStore[11] = e, this.saveData()
-        }, e.prototype.getCareerSets = function() {
-            return this.aLevelStore[11]
-        }, e.prototype.setSensitveLevel = function(e) {
-            this.aLevelStore[5] = e, this.saveData()
-        }, e.prototype.getSensitveLevel = function() {
-            return this.aLevelStore[5]
-        }, e.prototype.getAwardState = function(e) {
-            return this.aLevelStore[this.addedIndex + this.batCount + e]
-        }, e.prototype.setAward = function(e) {
-            this.aLevelStore[this.addedIndex + this.batCount + e] = 1, this.saveData()
-        }, e.prototype.getSeason = function() {
-            return this.aLevelStore[7]
-        }, e.prototype.setSeason = function(e) {
-            this.aLevelStore[7] = e, this.saveData()
-        }, e.prototype.getRound = function() {
-            return this.aLevelStore[8]
-        }, e.prototype.setRound = function(e) {
-            this.aLevelStore[8] = e, this.saveData()
-        }, e.prototype.getRank = function() {
-            return this.aLevelStore[9]
-        }, e.prototype.setRank = function(e) {
-            this.aLevelStore[9] = e, this.saveData()
-        }, e.prototype.getDifficultyLevel = function() {
-            return this.aLevelStore[3]
-        }, e.prototype.setDifficultyLevel = function(e) {
-            this.aLevelStore[3] = e, this.saveData()
-        }, e.prototype.getBestBugScore = function() {
-            return this.aLevelStore[6]
-        }, e.prototype.setBestBugScore = function(e) {
-            e > this.aLevelStore[6] && (this.aLevelStore[6] = e, this.saveData())
-        }, e.prototype.getBestTargetScore = function() {
-            return this.aLevelStore[2]
-        }, e.prototype.setBestTargetScore = function(e) {
-            e > this.aLevelStore[2] && (this.aLevelStore[2] = e, this.saveData())
-        }, e.prototype.addGems = function(e) {
-            this.aLevelStore[0] += e, this.saveData()
-        }, e.prototype.getGems = function() {
-            return this.aLevelStore[0]
-        }, e.prototype.addClassicWins = function() {
-            this.aLevelStore[4]++, this.saveData()
-        }, e.prototype.getClassicWins = function() {
-            return this.aLevelStore[4]
-        }, e.prototype.setLevel = function(e) {
-            this.aLevelStore[1] = e, this.saveData()
-        }, e.prototype.getLevel = function() {
-            return this.aLevelStore[1]
-        }, e.prototype.unlockBat = function(e) {
-            this.aLevelStore[e + this.addedIndex] = 1, this.saveData()
-        }, e.prototype.getBatUnlockState = function(e) {
-            return this.aLevelStore[e + this.addedIndex]
-        }, e.prototype.getTotalBatsUnlocked = function() {
-            for (var e = 0, t = 0; t < this.batCount; t++) this.aLevelStore[t + this.addedIndex] > 0 && e++;
-            return e
-        }, e.prototype.selectBat = function(e) {
-            for (var t = 0; t < this.batCount; t++)
-                if (2 == this.aLevelStore[t + this.addedIndex]) {
-                    this.aLevelStore[t + this.addedIndex] = 1;
-                    break
-                }
-            this.aLevelStore[e + this.addedIndex] = 2, this.saveData()
-        }, e.prototype.getCurBat = function() {
-            for (var e = 0, t = 0; t < this.batCount; t++)
-                if (2 == this.aLevelStore[t + this.addedIndex]) {
-                    e = t;
-                    break
-                }
-            return e
-        }, e.prototype.saveData = function() {
-            if (this.canStore && "undefined" != typeof Storage) {
-                for (var e = "", t = 0; t < this.aLevelStore.length; t++) e += this.aLevelStore[t], t < this.aLevelStore.length - 1 && (e += ",");
-                localStorage.setItem(this.saveDataId, e)
-            }
-        }, e
-    }();
-    e.SaveDataHandler = t
-}(Utils || (Utils = {})),
-function(e) {
-    var t = function() {
-        function e(e, t, a, s, i, r, o, n, l) {
-            var m = this;
-            void 0 === r && (r = 10), void 0 === o && (o = 1), void 0 === n && (n = 0), void 0 === l && (l = null), this.effectType = 1, this.inc = 0, this.col = "#FFFFFF", this.removeMe = !1, this.scale = -a / 2, this.fixedScale = a, this.angle = i, this.x = e - n * Math.cos(i), this.y = t - n * Math.sin(i), this.lineLength = 1.5 * r, null != l && (this.col = l);
-            var h = o + Math.random() * o;
-            TweenLite.to(this, h, {
-                scale: a,
-                x: this.x - s * Math.cos(i),
-                y: this.y - s * Math.sin(i),
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    m.removeMe = !0
-                }
-            })
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)]['tweenCustomGameScore'] = function(_0xfb907b) {
+            var _0x1e79cf = _0x39f18e, _0x50cc95;
+            this['starsTween'] && this[_0x1e79cf(0x1c9)][_0x1e79cf(0x2e1)](),
+            this[_0x1e79cf(0x3ca) + _0xfb907b] = 0x1,
+            this[_0x1e79cf(0x1c9)] = TweenLite['to'](this, 0.5, (_0x50cc95 = {},
+            _0x50cc95[_0x1e79cf(0x3ca) + _0xfb907b] = 0x0,
+            _0x50cc95[_0x1e79cf(0x3bb)] = _0x1e79cf(0xfa),
+            _0x50cc95));
         }
-        return e.prototype.update = function() {}, e.prototype.render = function() {
-            ctx.strokeStyle = this.col, ctx.lineWidth = (this.fixedScale - Math.abs(this.scale)) * 10, ctx.lineCap = "round", ctx.beginPath(), ctx.moveTo(this.x, this.y), ctx.lineTo(this.x - this.lineLength * (this.fixedScale - Math.abs(this.scale)) * Math.cos(this.angle), this.y - this.lineLength * (this.fixedScale - Math.abs(this.scale)) * Math.sin(this.angle)), ctx.stroke()
-        }, e
-    }();
-    e.Particle = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function e(e, t, a, s) {
-            var i = this;
-            void 0 === a && (a = 0), void 0 === s && (s = 1), this.x = 0, this.y = 0, this.fallY = 0, this.incY = 0, this.removeMe = !1, this.incYRate = -1e3 * Math.random(), this.aColours = ["#FF3AE7", "#00DAFF", "#00FF25", "#FFEE00", "#FF9A00"], this.scale = (20 * Math.random() + 20) * s, this.angle = 360 * Math.random() * radian, this.rot = 360 * Math.random() * radian, this.colId = Math.floor(Math.random() * this.aColours.length), this.dist = 200 * Math.random() + 200, this.x = e + 75 * Math.cos(this.angle), this.y = t + 75 * Math.sin(this.angle), this.rotRate = 20 * Math.random() - 10, TweenLite.to(this, 3 + 3 * Math.random(), {
-                scale: 0,
-                x: this.x + this.dist * Math.cos(this.angle),
-                y: this.y + this.dist * Math.sin(this.angle),
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    i.removeMe = !0
-                }
-            })
-        }
-        return e.prototype.update = function() {
-            this.rot += delta * this.rotRate, this.incYRate += 500 * delta, this.incY += delta * this.incYRate
-        }, e.prototype.render = function() {
-            ctx.strokeStyle = this.aColours[this.colId], ctx.lineWidth = this.scale, ctx.lineCap = "butt", ctx.beginPath(), ctx.moveTo(this.x, this.y + this.incY), ctx.lineTo(this.x - 2 * this.scale * Math.cos(2 * this.rot) * Math.sin(this.rot), this.y - 2 * this.scale * Math.sin(this.rot) * Math.sin(2 * this.rot) + this.incY), ctx.stroke()
-        }, e
-    }();
-    e.Confetti = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function t() {
-            if (this.gapX = 180, this.gapY = 255, this.posX = -25, this.posY = 0, this.cropY = 100, this.cornerLength = 5, this.touchState = 0, this.startTouchY = 0, this.targY = 0, this.inc = 0, this.startMoveY = 0, this.glowId = null, this.sideTouched = 0, this.barPerc = 0, this.blocksX = 0, null != newBatId) {
-                var e = Math.max(Math.floor((canvas.width + this.posX - 50) / this.gapX), 4);
-                this.targY = -(newBatId / e) * this.gapY + canvas.height / 2 - this.gapY / 2
-            }
-        }
-        return t.prototype.glowBut = function(e, t) {
-            if (this.glowId = null, t > 100 && t < canvas.height - 100)
-                for (var a = 0; a < aBatData.length; a++) e > aBatData[a].x - this.gapX / 2 && e < aBatData[a].x + this.gapX / 2 && t > aBatData[a].y - this.gapY / 2 && t < aBatData[a].y + this.gapY / 2 && (this.glowId = a)
-        }, t.prototype.checkClick = function(e, t) {
-            for (var a = !1, s = 0; s < aBatData.length; s++) e > aBatData[s].x - this.gapX / 2 && e < aBatData[s].x + this.gapX / 2 && t > aBatData[s].y - this.gapY / 2 && t < aBatData[s].y + this.gapY / 2 && (1 == aBatData[s].unlockId ? showRewardAd("batUnlock", s) : 0 == aBatData[s].unlockId ? (playSound("selectBat", .3), saveDataHandler.selectBat(s), curBat = saveDataHandler.getCurBat(), updateBatShopData()) : 2 == aBatData[s].unlockId && gems >= aBatData[s].gemCost ? (playSound("buyBat", .5), saveDataHandler.selectBat(s), curBat = saveDataHandler.getCurBat(), saveDataHandler.addGems(-aBatData[s].gemCost), gems = saveDataHandler.getGems(), updateBatShopData(), awardPanel.checkForAward(curLevel), a = !0) : playSound("lockedBat", .3));
-            a && this.batUnlocked()
-        }, t.prototype.batUnlocked = function() {
-            for (var t = 0; t < 200; t++) {
-                var a = new e.Confetti(Math.random() * canvas.width, Math.random() * canvas.height);
-                aEffects.push(a)
-            }
-        }, t.prototype.renderRect = function(e, t, a, s, i, r) {
-            void 0 === r && (r = !1), ctx.strokeStyle = "#000000", ctx.fillStyle = i, ctx.lineWidth = 5, ctx.beginPath(), ctx.moveTo(e + this.cornerLength, t), ctx.lineTo(e + (a - this.cornerLength), t), ctx.bezierCurveTo(e + a, t, e + a, t, e + a, t + this.cornerLength), ctx.lineTo(e + a, t + (s - this.cornerLength)), ctx.bezierCurveTo(e + a, t + s, e + a, t + s, e + (a - this.cornerLength), t + s), ctx.lineTo(e + this.cornerLength, t + s), ctx.bezierCurveTo(e, t + s, e, t + s, e, t + (s - this.cornerLength)), ctx.lineTo(e, t + this.cornerLength), ctx.bezierCurveTo(e, t, e, t, e + this.cornerLength, t), ctx.closePath(), ctx.fill(), r && ctx.stroke()
-        }, t.prototype.update = function() {
-            this.inc += delta
-        }, t.prototype.render = function() {
-            this.blocksX = Math.max(Math.floor((canvas.width + this.posX - 50) / this.gapX), 4);
-            var e, t, a = Math.ceil(aBatData.length / this.blocksX) * this.gapY - (canvas.height - 200) + 30;
-            this.targY = Math.max(Math.min(this.targY, 0), -a), this.posY = 100 + this.gapY / 2 + this.targY + 15, this.barPerc = (canvas.height - 200) / (Math.ceil(aBatData.length / this.blocksX) * this.gapY), this.renderRect(canvas.width - 40, 100, 20, canvas.height - 200, "rgba(0, 0, 0, .5)"), this.renderRect(canvas.width - 40, 100 - this.targY / a * (canvas.height - 200 - (canvas.height - 200) * this.barPerc), 20, (canvas.height - 200) * this.barPerc, "#FFFFFF"), ctx.save(), ctx.beginPath(), ctx.moveTo(0, this.cropY), ctx.lineTo(canvas.width, this.cropY), ctx.lineTo(canvas.width, canvas.height - this.cropY), ctx.lineTo(0, canvas.height - this.cropY), ctx.moveTo(0, this.cropY), ctx.closePath(), ctx.clip();
-            for (var s = 0; s < aBatData.length; s++) {
-                if (aBatData[s].x = canvas.width / 2 + s % this.blocksX * this.gapX - this.gapX * (this.blocksX / 2 - .5) + this.posX, aBatData[s].y = this.posY + Math.floor(s / this.blocksX) * this.gapY, ctx.translate(aBatData[s].x, aBatData[s].y), aBatData[s].y > this.cropY - 125 && aBatData[s].y < canvas.height - this.cropY + 125) {
-                    if (0 == aBatData[s].unlockId ? e = 1 : 1 == aBatData[s].unlockId ? e = 3 : 2 == aBatData[s].unlockId ? e = gems >= aBatData[s].gemCost ? 0 : 2 : 3 == aBatData[s].unlockId && (e = 2), t = getSpriteData(assetLib.getData("uiElements"), "batShopUnderlay" + e), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2, -t.bHeight / 2, t.bWidth, t.bHeight), null != this.glowId && this.glowId == s && 2 != e && curBat != s && (t = getSpriteData(assetLib.getData("uiElements"), "batShopGlow"), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2, -t.bHeight / 2, t.bWidth, t.bHeight)), ctx.scale(.75, .75), ctx.rotate(20 * radian), s < 49 && (t = getSpriteData(assetLib.getData("uiElements"), "batDropShadow"), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2 + 3 - 5, -t.bHeight / 2 + 10, t.bWidth, t.bHeight)), t = getSpriteData(assetLib.getData("gameElements"), "bat" + s), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2 - 10, -t.bHeight / 2, t.bWidth, t.bHeight), ctx.rotate(-20 * radian), ctx.scale(1 / .75, 1 / .75), t = 0 == aBatData[s].unlockId ? getSpriteData(assetLib.getData("uiElements"), "batShopOverlay1") : 0 == e || 3 == e ? getSpriteData(assetLib.getData("uiElements"), "batShopOverlay2") : getSpriteData(assetLib.getData("uiElements"), "batShopOverlay0"), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2, -t.bHeight / 2, t.bWidth, t.bHeight), curBat == s) t = getSpriteData(assetLib.getData("uiElements"), "tick"), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2 + 40, -t.bHeight / 2 + 82, t.bWidth, t.bHeight);
-                    else if (1 == e && newBatId == s && Math.sin(10 * this.inc) > 0) addText(0, 50, 165, "center", 0, 97, "new", "#FFFFFF");
-                    else if (0 != aBatData[s].unlockId) {
-                        if ((2 == aBatData[s].unlockId && gems < aBatData[s].gemCost || 3 == aBatData[s].unlockId) && (t = getSpriteData(assetLib.getData("uiElements"), "batLock"), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2, -t.bHeight / 2 + 20, t.bWidth, t.bHeight)), 3 == e) addText(0, 30, 165, "center", 0, 73, "unlock", "#FFFFFF"), t = getSpriteData(assetLib.getData("uiElements"), "rewardIcon"), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2, -t.bHeight / 2 + 97, t.bWidth, t.bHeight);
-                        else if (0 == e) {
-                            addText(0, 30, 165, "center", 0, 73, "buy", "#FFFFFF"), addDirectText(0, 40, 110, "left", -24, 111, aBatData[s].gemCost, "#FFFFFF"), t = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                            var i = .6;
-                            ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2 * i - 46, -t.bHeight / 2 * i + 97, t.bWidth * i, t.bHeight * i)
-                        } else if (2 == aBatData[s].unlockId) {
-                            addDirectText(0, 40, 110, "left", -24, 96, aBatData[s].gemCost, "#FFFFFF"), t = getSpriteData(assetLib.getData("uiElements"), "smallGem");
-                            var i = .6;
-                            ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, -t.bWidth / 2 * i - 46, -t.bHeight / 2 * i + 97 - 15, t.bWidth * i, t.bHeight * i)
-                        } else 2 == e && (addText(0, 30, 165, "center", 0, 77, "completeBatShop", "#FFFFFF"), addDirectText(0, 30, 165, "center", 0, 109, getText("world", 0) + " " + aBatData[s].unlockWorld, "#FFFFFF"))
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0xbf)] = function() {
+            var _0x48ef80 = _0x39f18e;
+            this[_0x48ef80(0x401)] && this[_0x48ef80(0x401)]['kill']();
+            this[_0x48ef80(0x393)] = 0x1,
+            this[_0x48ef80(0x401)] = TweenLite['to'](this, 0.5, {
+                'levelCompleteInc': 0x0,
+                'ease': _0x48ef80(0x44e),
+                'onComplete': function() {}
+            }),
+            this[_0x48ef80(0x294)] = new Array();
+            if ((curLevel + 0x1) % levelsPerWorld == 0x0) {
+                this[_0x48ef80(0x3ea)] = aPointScores[0x1];
+                var _0x3adde8 = Math[_0x48ef80(0x3b4)]((curLevel + 0x1) / levelsPerWorld);
+                for (var _0x54e935 = 0x0; _0x54e935 < aBatData[_0x48ef80(0x3f5)]; _0x54e935++) {
+                    if (aBatData[_0x54e935][_0x48ef80(0x3ac)] == _0x3adde8) {
+                        batUnlockedId = _0x54e935;
+                        break;
                     }
                 }
-                ctx.translate(-aBatData[s].x, -aBatData[s].y)
-            }
-            ctx.restore(), t = getSpriteData(assetLib.getData("uiElements"), "batShopBorder0"), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, 0, this.cropY - t.bHeight / 2, canvas.width, t.bHeight), t = getSpriteData(assetLib.getData("uiElements"), "batShopBorder1"), ctx.drawImage(t.img, t.bX, t.bY, t.bWidth, t.bHeight, 0, canvas.height - this.cropY - t.bHeight / 2, canvas.width, t.bHeight)
-        }, t
-    }();
-    e.BatShop = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function e() {
-            this.y = 1, this.id = 0, this.inc = 0
+            } else
+                this[_0x48ef80(0x3ea)] = aPointScores[0x0];
+            setTimeout(function() {
+                playSound('gemTweenOut');
+            }, 0x320),
+            this[_0x48ef80(0x372)] = this[_0x48ef80(0x3ea)] + 0x1e;
         }
-        return e.prototype.checkForAward = function(e) {
-            var t = Math.floor(e / levelsPerWorld);
-            1 == t && 0 == saveDataHandler.getAwardState(0) ? (saveDataHandler.setAward(0), awardPanel.showAward(0)) : 3 == t && 0 == saveDataHandler.getAwardState(1) ? (saveDataHandler.setAward(1), awardPanel.showAward(1)) : 6 == t && 0 == saveDataHandler.getAwardState(2) ? (saveDataHandler.setAward(2), awardPanel.showAward(2)) : 10 == t && 0 == saveDataHandler.getAwardState(3) && (saveDataHandler.setAward(3), awardPanel.showAward(3)), 1 == saveDataHandler.getClassicWins() && 0 == saveDataHandler.getAwardState(4) ? (saveDataHandler.setAward(4), awardPanel.showAward(4)) : 3 == saveDataHandler.getClassicWins() && 0 == saveDataHandler.getAwardState(5) ? (saveDataHandler.setAward(5), awardPanel.showAward(5)) : 6 == saveDataHandler.getClassicWins() && 0 == saveDataHandler.getAwardState(6) && (saveDataHandler.setAward(6), awardPanel.showAward(6)), saveDataHandler.getTotalBatsUnlocked() >= 10 && 0 == saveDataHandler.getAwardState(7) ? (saveDataHandler.setAward(7), awardPanel.showAward(7)) : saveDataHandler.getTotalBatsUnlocked() >= 25 && 0 == saveDataHandler.getAwardState(8) ? (saveDataHandler.setAward(8), awardPanel.showAward(8)) : saveDataHandler.getTotalBatsUnlocked() >= 50 && 0 == saveDataHandler.getAwardState(9) && (saveDataHandler.setAward(9), awardPanel.showAward(9)), bugScore >= 65 && 0 == saveDataHandler.getAwardState(10) && (saveDataHandler.setAward(10), awardPanel.showAward(10)), bugScore >= 90 && 0 == saveDataHandler.getAwardState(11) && (saveDataHandler.setAward(11), awardPanel.showAward(11)), bugScore >= 125 && 0 == saveDataHandler.getAwardState(12) && (saveDataHandler.setAward(12), awardPanel.showAward(12)), curTargetScore >= 25 && 0 == saveDataHandler.getAwardState(13) && (saveDataHandler.setAward(13), awardPanel.showAward(13)), curTargetScore >= 50 && 0 == saveDataHandler.getAwardState(14) && (saveDataHandler.setAward(14), awardPanel.showAward(14)), curTargetScore >= 80 && 0 == saveDataHandler.getAwardState(15) && (saveDataHandler.setAward(15), awardPanel.showAward(15))
-        }, e.prototype.showAward = function(e) {
-            var t = this;
-            this.awardTween && this.awardTween.kill(), playSound("newAward"), this.y = 1, this.id = e, this.awardTween = TweenLite.to(this, .5, {
-                y: 0,
-                ease: "Cubic.easeOut",
-                onComplete: function() {
-                    t.awardTween = TweenLite.to(t, .5, {
-                        y: 1,
-                        delay: 2,
-                        ease: "Cubic.easeIn",
-                        onComplete: function() {}
-                    })
-                }
-            })
-        }, e.prototype.render = function() {
-            if (this.y < 1) {
-                this.inc += delta;
-                var e = getSpriteData(assetLib.getData("awards"), "awardBg"),
-                    t = canvas.width - 100 - e.bWidth / 2,
-                    a = -200 * this.y;
-                ctx.drawImage(e.img, e.bX, e.bY, e.bWidth, e.bHeight, t - e.bWidth / 2, a, e.bWidth, e.bHeight), Math.sin(10 * this.inc) > 0 && addText(0, 35, e.bWidth - 20, "center", t, a + 45, "newAward", "#FFFFFF");
-                var e = getSpriteData(assetLib.getData("awards"), "award" + this.id);
-                ctx.drawImage(e.img, e.bX, e.bY, e.bWidth, e.bHeight, t - e.bWidth / 2 * 1, a - e.bHeight / 2 * 1 + 125, 1 * e.bWidth, 1 * e.bHeight);
-                for (var s = getMultiLineTextByChars("awardInfo" + this.id, 16, 1), i = 0; i < s.length; i++) addDirectText(1, 25, 200, "center", t, a + 125 + 105 + 25 * i, s[i], "#FFFFFF")
-            }
-        }, e
-    }();
-    e.AwardPanel = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function e() {
-            this.x = 0, this.y = 0, this.rotation = 0, this.scale = 1, this.nX = 0, this.nY = 0, this.nRot = 0, this.oGameElementsImgData = assetLib.getData("gameElements")
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x387)] = function() {
+            var _0x125f84 = _0x39f18e;
+            this[_0x125f84(0x401)] && this[_0x125f84(0x401)]['kill'](),
+            this[_0x125f84(0x393)] = 0x1,
+            this[_0x125f84(0x401)] = TweenLite['to'](this, 0.5, {
+                'levelCompleteInc': 0x0,
+                'ease': _0x125f84(0x44e),
+                'onComplete': function() {}
+            }),
+            this['batScale'] = 0x3,
+            TweenLite['to'](this, 1.5, {
+                'batScale': 1.5,
+                'ease': 'Back.easeIn',
+                'onComplete': function() {}
+            });
         }
-        return e.prototype.setEnemyLevel = function() {}, e.prototype.update = function() {
-            this.y = onScreenY + 50 * tableTop.offsetY - this.nY, this.rotation = this.nRot, this.scale = Math.max(.4 + (this.y - onScreenY) / 300, .2), this.x = canvas.width / 2 + 200 * tableTop.genScale * this.nX * Math.max(1 + (this.scale - .285) * 8, 1)
-        }, e.prototype.render = function() {
-            ctx.save(), ctx.translate(this.x + tableTop.offsetX * tableTop.sideMultiplier, this.y), ctx.rotate(this.rotation), ctx.scale(this.scale, this.scale);
-            var e = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].x,
-                t = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].y,
-                a = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].width,
-                s = this.oGameElementsImgData.oData.oAtlasData[oImageIds["bat" + opBat]].height;
-            ctx.drawImage(this.oGameElementsImgData.img, e, t, a, s, -a / 2, -s / 3, a, s), ctx.restore()
-        }, e
-    }();
-    e.NetworkBat = t
-}(Elements || (Elements = {})),
-function(e) {
-    var t = function() {
-        function e(e) {
-            this.lobbyCode = "", this.shareURL = "", this.playerNum = -1, this.networkReady = !1, this.connectState = 0, this.actionOnCoonect = "", this.gameId = e
+        ,
+        _0x3b6676['prototype'][_0x39f18e(0x1a2)] = function() {
+            var _0x63e58a = _0x39f18e;
+            TweenLite['to'](this, 0.5, {
+                'levelCompleteInc': 0x0,
+                'ease': _0x63e58a(0x44e),
+                'onComplete': function() {}
+            });
         }
-        return e.prototype.createNetwork = function() {
-            var e = this;
-            this.network = new netlib.Network(this.gameId), this.network.on("message", function(e, t, a) {
-                networkMessage(a)
-            }), this.network.on("disconnected", function(t) {
-                clearTimeout(e.joinTimer), e.connectState = 0, e.lobbyCode = "", networkMessage("disconnected")
-            }), this.network.on("connected", function(t) {
-                console.log("new peer connected: " + t.id), e.peer = t, e.connectState = 2, clearTimeout(e.joinTimer), 1 == e.playerNum && e.send(!0, "peerConnect")
-            }), this.network.on("lobby", function(t) {
-                if (0 == e.playerNum) {
-                    console.log("lobby created: " + t), e.lobbyCode = t;
-                    var a = {
-                        id: e.lobbyCode
-                    };
-                    window.PokiSDK.shareableURL(a).then(function(t) {
-                        e.shareURL = t
-                    }), addUrlBut()
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x2c0)] = function() {
+            var _0x4301bf = _0x39f18e
+              , _0x5ca099 = this;
+            this[_0x4301bf(0xf6)] = -0x32,
+            this[_0x4301bf(0xf0)] = 0x55,
+            this[_0x4301bf(0x135)] = 0x0,
+            this[_0x4301bf(0x20a)] = -0x82,
+            this[_0x4301bf(0x377)] = 0x0,
+            this['ballY'] = 0x13,
+            TweenLite['to'](this, 0.55, {
+                'delay': 0.35,
+                'userBatX': 0x32,
+                'userBatY': -0x3c,
+                'ease': 'Back.easeOut',
+                'onComplete': function() {
+                    var _0x42ac31 = _0x4301bf;
+                    _0x5ca099[_0x42ac31(0x2c4)](0x0);
                 }
-            }), this.network.on("ready", function() {
-                console.log("Network ready"), e.networkReady = !0, "createLobby" == e.actionOnCoonect ? e.createLobby() : "joinLobby" == e.actionOnCoonect && e.joinLobby()
-            }), this.network.on("signalingerror", function(t) {
-                console.log("signalingerror:", t), clearTimeout(e.joinTimer), e.connectState = 0, e.lobbyCode = "", "lobby-not-found" == t.code || "lobby-is-full" == t.code ? networkMessage(t.code) : networkMessage("generalError")
-            }), this.network.on("error", function(t) {
-                clearTimeout(e.joinTimer), e.connectState = 0, e.lobbyCode = "", console.log("error:", t)
-            }), this.network.on("rtcerror", function(t) {
-                clearTimeout(e.joinTimer), e.connectState = 0, e.lobbyCode = "", console.log("rtcerror:", t)
-            })
-        }, e.prototype.disconnect = function() {
-            console.log("disconnecting"), this.network.close(), this.lobbyCode = "", this.playerNum = -1
-        }, e.prototype.connect = function(e) {
-            void 0 === e && (e = ""), this.network && this.disconnect(), this.actionOnCoonect = e, console.log("creating new network"), this.createNetwork()
-        }, e.prototype.createLobby = function() {
-            console.log("createLobby"), this.playerNum = 0, this.network.create({
-                codeFormat: "short",
-                public: !0,
-                maxPlayers: 2
-            })
-        }, e.prototype.joinLobby = function() {
-            var e = this;
-            this.playerNum = 1, this.joinTimer = setTimeout(function() {
-                e.connectState = 0, e.lobbyCode = "", networkMessage("connectError")
-            }, 1e4), console.log("joining lobby", this.lobbyCode), this.network.join(this.lobbyCode)
-        }, e.prototype.send = function(e, t, a) {
-            if (void 0 === a && (a = []), this.peer) {
-                for (var s = t, i = 0; i < a.length; i++) s += ",", s += a[i];
-                e ? this.network.send("reliable", this.peer.id, s) : this.network.send("unreliable", this.peer.id, s)
-            }
-        }, e.prototype.shareLobbyCode = function(e) {
-            var t = !1;
-            if (void 0 != navigator.clipboard && navigator.clipboard.writeText(netLib.shareURL).then(function() {
-                    t = !0
-                }, function(e) {
-                    console.warn("Clipboard copy error: ", e), t = !1
-                }), !t) {
-                t = !0;
-                var a = document.createElement("textArea");
-                a.readOnly = !1, a.contenteditable = !0, a.value = netLib.shareURL, document.body.appendChild(a), a.select(), a.setSelectionRange(0, 99999);
-                try {
-                    document.execCommand("copy")
-                } catch (s) {
-                    t = !1, console.warn("Clipboard copy error: " + s)
-                }
-                document.body.removeChild(a)
-            }
-            t ? (console.log("Clipboard success: " + netLib.shareURL), e(1)) : e(0)
-        }, e
-    }();
-    e.NetLib = t
-}(Elements || (Elements = {}));
-var requestAnimFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.requestAnimationFrame || function(e) {
-        window.setTimeout(e, 1e3 / 60, new Date().getTime())
-    },
-    canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d"),
-    maxWidth = 800,
-    minWidth = 800,
-    maxHeight = 800,
-    minHeight = 800,
-    canvasScale = 1,
-    div = document.getElementById("canvas-wrapper"),
-    audioType = 0,
-    muted = !1,
-    splashTimer = 0,
-    isMobile = !1,
-    gameState = "loading",
-    aLangs = ["EN"],
-    curLang = "",
-    isBugBrowser = !1,
-    isIE10 = !1,
-    radian = Math.PI / 180,
-    ios9FirstTouch = !1,
-    isRotated = !1,
-    saveDataHandler = new Utils.SaveDataHandler("ppgv8"),
-    hasFocus = !0,
-    assetIdInc = 0;
-navigator.userAgent.match(/MSIE\s([\d]+)/) && (isIE10 = !0);
-var deviceAgent = navigator.userAgent.toLowerCase();
-(deviceAgent.match(/(iphone|ipod|ipad)/) || deviceAgent.match(/(android)/) || deviceAgent.match(/(iemobile)/) || deviceAgent.match(/iphone/i) || deviceAgent.match(/ipad/i) || deviceAgent.match(/ipod/i) || deviceAgent.match(/blackberry/i) || deviceAgent.match(/bada/i) || "MacIntel" === navigator.platform && navigator.maxTouchPoints > 1) && (isMobile = !0, deviceAgent.match(/(android)/) && !/Chrome/.test(navigator.userAgent) && (isBugBrowser = !0));
-var userInput = new Utils.UserInput(canvas, isBugBrowser);
-
-function visibleResume() {
-    hasFocus || (userInput && userInput.checkKeyFocus(), "suspended" == Howler.ctx.state && Howler.ctx.resume(), muted || "pause" == gameState || "splash" == gameState || "loading" == gameState || (Howler.mute(!1), playMusic())), hasFocus = !0
-}
-
-function visiblePause() {
-    hasFocus = !1, Howler.mute(!0), music.pause()
-}
-
-function playMusic() {
-    music.playing() || music.play()
-}
-
-function isStock() {
-    var e = window.navigator.userAgent.match(/Android.*AppleWebKit\/([\d.]+)/);
-    return e && 537 > parseFloat(e[1])
-}
-resizeCanvas(), window.onresize = function() {
-    setTimeout(function() {
-        resizeCanvas()
-    }, 1)
-}, window.onpageshow = function() {
-    hasFocus || (userInput && userInput.checkKeyFocus(), muted || "pause" == gameState || "splash" == gameState || "loading" == gameState || (Howler.mute(!1), playMusic())), hasFocus = !0
-}, window.onpagehide = function() {
-    hasFocus = !1, Howler.mute(!0), music.pause()
-}, window.addEventListener("load", function() {
-    setTimeout(function() {
-        resizeCanvas()
-    }, 0), window.addEventListener("orientationchange", function() {
-        setTimeout(function() {
-            resizeCanvas()
-        }, 500), setTimeout(function() {
-            resizeCanvas()
-        }, 2e3)
-    }, !1)
-});
-var ua = navigator.userAgent,
-    isSharpStock = /SHL24|SH-01F/i.test(ua) && isStock(),
-    isXperiaAStock = /SO-04E/i.test(ua) && isStock(),
-    isFujitsuStock = /F-01F/i.test(ua) && isStock();
-isIE10 || isSharpStock || isXperiaAStock || isFujitsuStock || void 0 === window.AudioContext && void 0 === window.webkitAudioContext && -1 != navigator.userAgent.indexOf("Android") ? audioType = 0 : (audioType = 1, sound = new Howl({
-    src: ["audio/sound.mp3"],
-    sprite: {
-        silence: [0, 502.87981859410434],
-        arcadeWin: [1500, 1564.4444444444448],
-        botThrow: [4e3, 234.01360544217732],
-        bounce0: [5500, 215.69160997732428],
-        bounce1: [7e3, 207.16553287981833],
-        bounce2: [8500, 252.51700680272114],
-        bounce3: [1e4, 282.63038548752917],
-        bounce4: [11500, 212.7891156462578],
-        bounce5: [13e3, 232.1995464852602],
-        buyBat: [14500, 679.9092970521539],
-        classicGameLose: [16e3, 380.22675736961276],
-        classicGameWin: [17500, 915.3061224489783],
-        classicMatchLose: [19e3, 1253.877551020409],
-        classicMatchWin: [21500, 1404.807256235827],
-        click: [24e3, 48.934240362811465],
-        gameStart0: [25500, 1651.519274376419],
-        gameStart1: [28e3, 1216.1451247165544],
-        gem0: [30500, 90.3854875283443],
-        gem1: [32e3, 93.24263038548963],
-        gem2: [33500, 349.97732426303685],
-        gem3: [35e3, 208.9795918367372],
-        gem4: [36500, 263.21995464852677],
-        gemReward: [38e3, 692.5170068027242],
-        gemTweenOut: [39500, 1856.530612244896],
-        hit0: [42e3, 213.33333333333115],
-        hit1: [43500, 213.33333333333115],
-        hit2: [45e3, 252.74376417233668],
-        hit3: [46500, 211.15646258503062],
-        hit4: [48e3, 230.38548752834487],
-        hit5: [49500, 261.04308390022624],
-        hitTarget: [51e3, 385.9410430839034],
-        lockedBat: [52500, 376.5532879818565],
-        loseSet: [54e3, 564.5804988662135],
-        loseStar: [55500, 320.2721088435396],
-        missTarget: [57e3, 377.1428571428572],
-        selectBat: [58500, 341.2244897959198],
-        targetGameEnd: [6e4, 1141.4058956916122],
-        unlockBat: [62500, 280.1587301587318],
-        winSet: [64e3, 835.8956916099771],
-        winStar: [65500, 674.3764172335602],
-        worldComplete: [67e3, 743.015873015878],
-        cheer0: [68500, 3428.072562358281],
-        cheer1: [73e3, 6597.369614512473],
-        cheer2: [80500, 4757.188208616782],
-        cheer3: [86e3, 4461.541950113371],
-        cheer4: [91500, 3059.2290249433063],
-        cheer5: [96e3, 4442.13151927437],
-        hitNet: [101500, 1245.170068027207],
-        bugSplat0: [104e3, 114.08163265306825],
-        bugSplat1: [105500, 155.64625850339553],
-        bugSplat2: [107e3, 94.73922902493825],
-        bugSplat3: [108500, 168.4807256235814],
-        bugSplat4: [11e4, 184.35374149659367]
-    }
-}), music = new Howl({
-    src: ["audio/music.mp3"],
-    volume: 0,
-    loop: !0
-}));
-var totalScore = 0,
-    levelScore = 0,
-    levelNum = 0,
-    aTutorials = [],
-    oLogoData = {},
-    oImageIds = {},
-    swipeState = 0,
-    aFlags = [{
-        id: 0,
-        x: -.51,
-        y: -.136
-    }, {
-        id: 1,
-        x: -.651,
-        y: -.262
-    }, {
-        id: 2,
-        x: -.34,
-        y: .216
-    }, {
-        id: 3,
-        x: .013,
-        y: -.244
-    }, {
-        id: 4,
-        x: .75,
-        y: -.133
-    }, {
-        id: 5,
-        x: -.063,
-        y: -.194
-    }, {
-        id: 6,
-        x: .789,
-        y: .354
-    }, {
-        id: 7,
-        x: .668,
-        y: -.104
-    }, {
-        id: 8,
-        x: -.093,
-        y: -.116
-    }, {
-        id: 9,
-        x: .389,
-        y: .067
-    }, {
-        id: 10,
-        x: .05,
-        y: -.37
-    }, {
-        id: 11,
-        x: -.005,
-        y: -.193
-    }, {
-        id: 12,
-        x: .069,
-        y: -.244
-    }, {
-        id: 13,
-        x: .028,
-        y: -.121
-    }, {
-        id: 14,
-        x: -.017,
-        y: -.287
-    }, {
-        id: 15,
-        x: -.098,
-        y: -.275
-    }, {
-        id: 16,
-        x: -.041,
-        y: -.241
-    }, {
-        id: 17,
-        x: -.632,
-        y: .015
-    }, {
-        id: 18,
-        x: -.014,
-        y: -.35
-    }, {
-        id: 19,
-        x: .923,
-        y: .466
-    }, {
-        id: 20,
-        x: .542,
-        y: .145
-    }, {
-        id: 21,
-        x: -.428,
-        y: .424
-    }, {
-        id: 22,
-        x: .579,
-        y: .057
-    }, {
-        id: 23,
-        x: .252,
-        y: -.015
-    }, {
-        id: 24,
-        x: .076,
-        y: .367
-    }, {
-        id: 25,
-        x: .508,
-        y: .057
-    }, {
-        id: 26,
-        x: .476,
-        y: -.106
-    }, {
-        id: 27,
-        x: .159,
-        y: .167
-    }, {
-        id: 28,
-        x: .167,
-        y: -.024
-    }, {
-        id: 29,
-        x: .139,
-        y: -.126
-    }, {
-        id: 30,
-        x: -.037,
-        y: .101
-    }],
-    spareEnemyCountry = "CH",
-    oGameData = {
-        cupId: 0,
-        gameId: 0,
-        userId: null,
-        enemyId: null,
-        userScore: 0,
-        enemyScore: 0
-    },
-    firstRun = !0,
-    aMapMarkerPos = [
-        [-203, -115],
-        [-150, -31],
-        [-136, 98],
-        [20, 57],
-        [-36, -109],
-        [50, -72],
-        [101, -16],
-        [170, 82],
-        [192, -51],
-        [143, -121]
-    ],
-    justWonCup = !1,
-    controlState = 0,
-    rallyHits = 0,
-    curLevel = 0,
-    curBat = 0,
-    opBat = 0,
-    aTournamentOrder = [],
-    endChatId = 0,
-    tournamentSize = 6,
-    charLineUp = 0,
-    prevCanvasWidth = 0,
-    prevCanvasHeight = 0,
-    prevScreen = "loading",
-    hasAnyBats = !1,
-    hasAnyPerks = !1,
-    userCustomBat = null,
-    userPerk = null,
-    userCustomBatHighlight = null,
-    userPerkHighlight = null,
-    hasEndGameLink = !1,
-    externalUrl = "",
-    gameVariation = 0,
-    challengeLevel = 0,
-    gameplayState = 0,
-    gems = 0,
-    levelStarTarg = 0,
-    curLevelStars = 0,
-    onScreenY = 0,
-    aPointScores = [10, 25],
-    aBatData = [],
-    levelsPerWorld = 5,
-    newBatId = null,
-    batUnlockedId = 0,
-    butDown = !0,
-    testVar = ">",
-    curBallId = 0,
-    tableDepth = 352.5,
-    tableBackWidth = 349.5,
-    ballPosMultiplier = .6,
-    curTargetScore = 0,
-    firstRun = !0,
-    localTargetHighscore = 0,
-    userScore = 0,
-    enemyScore = 0,
-    userSets = 0,
-    enemySets = 0,
-    classicGameLevel = 0,
-    num128 = 1.28,
-    testPrev = 0,
-    testCur = 0,
-    rewardButHit = !1,
-    maxMusicVol = .5,
-    minMusicVol = .2,
-    batShopButDown = !1,
-    bugScore = 0,
-    bugTime = 0,
-    bugTimeTarg = 60,
-    bugWaveKilled = 0,
-    bugWave = 0,
-    bugBonusTime = 5,
-    rewardGemTotal = 0,
-    rankChange = 0,
-    firstCareerGame = !0,
-    netLib = new Elements.NetLib("6caab5cb-54d2-4c8f-aefe-0b0847f7cec6"),
-    networkInc = 0,
-    opPvpWins = 0,
-    pvpGameTime = 0;
-
-function resetBatShopData() {
-    aBatData = [{
-        unlockId: 0,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 0,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 0,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 1
-    }, {
-        unlockId: 1,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 1,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 2
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 1,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 3
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 1,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 4
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 1,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 5
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 6
-    }, {
-        unlockId: 1,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 7
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 1,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 8
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 9
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 3,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 10
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 9
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }, {
-        unlockId: 2,
-        x: 0,
-        y: 0,
-        gemCost: 0,
-        unlockWorld: 0
-    }];
-    for (var e = 50, t = 50, a = 0, s = 0; s < aBatData.length; s++) 2 == aBatData[s].unlockId && (aBatData[s].gemCost = 10 * Math.round(e / 10), ++a % 3 == 0 && (t *= 1.25, e += t))
-}
-
-function loadLang(e) {
-    void 0 === e && (e = "en"), (curLang = e) && null != curLang && void 0 != curLang || (curLang = "en");
-    var t = window.PokiSDK.getURLParam("id");
-    null != t && (netLib.lobbyCode = t), loadPreAssets()
-}
-
-function initSplash() {
-    window.PokiSDK.gameLoadingFinished(), "ar" == curLang && (document.body.style.direction = "rtl"), firstRun = !0, gameState = "splash", 1 != audioType || muted || 0 != saveDataHandler.getAudioState() || (playMusic(), hasFocus || music.pause()), resetFromSaveData(), awardPanel = new Elements.AwardPanel, updateBatShopData(), opBat = getEnemyBat(), "" == netLib.lobbyCode ? initStartScreen() : initPvpPrep(), resizeCanvas()
-}
-
-function initPvpPrep() {
-    gameVariation = 4, gameState = "game", netLib.connectState = 1, gameplayState = 0, curLevel = saveDataHandler.getLevel(), 1 == audioType && music.fade(music.volume(), maxMusicVol, 500), background = new Elements.Background;
-    var e = [];
-    aEffects = [], addMuteBut(e), (panel = new Elements.Panel(gameState, e)).startTween(), resetGameElements(), aEffects = [], 1 != saveDataHandler.getAudioState() || muted || butEventHandler("mute", null), previousTime = new Date().getTime(), updateGameEvent(), netLib.connect("joinLobby")
-}
-
-function networkMessage(e) {
-    if (void 0 === e && (e = ""), e && void 0 != e && "" != e) {
-        var t = e.split(",");
-        switch (t[0]) {
-            case "latency":
-                removeAllButs(), gameVariation = 0, initStartScreen(), panel.showDisconnect("latency");
-                break;
-            case "rematch":
-                startPvpGame();
-                break;
-            case "acceptPlayer":
-                netLib.send(!0, "opData", [curBat, saveDataHandler.getPvpWins()]), initGame(), background.setRandom(), panel.showPvpStartMessage();
-                break;
-            case "lobby-not-found":
-                removeAllButs(), gameVariation = 0, initStartScreen(), panel.showDisconnect("noLobby");
-                break;
-            case "lobby-is-full":
-                removeAllButs(), gameVariation = 0, initStartScreen(), panel.showDisconnect("alreadyConnected");
-                break;
-            case "generalError":
-                removeAllButs(), gameVariation = 0, initStartScreen(), panel.showDisconnect("disconnected");
-                break;
-            case "connectError":
-                initStartScreen(), panel.showDisconnect("unableToConnect");
-                break;
-            case "disconnected":
-                "game" == gameState && 4 == gameVariation && (removeAllButs(), gameVariation = 0, initStartScreen(), panel.showDisconnect("disconnected"));
-                break;
-            case "peerConnect":
-                netLib.send(!0, "acceptPlayer"), startPvpGame();
-                break;
-            case "opData":
-                opBat = parseInt(t[1]), opPvpWins = parseInt(t[2]), opBat == curBat && (opBat = 0 == curBat ? 1 : 0);
-                break;
-            case "batPos":
-                enemyBat.nX = parseFloat(t[1]), enemyBat.nY = parseFloat(t[2]), enemyBat.nRot = parseFloat(t[3]);
-                break;
-            case "serveBounce":
-                playSound("hit" + Math.floor(6 * Math.random())), rallyHits++, aBalls[0].height = parseFloat(t[6]), aBalls[0].tablePosX = parseFloat(t[4]), aBalls[0].tablePosY = 1 - parseFloat(t[5]), aBalls[0].setBouncePoint({
-                    x: parseFloat(t[1]),
-                    y: parseFloat(t[2]),
-                    speed: parseFloat(t[3]),
-                    spin: 0
+            }),
+            TweenLite['to'](this, 0.5, {
+                'delay': 0.8,
+                'enemyBatX': 0x32,
+                'ease': 'Back.easeOut',
+                'onComplete': function() {}
+            }),
+            this['ballHeight'] = 0x1e,
+            TweenLite['to'](this, 0.55, {
+                'delay': 0.5,
+                'ballX': 0x1e,
+                'ballY': -0x64,
+                'ease': _0x4301bf(0x452),
+                'onComplete': function() {}
+            }),
+            TweenLite['to'](this, 0.6, {
+                'delay': 0.6,
+                'ballHeight': -0x1e,
+                'ease': _0x4301bf(0x20b),
+                'onComplete': function() {}
+            });
+        }
+        ,
+        _0x3b6676['prototype']['movePlayerBat'] = function(_0x414bb2) {
+            var _0x3480c1 = _0x39f18e
+              , _0x2efbad = this;
+            switch (_0x414bb2) {
+            case 0x0:
+                TweenLite['to'](this, 0.5, {
+                    'userBatX': 0x82,
+                    'userBatY': 0x55,
+                    'ease': _0x3480c1(0x2bf),
+                    'onComplete': function() {
+                        var _0x385a2d = _0x3480c1;
+                        _0x2efbad[_0x385a2d(0x2c4)](0x1);
+                    }
+                }),
+                TweenLite['to'](this, 0.65, {
+                    'delay': 0.25,
+                    'ballX': 0x4b,
+                    'ballY': 0x32,
+                    'ease': _0x3480c1(0x20b),
+                    'onComplete': function() {
+                        TweenLite['to'](_0x2efbad, 0.65, {
+                            'ballX': -0x14,
+                            'ballY': -0x64,
+                            'ease': 'Quad.easeOut',
+                            'onComplete': function() {}
+                        });
+                    }
+                }),
+                TweenLite['to'](this, 0.65, {
+                    'delay': 0.25,
+                    'ballHeight': 0x28,
+                    'ease': _0x3480c1(0x20b),
+                    'onComplete': function() {
+                        var _0x16efd9 = _0x3480c1;
+                        TweenLite['to'](_0x2efbad, 0.65, {
+                            'ballHeight': -0x1e,
+                            'ease': _0x16efd9(0x20b),
+                            'onComplete': function() {}
+                        });
+                    }
                 });
                 break;
-            case "offSide":
-                aBalls[0].offSide = !0;
-                break;
-            case "hitBounce":
-                playSound("hit" + Math.floor(6 * Math.random())), rallyHits++, aBalls[0].offTablePvp = !1, aBalls[0].offTable = !1, aBalls[0].offTableTween && aBalls[0].offTableTween.kill(), aBalls[0].servingState = 2, aBalls[0].bounceNum = 0, aBalls[0].lastHit = "enemy", aBalls[0].height = parseFloat(t[6]), aBalls[0].tablePosX = parseFloat(t[4]), aBalls[0].tablePosY = 1 - parseFloat(t[5]), aBalls[0].setBouncePoint({
-                    x: parseFloat(t[1]),
-                    y: parseFloat(t[2]) + .1,
-                    speed: parseFloat(t[3]),
-                    spin: 0
+            case 0x1:
+                TweenLite['to'](this, 0.5, {
+                    'delay': 0.3,
+                    'userBatX': -0x1e,
+                    'userBatY': -0x3c,
+                    'ease': _0x3480c1(0x109),
+                    'onComplete': function() {
+                        var _0x2048ea = _0x3480c1;
+                        _0x2efbad[_0x2048ea(0x2c4)](0x2);
+                    }
+                }),
+                TweenLite['to'](this, 0.5, {
+                    'delay': 0.8,
+                    'enemyBatX': -0x1e,
+                    'ease': _0x3480c1(0x109),
+                    'onComplete': function() {}
                 });
                 break;
-            case "ballOff":
-                1 == parseInt(t[1]) ? updateScore("user") : updateScore("enemy"), aBalls[0].nextServeChoice();
+            case 0x2:
+                TweenLite['to'](this, 0.5, {
+                    'userBatX': -0x82,
+                    'userBatY': 0x55,
+                    'ease': _0x3480c1(0x2bf),
+                    'onComplete': function() {
+                        _0x2efbad['movePlayerBat'](0x3);
+                    }
+                }),
+                TweenLite['to'](this, 0.65, {
+                    'delay': 0.25,
+                    'ballX': -0x4b,
+                    'ballY': 0x32,
+                    'ease': _0x3480c1(0x20b),
+                    'onComplete': function() {
+                        TweenLite['to'](_0x2efbad, 0.65, {
+                            'ballX': 0x14,
+                            'ballY': -0x64,
+                            'ease': 'Quad.easeOut',
+                            'onComplete': function() {}
+                        });
+                    }
+                }),
+                TweenLite['to'](this, 0.65, {
+                    'delay': 0.25,
+                    'ballHeight': 0x28,
+                    'ease': _0x3480c1(0x20b),
+                    'onComplete': function() {
+                        var _0x543f85 = _0x3480c1;
+                        TweenLite['to'](_0x2efbad, 0.65, {
+                            'ballHeight': -0x1e,
+                            'ease': _0x543f85(0x20b),
+                            'onComplete': function() {}
+                        });
+                    }
+                });
                 break;
-            case "hitNet":
-                aBalls[0].hasHitNetPvP = !0
+            case 0x3:
+                TweenLite['to'](this, 0.5, {
+                    'delay': 0.3,
+                    'userBatX': 0x1e,
+                    'userBatY': -0x3c,
+                    'ease': _0x3480c1(0x109),
+                    'onComplete': function() {
+                        var _0x49573d = _0x3480c1;
+                        _0x2efbad[_0x49573d(0x2c4)](0x0);
+                    }
+                }),
+                TweenLite['to'](this, 0.5, {
+                    'delay': 0.8,
+                    'enemyBatX': 0x1e,
+                    'ease': _0x3480c1(0x109),
+                    'onComplete': function() {}
+                });
+                break;
+            }
         }
-    }
-}
-
-function removeAllButs() {
-    removeStartButs(), userInput.removeHitArea("backFromCredits"), userInput.removeHitArea("resetData"), userInput.removeHitArea("minusGames"), userInput.removeHitArea("plusGames"), userInput.removeHitArea("minusSets"), userInput.removeHitArea("plusSets"), userInput.removeHitArea("mute"), userInput.removeHitArea("yesFromResetConfirm"), userInput.removeHitArea("noFromResetConfirm"), userInput.removeHitArea("batShopTouch"), userInput.removeHitArea("backFromBatShop"), userInput.removeHitArea("playFromMapScreen"), userInput.removeHitArea("backFromMapScreen"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), userInput.removeHitArea("pvpFromCustomGameEnd"), userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), userInput.removeHitArea("pvpFromLevelComplete"), userInput.removeHitArea("playFromWorldComplete"), userInput.removeHitArea("batShopFromWorldComplete"), userInput.removeHitArea("careerFromWorldComplete"), userInput.removeHitArea("challengeFromWorldComplete"), userInput.removeHitArea("backFromWorldComplete"), userInput.removeHitArea("bugGameFromWorldComplete"), userInput.removeHitArea("pvpFromWorldComplete"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("awardsFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), userInput.removeHitArea("pvpFromTargetGameEnd"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), userInput.removeHitArea("pvpFromBugGameEnd"), userInput.removeHitArea("pause"), userInput.removeHitArea("gameTouch"), userInput.removeKey("keyPauseOn"), userInput.removeHitArea("playFromPvpGameEnd"), userInput.removeHitArea("backFromPvpGameEnd"), userInput.removeHitArea("quitFromPause"), userInput.removeHitArea("continueFromPause"), userInput.removeHitArea("backFromNetwork"), userInput.removeHitArea("urlFromNetwork"), userInput.removeHitArea("urlAreaFromNetwork")
-}
-
-function startPvpGame() {
-    removeAllButs(), gameVariation = 4, gameplayState = 1, userScore = enemyScore = 0, resetGameElements(), netLib.send(!0, "opData", [curBat, saveDataHandler.getPvpWins()]), resumeGame(), background.setRandom(), panel.showPvpStartMessage()
-}
-
-function resetFromSaveData() {
-    curBat = saveDataHandler.getCurBat(), curLevel = saveDataHandler.getLevel(), gems = saveDataHandler.getGems(), userInput.sensitiveLevel = saveDataHandler.getSensitveLevel(), classicGameLevel = saveDataHandler.getDifficultyLevel()
-}
-
-function addMuteBut(e) {
-    if (1 == audioType) {
-        var t = oImageIds.muteBut0,
-            a = oImageIds.muteBut0Over;
-        muted && (t = oImageIds.muteBut1, a = oImageIds.muteBut1Over);
-        var s = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [-50, 50],
-            align: [1, 0],
-            id: t,
-            idOver: a,
-            noTween: !0
-        };
-        userInput.addHitArea("mute", butEventHandler, null, "image", s);
-        for (var i = 0; i < e.length; i++)
-            if (e[i].id == oImageIds.muteBut0 || e[i].id == oImageIds.muteBut1) return;
-        e.push(s)
-    }
-}
-
-function initCreditsScreen() {
-    gameState = "credits";
-    var e = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [50, -50],
-            align: [0, 1],
-            id: oImageIds.backBut,
-            idOver: oImageIds.backButOver
-        },
-        t = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [-50, -50],
-            align: [1, 1],
-            id: oImageIds.resetBut,
-            idOver: oImageIds.resetButOver
-        };
-    userInput.addHitArea("backFromCredits", butEventHandler, null, "image", e), userInput.addHitArea("resetData", butEventHandler, null, "image", t);
-    var a = [e, t];
-    addMuteBut(a), panel = new Elements.Panel(gameState, a), updateSettingsButs(), panel.startTween(), previousTime = new Date().getTime(), resizeCanvas(), updateCreditsScreenEvent()
-}
-
-function initResetConfirmScreen() {
-    gameState = "resetConfirm";
-    var e = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [-100, 90],
-            align: [.5, .5],
-            id: oImageIds.tickBut,
-            idOver: oImageIds.tickButOver
-        },
-        t = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [100, 90],
-            align: [.5, .5],
-            id: oImageIds.quitBut,
-            idOver: oImageIds.quitButOver
-        };
-    userInput.addHitArea("yesFromResetConfirm", butEventHandler, null, "image", e), userInput.addHitArea("noFromResetConfirm", butEventHandler, null, "image", t);
-    var a = [e, t];
-    addMuteBut(a), (panel = new Elements.Panel(gameState, a)).startTween(), previousTime = new Date().getTime(), updateResetConfirmEvent()
-}
-
-function updateSettingsButs() {
-    userInput.removeHitArea("minusGames"), userInput.removeHitArea("plusGames"), panel.removeBut(oImageIds.minusBut), panel.removeBut(oImageIds.plusBut), userInput.removeHitArea("minusSets"), userInput.removeHitArea("plusSets");
-    var e = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [-100, 54],
-            align: [.5, .3],
-            id: oImageIds.minusBut,
-            idOver: oImageIds.minusButOver
-        },
-        t = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [100, 54],
-            align: [.5, .3],
-            id: oImageIds.plusBut,
-            idOver: oImageIds.plusButOver
-        };
-    userInput.addHitArea("minusGames", butEventHandler, null, "image", e), userInput.addHitArea("plusGames", butEventHandler, null, "image", t), panel.aButs.push(e, t);
-    var a = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [-100, 224],
-            align: [.5, .3],
-            id: oImageIds.minusBut,
-            idOver: oImageIds.minusButOver
-        },
-        s = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [100, 224],
-            align: [.5, .3],
-            id: oImageIds.plusBut,
-            idOver: oImageIds.plusButOver
-        };
-    userInput.addHitArea("minusSets", butEventHandler, null, "image", a), userInput.addHitArea("plusSets", butEventHandler, null, "image", s), panel.aButs.push(a, s)
-}
-
-function initStartScreen(e) {
-    void 0 === e && (e = !0), "game" == gameState ? e = !1 : gameState = "game", gameVariation = 0, gameplayState = 0, curLevel = saveDataHandler.getLevel(), 1 == audioType && music.fade(music.volume(), maxMusicVol, 500), background = new Elements.Background;
-    var t = [];
-    aEffects = [], addMuteBut(t), (panel = new Elements.Panel(gameState, t)).startTween(), updateStartScreenButs(), resetGameElements(), aEffects = [], 1 != saveDataHandler.getAudioState() || muted || butEventHandler("mute", null), e && (previousTime = new Date().getTime(), updateGameEvent())
-}
-
-function removeStartButs() {
-    userInput.removeHitArea("startTouch"), userInput.removeHitArea("infoFromStart"), userInput.removeHitArea("awardsFromStart"), userInput.removeHitArea("batShopFromStart"), userInput.removeHitArea("customMatchFromStart"), userInput.removeHitArea("challengeFromStart"), userInput.removeHitArea("bugGameFromStart"), userInput.removeHitArea("careerFromStart"), userInput.removeHitArea("pvpFromStart"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.infoBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), panel.removeBut(oImageIds.pvpGameBut)
-}
-
-function updateStartScreenButs() {
-    removeStartButs(), batShopButDown = !1;
-    var e, t, a, s, i, r, o = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-140, 50],
-        align: [1, 0],
-        id: oImageIds.infoBut,
-        idOver: oImageIds.infoButOver
-    };
-    userInput.addHitArea("infoFromStart", butEventHandler, null, "image", o), panel.aButs.push(o), canvas.width / canvas.height < .6 ? (saveDataHandler.getLevel() > 0 ? (e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [160, -250],
-        align: [.5, 1],
-        id: oImageIds.awardsBut,
-        idOver: oImageIds.awardsButOver
-    }, t = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [320, -250],
-        align: [.5, 1],
-        id: oImageIds.batShopBut,
-        idOver: oImageIds.batShopButOver
-    }, a = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-160, -250],
-        align: [.5, 1],
-        id: oImageIds.challengeBut,
-        idOver: oImageIds.challengeButOver
-    }, i = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, -250],
-        align: [.5, 1],
-        id: oImageIds.careerBut,
-        idOver: oImageIds.careerButOver
-    }, s = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-320, -250],
-        align: [.5, 1],
-        id: oImageIds.bugGameBut,
-        idOver: oImageIds.bugGameButOver
-    }, r = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [320, -430],
-        align: [.5, 1],
-        id: oImageIds.pvpGameBut,
-        idOver: oImageIds.pvpGameButOver,
-        flash: !0
-    }) : r = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [320, -250],
-        align: [.5, 1],
-        id: oImageIds.pvpGameBut,
-        idOver: oImageIds.pvpGameButOver,
-        flash: !0
-    }, userInput.addHitArea("startTouch", butEventHandler, null, "rect", {
-        aRect: [250, 300, canvas.width - 250, canvas.height - 350]
-    }, !0)) : (saveDataHandler.getLevel() > 0 ? (e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -390],
-        align: [1, 1],
-        id: oImageIds.awardsBut,
-        idOver: oImageIds.awardsButOver
-    }, t = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -210],
-        align: [1, 1],
-        id: oImageIds.batShopBut,
-        idOver: oImageIds.batShopButOver
-    }, a = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -390],
-        align: [0, 1],
-        id: oImageIds.challengeBut,
-        idOver: oImageIds.challengeButOver
-    }, i = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -210],
-        align: [0, 1],
-        id: oImageIds.careerBut,
-        idOver: oImageIds.careerButOver
-    }, s = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -570],
-        align: [0, 1],
-        id: oImageIds.bugGameBut,
-        idOver: oImageIds.bugGameButOver
-    }, r = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -570],
-        align: [1, 1],
-        id: oImageIds.pvpGameBut,
-        idOver: oImageIds.pvpGameButOver,
-        flash: !0
-    }) : r = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -210],
-        align: [1, 1],
-        id: oImageIds.pvpGameBut,
-        idOver: oImageIds.pvpGameButOver,
-        flash: !0
-    }, userInput.addHitArea("startTouch", butEventHandler, null, "rect", {
-        aRect: [250, 300, canvas.width - 250, canvas.height - 100]
-    }, !0)), saveDataHandler.getLevel() > 0 ? (userInput.addHitArea("awardsFromStart", butEventHandler, null, "image", e), userInput.addHitArea("batShopFromStart", butEventHandler, {
-        multiTouch: !0
-    }, "image", t), userInput.addHitArea("challengeFromStart", butEventHandler, null, "image", a), userInput.addHitArea("careerFromStart", butEventHandler, null, "image", i), userInput.addHitArea("bugGameFromStart", butEventHandler, null, "image", s), userInput.addHitArea("pvpFromStart", butEventHandler, null, "image", r), panel.aButs.push(t, a, e, s, i, r)) : (userInput.addHitArea("pvpFromStart", butEventHandler, null, "image", r), panel.aButs.push(r))
-}
-
-function resetGameElements() {
-    if (tableTop = new Elements.TableTop, userBat = new Elements.UserBat, 4 == gameVariation ? (enemyBat = new Elements.NetworkBat, pvpGameTime = 0) : enemyBat = new Elements.EnemyBat, 4 == gameVariation && 1 == netLib.playerNum) {
-        aBalls = [];
-        var e = new Elements.Ball("enemy");
-        aBalls.push(e)
-    } else {
-        aBalls = [];
-        var e = new Elements.Ball;
-        aBalls.push(e)
-    }
-    background.setRandom(), tableTop.setTableCol()
-}
-
-function updateBatShopData() {
-    resetBatShopData();
-    for (var e = 0; e < aBatData.length; e++) saveDataHandler.getBatUnlockState(e) > 0 && (aBatData[e].unlockId = 0)
-}
-
-function initBatShop() {
-    gameState = "batShop", updateBatShopData(), butDown = !1;
-    var e = [];
-    aEffects = [], addMuteBut(e), batShop = new Elements.BatShop, panel = new Elements.Panel(gameState, e), initBatShopButs(), panel.startTween(), aEffects = [], previousTime = new Date().getTime(), updateBatShopEvent()
-}
-
-function initMapScreen() {
-    gameState = "mapScreen";
-    var e = [];
-    aEffects = [], addMuteBut(e), aSeasonFlags = getSeasonFlags(saveDataHandler.getSeason()), saveDataHandler.getSeason(), saveDataHandler.getRound(), opBat = getEnemyBat(), aSeasonFlagsRender = [];
-    for (var t = 0; t < aSeasonFlags.length; t++) aSeasonFlagsRender.push({
-        aSeasonFlagsIndex: t,
-        y: aFlags[aSeasonFlags[t].id].y
-    });
-    aSeasonFlagsRender = sortBy(aSeasonFlagsRender, "y"), (panel = new Elements.Panel(gameState, e)).startTween(), panel.mapIntro(), aEffects = [], previousTime = new Date().getTime(), updateMapScreenEvent()
-}
-
-function addMapButs() {
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, 50],
-        align: [.5, .7],
-        id: oImageIds.playBut,
-        idOver: oImageIds.playButOver,
-        flash: !0
-    };
-    userInput.addHitArea("playFromMapScreen", butEventHandler, null, "image", e), panel.aButs.push(e);
-    var t = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
-    };
-    userInput.addHitArea("backFromMapScreen", butEventHandler, null, "image", t), panel.aButs.push(t)
-}
-
-function initBatShopButs() {
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
-    };
-    userInput.addHitArea("backFromBatShop", butEventHandler, null, "image", e), panel.aButs.push(e), userInput.addHitArea("batShopTouch", butEventHandler, {
-        isDraggable: !0,
-        multiTouch: !0
-    }, "rect", {
-        aRect: [0, 0, canvas.width, canvas.height]
-    }, !0)
-}
-
-function getEnemyBat() {
-    if (0 == curLevel || firstRun) return firstRun = !1, 1;
-    for (var e = Math.floor(Math.random() * aBatData.length); 0 != aBatData[e].unlockWorld || e == curBat;) e = Math.floor(Math.random() * aBatData.length);
-    return e
-}
-
-function showAd(e) {
-    window.PokiSDK.commercialBreak(function() {
-        muted || (Howler.mute(!0), music.pause()), userInput.pointerLockOff()
-    }).then(function() {
-        console.log("Commercial break finished, proceeding to game"), userInput.pointerLockOn(), muted || (Howler.mute(!1), playMusic()), e()
-    })
-}
-
-function showRewardAd(e, t) {
-    void 0 === t && (t = null), window.PokiSDK.rewardedBreak(function() {
-        muted || (Howler.mute(!0), music.pause()), userInput.pointerLockOff()
-    }).then(function(a) {
-        userInput.pointerLockOn(), muted || (Howler.mute(!1), playMusic()), rewardAdSuccess(e, a, t), console.log("Rewarded break finished, proceeding to game")
-    })
-}
-
-function rewardAdSuccess(e, t, a) {
-    switch (void 0 === a && (a = null), e) {
-        case "customGameEnd":
-            t && addRewardGems(rewardGemTotal), initCustomGameEndButs();
-            break;
-        case "levelComplete":
-            t && addRewardGems(rewardGemTotal), initLevelCompleteButs();
-            break;
-        case "targetGameEnd":
-            t && addRewardGems(rewardGemTotal), initTargetGameEndButs();
-            break;
-        case "bugGameEnd":
-            t && addRewardGems(rewardGemTotal), initBugGameEndButs();
-            break;
-        case "batUnlock":
-            userInput.removeHitArea("backFromBatShop"), userInput.removeHitArea("batShopTouch"), panel.removeBut(oImageIds.backBut), t && (playSound("unlockBat", .5), saveDataHandler.unlockBat(a), saveDataHandler.selectBat(a), curBat = saveDataHandler.getCurBat(), updateBatShopData(), awardPanel.checkForAward(curLevel), batShop.batUnlocked()), initBatShopButs()
-    }
-}
-
-function initPvpGame() {
-    gameState = "network";
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
-    };
-    userInput.addHitArea("backFromNetwork", butEventHandler, null, "image", e);
-    var t = Array(e);
-    addMuteBut(t), (panel = new Elements.Panel(gameState, t)).startTween(), netLib.connect("createLobby"), previousTime = new Date().getTime(), resizeCanvas(), updateNetworkScreenEvent()
-}
-
-function addUrlBut() {
-    panel.linkTextId = 0, panel.shareButOn = !0, userInput.addHitArea("urlAreaFromNetwork", butEventHandler, null, "rect", {
-        aRect: [200, 200, canvas.width - 200, canvas.height - 200]
-    }, !0);
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, 230],
-        align: [.5, .5],
-        id: oImageIds.shareBut,
-        idOver: oImageIds.shareButOver,
-        flash: !0
-    };
-    userInput.addHitArea("urlFromNetwork", butEventHandler, null, "image", e), panel.aButs.push(e)
-}
-
-function initGame() {
-    window.PokiSDK.gameplayStart(), 1 == audioType && setTimeout(function() {
-        music.fade(music.volume(), minMusicVol, 500)
-    }, 500), levelStarTarg = 2 + Math.min(Math.floor((curLevel = saveDataHandler.getLevel()) / levelsPerWorld), 3), curLevelStars = 0, 1 == gameVariation ? localTargetHighscore = saveDataHandler.getBestTargetScore() : 3 == gameVariation && (localTargetHighscore = saveDataHandler.getBestBugScore()), rewardButHit = !1, isMobile && userInput.addHitArea("gameTouch", butEventHandler, {
-        isDraggable: !0,
-        multiTouch: !0
-    }, "rect", {
-        aRect: [0, 100, canvas.width, canvas.height]
-    }, !0);
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-140, 50],
-        align: [1, 0],
-        id: oImageIds.pauseBut,
-        idOver: oImageIds.pauseButOver
-    };
-    if (userInput.addHitArea("pause", butEventHandler, null, "image", e), panel.aButs.push(e), panel.startGameTween(), gameplayState = 1, resetGameElements(), 1 == gameVariation) {
-        playSound("gameStart1", .6), curTargetScore = 0, tableTop.setTarget(), userBat.x = userBat.prevX = userBat.startX = canvas.width / 2, userBat.y = userBat.prevY = userBat.startY = onScreenY + 355, userBat.rotation = userBat.startRotation = 0, aBalls = [];
-        var t = new Elements.Ball("enemy");
-        aBalls.push(t), setTimeout(function() {
-            aBalls[0].enemyServe()
-        }, 1e3), tableTop.startBot()
-    } else if (3 == gameVariation) bugScore = 0, bugTime = 0, bugWaveKilled = 0, bugWave = 0, playSound("gameStart1", .6), curTargetScore = 0, tableTop.setZombieStart();
-    else if (4 == gameVariation) {
-        if (playSound("gameStart0"), 1 == netLib.playerNum) {
-            aBalls = [];
-            var t = new Elements.Ball("enemy");
-            aBalls.push(t)
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x2ff)] = function(_0x3160cb, _0x3950a3, _0x5b8911, _0x3027f7, _0x10458c) {
+            var _0x3bfcb6 = _0x39f18e;
+            _0x3027f7 === void 0x0 && (_0x3027f7 = null);
+            _0x10458c === void 0x0 && (_0x10458c = null);
+            var _0x4498a7 = null;
+            for (var _0x5f06ec = 0x0; _0x5f06ec < this[_0x3bfcb6(0x120)][_0x3bfcb6(0x3f5)]; _0x5f06ec++) {
+                this['aButs'][_0x5f06ec]['id'] == _0x3160cb && (this[_0x3bfcb6(0x120)][_0x5f06ec]['id'] = _0x3950a3,
+                this[_0x3bfcb6(0x120)][_0x5f06ec][_0x3bfcb6(0x378)] = _0x5b8911,
+                _0x4498a7 = this['aButs'][_0x5f06ec],
+                _0x3027f7 && (this[_0x3bfcb6(0x120)][_0x5f06ec][_0x3bfcb6(0x1e9)] = _0x3027f7),
+                _0x10458c && (this[_0x3bfcb6(0x120)][_0x5f06ec][_0x3bfcb6(0x11c)] = _0x10458c));
+            }
+            return _0x4498a7;
         }
-    } else playSound("gameStart0");
-    4 != gameVariation && setTimeout(function() {
-        userInput.addKey("keyPauseOn", butEventHandler, null, 80), userInput.addKey("keyPauseOn", butEventHandler, null, 27), userInput.addKey("keyPauseOn", butEventHandler, null, 32)
-    }, 500), userScore = enemyScore = userSets = enemySets = 0
-}
-
-function initPause() {
-    gameState = "pause", window.PokiSDK.gameplayStop();
-    var e = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [0, -110],
-            align: [.5, .5],
-            id: oImageIds.continueBut,
-            idOver: oImageIds.continueButOver
-        },
-        t = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [0, 110],
-            align: [.5, .5],
-            id: oImageIds.quitBut,
-            idOver: oImageIds.quitButOver
-        };
-    userInput.addHitArea("continueFromPause", butEventHandler, null, "image", e), userInput.addHitArea("quitFromPause", butEventHandler, {
-        isDraggable: !0,
-        multiTouch: !0
-    }, "image", t), setTimeout(function() {
-        userInput.addKey("keyPauseOff", butEventHandler, null, 80), userInput.addKey("keyPauseOff", butEventHandler, null, 27), userInput.addKey("keyPauseOff", butEventHandler, null, 32)
-    }, 500), (panel = new Elements.Panel(gameState, [e, t])).startTween(), previousTime = new Date().getTime(), updatePauseEvent()
-}
-
-function resumeGame() {
-    window.PokiSDK.gameplayStart(), background = new Elements.Background, isMobile && userInput.addHitArea("gameTouch", butEventHandler, {
-        isDraggable: !0,
-        multiTouch: !0
-    }, "rect", {
-        aRect: [0, 100, canvas.width, canvas.height]
-    }, !0);
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-140, 50],
-        align: [1, 0],
-        id: oImageIds.pauseBut,
-        idOver: oImageIds.pauseButOver
-    };
-    userInput.addHitArea("pause", butEventHandler, null, "image", e);
-    var t = Array(e);
-    setTimeout(function() {
-        userInput.addKey("keyPauseOn", butEventHandler, null, 80), userInput.addKey("keyPauseOn", butEventHandler, null, 27), userInput.addKey("keyPauseOn", butEventHandler, null, 32)
-    }, 500), addMuteBut(t), (panel = new Elements.Panel(gameState, t)).startTween(), "game" != gameState && (gameState = "game", previousTime = new Date().getTime(), updateGameEvent())
-}
-
-function initTargetGameEnd() {
-    if (window.PokiSDK.gameplayStop(), 1 == audioType && music.fade(music.volume(), maxMusicVol, 500), userInput.removeHitArea("gameTouch"), userInput.removeHitArea("pause"), panel.removeBut(oImageIds.pauseBut), userInput.removeKey("keyPauseOn"), gameplayState = 7, saveDataHandler.setBestTargetScore(curTargetScore), Math.round(curTargetScore / 2) > 0 ? saveDataHandler.addGems(Math.round(curTargetScore / 2)) : setTimeout(function() {
-            initTargetGameEndButs()
-        }, 1e3), awardPanel.checkForAward(curLevel), curTargetScore > localTargetHighscore)
-        for (var e = 0; e < 200; e++) {
-            var t = new Elements.Confetti(Math.random() * canvas.width, Math.random() * canvas.height);
-            aEffects.push(t)
+        ,
+        _0x3b6676['prototype'][_0x39f18e(0x188)] = function(_0xe44586) {
+            var _0xfc0f9d = _0x39f18e;
+            for (var _0x369e9c = 0x0; _0x369e9c < this['aButs']['length']; _0x369e9c++) {
+                this[_0xfc0f9d(0x120)][_0x369e9c]['id'] == _0xe44586 && (this[_0xfc0f9d(0x120)][_0xfc0f9d(0x272)](_0x369e9c, 0x1),
+                _0x369e9c -= 0x1);
+            }
         }
-    panel.tweenTargetGameComplete()
-}
-
-function initTargetGameEndButs() {
-    panel.startTween(), gameplayState = 8, batShopButDown = !1;
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, 50],
-        align: [.5, .7],
-        id: oImageIds.playBut,
-        idOver: oImageIds.playButOver,
-        flash: !0
-    };
-    if (userInput.addHitArea("playFromTargetGameEnd", butEventHandler, null, "image", e), panel.aButs.push(e), Math.round(curTargetScore / 2) > 0) {
-        if (!rewardButHit) {
-            t = canvas.height < 1.2 * canvas.width ? .325 : .35;
-            var t, a = {
-                oImgData: assetLib.getData("uiButs"),
-                aPos: [285, 0],
-                align: [.5, t],
-                id: oImageIds.rewardMultiplyBut,
-                idOver: oImageIds.rewardMultiplyButOver,
-                flash: !0
+        ,
+        _0x3b6676['prototype']['render'] = function(_0xb4904d) {
+            var _0x8d3d11 = _0x39f18e
+              , _0x1d3b4b = this;
+            _0xb4904d === void 0x0 && (_0xb4904d = !![]);
+            !_0xb4904d && this[_0x8d3d11(0x464)]();
+            switch (gameState) {
+            case _0x8d3d11(0x438):
+                break;
+            case _0x8d3d11(0x315):
+                ctx[_0x8d3d11(0x3c9)] = _0x8d3d11(0x21a),
+                ctx['fillRect'](0x0, 0x0, canvas[_0x8d3d11(0xeb)], canvas['height']),
+                addText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, 0x50 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x271), _0x8d3d11(0x13c)),
+                addText(0x0, 0x17, canvas[_0x8d3d11(0xeb)] - 0x64, 'center', canvas[_0x8d3d11(0xeb)] / 0x2, canvas[_0x8d3d11(0x2f8)] - 0xaa + this[_0x8d3d11(0x12f)], _0x8d3d11(0x445), _0x8d3d11(0x363));
+                var _0x1feeb8 = assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x343));
+                ctx['drawImage'](_0x1feeb8['img'], 0x0, 0x0, _0x1feeb8[_0x8d3d11(0x436)][_0x8d3d11(0xeb)], _0x1feeb8[_0x8d3d11(0x436)][_0x8d3d11(0x2f8)], canvas[_0x8d3d11(0xeb)] / 0x2 - _0x1feeb8[_0x8d3d11(0x436)][_0x8d3d11(0xeb)] / 0x2, canvas['height'] - 0x78 - _0x1feeb8['img']['height'] / 0x2 + this[_0x8d3d11(0x12f)], _0x1feeb8[_0x8d3d11(0x436)]['width'], _0x1feeb8[_0x8d3d11(0x436)][_0x8d3d11(0x2f8)]),
+                addText(0x0, 0x17, canvas[_0x8d3d11(0xeb)] - 0x6e, _0x8d3d11(0xf7), canvas[_0x8d3d11(0xeb)] - 0x5f, canvas[_0x8d3d11(0x2f8)] - 0xf + this['butsY'], _0x8d3d11(0x3a3), _0x8d3d11(0x363));
+                var _0x2fd2ac = canvas[_0x8d3d11(0x2f8)] * 0.3;
+                addText(0x0, 0x32, canvas['width'] - 0x64, 'center', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x12f)], _0x8d3d11(0x1e5), _0x8d3d11(0x13c)),
+                addText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] - 0x64, 'center', canvas['width'] * 0.5, _0x2fd2ac + this[_0x8d3d11(0x12f)] + 0x51, 'diffSetting' + classicGameLevel, _0x8d3d11(0x149));
+                !isMobile && (addText(0x0, 0x32, canvas['width'] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x12f)] + 0xbe, 'sensitiveHeader', _0x8d3d11(0x13c)),
+                addText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] * 0.5, _0x2fd2ac + this['butsY'] + 0x10f, 'sensitiveLevel' + userInput[_0x8d3d11(0x369)], _0x8d3d11(0x149)));
+                addDirectText(0x0, 0x17, canvas[_0x8d3d11(0xeb)] - 0x6e, _0x8d3d11(0x126), 0xf, canvas[_0x8d3d11(0x2f8)] - 0xf + this['butsY'], _0x8d3d11(0x2fc), '#ffffff');
+                break;
+            case _0x8d3d11(0x429):
+                var _0x5c7325;
+                if (gameplayState >= 0x3) {
+                    var _0x3595f5;
+                    if (gameVariation == 0x0) {
+                        if (gameplayState == 0x3 || gameplayState == 0x4)
+                            _0x3595f5 = 0x0;
+                        else
+                            (gameplayState == 0x5 || gameplayState == 0x6) && (_0x3595f5 = 0x1);
+                    } else
+                        (gameVariation == 0x1 || gameVariation == 0x2 || gameVariation == 0x3) && (_0x3595f5 = 0x2);
+                    var _0x19b352 = assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2e3) + _0x3595f5);
+                    ctx[_0x8d3d11(0x425)](),
+                    ctx[_0x8d3d11(0x1dc)] = 0x1 - this[_0x8d3d11(0x393)],
+                    ctx[_0x8d3d11(0xde)](canvas['width'] / 0x2, canvas[_0x8d3d11(0x2f8)] / 0x2),
+                    canvas[_0x8d3d11(0xeb)] > canvas[_0x8d3d11(0x2f8)] ? ctx['scale'](canvas[_0x8d3d11(0xeb)] / canvas['height'], 0x1) : ctx[_0x8d3d11(0x284)](0x1, canvas[_0x8d3d11(0x2f8)] / canvas[_0x8d3d11(0xeb)]),
+                    ctx[_0x8d3d11(0x284)](1.26, 1.26),
+                    ctx[_0x8d3d11(0x20d)](this[_0x8d3d11(0x341)] * 0.05),
+                    ctx[_0x8d3d11(0x23c)](_0x19b352['img'], 0x0, 0x0, _0x19b352['img'][_0x8d3d11(0xeb)], _0x19b352[_0x8d3d11(0x436)][_0x8d3d11(0x2f8)], -_0x19b352[_0x8d3d11(0x436)]['width'] / 0x2, -_0x19b352['img'][_0x8d3d11(0x2f8)] / 0x2, _0x19b352['img']['width'], _0x19b352['img'][_0x8d3d11(0x2f8)]),
+                    ctx[_0x8d3d11(0x10d)]();
+                }
+                if (gameplayState == 0x3 || gameplayState == 0x4) {
+                    var _0x2fd2ac = Math[_0x8d3d11(0x1cb)](onScreenY - 0xc8, 0x3c) + 0x78
+                      , _0x4b6910 = this[_0x8d3d11(0x435)](curLevel + 0x1);
+                    addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, 'center', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x3 + Math['sin'](this[_0x8d3d11(0x341)]) * 0x5, getText('level', 0x0) + '\x20' + _0x4b6910 + '\x20' + getText(_0x8d3d11(0x496), 0x0), _0x8d3d11(0x143)),
+                    addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, 'center', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5, getText('level', 0x0) + '\x20' + _0x4b6910 + '\x20' + getText(_0x8d3d11(0x496), 0x0), _0x8d3d11(0x13c));
+                    var _0x8eb236;
+                    for (var _0x59d4fb = 0x0; _0x59d4fb < 0x5; _0x59d4fb++) {
+                        if (curLevel % levelsPerWorld >= _0x59d4fb && _0x59d4fb == levelsPerWorld - 0x1)
+                            curLevel % levelsPerWorld == _0x59d4fb && Math['sin'](this[_0x8d3d11(0x341)]) > 0x0 ? _0x8eb236 = 0x3 : _0x8eb236 = 0x2;
+                        else {
+                            if (_0x59d4fb == levelsPerWorld - 0x1)
+                                _0x8eb236 = 0x2;
+                            else
+                                curLevel % levelsPerWorld >= _0x59d4fb ? curLevel % levelsPerWorld == _0x59d4fb && Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) > 0x0 ? _0x8eb236 = 0x0 : _0x8eb236 = 0x1 : _0x8eb236 = 0x0;
+                        }
+                        var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x2ce) + _0x8eb236)
+                          , _0x3c2024 = 0x6e
+                          , _0x58ff2d = canvas['width'] / 0x2 + _0x3c2024 * _0x59d4fb - (levelsPerWorld / 0x2 - 0.5) * _0x3c2024;
+                        ctx[_0x8d3d11(0x23c)](_0x20265f['img'], _0x20265f['bX'], _0x20265f['bY'], _0x20265f['bWidth'], _0x20265f[_0x8d3d11(0x2f0)], _0x58ff2d - _0x20265f[_0x8d3d11(0x2a8)] / 0x2, _0x2fd2ac + 0x78 - _0x20265f[_0x8d3d11(0x2f0)] + this['levelCompleteInc'] * 0xc8, _0x20265f['bWidth'], _0x20265f['bHeight']);
+                        if (_0x59d4fb < levelsPerWorld - 0x1) {
+                            var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x295));
+                            ctx['drawImage'](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)], _0x58ff2d - _0x20265f[_0x8d3d11(0x2a8)] / 0x2 + _0x3c2024 / 0x2, _0x2fd2ac + 0x78 - _0x20265f[_0x8d3d11(0x2f0)] - 0x14 + this[_0x8d3d11(0x393)] * 0xc8, _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)]);
+                        }
+                        _0x4b6910 = this['twoDigit'](Math[_0x8d3d11(0x3b4)](curLevel / levelsPerWorld) * levelsPerWorld + 0x1 + _0x59d4fb),
+                        addDirectText(0x0, 0x28, _0x3c2024, _0x8d3d11(0x45c), _0x58ff2d, _0x2fd2ac + 0xa0 + this[_0x8d3d11(0x393)] * 0xc8, _0x4b6910, _0x8d3d11(0x13c));
+                    }
+                    var _0x9226a1;
+                    (curLevel + 0x1) % levelsPerWorld == 0x0 ? _0x9226a1 = this[_0x8d3d11(0x435)](aPointScores[0x1]) : _0x9226a1 = this['twoDigit'](aPointScores[0x0]);
+                    addDirectText(0x0, 0x96, canvas[_0x8d3d11(0xeb)] / 0x2, _0x8d3d11(0x126), canvas[_0x8d3d11(0xeb)] / 0x2 - 0xa, _0x2fd2ac + 0x104 + this[_0x8d3d11(0x393)] * 0xc8 + 0x2d, _0x9226a1, _0x8d3d11(0x13c));
+                    var _0x20265f = getSpriteData(assetLib['getData'](_0x8d3d11(0x2ae)), 'bigGem');
+                    ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight'], canvas[_0x8d3d11(0xeb)] / 0x2 - 0x55 - _0x20265f['bWidth'] / 0x2 * (0x1 + Math[_0x8d3d11(0x374)](this['incY']) * 0.05), _0x2fd2ac - _0x20265f['bHeight'] / 0x2 * (0x1 - Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0.05) + 0xfa + this[_0x8d3d11(0x393)] * 0xc8, _0x20265f[_0x8d3d11(0x2a8)] * (0x1 + Math[_0x8d3d11(0x374)](this['incY']) * 0.05), _0x20265f[_0x8d3d11(0x2f0)] * (0x1 - Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0.05)),
+                    this[_0x8d3d11(0x372)] -= delta * 0x23;
+                    var _0xe7a08f, _0x2a4d20;
+                    if (this['winGemCount'] < this['winGemTarg'] && this[_0x8d3d11(0x372)] > 0x0) {
+                        this['winGemTarg'] -= 0x1;
+                        var _0x133bd0 = {
+                            'x': canvas[_0x8d3d11(0xeb)] / 0x2 - 0x55,
+                            'y': _0x2fd2ac + 0xfa + this[_0x8d3d11(0x393)] * 0xc8,
+                            'inc': 0x1
+                        };
+                        this[_0x8d3d11(0x294)][_0x8d3d11(0x397)](_0x133bd0),
+                        _0xe7a08f = this['winGemCount'] * 0.5,
+                        _0x2a4d20 = 0x7d + Math[_0x8d3d11(0x14a)]() * 0xc8,
+                        TweenLite['to'](_0x133bd0, 0.25, {
+                            'x': _0x133bd0['x'] + _0x2a4d20 * Math[_0x8d3d11(0x2a9)](_0xe7a08f),
+                            'y': _0x133bd0['y'] + _0x2a4d20 * Math['sin'](_0xe7a08f),
+                            'ease': _0x8d3d11(0x251),
+                            'onCompleteParams': [_0x133bd0],
+                            'onComplete': function(_0x25310c) {
+                                var _0x260109 = _0x8d3d11;
+                                _0x304bae = _0x1d3b4b[_0x260109(0x435)](gems),
+                                TweenLite['to'](_0x25310c, 0.5, {
+                                    'x': canvas[_0x260109(0xeb)] - getDirectWidth(0x0, 0x4b, _0x304bae) - 0x5f + 0x1b,
+                                    'y': canvas['height'] - 0x50 + 0x19,
+                                    'inc': 0x0,
+                                    'ease': _0x260109(0x20b),
+                                    'onComplete': function() {
+                                        var _0x102bbd = _0x260109;
+                                        gems++,
+                                        playSound(_0x102bbd(0xc3) + Math[_0x102bbd(0x3b4)](Math[_0x102bbd(0x14a)]() * 0x5), 0.3);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    for (var _0x59d4fb = 0x0; _0x59d4fb < this[_0x8d3d11(0x294)]['length']; _0x59d4fb++) {
+                        if (this[_0x8d3d11(0x294)][_0x59d4fb]['inc'] > 0x0) {
+                            var _0x20265f = getSpriteData(assetLib['getData'](_0x8d3d11(0x2ae)), 'bigGem');
+                            _0x5c7325 = 0.5 + this[_0x8d3d11(0x294)][_0x59d4fb][_0x8d3d11(0x105)] * 0.5,
+                            ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight'], this[_0x8d3d11(0x294)][_0x59d4fb]['x'] - _0x20265f[_0x8d3d11(0x2a8)] / 0x2, this[_0x8d3d11(0x294)][_0x59d4fb]['y'] - _0x20265f[_0x8d3d11(0x2f0)] / 0x2, _0x20265f[_0x8d3d11(0x2a8)] * _0x5c7325, _0x20265f[_0x8d3d11(0x2f0)] * _0x5c7325);
+                        } else {
+                            var _0x15a483 = Math['random']() * 0x168 * radian;
+                            for (var _0x38aaca = 0x0; _0x38aaca < 0x5; _0x38aaca++) {
+                                var _0xa91fae = new _0x1affdf[(_0x8d3d11(0x2f5))](this['aWinGems'][_0x59d4fb]['x'],this[_0x8d3d11(0x294)][_0x59d4fb]['y'],Math[_0x8d3d11(0x14a)]() * 0x1 + 0x1,0x12c,_0x15a483 + 0x168 / 0x5 * _0x38aaca * radian,0x14,0x1,0x32);
+                                aEffects[_0x8d3d11(0x397)](_0xa91fae);
+                            }
+                            this['aWinGems'][_0x8d3d11(0x272)](_0x59d4fb, 0x1),
+                            _0x59d4fb -= 0x1,
+                            this[_0x8d3d11(0x294)]['length'] <= 0x0 && initLevelCompleteButs();
+                        }
+                    }
+                    if (Math[_0x8d3d11(0x14a)]() > 0.5) {
+                        var _0xa91fae = new _0x1affdf[(_0x8d3d11(0x2f5))](canvas[_0x8d3d11(0xeb)] / 0x2,_0x2fd2ac + 0xfa + this[_0x8d3d11(0x393)] * 0xc8,Math[_0x8d3d11(0x14a)]() * 0x1 + 0x1,0x12c,Math[_0x8d3d11(0x14a)]() * 0x168 * radian,0x14,0x1,0xc8);
+                        aEffects['push'](_0xa91fae);
+                    }
+                    gameplayState == 0x4 && (Math['sin'](this[_0x8d3d11(0x341)]) > 0x0 && !rewardButHit && (addDirectText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas['height'] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], '+' + _0x9226a1 + '\x20' + getText(_0x8d3d11(0xc3), 0x0), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, 'center', canvas[_0x8d3d11(0xeb)] - 0x5a, canvas['height'] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x41b), _0x8d3d11(0x13c))),
+                    anyWorldBatsLeft() && (curLevel + 0x1) % levelsPerWorld == 0x0 ? Math[_0x8d3d11(0x374)](this['incY']) > 0x0 && addText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas['width'] / 0x2, canvas[_0x8d3d11(0x2f8)] * 0.7 + 0xc8, _0x8d3d11(0x350), _0x8d3d11(0x13c)) : (Math[_0x8d3d11(0x374)](this['incY']) > 0x0 && addText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, canvas[_0x8d3d11(0x2f8)] * 0.7 + 0xc8 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x245), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this['butsY'], _0x8d3d11(0x475), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this['butsY'], 'batCollectionBut1', _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, 'center', 0x5a, canvas['height'] - 0x1ae + 0x5a + this['butsY'], _0x8d3d11(0x176), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas['height'] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x127), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x468), '#FFFFFF'),
+                    addText(0x0, 0x1a, 0x8c, 'center', 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this['butsY'], _0x8d3d11(0x190), '#FFFFFF'),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x334), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x348), '#FFFFFF')));
+                } else {
+                    if (gameplayState == 0x5 || gameplayState == 0x6) {
+                        var _0x2fd2ac = Math[_0x8d3d11(0x1cb)](onScreenY - 0xc8, 0x3c) + 0x78
+                          , _0x5927d3 = Math[_0x8d3d11(0x3b4)]((curLevel + 0x1) / levelsPerWorld)
+                          , _0x4b6910 = this[_0x8d3d11(0x435)](_0x5927d3);
+                        addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x3 + Math[_0x8d3d11(0x374)](this['incY']) * 0x5, getText(_0x8d3d11(0x327), 0x0) + '\x20' + _0x4b6910 + '\x20' + getText(_0x8d3d11(0x496), 0x0), _0x8d3d11(0x1ee)),
+                        addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5, getText(_0x8d3d11(0x327), 0x0) + '\x20' + _0x4b6910 + '\x20' + getText(_0x8d3d11(0x496), 0x0), _0x8d3d11(0x13c));
+                        var _0x5c7325 = Math[_0x8d3d11(0x258)]((canvas['height'] - 0x1f4) / 0x190, 0x1);
+                        this[_0x8d3d11(0x160)](batUnlockedId, canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + 0x10e * _0x5c7325, _0x5c7325 * this[_0x8d3d11(0xd5)]);
+                        if (Math[_0x8d3d11(0x14a)]() > 0.5) {
+                            var _0xa91fae = new _0x1affdf[(_0x8d3d11(0x2f5))](canvas[_0x8d3d11(0xeb)] / 0x2,_0x2fd2ac + 0x10e * _0x5c7325,Math[_0x8d3d11(0x14a)]() * 0x1 + 0x1,0x12c,Math[_0x8d3d11(0x14a)]() * 0x168 * radian,0x14,0x1,0x64);
+                            aEffects[_0x8d3d11(0x397)](_0xa91fae);
+                        }
+                        gameplayState == 0x6 && (addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas['height'] - 0xe6 + 0x5a + this['butsY'], _0x8d3d11(0x475), _0x8d3d11(0x13c)),
+                        addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this[_0x8d3d11(0x12f)], 'batCollectionBut1', _0x8d3d11(0x13c)),
+                        addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x176), _0x8d3d11(0x13c)),
+                        addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x127), _0x8d3d11(0x13c)),
+                        addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this['butsY'], _0x8d3d11(0x468), '#FFFFFF'),
+                        addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas['height'] - 0xe6 + 0x73 + this[_0x8d3d11(0x12f)], 'customMatchBut1', '#FFFFFF'),
+                        addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x5a + this['butsY'], 'bugGameBut0', _0x8d3d11(0x13c)),
+                        addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas['height'] - 0x276 + 0x73 + this[_0x8d3d11(0x12f)], 'bugGameBut1', '#FFFFFF'),
+                        addText(0x0, 0x28, canvas[_0x8d3d11(0xeb)], 'center', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + 0x3c + this['levelCompleteInc'] * 0xc8, _0x8d3d11(0x350), '#FFFFFF'),
+                        Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) > 0x0 && addText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, canvas[_0x8d3d11(0x2f8)] * 0.7 + 0xc8 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x245), _0x8d3d11(0x13c)),
+                        Math['sin'](this['incY']) > 0x0 && addText(0x0, 0x28, 0x64, 'center', canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x14a, 'new', _0x8d3d11(0x13c)));
+                    } else {
+                        if (gameplayState >= 0x7 && gameplayState < 0x9) {
+                            var _0x2fd2ac = Math[_0x8d3d11(0x1cb)](onScreenY - 0xc8, 0x3c) + 0x1e;
+                            if (Math[_0x8d3d11(0x14a)]() > 0.5) {
+                                var _0xa91fae = new _0x1affdf[(_0x8d3d11(0x2f5))](canvas[_0x8d3d11(0xeb)] / 0x2,_0x2fd2ac + 0x64,Math[_0x8d3d11(0x14a)]() * 0x1 + 0x1,0x12c,Math[_0x8d3d11(0x14a)]() * 0x168 * radian,0x14,0x1,0x7d);
+                                aEffects[_0x8d3d11(0x397)](_0xa91fae);
+                            }
+                            addText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas['width'] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8, _0x8d3d11(0x36f), _0x8d3d11(0x13c)),
+                            addDirectText(0x0, 0xc8, canvas['width'] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this['levelCompleteInc'] * 0xc8 + 0x3 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5 + 0xaf, this[_0x8d3d11(0x435)](curTargetScore), _0x8d3d11(0x1cc)),
+                            addDirectText(0x0, 0xc8, canvas['width'] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5 + 0xaf, this[_0x8d3d11(0x435)](curTargetScore), _0x8d3d11(0x13c));
+                            curTargetScore > localTargetHighscore ? addText(0x0, 0x32, canvas['width'] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x154, _0x8d3d11(0x222), '#FFFC01') : (addText(0x0, 0x1e, canvas[_0x8d3d11(0xeb)] - 0x64, 'center', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x154 - 0x19, _0x8d3d11(0x406), _0x8d3d11(0x149)),
+                            addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, 'center', canvas['width'] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x154 + 0x26, this[_0x8d3d11(0x435)](saveDataHandler[_0x8d3d11(0x1a5)]()), _0x8d3d11(0x149)));
+                            if (Math[_0x8d3d11(0x226)](curTargetScore / 0x2) > 0x0) {
+                                addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] / 0x2, 'left', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this['levelCompleteInc'] * 0xc8 + 0xc8 + 0x32 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5, this['twoDigit'](Math[_0x8d3d11(0x226)](curTargetScore / 0x2)), _0x8d3d11(0x13c));
+                                var _0x20265f = getSpriteData(assetLib['getData'](_0x8d3d11(0x2ae)), 'smallGem');
+                                ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)], canvas[_0x8d3d11(0xeb)] / 0x2 - _0x20265f[_0x8d3d11(0x2a8)], _0x2fd2ac + this['levelCompleteInc'] * 0xc8 + 0xbe + Math['sin'](this['incY']) * 0x5, _0x20265f['bWidth'], _0x20265f[_0x8d3d11(0x2f0)]),
+                                this[_0x8d3d11(0x372)] -= delta * 0x23;
+                                var _0xe7a08f, _0x2a4d20;
+                                if (this[_0x8d3d11(0x372)] < this[_0x8d3d11(0x3ea)] && this['winGemCount'] > 0x0) {
+                                    this[_0x8d3d11(0x3ea)] -= 0x1;
+                                    var _0x133bd0 = {
+                                        'x': canvas['width'] / 0x2 - 0x19,
+                                        'y': _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0xbe + 0x19,
+                                        'inc': 0x1
+                                    };
+                                    this['aWinGems'][_0x8d3d11(0x397)](_0x133bd0),
+                                    _0xe7a08f = this['winGemCount'] * 0.5,
+                                    _0x2a4d20 = 0x7d + Math[_0x8d3d11(0x14a)]() * 0xc8,
+                                    TweenLite['to'](_0x133bd0, 0.25, {
+                                        'x': _0x133bd0['x'] + _0x2a4d20 * Math[_0x8d3d11(0x2a9)](_0xe7a08f),
+                                        'y': _0x133bd0['y'] + _0x2a4d20 * Math[_0x8d3d11(0x374)](_0xe7a08f),
+                                        'ease': _0x8d3d11(0x251),
+                                        'onCompleteParams': [_0x133bd0],
+                                        'onComplete': function(_0x3bed96) {
+                                            var _0x440e87 = _0x8d3d11;
+                                            _0x304bae = _0x1d3b4b[_0x440e87(0x435)](gems),
+                                            TweenLite['to'](_0x3bed96, 0.5, {
+                                                'x': canvas['width'] - getDirectWidth(0x0, 0x4b, _0x304bae) - 0x5f + 0x1b,
+                                                'y': canvas['height'] - 0x50 + 0x19,
+                                                'inc': 0x0,
+                                                'ease': _0x440e87(0x20b),
+                                                'onComplete': function() {
+                                                    var _0x225e27 = _0x440e87;
+                                                    gems++,
+                                                    playSound(_0x225e27(0xc3) + Math['floor'](Math[_0x225e27(0x14a)]() * 0x5), 0.3);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                                for (var _0x59d4fb = 0x0; _0x59d4fb < this['aWinGems'][_0x8d3d11(0x3f5)]; _0x59d4fb++) {
+                                    if (this['aWinGems'][_0x59d4fb][_0x8d3d11(0x105)] > 0x0) {
+                                        var _0x20265f = getSpriteData(assetLib['getData'](_0x8d3d11(0x2ae)), 'bigGem');
+                                        _0x5c7325 = 0.5 + this[_0x8d3d11(0x294)][_0x59d4fb][_0x8d3d11(0x105)] * 0.5,
+                                        ctx[_0x8d3d11(0x23c)](_0x20265f['img'], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)], this[_0x8d3d11(0x294)][_0x59d4fb]['x'] - _0x20265f[_0x8d3d11(0x2a8)] / 0x2, this['aWinGems'][_0x59d4fb]['y'] - _0x20265f['bHeight'] / 0x2, _0x20265f[_0x8d3d11(0x2a8)] * _0x5c7325, _0x20265f[_0x8d3d11(0x2f0)] * _0x5c7325);
+                                    } else {
+                                        var _0x15a483 = Math[_0x8d3d11(0x14a)]() * 0x168 * radian;
+                                        for (var _0x38aaca = 0x0; _0x38aaca < 0x5; _0x38aaca++) {
+                                            var _0xa91fae = new _0x1affdf['Particle'](this[_0x8d3d11(0x294)][_0x59d4fb]['x'],this[_0x8d3d11(0x294)][_0x59d4fb]['y'],Math[_0x8d3d11(0x14a)]() * 0x1 + 0x1,0x12c,_0x15a483 + 0x168 / 0x5 * _0x38aaca * radian,0x14,0x1,0x32);
+                                            aEffects['push'](_0xa91fae);
+                                        }
+                                        this[_0x8d3d11(0x294)][_0x8d3d11(0x272)](_0x59d4fb, 0x1),
+                                        _0x59d4fb -= 0x1,
+                                        this['aWinGems'][_0x8d3d11(0x3f5)] <= 0x0 && initTargetGameEndButs();
+                                    }
+                                }
+                            }
+                            gameplayState == 0x8 && (Math[_0x8d3d11(0x226)](curTargetScore / 0x2) > 0x0 ? Math[_0x8d3d11(0x374)](this['incY']) > 0x0 && !rewardButHit && (addDirectText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas['width'] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], '+' + Math[_0x8d3d11(0x226)](curTargetScore / 0x2) + '\x20' + getText('gem', 0x0), _0x8d3d11(0x13c)),
+                            addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas['height'] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x41b), _0x8d3d11(0x13c))) : addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas['height'] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x307), '#FFFFFF'),
+                            addText(0x0, 0x1a, 0x8c, 'center', canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this[_0x8d3d11(0x12f)], 'batCollectionBut0', _0x8d3d11(0x13c)),
+                            addText(0x0, 0x1a, 0x8c, 'center', canvas[_0x8d3d11(0xeb)] - 0x5a, canvas['height'] - 0xe6 + 0x73 + this[_0x8d3d11(0x12f)], 'batCollectionBut1', '#FFFFFF'),
+                            addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this['butsY'], _0x8d3d11(0x246), '#FFFFFF'),
+                            addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x2e9), _0x8d3d11(0x13c)),
+                            addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x468), '#FFFFFF'),
+                            addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x190), '#FFFFFF'),
+                            addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x334), '#FFFFFF'),
+                            addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x348), _0x8d3d11(0x13c)),
+                            Math[_0x8d3d11(0x374)](this['incY']) > 0x0 && addText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, canvas[_0x8d3d11(0x2f8)] * 0.7 + 0xc8 + this['butsY'], _0x8d3d11(0x30b), _0x8d3d11(0x13c)));
+                        } else {
+                            if (gameplayState >= 0x9 && gameplayState < 0xb) {
+                                var _0x2fd2ac = Math[_0x8d3d11(0x1cb)](onScreenY - 0xc8, 0x3c) + 0x78;
+                                if (Math[_0x8d3d11(0x14a)]() > 0.5) {
+                                    var _0xa91fae = new _0x1affdf['Particle'](canvas[_0x8d3d11(0xeb)] / 0x2,_0x2fd2ac + 0x64,Math[_0x8d3d11(0x14a)]() * 0x1 + 0x1,0x12c,Math['random']() * 0x168 * radian,0x14,0x1,0x7d);
+                                    aEffects[_0x8d3d11(0x397)](_0xa91fae);
+                                }
+                                userSets > enemySets ? addText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, 'center', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8, _0x8d3d11(0x19c), _0x8d3d11(0x13c)) : addText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8, 'youLost', _0x8d3d11(0x13c));
+                                addDirectText(0x0, 0xc8, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x3 + Math[_0x8d3d11(0x374)](this['incY']) * 0x5 + 0xaf, userSets + '-' + enemySets, _0x8d3d11(0x1cc)),
+                                addDirectText(0x0, 0xc8, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + Math[_0x8d3d11(0x374)](this['incY']) * 0x5 + 0xaf, userSets + '-' + enemySets, _0x8d3d11(0x13c));
+                                var _0x753a73;
+                                userSets > enemySets ? _0x753a73 = 0x64 : _0x753a73 = 0x19;
+                                addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] / 0x2, 'left', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0xc8 + 0x32 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5, this['twoDigit'](_0x753a73), '#FFFFFF');
+                                var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0xc4));
+                                ctx['drawImage'](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)], canvas[_0x8d3d11(0xeb)] / 0x2 - _0x20265f[_0x8d3d11(0x2a8)], _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0xbe + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5, _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)]),
+                                this[_0x8d3d11(0x372)] -= delta * 0x23;
+                                var _0xe7a08f, _0x2a4d20;
+                                if (this[_0x8d3d11(0x372)] < this[_0x8d3d11(0x3ea)] && this[_0x8d3d11(0x372)] > 0x0) {
+                                    this['winGemTarg'] -= 0x1;
+                                    var _0x133bd0 = {
+                                        'x': canvas[_0x8d3d11(0xeb)] / 0x2 - 0x19,
+                                        'y': _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0xbe + 0x19,
+                                        'inc': 0x1
+                                    };
+                                    this['aWinGems'][_0x8d3d11(0x397)](_0x133bd0),
+                                    _0xe7a08f = this[_0x8d3d11(0x372)] * 0.5,
+                                    _0x2a4d20 = 0x7d + Math[_0x8d3d11(0x14a)]() * 0xc8,
+                                    TweenLite['to'](_0x133bd0, 0.25, {
+                                        'x': _0x133bd0['x'] + _0x2a4d20 * Math[_0x8d3d11(0x2a9)](_0xe7a08f),
+                                        'y': _0x133bd0['y'] + _0x2a4d20 * Math[_0x8d3d11(0x374)](_0xe7a08f),
+                                        'ease': _0x8d3d11(0x251),
+                                        'onCompleteParams': [_0x133bd0],
+                                        'onComplete': function(_0xe84065) {
+                                            var _0x295e37 = _0x8d3d11;
+                                            _0x304bae = _0x1d3b4b[_0x295e37(0x435)](gems),
+                                            TweenLite['to'](_0xe84065, 0.5, {
+                                                'x': canvas[_0x295e37(0xeb)] - getDirectWidth(0x0, 0x4b, _0x304bae) - 0x5f + 0x1b,
+                                                'y': canvas[_0x295e37(0x2f8)] - 0x50 + 0x19,
+                                                'inc': 0x0,
+                                                'ease': _0x295e37(0x20b),
+                                                'onComplete': function() {
+                                                    var _0x2625e4 = _0x295e37;
+                                                    gems++,
+                                                    playSound(_0x2625e4(0xc3) + Math['floor'](Math[_0x2625e4(0x14a)]() * 0x5), 0.3);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                                for (var _0x59d4fb = 0x0; _0x59d4fb < this[_0x8d3d11(0x294)][_0x8d3d11(0x3f5)]; _0x59d4fb++) {
+                                    if (this[_0x8d3d11(0x294)][_0x59d4fb][_0x8d3d11(0x105)] > 0x0) {
+                                        var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x4a9));
+                                        _0x5c7325 = 0.5 + this[_0x8d3d11(0x294)][_0x59d4fb][_0x8d3d11(0x105)] * 0.5,
+                                        ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)], this['aWinGems'][_0x59d4fb]['x'] - _0x20265f['bWidth'] / 0x2, this['aWinGems'][_0x59d4fb]['y'] - _0x20265f['bHeight'] / 0x2, _0x20265f[_0x8d3d11(0x2a8)] * _0x5c7325, _0x20265f[_0x8d3d11(0x2f0)] * _0x5c7325);
+                                    } else {
+                                        var _0x15a483 = Math['random']() * 0x168 * radian;
+                                        for (var _0x38aaca = 0x0; _0x38aaca < 0x5; _0x38aaca++) {
+                                            var _0xa91fae = new _0x1affdf[(_0x8d3d11(0x2f5))](this[_0x8d3d11(0x294)][_0x59d4fb]['x'],this[_0x8d3d11(0x294)][_0x59d4fb]['y'],Math[_0x8d3d11(0x14a)]() * 0x1 + 0x1,0x12c,_0x15a483 + 0x168 / 0x5 * _0x38aaca * radian,0x14,0x1,0x32);
+                                            aEffects[_0x8d3d11(0x397)](_0xa91fae);
+                                        }
+                                        this[_0x8d3d11(0x294)][_0x8d3d11(0x272)](_0x59d4fb, 0x1),
+                                        _0x59d4fb -= 0x1,
+                                        this[_0x8d3d11(0x294)][_0x8d3d11(0x3f5)] <= 0x0 && initCustomGameEndButs();
+                                    }
+                                }
+                                if (gameplayState == 0xa) {
+                                    var _0x753a73;
+                                    userSets > enemySets ? _0x753a73 = 0x64 : _0x753a73 = 0x19,
+                                    Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) > 0x0 && !rewardButHit && (addDirectText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], '+' + _0x753a73 + '\x20' + getText(_0x8d3d11(0xc3), 0x0), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas['height'] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x41b), _0x8d3d11(0x13c))),
+                                    addText(0x0, 0x1a, 0x8c, 'center', canvas[_0x8d3d11(0xeb)] - 0x5a, canvas['height'] - 0xe6 + 0x5a + this[_0x8d3d11(0x12f)], 'batCollectionBut0', '#FFFFFF'),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas['width'] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this['butsY'], _0x8d3d11(0x336), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x176), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x127), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, 'center', 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x246), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, 'center', 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this['butsY'], _0x8d3d11(0x2e9), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x334), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x73 + this[_0x8d3d11(0x12f)], 'bugGameBut1', _0x8d3d11(0x13c)),
+                                    Math[_0x8d3d11(0x374)](this['incY']) > 0x0 && addText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, canvas[_0x8d3d11(0x2f8)] * 0.7 + 0xc8 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x164), '#FFFFFF');
+                                }
+                            } else {
+                                if (gameplayState >= 0xb && gameplayState < 0xd) {
+                                    var _0x2fd2ac = Math[_0x8d3d11(0x1cb)](onScreenY - 0xc8, 0x3c) + 0x1e;
+                                    if (Math['random']() > 0.5) {
+                                        var _0xa91fae = new _0x1affdf['Particle'](canvas[_0x8d3d11(0xeb)] / 0x2,_0x2fd2ac + 0x64,Math['random']() * 0x1 + 0x1,0x12c,Math['random']() * 0x168 * radian,0x14,0x1,0x7d);
+                                        aEffects[_0x8d3d11(0x397)](_0xa91fae);
+                                    }
+                                    addText(0x0, 0x4b, canvas['width'] - 0x64, _0x8d3d11(0x45c), canvas['width'] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8, _0x8d3d11(0x29c), '#FFFFFF'),
+                                    addDirectText(0x0, 0xc8, canvas['width'] - 0x64, _0x8d3d11(0x45c), canvas['width'] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x3 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5 + 0xaf, this[_0x8d3d11(0x435)](bugScore), _0x8d3d11(0x1cc)),
+                                    addDirectText(0x0, 0xc8, canvas[_0x8d3d11(0xeb)] - 0x64, 'center', canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5 + 0xaf, this[_0x8d3d11(0x435)](bugScore), _0x8d3d11(0x13c));
+                                    bugScore > localTargetHighscore ? addText(0x0, 0x32, canvas['width'] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x154, _0x8d3d11(0x222), _0x8d3d11(0x149)) : (addText(0x0, 0x1e, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas['width'] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x154 - 0x19, _0x8d3d11(0x406), _0x8d3d11(0x149)),
+                                    addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0x154 + 0x26, this[_0x8d3d11(0x435)](saveDataHandler[_0x8d3d11(0x38b)]()), _0x8d3d11(0x149)));
+                                    if (Math['ceil'](bugScore / 0x4) > 0x0) {
+                                        addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] / 0x2, _0x8d3d11(0x126), canvas[_0x8d3d11(0xeb)] / 0x2, _0x2fd2ac + this['levelCompleteInc'] * 0xc8 + 0xc8 + 0x32 + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5, this[_0x8d3d11(0x435)](Math['ceil'](bugScore / 0x4)), _0x8d3d11(0x13c));
+                                        var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0xc4));
+                                        ctx['drawImage'](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f['bWidth'], _0x20265f[_0x8d3d11(0x2f0)], canvas[_0x8d3d11(0xeb)] / 0x2 - _0x20265f[_0x8d3d11(0x2a8)], _0x2fd2ac + this[_0x8d3d11(0x393)] * 0xc8 + 0xbe + Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) * 0x5, _0x20265f['bWidth'], _0x20265f['bHeight']),
+                                        this[_0x8d3d11(0x372)] -= delta * 0x23;
+                                        var _0xe7a08f, _0x2a4d20;
+                                        if (this['winGemCount'] < this[_0x8d3d11(0x3ea)] && this[_0x8d3d11(0x372)] > 0x0) {
+                                            this['winGemTarg'] -= 0x1;
+                                            var _0x133bd0 = {
+                                                'x': canvas[_0x8d3d11(0xeb)] / 0x2 - 0x19,
+                                                'y': _0x2fd2ac + this['levelCompleteInc'] * 0xc8 + 0xbe + 0x19,
+                                                'inc': 0x1
+                                            };
+                                            this['aWinGems'][_0x8d3d11(0x397)](_0x133bd0),
+                                            _0xe7a08f = this[_0x8d3d11(0x372)] * 0.5,
+                                            _0x2a4d20 = 0x7d + Math['random']() * 0xc8,
+                                            TweenLite['to'](_0x133bd0, 0.25, {
+                                                'x': _0x133bd0['x'] + _0x2a4d20 * Math[_0x8d3d11(0x2a9)](_0xe7a08f),
+                                                'y': _0x133bd0['y'] + _0x2a4d20 * Math[_0x8d3d11(0x374)](_0xe7a08f),
+                                                'ease': _0x8d3d11(0x251),
+                                                'onCompleteParams': [_0x133bd0],
+                                                'onComplete': function(_0x40bb11) {
+                                                    var _0x3732c4 = _0x8d3d11;
+                                                    _0x304bae = _0x1d3b4b[_0x3732c4(0x435)](gems),
+                                                    TweenLite['to'](_0x40bb11, 0.5, {
+                                                        'x': canvas[_0x3732c4(0xeb)] - getDirectWidth(0x0, 0x4b, _0x304bae) - 0x5f + 0x1b,
+                                                        'y': canvas[_0x3732c4(0x2f8)] - 0x50 + 0x19,
+                                                        'inc': 0x0,
+                                                        'ease': 'Quad.easeIn',
+                                                        'onComplete': function() {
+                                                            var _0x488aae = _0x3732c4;
+                                                            gems++,
+                                                            playSound(_0x488aae(0xc3) + Math['floor'](Math['random']() * 0x5), 0.3);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                        for (var _0x59d4fb = 0x0; _0x59d4fb < this[_0x8d3d11(0x294)]['length']; _0x59d4fb++) {
+                                            if (this[_0x8d3d11(0x294)][_0x59d4fb][_0x8d3d11(0x105)] > 0x0) {
+                                                var _0x20265f = getSpriteData(assetLib['getData']('uiElements'), _0x8d3d11(0x4a9));
+                                                _0x5c7325 = 0.5 + this['aWinGems'][_0x59d4fb][_0x8d3d11(0x105)] * 0.5,
+                                                ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f['bWidth'], _0x20265f[_0x8d3d11(0x2f0)], this[_0x8d3d11(0x294)][_0x59d4fb]['x'] - _0x20265f['bWidth'] / 0x2, this['aWinGems'][_0x59d4fb]['y'] - _0x20265f[_0x8d3d11(0x2f0)] / 0x2, _0x20265f[_0x8d3d11(0x2a8)] * _0x5c7325, _0x20265f[_0x8d3d11(0x2f0)] * _0x5c7325);
+                                            } else {
+                                                var _0x15a483 = Math[_0x8d3d11(0x14a)]() * 0x168 * radian;
+                                                for (var _0x38aaca = 0x0; _0x38aaca < 0x5; _0x38aaca++) {
+                                                    var _0xa91fae = new _0x1affdf[(_0x8d3d11(0x2f5))](this[_0x8d3d11(0x294)][_0x59d4fb]['x'],this[_0x8d3d11(0x294)][_0x59d4fb]['y'],Math[_0x8d3d11(0x14a)]() * 0x1 + 0x1,0x12c,_0x15a483 + 0x168 / 0x5 * _0x38aaca * radian,0x14,0x1,0x32);
+                                                    aEffects[_0x8d3d11(0x397)](_0xa91fae);
+                                                }
+                                                this[_0x8d3d11(0x294)][_0x8d3d11(0x272)](_0x59d4fb, 0x1),
+                                                _0x59d4fb -= 0x1,
+                                                this[_0x8d3d11(0x294)][_0x8d3d11(0x3f5)] <= 0x0 && initBugGameEndButs();
+                                            }
+                                        }
+                                    }
+                                    gameplayState == 0xc && (Math[_0x8d3d11(0x32d)](bugScore / 0x4) > 0x0 ? Math['sin'](this[_0x8d3d11(0x341)]) > 0x0 && !rewardButHit && (addDirectText(0x0, 0x1a, 0x8c, 'center', canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], '+' + Math[_0x8d3d11(0x32d)](bugScore / 0x4) + '\x20' + getText(_0x8d3d11(0xc3), 0x0), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas['width'] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], 'bonus', _0x8d3d11(0x13c))) : addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], 'awardsBut', '#FFFFFF'),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x475), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas['width'] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x336), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x246), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], 'arcadeBut1', '#FFFFFF'),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x468), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas['height'] - 0xe6 + 0x73 + this['butsY'], _0x8d3d11(0x190), _0x8d3d11(0x13c)),
+                                    addText(0x0, 0x1a, 0x8c, 'center', 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x176), '#FFFFFF'),
+                                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x73 + this['butsY'], _0x8d3d11(0x127), '#FFFFFF'),
+                                    Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) > 0x0 && addText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] - 0x64, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, canvas[_0x8d3d11(0x2f8)] * 0.7 + 0xc8 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x30b), _0x8d3d11(0x13c)));
+                                }
+                            }
+                        }
+                    }
+                }
+                var _0x304bae = this[_0x8d3d11(0x435)](gems);
+                addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] / 0x2, _0x8d3d11(0xf7), canvas[_0x8d3d11(0xeb)] - 0x19, canvas[_0x8d3d11(0x2f8)] - 0x14 + this[_0x8d3d11(0x12f)], _0x304bae, '#FFFFFF');
+                var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), 'smallGem');
+                ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)], canvas[_0x8d3d11(0xeb)] - getDirectWidth(0x0, 0x4b, _0x304bae) - 0x5f, canvas[_0x8d3d11(0x2f8)] - 0x50 + this[_0x8d3d11(0x12f)], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)]);
+                if (gameplayState == 0x0 || gameVariation == 0x0) {
+                    addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] / 0x2, _0x8d3d11(0x126), 0x5a, canvas['height'] - 0x14 + this[_0x8d3d11(0x12f)], this[_0x8d3d11(0x435)](curLevel + 0x1), _0x8d3d11(0x13c));
+                    var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x300));
+                    ctx['drawImage'](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f['bWidth'], _0x20265f[_0x8d3d11(0x2f0)], 0x18, canvas[_0x8d3d11(0x2f8)] - 0x4d + this['butsY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)]);
+                }
+                if (gameplayState == 0x0) {
+                    var _0x5bf19d = 0xa0;
+                    canvas[_0x8d3d11(0xeb)] / canvas['height'] < 0.6 ? (addText(0x0, 0x1a, 0x8c, 'center', canvas[_0x8d3d11(0xeb)] / 0x2 + _0x5bf19d, canvas['height'] - 0xfa + 0x5a + this['butsY'], _0x8d3d11(0x307), '#FFFFFF'),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas['width'] / 0x2 + _0x5bf19d * 0x2, canvas[_0x8d3d11(0x2f8)] - 0xfa + 0x5a + this[_0x8d3d11(0x12f)], 'batCollectionBut0', _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2 + _0x5bf19d * 0x2, canvas['height'] - 0xfa + 0x73 + this['butsY'], _0x8d3d11(0x336), '#FFFFFF'),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2 - _0x5bf19d, canvas[_0x8d3d11(0x2f8)] - 0xfa + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x176), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2 - _0x5bf19d, canvas[_0x8d3d11(0x2f8)] - 0xfa + 0x73 + this[_0x8d3d11(0x12f)], 'challengeBut1', _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, canvas[_0x8d3d11(0x2f8)] - 0xfa + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x468), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas['width'] / 0x2, canvas['height'] - 0xfa + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x190), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas['width'] / 0x2 - _0x5bf19d * 0x2, canvas['height'] - 0xfa + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x334), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, 'center', canvas['width'] / 0x2 - _0x5bf19d * 0x2, canvas['height'] - 0xfa + 0x73 + this['butsY'], _0x8d3d11(0x348), _0x8d3d11(0x13c))) : (addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], 'awardsBut', _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, 'center', canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x475), '#FFFFFF'),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] - 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x336), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x1ae + 0x5a + this[_0x8d3d11(0x12f)], 'challengeBut0', _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas['height'] - 0x1ae + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x127), '#FFFFFF'),
+                    addText(0x0, 0x1a, 0x8c, 'center', 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x5a + this['butsY'], 'customMatchBut0', '#FFFFFF'),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0xe6 + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x190), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x276 + 0x5a + this[_0x8d3d11(0x12f)], _0x8d3d11(0x334), _0x8d3d11(0x13c)),
+                    addText(0x0, 0x1a, 0x8c, _0x8d3d11(0x45c), 0x5a, canvas['height'] - 0x276 + 0x73 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x348), '#FFFFFF'));
+                    ctx['beginPath'](),
+                    ctx['arc'](canvas[_0x8d3d11(0xeb)] / 0x2, onScreenY + 0x154, this['incY'] * 0xc % 75.7 + 0x19, 0x0, 0x2 * Math['PI'], ![]),
+                    ctx[_0x8d3d11(0x416)] = Math['max']((75.7 - this[_0x8d3d11(0x341)] * 0xc % 75.7) * 0.2, 0x1),
+                    ctx[_0x8d3d11(0x47e)] = '#FFFFFF',
+                    ctx[_0x8d3d11(0x485)]();
+                    var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), 'startFinger');
+                    ctx[_0x8d3d11(0x425)](),
+                    ctx[_0x8d3d11(0xde)](canvas[_0x8d3d11(0xeb)] / 0x2 + 0xb4, onScreenY + 0x140),
+                    ctx[_0x8d3d11(0x20d)](Math[_0x8d3d11(0x247)](Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)] * 0.5)) * 0.5 - 0x64 * radian),
+                    ctx['drawImage'](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight'], -_0x20265f[_0x8d3d11(0x2a8)] / 0x2, -_0x20265f[_0x8d3d11(0x2f0)] * 0.75, _0x20265f['bWidth'], _0x20265f[_0x8d3d11(0x2f0)]),
+                    ctx[_0x8d3d11(0x10d)]();
+                } else {
+                    if (gameplayState < 0x5 && gameVariation == 0x0)
+                        for (var _0x59d4fb = 0x0; _0x59d4fb < levelStarTarg; _0x59d4fb++) {
+                            var _0x3595f5 = 0x0;
+                            curLevelStars > _0x59d4fb && (_0x3595f5 = 0x1);
+                            var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x2e2) + _0x3595f5);
+                            ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight'], canvas[_0x8d3d11(0xeb)] / 0x2 - _0x20265f[_0x8d3d11(0x2a8)] / 0x2 + _0x59d4fb * 0x46 - 0x46 * (levelStarTarg / 0x2 - 0.5) - this[_0x8d3d11(0x36a)] * 0x64, Math[_0x8d3d11(0x1cb)](onScreenY - 0xc8, 0x3c) - _0x20265f['bWidth'] / 0x2 - this[_0x8d3d11(0x446)] * 0x64, _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)]);
+                        }
+                }
+                if (gameVariation == 0x1 && gameplayState == 0x1) {
+                    addText(0x0, 0x1e, canvas[_0x8d3d11(0xeb)] / 0x2, _0x8d3d11(0x126), 0x18, canvas[_0x8d3d11(0x2f8)] - 0x55 + this[_0x8d3d11(0x12f)], _0x8d3d11(0x406), '#FFFFFF'),
+                    addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] / 0x2, _0x8d3d11(0x126), 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x14 + this['butsY'], this[_0x8d3d11(0x435)](localTargetHighscore), _0x8d3d11(0x13c));
+                    var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x122));
+                    ctx[_0x8d3d11(0x23c)](_0x20265f['img'], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)], 0x18, canvas['height'] - 0x4d + this[_0x8d3d11(0x12f)], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight']),
+                    addDirectText(0x0, 0x78, canvas[_0x8d3d11(0xeb)] / 0x2, _0x8d3d11(0x45c), canvas[_0x8d3d11(0xeb)] / 0x2, Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - this[_0x8d3d11(0x446)] * 0xa, this['twoDigit'](curTargetScore), '#FFFFFF');
+                } else {
+                    if (gameVariation == 0x2 && gameplayState == 0x1) {
+                        var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x1a8));
+                        ctx['drawImage'](_0x20265f['img'], _0x20265f['bX'], _0x20265f['bY'], _0x20265f['bWidth'], _0x20265f[_0x8d3d11(0x2f0)], canvas[_0x8d3d11(0xeb)] / 0x2 - _0x20265f[_0x8d3d11(0x2a8)] / 0x2, Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - this[_0x8d3d11(0x446)] * 0xa - 0x53, _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight']),
+                        addDirectText(0x0, 0x78, canvas['width'] / 0x2, _0x8d3d11(0xf7), canvas['width'] / 0x2 - 0x32, Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - this[_0x8d3d11(0x481)] * 0xa, userScore[_0x8d3d11(0x18b)](), _0x8d3d11(0x13c)),
+                        addDirectText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] / 0x2, 'center', canvas[_0x8d3d11(0xeb)] / 0x2 - 0x15, Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - this[_0x8d3d11(0x446)] * 0xa - 0x29, userSets[_0x8d3d11(0x18b)](), '#FFFC01'),
+                        addDirectText(0x0, 0x78, canvas['width'] / 0x2, _0x8d3d11(0x126), canvas[_0x8d3d11(0xeb)] / 0x2 + 0x32, Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - this[_0x8d3d11(0xda)] * 0xa, enemyScore[_0x8d3d11(0x18b)](), '#FFFFFF'),
+                        addDirectText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] / 0x2, 'center', canvas[_0x8d3d11(0xeb)] / 0x2 + 0x15, Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - this[_0x8d3d11(0x446)] * 0xa - 0x29, enemySets[_0x8d3d11(0x18b)](), _0x8d3d11(0x149));
+                    } else {
+                        if (gameVariation == 0x3 && gameplayState == 0x1) {
+                            addDirectText(0x0, 0x78, canvas[_0x8d3d11(0xeb)] / 0x2, 'right', canvas['width'] / 0x2 + 0x1e, Math['max'](onScreenY - 0xaa, 0x64) - this[_0x8d3d11(0x446)] * 0xa, this[_0x8d3d11(0x435)](bugScore), _0x8d3d11(0x13c));
+                            bugTime < bugTimeTarg && (bugTime += delta,
+                            bugTime >= bugTimeTarg && initBugGameEnd());
+                            if (bugTime < bugTimeTarg - 0x5 || Math[_0x8d3d11(0x374)](this[_0x8d3d11(0x341)]) > 0x0) {
+                                var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x28d));
+                                ctx[_0x8d3d11(0x23c)](_0x20265f['img'], _0x20265f['bX'], _0x20265f['bY'], _0x20265f['bWidth'], _0x20265f[_0x8d3d11(0x2f0)], canvas[_0x8d3d11(0xeb)] / 0x2 + 0x2d, Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - 0x53, _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight']);
+                                var _0x505d01 = canvas['width'] / 0x2 + 0x2d + 35.5
+                                  , _0x4fe61e = Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - 0x53 + 46.5;
+                                ctx[_0x8d3d11(0x3c9)] = _0x8d3d11(0x13c),
+                                ctx[_0x8d3d11(0x1df)](),
+                                ctx[_0x8d3d11(0x458)](_0x505d01, _0x4fe61e),
+                                ctx[_0x8d3d11(0x13f)](_0x505d01, _0x4fe61e, 0x19, -0.5 * Math['PI'], 0x2 * Math['PI'] / bugTimeTarg * bugTime - 0.5 * Math['PI']),
+                                ctx['lineTo'](_0x505d01, _0x4fe61e),
+                                ctx[_0x8d3d11(0x23b)]();
+                            }
+                            addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] / 0x2, 'left', 0x5a, canvas[_0x8d3d11(0x2f8)] - 0x14 + this['butsY'], this[_0x8d3d11(0x435)](localTargetHighscore), _0x8d3d11(0x13c));
+                            var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), _0x8d3d11(0x1c3));
+                            ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f['bWidth'], _0x20265f['bHeight'], 0x18, canvas['height'] - 0x4d + this['butsY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f[_0x8d3d11(0x2f0)]),
+                            this[_0x8d3d11(0x25c)] < 0x1 && addDirectText(0x0, 0x32, canvas[_0x8d3d11(0xeb)] / 0x2, 'left', canvas[_0x8d3d11(0xeb)] / 0x2 + 0x7d, Math[_0x8d3d11(0x1cb)](onScreenY - 0xaa, 0x64) - 0x17 + this[_0x8d3d11(0x25c)] * 0x64, '+' + bugBonusTime + _0x8d3d11(0x18e), _0x8d3d11(0x13c));
+                        }
+                    }
+                }
+                break;
+            case 'batShop':
+                ctx['fillStyle'] = _0x8d3d11(0x21a),
+                ctx['fillRect'](0x0, 0x0, canvas[_0x8d3d11(0xeb)], canvas['height']),
+                addText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] - 0xc8, _0x8d3d11(0x45c), canvas['width'] / 0x2, 0x4b, 'batCollection', _0x8d3d11(0x13c));
+                var _0x304bae = this['twoDigit'](gems);
+                addDirectText(0x0, 0x4b, canvas[_0x8d3d11(0xeb)] / 0x2, 'right', canvas[_0x8d3d11(0xeb)] - 0x19, canvas[_0x8d3d11(0x2f8)] - 0x14, _0x304bae, _0x8d3d11(0x13c));
+                var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2ae)), 'smallGem');
+                ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight'], canvas[_0x8d3d11(0xeb)] - getDirectWidth(0x0, 0x4b, _0x304bae) - 0x5f, canvas[_0x8d3d11(0x2f8)] - 0x50, _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight']);
+                break;
+            case 'awards':
+                ctx[_0x8d3d11(0x3c9)] = 'rgba(0,\x200,\x200,\x200.5)',
+                ctx[_0x8d3d11(0x381)](0x0, 0x0, canvas[_0x8d3d11(0xeb)], canvas[_0x8d3d11(0x2f8)]);
+                for (var _0x59d4fb = 0x0; _0x59d4fb < 0x10; _0x59d4fb++) {
+                    var _0x3595f5 = 0x10;
+                    saveDataHandler['getAwardState'](_0x59d4fb) == 0x1 && (_0x3595f5 = _0x59d4fb);
+                    var _0x20265f = getSpriteData(assetLib[_0x8d3d11(0x2d8)](_0x8d3d11(0x2d1)), _0x8d3d11(0x3d6) + _0x3595f5)
+                      , _0x58ff2d = canvas[_0x8d3d11(0xeb)] / 0x2 - 0xbe * 1.5 + _0x59d4fb % 0x4 * 0xbe
+                      , _0x2fd2ac = canvas[_0x8d3d11(0x2f8)] / 0x2 + 0x46 - 0x190 + Math['floor'](_0x59d4fb / 0x4) * 0xc7 + this[_0x8d3d11(0x10f)]
+                      , _0x5c7325 = 0.9;
+                    ctx[_0x8d3d11(0x23c)](_0x20265f[_0x8d3d11(0x436)], _0x20265f['bX'], _0x20265f['bY'], _0x20265f[_0x8d3d11(0x2a8)], _0x20265f['bHeight'], _0x58ff2d - _0x20265f[_0x8d3d11(0x2a8)] / 0x2 * _0x5c7325, _0x2fd2ac - _0x20265f['bHeight'] / 0x2 * _0x5c7325, _0x20265f[_0x8d3d11(0x2a8)] * _0x5c7325, _0x20265f['bHeight'] * _0x5c7325);
+                    var _0x504f8d = getMultiLineTextByChars(_0x8d3d11(0x3ef) + _0x59d4fb, 0x10, 0x1);
+                    for (var _0x38aaca = 0x0; _0x38aaca < _0x504f8d[_0x8d3d11(0x3f5)]; _0x38aaca++) {
+                        addDirectText(0x1, 0x19, 0xc8, _0x8d3d11(0x45c), _0x58ff2d, _0x2fd2ac + 0x5d + _0x38aaca * 0x19, _0x504f8d[_0x38aaca], _0x8d3d11(0x13c));
+                    }
+                }
+                break;
+            case _0x8d3d11(0x332):
+                ctx[_0x8d3d11(0x3c9)] = 'rgba(0,\x200,\x200,\x200.5)',
+                ctx['fillRect'](0x0, 0x0, canvas['width'], canvas[_0x8d3d11(0x2f8)]),
+                addText(0x0, 0x28, canvas[_0x8d3d11(0xeb)] / 0x2, 'center', canvas[_0x8d3d11(0xeb)] / 0x2, canvas[_0x8d3d11(0x2f8)] / 0x2 - 0x6e + 0x6e + this[_0x8d3d11(0x12f)], 'continue', '#FFFFFF'),
+                addText(0x0, 0x28, canvas['width'] / 0x2, _0x8d3d11(0x45c), canvas['width'] / 0x2, canvas[_0x8d3d11(0x2f8)] / 0x2 + 0x6e + 0x6e + this[_0x8d3d11(0x12f)], _0x8d3d11(0x27f), _0x8d3d11(0x13c));
+                break;
+            }
+            this['adBlockInfo'](),
+            _0xb4904d && this[_0x8d3d11(0x464)]();
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x27d)] = function() {
+            var _0x3bc54a = _0x39f18e;
+            if (gameState == _0x3bc54a(0x429) && gameplayState == 0x1 && userInput[_0x3bc54a(0x48e)] > onScreenY) {} else {
+                var _0x2d19fd = getSpriteData(assetLib[_0x3bc54a(0x2d8)]('uiElements'), 'mousePointer');
+                ctx[_0x3bc54a(0x23c)](_0x2d19fd[_0x3bc54a(0x436)], _0x2d19fd['bX'], _0x2d19fd['bY'], _0x2d19fd[_0x3bc54a(0x2a8)], _0x2d19fd[_0x3bc54a(0x2f0)], userInput[_0x3bc54a(0x3ba)], userInput[_0x3bc54a(0x48e)], _0x2d19fd[_0x3bc54a(0x2a8)], _0x2d19fd[_0x3bc54a(0x2f0)]);
+            }
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x160)] = function(_0x1146ae, _0x22298f, _0x36e066, _0x362ada) {
+            var _0x254237 = _0x39f18e;
+            _0x362ada === void 0x0 && (_0x362ada = 0x1);
+            this[_0x254237(0x123)] = Math['sin'](this[_0x254237(0x341)] * 0.05) * 0x5,
+            this[_0x254237(0x217)] = Math[_0x254237(0x374)](this[_0x254237(0x341)] * 0.5),
+            ctx[_0x254237(0x425)](),
+            ctx['translate'](_0x22298f, _0x36e066),
+            ctx[_0x254237(0x20d)](this[_0x254237(0x123)]),
+            ctx[_0x254237(0x284)](_0x362ada * this[_0x254237(0x217)], _0x362ada);
+            var _0x2bcaff = this[_0x254237(0x181)][_0x254237(0x35a)]['oAtlasData'][oImageIds[_0x254237(0x16e) + _0x1146ae]]['x']
+              , _0x79e3c5 = this[_0x254237(0x181)]['oData'][_0x254237(0x202)][oImageIds[_0x254237(0x16e) + _0x1146ae]]['y']
+              , _0x1a1c56 = this['oGameElementsImgData'][_0x254237(0x35a)]['oAtlasData'][oImageIds[_0x254237(0x16e) + _0x1146ae]]['width']
+              , _0x10315b = this[_0x254237(0x181)][_0x254237(0x35a)][_0x254237(0x202)][oImageIds[_0x254237(0x16e) + _0x1146ae]]['height'];
+            ctx[_0x254237(0x23c)](this[_0x254237(0x181)][_0x254237(0x436)], _0x2bcaff, _0x79e3c5, _0x1a1c56, _0x10315b, -_0x1a1c56 / 0x2, -_0x10315b / 0x2, _0x1a1c56, _0x10315b),
+            ctx[_0x254237(0x10d)]();
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x435)] = function(_0x980f95) {
+            var _0x4e4312 = _0x39f18e
+              , _0x54c4c4 = _0x980f95[_0x4e4312(0x18b)]();
+            return _0x54c4c4[_0x4e4312(0x3f5)] < 0x2 && (_0x54c4c4 = '0' + _0x54c4c4),
+            _0x54c4c4;
+        }
+        ,
+        _0x3b6676[_0x39f18e(0x1f7)][_0x39f18e(0x479)] = function(_0x48e81e, _0x1c25df, _0x2e9c3d, _0x358f6b, _0x2e213f) {
+            var _0x511205 = _0x39f18e;
+            this[_0x511205(0x2e8)] += delta / 0x2,
+            ctx[_0x511205(0x425)](),
+            ctx['translate'](_0x48e81e, _0x1c25df),
+            ctx[_0x511205(0x284)](_0x2e9c3d, _0x358f6b),
+            ctx[_0x511205(0x20d)](this['flareRot']);
+            var _0x569ebb = this[_0x511205(0x421)][_0x511205(0x35a)][_0x511205(0x202)][oImageIds[_0x511205(0x479) + _0x2e213f]]['x']
+              , _0x51630a = this[_0x511205(0x421)][_0x511205(0x35a)]['oAtlasData'][oImageIds['flare' + _0x2e213f]]['y']
+              , _0x51796f = this['oUiElementsImgData'][_0x511205(0x35a)][_0x511205(0x202)][oImageIds[_0x511205(0x479) + _0x2e213f]][_0x511205(0xeb)]
+              , _0x4b7618 = this[_0x511205(0x421)][_0x511205(0x35a)][_0x511205(0x202)][oImageIds[_0x511205(0x479) + _0x2e213f]][_0x511205(0x2f8)];
+            ctx['drawImage'](this[_0x511205(0x421)][_0x511205(0x436)], _0x569ebb, _0x51630a, _0x51796f, _0x4b7618, -_0x51796f / 0x2, -_0x4b7618 / 0x2, _0x51796f, _0x4b7618),
+            ctx[_0x511205(0x20d)](-this[_0x511205(0x2e8)] * 0x2),
+            ctx[_0x511205(0x23c)](this[_0x511205(0x421)][_0x511205(0x436)], _0x569ebb, _0x51630a, _0x51796f, _0x4b7618, -_0x51796f / 0x2, -_0x4b7618 / 0x2, _0x51796f, _0x4b7618),
+            ctx[_0x511205(0x10d)]();
+        }
+        ,
+        _0x3b6676['prototype'][_0x39f18e(0x464)] = function() {
+            var _0xb10a37 = _0x39f18e
+              , _0x4c6997 = ![];
+            for (var _0x144e21 = 0x0; _0x144e21 < this['aButs'][_0xb10a37(0x3f5)]; _0x144e21++) {
+                if (this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x1d4)]) {
+                    _0x4c6997 = !![];
+                    break;
+                }
+            }
+            var _0x2826e2 = 0x0
+              , _0x3e918a = {
+                'id': -0x1
             };
-            userInput.addHitArea("rewardFromTargetGameEnd", butEventHandler, null, "image", a), panel.aButs.push(a)
+            for (var _0x144e21 = 0x0; _0x144e21 < this['aButs']['length']; _0x144e21++) {
+                var _0x33f75e = 0x0
+                  , _0xdd662 = 0x0;
+                this[_0xb10a37(0x341)] != 0x0 && this[_0xb10a37(0x120)][_0x144e21]['flash'] && (this['aButs'][_0x144e21][_0xb10a37(0x1d4)] ? _0xdd662 = Math[_0xb10a37(0x374)]((this['incY'] + _0x144e21 * 2.5) * 0x2) * 0x3 : _0xdd662 = Math['sin'](this[_0xb10a37(0x341)] + _0x144e21 * 2.5) * 0x3);
+                if (_0x144e21 % 0x2 == 0x0) {}
+                !this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x284)] && (this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x284)] = 0x1);
+                var _0x397ea8, _0x16624e, _0x1543d0, _0x53483d;
+                _0x397ea8 = this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x116)]['oData'][_0xb10a37(0x202)][this[_0xb10a37(0x120)][_0x144e21]['id']]['x'],
+                _0x16624e = this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x116)][_0xb10a37(0x35a)]['oAtlasData'][this[_0xb10a37(0x120)][_0x144e21]['id']]['y'],
+                _0x1543d0 = this['aButs'][_0x144e21]['oImgData'][_0xb10a37(0x35a)][_0xb10a37(0x202)][this['aButs'][_0x144e21]['id']][_0xb10a37(0xeb)],
+                _0x53483d = this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x116)][_0xb10a37(0x35a)][_0xb10a37(0x202)][this['aButs'][_0x144e21]['id']][_0xb10a37(0x2f8)];
+                var _0x5e5194 = canvas[_0xb10a37(0xeb)] * this['aButs'][_0x144e21][_0xb10a37(0x11c)][0x0]
+                  , _0x48b2b3 = canvas[_0xb10a37(0x2f8)] * this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x11c)][0x1];
+                !this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x2aa)] && (_0x48b2b3 + this[_0xb10a37(0x120)][_0x144e21]['aPos'][0x1] > canvas[_0xb10a37(0x2f8)] * 0.1 ? _0x33f75e = this['butsY'] : _0x33f75e = -this['butsY']),
+                this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0xe6)] = new Array(_0x5e5194 + this['aButs'][_0x144e21][_0xb10a37(0x1e9)][0x0] - _0x1543d0 / 0x2 * this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x284)] - _0xdd662 / 0x2,_0x48b2b3 + this['aButs'][_0x144e21][_0xb10a37(0x1e9)][0x1] - _0x53483d / 0x2 * this['aButs'][_0x144e21][_0xb10a37(0x284)] + _0x33f75e + _0xdd662 / 0x2,_0x5e5194 + this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x1e9)][0x0] + _0x1543d0 / 0x2 * this[_0xb10a37(0x120)][_0x144e21]['scale'] - _0xdd662 / 0x2,_0x48b2b3 + this[_0xb10a37(0x120)][_0x144e21]['aPos'][0x1] + _0x53483d / 0x2 * this['aButs'][_0x144e21][_0xb10a37(0x284)] + _0x33f75e + _0xdd662 / 0x2),
+                this['aButs'][_0x144e21]['isOver'] && this[_0xb10a37(0x120)][_0x144e21]['flash'] && (ctx[_0xb10a37(0x425)](),
+                ctx[_0xb10a37(0xde)](_0x5e5194 + this['aButs'][_0x144e21][_0xb10a37(0x1e9)][0x0], _0x48b2b3 + this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x1e9)][0x1]),
+                ctx['scale'](0.65 + _0xdd662 / 0x32, 0.65 + _0xdd662 / 0x32),
+                ctx[_0xb10a37(0x1dc)] = 0x1,
+                ctx[_0xb10a37(0x20d)](this[_0xb10a37(0x341)] / 0x7),
+                ctx[_0xb10a37(0x23c)](this[_0xb10a37(0x297)][_0xb10a37(0x436)], -this[_0xb10a37(0x297)][_0xb10a37(0x436)]['width'] / 0x2, -this[_0xb10a37(0x297)][_0xb10a37(0x436)][_0xb10a37(0x2f8)] / 0x2),
+                ctx[_0xb10a37(0x10d)]()),
+                ctx[_0xb10a37(0x23c)](this['aButs'][_0x144e21]['oImgData'][_0xb10a37(0x436)], _0x397ea8, _0x16624e, _0x1543d0, _0x53483d, this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0xe6)][0x0], this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0xe6)][0x1], _0x1543d0 * this['aButs'][_0x144e21][_0xb10a37(0x284)] + _0xdd662, _0x53483d * this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x284)] - _0xdd662),
+                (this[_0xb10a37(0x120)][_0x144e21]['isOver'] || this['aButs'][_0x144e21][_0xb10a37(0x2eb)]) && (ctx[_0xb10a37(0x425)](),
+                this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x1d4)] ? ctx['globalAlpha'] = 0x1 : _0x4c6997 ? ctx[_0xb10a37(0x1dc)] = Math[_0xb10a37(0x1cb)](Math[_0xb10a37(0x374)](this[_0xb10a37(0x341)] / 0x2), 0x0) / 0x2 : ctx[_0xb10a37(0x1dc)] = Math[_0xb10a37(0x1cb)](Math[_0xb10a37(0x374)](this[_0xb10a37(0x341)] / 0x2), 0x0),
+                _0x397ea8 = this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x116)]['oData'][_0xb10a37(0x202)][this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x378)]]['x'],
+                _0x16624e = this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x116)][_0xb10a37(0x35a)]['oAtlasData'][this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x378)]]['y'],
+                _0x1543d0 = this['aButs'][_0x144e21][_0xb10a37(0x116)][_0xb10a37(0x35a)][_0xb10a37(0x202)][this['aButs'][_0x144e21][_0xb10a37(0x378)]][_0xb10a37(0xeb)],
+                _0x53483d = this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x116)][_0xb10a37(0x35a)][_0xb10a37(0x202)][this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x378)]][_0xb10a37(0x2f8)],
+                ctx[_0xb10a37(0x23c)](this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x116)]['img'], _0x397ea8, _0x16624e, _0x1543d0, _0x53483d, this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0xe6)][0x0], this[_0xb10a37(0x120)][_0x144e21]['aOverData'][0x1], _0x1543d0 * this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x284)] + _0xdd662, _0x53483d * this[_0xb10a37(0x120)][_0x144e21][_0xb10a37(0x284)] - _0xdd662),
+                ctx[_0xb10a37(0x10d)]());
+            }
+        }
+        ,
+        _0x3b6676;
+    }());
+    _0x1affdf[_0x4c29ba(0x1af)] = _0x163460;
+}(Elements || (Elements = {})));
+var Elements;
+(function(_0x5de5d8) {
+    var _0x43a1f0 = (function() {
+        var _0x47315f = _0x2ef4;
+        function _0xe3d19c() {
+            var _0x82c08e = _0x2ef4;
+            this['x'] = 0x0,
+            this['y'] = 0x0,
+            this['rotation'] = 0x0,
+            this[_0x82c08e(0x284)] = 0x1,
+            this[_0x82c08e(0x105)] = 0x0,
+            this[_0x82c08e(0x476)] = 0x0,
+            this[_0x82c08e(0x150)] = 0x0,
+            this[_0x82c08e(0x3ce)] = 0x0,
+            this[_0x82c08e(0x147)] = 0x0,
+            this[_0x82c08e(0x341)] = 0x0,
+            this[_0x82c08e(0x252)] = 0x0,
+            this['flipInc'] = 0x0,
+            this[_0x82c08e(0x1fc)] = Math['PI'],
+            this[_0x82c08e(0x2ac)] = 0x1,
+            this['tutState'] = 0x0,
+            this[_0x82c08e(0x38e)] = 0x0,
+            this[_0x82c08e(0x3ed)] = 0x0,
+            this[_0x82c08e(0x142)] = 0x0,
+            this[_0x82c08e(0x181)] = assetLib['getData'](_0x82c08e(0x1b7)),
+            this[_0x82c08e(0x22c)] = canvas[_0x82c08e(0xeb)] / 0x2,
+            this[_0x82c08e(0x292)] = canvas[_0x82c08e(0x2f8)] - 0x96,
+            this['batSpreadX'] = 0x1,
+            this[_0x82c08e(0x382)] = 0x1,
+            this[_0x82c08e(0x44c)] = 0.03,
+            this[_0x82c08e(0x3a3)]();
+        }
+        return _0xe3d19c[_0x47315f(0x1f7)][_0x47315f(0x3a3)] = function() {
+            var _0x546a27 = _0x47315f;
+            this[_0x546a27(0x252)] = 0x0,
+            this['flipInc'] = 0x0;
+        }
+        ,
+        _0xe3d19c[_0x47315f(0x1f7)][_0x47315f(0x47f)] = function() {
+            var _0x37488f = _0x47315f;
+            this['autotween'] && this['autotween'][_0x37488f(0x2e1)](),
+            this[_0x37488f(0x150)] = this['y'],
+            setTimeout(function() {
+                initLevelComplete();
+            }, 0x3e8),
+            this[_0x37488f(0xe7)]();
+        }
+        ,
+        _0xe3d19c['prototype'][_0x47315f(0xe7)] = function() {
+            var _0x1ba155 = _0x47315f;
+            this[_0x1ba155(0x341)] = 0x0;
+            var _0x1b67d3;
+            if (this[_0x1ba155(0x44b)] == 0x0)
+                _0x1b67d3 = 0x2d0;
+            else
+                this[_0x1ba155(0x44b)] % 0x2 == 0x0 ? _0x1b67d3 = 0x168 : _0x1b67d3 = 0x0;
+            this[_0x1ba155(0x44b)]++,
+            this[_0x1ba155(0xc5)] = TweenLite['to'](this, 0x1, {
+                'incY': 0xb4 * radian,
+                'rotation': _0x1b67d3 * radian,
+                'x': canvas[_0x1ba155(0xeb)] / 0x2,
+                'y': onScreenY + 0x163,
+                'ease': _0x1ba155(0x3d1),
+                'onComplete': function() {}
+            });
+        }
+        ,
+        _0xe3d19c[_0x47315f(0x1f7)][_0x47315f(0x380)] = function() {
+            var _0x24e458 = _0x47315f
+              , _0x26109b = this;
+            this['x'] = this[_0x24e458(0x495)] = this[_0x24e458(0x476)] = canvas[_0x24e458(0xeb)] / 0x2,
+            this['y'] = this[_0x24e458(0x171)] = this[_0x24e458(0x150)] = onScreenY + 0x163,
+            this['rotation'] = this[_0x24e458(0x3ce)] = 0x0,
+            this['startInc'] = 0x1,
+            TweenLite['to'](this, 0.1, {
+                'startY': onScreenY + 0xc8,
+                'ease': _0x24e458(0x44e),
+                'onComplete': function() {
+                    var _0x41d83f = _0x24e458;
+                    _0x26109b['y'] = _0x26109b[_0x41d83f(0x171)] = _0x26109b[_0x41d83f(0x150)],
+                    TweenLite['to'](_0x26109b, 0.5, {
+                        'startInc': 0x0,
+                        'ease': 'Cubic.easeInOut'
+                    });
+                }
+            });
+        }
+        ,
+        _0xe3d19c[_0x47315f(0x1f7)][_0x47315f(0x15a)] = function() {
+            var _0x40dcdf = _0x47315f
+              , _0x1ecfc7 = this;
+            this[_0x40dcdf(0x1f3)] && this['flipTween'][_0x40dcdf(0x2e1)](),
+            this[_0x40dcdf(0x1fc)] = Math['PI'],
+            this['flipTween'] = TweenLite['to'](this, 0x1, {
+                'flipX': Math['PI'] * 0x4,
+                'ease': _0x40dcdf(0x251),
+                'onComplete': function() {
+                    var _0x421ff0 = _0x40dcdf;
+                    _0x1ecfc7[_0x421ff0(0x1fc)] = Math['PI'];
+                }
+            });
+        }
+        ,
+        _0xe3d19c['prototype'][_0x47315f(0x33c)] = function() {
+            var _0x23d152 = _0x47315f;
+            if (gameplayState == 0x0)
+                this[_0x23d152(0x105)] += delta,
+                this['x'] = canvas[_0x23d152(0xeb)] / 0x2 + Math[_0x23d152(0x374)](this[_0x23d152(0x105)] * 0x3) * 0x1e,
+                this['y'] = onScreenY + 0x163 + Math[_0x23d152(0x374)](this[_0x23d152(0x105)] * 0xa) * 0xa,
+                this[_0x23d152(0x1d8)] = Math[_0x23d152(0x374)](this['inc'] * 0x3) * 0.1;
+            else {
+                if (gameplayState >= 0x2)
+                    this[_0x23d152(0x252)] = Math[_0x23d152(0x374)](this[_0x23d152(0x341)]) * -0x12c,
+                    this[_0x23d152(0x3cf)] = onScreenY + 0xc8 / tableTop[_0x23d152(0x286)] * (0.28 * tableTop[_0x23d152(0x286)]) * (0x1 + tableTop[_0x23d152(0x340)] / 0x3) + tableTop[_0x23d152(0x340)] * 0x32,
+                    this[_0x23d152(0x284)] = 0.44 + (this['y'] - this[_0x23d152(0x3cf)]) / 0x226;
+                else
+                    gameplayState == 0x1 && (this[_0x23d152(0x3cf)] = onScreenY + 0xc8 / tableTop['segs'] * (0.28 * tableTop[_0x23d152(0x286)]) * (0x1 + tableTop[_0x23d152(0x340)] / 0x3) + tableTop[_0x23d152(0x340)] * 0x32,
+                    this['prevX'] = this['x'],
+                    this[_0x23d152(0x171)] = this['y'],
+                    this['x'] = this[_0x23d152(0x476)] * this[_0x23d152(0x147)] + this[_0x23d152(0x22c)] * (0x1 - this['startInc']),
+                    this['y'] = this[_0x23d152(0x150)] * this[_0x23d152(0x147)] + Math[_0x23d152(0x1cb)](this['targY'], this[_0x23d152(0x3cf)]) * (0x1 - this[_0x23d152(0x147)]),
+                    this[_0x23d152(0x1d8)] = Math['max'](Math['min']((this['x'] - canvas[_0x23d152(0xeb)] / 0x2) / 0xc8, 0x5a * radian), -0x5a * radian),
+                    this[_0x23d152(0x284)] = 0.44 + (this['y'] - this['maxY']) / 0x226,
+                    this[_0x23d152(0x412)] == 0x1 && (this[_0x23d152(0x142)] += delta,
+                    this[_0x23d152(0x142)] > 0x3 && (this[_0x23d152(0x412)] = 0x2,
+                    this[_0x23d152(0x142)] = 0x0)));
+            }
+        }
+        ,
+        _0xe3d19c[_0x47315f(0x1f7)][_0x47315f(0x38f)] = function(_0x4fa9d6, _0x57f666) {
+            var _0x1f5621 = _0x47315f
+              , _0x4ad341 = 0x0
+              , _0x12daa8 = Math[_0x1f5621(0x1cb)](Math[_0x1f5621(0x258)]((this[_0x1f5621(0x171)] - this['y']) / delta, 0x1194) / 0x1194, 0x0);
+            this['hitY'] = (0x1 - _0x12daa8) * 0.4;
+            var _0x11dc6d = (this['x'] - this[_0x1f5621(0x495)]) / delta / 0x7d0;
+            return this[_0x1f5621(0x242)] = Math[_0x1f5621(0x1cb)](Math[_0x1f5621(0x258)](_0x11dc6d + _0x4fa9d6, 0x1 - Math[_0x1f5621(0x258)](_0x4fa9d6 * 0.2, 0x0)), -0x1 - Math[_0x1f5621(0x1cb)](_0x4fa9d6 * 0.2, 0x0)),
+            {
+                'x': this[_0x1f5621(0x242)],
+                'y': this[_0x1f5621(0x37e)],
+                'speed': (0.3 + 0.3 / 0.4 * (0.4 - this[_0x1f5621(0x37e)])) * 0.9,
+                'spin': _0x4ad341 * 0.75
+            };
+        }
+        ,
+        _0xe3d19c['prototype'][_0x47315f(0x2be)] = function() {
+            var _0xe6f6d2 = _0x47315f;
+            if (gameplayState == 0x1 && this[_0xe6f6d2(0x412)] == 0x2) {
+                this[_0xe6f6d2(0x142)] += delta,
+                ctx[_0xe6f6d2(0x425)](),
+                this[_0xe6f6d2(0x3ed)] = this['tutY'],
+                this['tutY'] = Math[_0xe6f6d2(0x247)](Math['sin'](this[_0xe6f6d2(0x142)] * 0x5));
+                if (this[_0xe6f6d2(0x3ed)] < this[_0xe6f6d2(0x38e)]) {
+                    var _0x1c4400 = Math['max'](this['y'] - aBalls[curBallId]['y'] + 0x64, 0xc8);
+                    ctx[_0xe6f6d2(0xde)](this['x'] + (canvas[_0xe6f6d2(0xeb)] / 0x2 - this['x']) * this[_0xe6f6d2(0x38e)] * 0.3, this['y'] - (0x14 - this['celebrateY']) * this[_0xe6f6d2(0x284)] - this[_0xe6f6d2(0x38e)] * _0x1c4400),
+                    ctx[_0xe6f6d2(0x284)](this[_0xe6f6d2(0x284)] * (0x1 - this['tutY'] * 0.3), this[_0xe6f6d2(0x284)] * Math['min'](0x1 - (this['y'] - canvas[_0xe6f6d2(0x2f8)] * 0.5) / (canvas[_0xe6f6d2(0x2f8)] * 0.5) * 0.3, 0x1) * (0x1 - this[_0xe6f6d2(0x38e)] * 0.3)),
+                    ctx[_0xe6f6d2(0x20d)](this['rotation']),
+                    ctx[_0xe6f6d2(0x1dc)] = 0x1 - this[_0xe6f6d2(0x38e)] * this[_0xe6f6d2(0x38e)];
+                    var _0x5f028a = 0x0
+                      , _0x49c3a8 = this['oGameElementsImgData'][_0xe6f6d2(0x35a)][_0xe6f6d2(0x202)][oImageIds[_0xe6f6d2(0x2c3) + _0x5f028a]]['x']
+                      , _0xb418 = this[_0xe6f6d2(0x181)][_0xe6f6d2(0x35a)][_0xe6f6d2(0x202)][oImageIds['batBehind' + _0x5f028a]]['y']
+                      , _0x166a76 = this[_0xe6f6d2(0x181)][_0xe6f6d2(0x35a)]['oAtlasData'][oImageIds['batBehind' + _0x5f028a]]['width']
+                      , _0x333beb = this[_0xe6f6d2(0x181)][_0xe6f6d2(0x35a)][_0xe6f6d2(0x202)][oImageIds['batBehind' + _0x5f028a]]['height'];
+                    ctx[_0xe6f6d2(0x23c)](this['oGameElementsImgData'][_0xe6f6d2(0x436)], _0x49c3a8, _0xb418, _0x166a76, _0x333beb, -_0x166a76 / 0x2 * (0x1 - Math[_0xe6f6d2(0x247)](Math[_0xe6f6d2(0x374)](this[_0xe6f6d2(0x1fc)]))), -_0x333beb / 0x3, _0x166a76 * (0x1 - Math['abs'](Math[_0xe6f6d2(0x374)](this[_0xe6f6d2(0x1fc)]))), _0x333beb),
+                    ctx[_0xe6f6d2(0x10d)]();
+                }
+            }
+            ctx['save'](),
+            ctx[_0xe6f6d2(0xde)](this['x'], this['y'] - (0x14 - this[_0xe6f6d2(0x252)]) * this[_0xe6f6d2(0x284)]),
+            ctx[_0xe6f6d2(0x284)](this[_0xe6f6d2(0x284)], this[_0xe6f6d2(0x284)] * Math[_0xe6f6d2(0x258)](0x1 - (this['y'] - canvas[_0xe6f6d2(0x2f8)] * 0.5) / (canvas[_0xe6f6d2(0x2f8)] * 0.5) * 0.3, 0x1)),
+            ctx[_0xe6f6d2(0x20d)](this[_0xe6f6d2(0x1d8)]);
+            var _0x3e6514 = curBat
+              , _0x5f028a = 0x0;
+            _0x3e6514 >= 0x31 && (_0x5f028a = _0x3e6514);
+            var _0x49c3a8 = this['oGameElementsImgData'][_0xe6f6d2(0x35a)][_0xe6f6d2(0x202)][oImageIds['batBehind' + _0x5f028a]]['x']
+              , _0xb418 = this[_0xe6f6d2(0x181)]['oData'][_0xe6f6d2(0x202)][oImageIds['batBehind' + _0x5f028a]]['y']
+              , _0x166a76 = this[_0xe6f6d2(0x181)][_0xe6f6d2(0x35a)][_0xe6f6d2(0x202)][oImageIds[_0xe6f6d2(0x2c3) + _0x5f028a]][_0xe6f6d2(0xeb)]
+              , _0x333beb = this['oGameElementsImgData'][_0xe6f6d2(0x35a)][_0xe6f6d2(0x202)][oImageIds[_0xe6f6d2(0x2c3) + _0x5f028a]][_0xe6f6d2(0x2f8)];
+            ctx[_0xe6f6d2(0x23c)](this[_0xe6f6d2(0x181)][_0xe6f6d2(0x436)], _0x49c3a8, _0xb418, _0x166a76, _0x333beb, -_0x166a76 / 0x2 * (0x1 - Math['abs'](Math[_0xe6f6d2(0x374)](this[_0xe6f6d2(0x1fc)]))), -_0x333beb / 0x3, _0x166a76 * (0x1 - Math[_0xe6f6d2(0x247)](Math['sin'](this[_0xe6f6d2(0x1fc)]))), _0x333beb),
+            ctx[_0xe6f6d2(0x20d)](-this[_0xe6f6d2(0x1d8)]),
+            ctx['translate'](0x0, Math[_0xe6f6d2(0x258)](0x7 * Math[_0xe6f6d2(0x1cb)]((this['y'] - canvas[_0xe6f6d2(0x2f8)] * 0.5) / (canvas[_0xe6f6d2(0x2f8)] * 0.5), 0x0), 0x7)),
+            ctx[_0xe6f6d2(0x20d)](this[_0xe6f6d2(0x1d8)]);
+            var _0x49c3a8 = this[_0xe6f6d2(0x181)]['oData'][_0xe6f6d2(0x202)][oImageIds[_0xe6f6d2(0x16e) + _0x3e6514]]['x']
+              , _0xb418 = this[_0xe6f6d2(0x181)][_0xe6f6d2(0x35a)][_0xe6f6d2(0x202)][oImageIds[_0xe6f6d2(0x16e) + _0x3e6514]]['y']
+              , _0x166a76 = this[_0xe6f6d2(0x181)][_0xe6f6d2(0x35a)][_0xe6f6d2(0x202)][oImageIds['bat' + _0x3e6514]][_0xe6f6d2(0xeb)]
+              , _0x333beb = this['oGameElementsImgData']['oData']['oAtlasData'][oImageIds['bat' + _0x3e6514]][_0xe6f6d2(0x2f8)];
+            ctx[_0xe6f6d2(0x23c)](this[_0xe6f6d2(0x181)]['img'], _0x49c3a8, _0xb418, _0x166a76, _0x333beb, -_0x166a76 / 0x2 * (0x1 - Math[_0xe6f6d2(0x247)](Math[_0xe6f6d2(0x374)](this[_0xe6f6d2(0x1fc)]))), -_0x333beb / 0x3, _0x166a76 * (0x1 - Math['abs'](Math[_0xe6f6d2(0x374)](this[_0xe6f6d2(0x1fc)]))), _0x333beb),
+            ctx['restore']();
+        }
+        ,
+        _0xe3d19c;
+    }());
+    _0x5de5d8['UserBat'] = _0x43a1f0;
+}(Elements || (Elements = {})));
+var Elements;
+(function(_0x3d72ee) {
+    var _0x21a6df = (function() {
+        var _0x19f427 = _0x2ef4;
+        function _0x5dbbda() {
+            var _0xfcf634 = _0x2ef4;
+            this['x'] = 0x0,
+            this['y'] = 0x0,
+            this[_0xfcf634(0x1d8)] = 0x0,
+            this[_0xfcf634(0x284)] = 0x1,
+            this[_0xfcf634(0x285)] = 0xbb8,
+            this[_0xfcf634(0x2ed)] = 0x1f4,
+            this['skillLevel'] = 0x0,
+            this[_0xfcf634(0xcc)] = 0x0,
+            this['spinLevel'] = 0x0,
+            this['id'] = 0x0,
+            this[_0xfcf634(0x365)] = new Array(_0xfcf634(0x2bf),_0xfcf634(0x109),_0xfcf634(0x44e),_0xfcf634(0x45a)),
+            this['trackBall'] = !![],
+            this[_0xfcf634(0x2a0)] = 0x0,
+            this[_0xfcf634(0x219)] = 0x0,
+            this[_0xfcf634(0x105)] = 0x0,
+            this[_0xfcf634(0x341)] = 0x0,
+            this[_0xfcf634(0x252)] = 0x0,
+            this[_0xfcf634(0x26c)] = !![],
+            this[_0xfcf634(0x1c4)] = 0x0,
+            this[_0xfcf634(0x1fc)] = 0x1,
+            this[_0xfcf634(0x2ac)] = 0x1,
+            this[_0xfcf634(0x41a)] = 0x0,
+            this['scoreDiffMax'] = 0.25,
+            this[_0xfcf634(0x181)] = assetLib['getData']('gameElements'),
+            this['x'] = canvas[_0xfcf634(0xeb)] / 0x2,
+            this[_0xfcf634(0x22c)] = 0x0,
+            this[_0xfcf634(0x292)] = 0x0,
+            this[_0xfcf634(0x256)] = 0x0;
+        }
+        return _0x5dbbda[_0x19f427(0x1f7)][_0x19f427(0x34d)] = function() {
+            var _0x551f4d = _0x19f427;
+            if (gameVariation == 0x0)
+                this['skillLevel'] = Math['min'](Math['max'](Math[_0x551f4d(0x14a)]() * 0.2 + Math[_0x551f4d(0x258)](curLevel / 0x1e, 0.8) + this[_0x551f4d(0x1c4)], 0x0), 0x1),
+                this[_0x551f4d(0xcc)] = Math['min'](Math[_0x551f4d(0x1cb)](Math[_0x551f4d(0x14a)]() * 0.2 + Math[_0x551f4d(0x258)](curLevel / 0x14, 0.8) + this[_0x551f4d(0x1c4)], 0x0), 0x1),
+                this[_0x551f4d(0x2da)] = Math['min'](Math['max'](Math[_0x551f4d(0x14a)]() * 0.2 + Math[_0x551f4d(0x258)](curLevel / 0x14, 0.8) + this[_0x551f4d(0x1c4)], 0x0), 0x1);
+            else {
+                if (gameVariation == 0x2) {
+                    var _0x4eb3af = classicGameLevel * 0.2 + 0.1;
+                    this[_0x551f4d(0x227)] = Math[_0x551f4d(0x258)](Math['max'](Math[_0x551f4d(0x14a)]() * 0.2 + _0x4eb3af + this[_0x551f4d(0x1c4)], 0x0), 0x1),
+                    this[_0x551f4d(0xcc)] = Math[_0x551f4d(0x258)](Math[_0x551f4d(0x1cb)](Math[_0x551f4d(0x14a)]() * 0.2 + _0x4eb3af + this[_0x551f4d(0x1c4)], 0x0), 0x1),
+                    this[_0x551f4d(0x2da)] = Math[_0x551f4d(0x258)](Math[_0x551f4d(0x1cb)](Math[_0x551f4d(0x14a)]() * 0.2 + _0x4eb3af + this[_0x551f4d(0x1c4)], 0x0), 0x1);
+                }
+            }
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)][_0x19f427(0x3a3)] = function() {
+            var _0x403107 = _0x19f427;
+            this[_0x403107(0x252)] = 0x0,
+            this[_0x403107(0x1c4)] = 0x0;
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)][_0x19f427(0x47f)] = function() {
+            var _0x4ceec8 = _0x19f427;
+            this[_0x4ceec8(0xc5)] && this[_0x4ceec8(0xc5)]['kill'](),
+            this['incY'] = 0x0,
+            this[_0x4ceec8(0xc5)] = TweenLite['to'](this, 0x2, {
+                'rotation': 0x168 * radian,
+                'incY': 0xb4 * radian,
+                'scale': 0x0,
+                'ease': 'Quad.easeOut',
+                'onComplete': function() {}
+            });
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)]['resetToCentre'] = function() {
+            var _0x1babee = _0x19f427;
+            this['trackBall'] = ![],
+            this[_0x1babee(0x2e7)] && this[_0x1babee(0x2e7)][_0x1babee(0x2e1)](),
+            this[_0x1babee(0x22c)] = this['x'] - canvas[_0x1babee(0xeb)] / 0x2,
+            this['moveTween'] = TweenLite['to'](this, 0x1, {
+                'targX': 0x0,
+                'targY': 0x0,
+                'ease': _0x1babee(0x2bf),
+                'onComplete': function() {
+                    var _0xbf88a7 = _0x1babee;
+                    (gameVariation == 0x0 || gameVariation == 0x2) && (aBalls[curBallId][_0xbf88a7(0x21e)] == _0xbf88a7(0x21d) && aBalls[curBallId][_0xbf88a7(0xc2)]());
+                }
+            });
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)][_0x19f427(0x3b1)] = function() {
+            var _0x4fd50d = _0x19f427
+              , _0x3c1198 = this;
+            this[_0x4fd50d(0x219)] = 0x0;
+            var _0xa8c33c = 0x1;
+            aBalls[curBallId]['x'] < this['x'] && (_0xa8c33c = -0x1),
+            TweenLite['to'](this, 0.5, {
+                'flailInc': _0xa8c33c,
+                'ease': _0x4fd50d(0x2bf),
+                'onComplete': function() {
+                    var _0x1aa81e = _0x4fd50d;
+                    TweenLite['to'](_0x3c1198, 0.5, {
+                        'flailInc': 0x0,
+                        'ease': _0x1aa81e(0x2bf)
+                    });
+                }
+            });
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)][_0x19f427(0x35c)] = function(_0x216275, _0x3d13e7, _0x266dca) {
+            var _0x158624 = _0x19f427
+              , _0x448a27 = this;
+            this[_0x158624(0x2e7)] && this[_0x158624(0x2e7)]['kill']();
+            if ((_0x266dca == 0x0 || Math['random']() * 0x1 < 0.25) && aBalls[curBallId][_0x158624(0x1e7)] != 0x1) {
+                this[_0x158624(0x3da)] = ![];
+                var _0x17e191 = 0x0;
+                Math[_0x158624(0x14a)]() * 0x1 > 0.75 + this[_0x158624(0x227)] * 0.25 && (_0x17e191 = Math[_0x158624(0x14a)]() * 0x64 - 0x32);
+                var _0x22d967 = _0x3d13e7 * _0x3d13e7 * tableDepth * (0x1 + tableTop[_0x158624(0x340)] / 0x2) / 0x2
+                  , _0x181d74 = _0x22d967 * (tableTop[_0x158624(0x31d)] + _0x216275 * 0.6) * num128 * (0x1 + tableTop[_0x158624(0x340)] / 0x2) + _0x216275 * tableBackWidth / 0x2 + _0x266dca * 0x64;
+                this['moveTween'] = TweenLite['to'](this, Math[_0x158624(0x14a)]() * 0.6 + 0.5 + (0x1 - this['skillLevel']) * 0.75, {
+                    'delay': Math['random']() * 0.2,
+                    'targX': _0x181d74 + _0x17e191,
+                    'targY': _0x22d967,
+                    'ease': this[_0x158624(0x365)][Math[_0x158624(0x3b4)](Math[_0x158624(0x14a)]() * this[_0x158624(0x365)]['length'])],
+                    'onComplete': function() {
+                        var _0x591a63 = _0x158624;
+                        aBalls[curBallId][_0x591a63(0x21e)] == _0x591a63(0x21d) && (_0x448a27['moveTween'] = TweenLite['to'](_0x448a27, Math[_0x591a63(0x14a)]() * 0.6 + 0.5 + (0x1 - _0x448a27[_0x591a63(0x227)]) * 0.75, {
+                            'delay': Math[_0x591a63(0x14a)]() * 0.6 * (0x1 + (0x1 - _0x448a27[_0x591a63(0x227)]) * 0x1),
+                            'targX': Math[_0x591a63(0x14a)]() * 0xc8 - 0x64,
+                            'targY': 0x0,
+                            'ease': 'Quad.easeInOut'
+                        }));
+                    }
+                });
+            } else
+                this['trackBall'] = !![],
+                this['slideInc'] = 0x0,
+                this[_0x158624(0x2e7)] = TweenLite['to'](this, (Math[_0x158624(0x14a)]() * 0.6 + 0.5) * (0x1 + (0x1 - this[_0x158624(0x227)]) * 0x1), {
+                    'targY': 0x0,
+                    'ease': _0x158624(0x2bf)
+                });
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)][_0x19f427(0x15a)] = function() {
+            var _0x135e93 = _0x19f427
+              , _0x472c51 = this;
+            this['swipeTween'] && this[_0x135e93(0x349)]['kill'](),
+            this[_0x135e93(0x1fc)] = 0x1,
+            this[_0x135e93(0x349)] = TweenLite['to'](this, 0.5, {
+                'flipX': -0x1,
+                'ease': _0x135e93(0x404),
+                'onComplete': function() {
+                    var _0x4fe8a1 = _0x135e93;
+                    _0x472c51[_0x4fe8a1(0x1fc)] = 0x1;
+                }
+            });
+        }
+        ,
+        _0x5dbbda['prototype'][_0x19f427(0x352)] = function() {
+            var _0x2f72e0 = _0x19f427
+              , _0x30b727 = this;
+            this[_0x2f72e0(0x349)] && this[_0x2f72e0(0x349)]['kill']();
+            this[_0x2f72e0(0x41a)] = 0x0;
+            var _0x358923 = Math[_0x2f72e0(0x14a)]() * 0x64 - 0x32, _0x2ad844, _0x35841b;
+            Math[_0x2f72e0(0x14a)]() > 0.5 ? (_0x2ad844 = 0.8 + Math['random']() * 0.2,
+            _0x35841b = 0x1) : (_0x2ad844 = 0x1,
+            _0x35841b = 0.8 + Math[_0x2f72e0(0x14a)]() * 0.2),
+            this['swipeTween'] = TweenLite['to'](this, 0.1, {
+                'swipeOffsetX': _0x358923,
+                'flipX': _0x2ad844,
+                'flipY': _0x35841b,
+                'ease': _0x2f72e0(0x44e),
+                'onComplete': function() {
+                    var _0x127005 = _0x2f72e0;
+                    _0x30b727[_0x127005(0x349)] = TweenLite['to'](_0x30b727, 0.5, {
+                        'swipeOffsetX': 0x0,
+                        'flipX': 0x1,
+                        'flipY': 0x1,
+                        'ease': _0x127005(0x109),
+                        'onComplete': function() {}
+                    });
+                }
+            });
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)][_0x19f427(0x33c)] = function() {
+            var _0xc021dc = _0x19f427;
+            if (gameplayState == 0x0)
+                this['inc'] += delta,
+                this['y'] = this['targY'] + onScreenY + tableTop[_0xc021dc(0x340)] * 0x32 - 0x32,
+                this['x'] = canvas[_0xc021dc(0xeb)] / 0x2 + Math[_0xc021dc(0x374)](this[_0xc021dc(0x105)] * 0x5) * 0x32,
+                this['rotation'] = Math[_0xc021dc(0x374)](this[_0xc021dc(0x105)] * 0x5) * 0.3,
+                this[_0xc021dc(0x284)] = 0.4 + (this['y'] - onScreenY) / 0x12c;
+            else {
+                if (gameplayState == 0x2)
+                    this[_0xc021dc(0x252)] = Math['sin'](this[_0xc021dc(0x341)]) * -0x32;
+                else
+                    gameplayState == 0x1 && (this['y'] = this[_0xc021dc(0x292)] + onScreenY + tableTop[_0xc021dc(0x340)] * 0x32 - 0x32,
+                    !this[_0xc021dc(0x3da)] ? this['x'] = this['targX'] + canvas[_0xc021dc(0xeb)] / 0x2 : (this['slideInc'] = (aBalls[curBallId]['x'] - this['x']) * (this[_0xc021dc(0x227)] * 0xf + 0xa),
+                    this['x'] += this[_0xc021dc(0x2a0)] * delta,
+                    aBalls[curBallId][_0xc021dc(0x21e)] == _0xc021dc(0x21d) && (this[_0xc021dc(0x22c)] = this['x'] - canvas[_0xc021dc(0xeb)] / 0x2,
+                    this[_0xc021dc(0x2e7)] = TweenLite['to'](this, (Math[_0xc021dc(0x14a)]() * 0.6 + 0.5) * (0x1 + (0x1 - this['skillLevel']) * 0x1), {
+                        'delay': Math[_0xc021dc(0x14a)]() * 0.6 * (0x1 + (0x1 - this[_0xc021dc(0x227)]) * 0x1),
+                        'targX': Math[_0xc021dc(0x14a)]() * 0xc8 - 0x64,
+                        'targY': 0x0,
+                        'ease': _0xc021dc(0x2bf)
+                    }),
+                    this['trackBall'] = ![])),
+                    this['rotation'] = (this['x'] - canvas[_0xc021dc(0xeb)] / 0x2) / 0xc8,
+                    this[_0xc021dc(0x284)] = 0.4 + (this['y'] - onScreenY) / 0x12c,
+                    this['x'] = Math['min'](Math[_0xc021dc(0x1cb)](this['x'], canvas[_0xc021dc(0xeb)] / 0x2 - 0xfa), canvas['width'] / 0x2 + 0xfa));
+            }
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)]['getHitData'] = function(_0x359984, _0x35bf0d) {
+            var _0x2e7226 = _0x19f427;
+            aBalls[curBallId]['servingState'] == 0x0 ? (this[_0x2e7226(0x242)] = Math[_0x2e7226(0x14a)]() * 0x2 - 0x1,
+            this[_0x2e7226(0x37e)] = Math[_0x2e7226(0x14a)]() * 0.2 + 0.65) : (this[_0x2e7226(0x242)] = (Math[_0x2e7226(0x14a)]() * 1.8 - 0.9) * (0x1 + this[_0x2e7226(0x227)] * 0.25),
+            Math['random']() > 0.8 + this[_0x2e7226(0x227)] * 0.2 && (this['x'] > canvas['width'] / 0x2 + 0x78 || this['x'] < canvas[_0x2e7226(0xeb)] / 0x2 - 0x78) && (this['x'] > canvas['width'] / 0x2 ? this['hitX'] = 1.3 : this[_0x2e7226(0x242)] = -1.3),
+            this[_0x2e7226(0x37e)] = Math[_0x2e7226(0x14a)]() * 0.4 + 0.65);
+            var _0x4d356c = 0x0;
+            if (this['hitY'] < 0.95) {
+                if (this['hitX'] > 0.1)
+                    _0x4d356c = -(Math[_0x2e7226(0x14a)]() * 0.5 + 0.5) * this[_0x2e7226(0x2da)];
+                else
+                    this[_0x2e7226(0x242)] < -0.1 && (_0x4d356c = (Math[_0x2e7226(0x14a)]() * 0.5 + 0.5) * this[_0x2e7226(0x2da)]);
+            }
+            var _0x24e697 = 0.3 + 0.3 / 0.4 * (this[_0x2e7226(0x37e)] - 0.6) * (0.25 + this['powerLevel'] * 0.9);
+            return this['hitSwipe'](),
+            {
+                'x': this['hitX'],
+                'y': this[_0x2e7226(0x37e)],
+                'speed': _0x24e697,
+                'spin': _0x4d356c
+            };
+        }
+        ,
+        _0x5dbbda[_0x19f427(0x1f7)][_0x19f427(0x2be)] = function() {
+            var _0x480c7b = _0x19f427;
+            ctx[_0x480c7b(0x425)](),
+            ctx[_0x480c7b(0xde)](this['x'] + (tableTop[_0x480c7b(0x31d)] + 0x1 * this[_0x480c7b(0x219)]) * tableTop[_0x480c7b(0x453)], this['y'] + this[_0x480c7b(0x252)]),
+            ctx[_0x480c7b(0x20d)](this[_0x480c7b(0x1d8)] + this[_0x480c7b(0x219)] * 0x1),
+            ctx[_0x480c7b(0x284)](this[_0x480c7b(0x284)] * this['flipX'], this[_0x480c7b(0x284)] * this[_0x480c7b(0x2ac)]);
+            var _0x343d93 = this[_0x480c7b(0x181)]['oData'][_0x480c7b(0x202)][oImageIds[_0x480c7b(0x16e) + opBat]]['x']
+              , _0x596eeb = this[_0x480c7b(0x181)][_0x480c7b(0x35a)][_0x480c7b(0x202)][oImageIds[_0x480c7b(0x16e) + opBat]]['y']
+              , _0x55d015 = this[_0x480c7b(0x181)][_0x480c7b(0x35a)][_0x480c7b(0x202)][oImageIds['bat' + opBat]][_0x480c7b(0xeb)]
+              , _0x29f273 = this[_0x480c7b(0x181)][_0x480c7b(0x35a)][_0x480c7b(0x202)][oImageIds[_0x480c7b(0x16e) + opBat]]['height'];
+            ctx[_0x480c7b(0x23c)](this[_0x480c7b(0x181)]['img'], _0x343d93, _0x596eeb, _0x55d015, _0x29f273, -_0x55d015 / 0x2 + this[_0x480c7b(0x41a)], -_0x29f273 / 0x3, _0x55d015, _0x29f273),
+            ctx[_0x480c7b(0x10d)]();
+        }
+        ,
+        _0x5dbbda;
+    }());
+    _0x3d72ee['EnemyBat'] = _0x21a6df;
+}(Elements || (Elements = {})));
+var Elements;
+(function(_0x12800f) {
+    var _0x7928b2 = _0x47ff64
+      , _0x249bc7 = (function() {
+        var _0x5c8fc3 = _0x2ef4;
+        function _0x4ffa88(_0x51ef28) {
+            var _0x17a086 = _0x2ef4;
+            _0x51ef28 === void 0x0 && (_0x51ef28 = _0x17a086(0x1b8)),
+            this['x'] = 0x0,
+            this['y'] = 0x0,
+            this['height'] = 0x0,
+            this['tablePosY'] = 0.5,
+            this['tablePosX'] = 0x0,
+            this[_0x17a086(0x284)] = 0x0,
+            this[_0x17a086(0x21e)] = 'user',
+            this[_0x17a086(0x432)] = 0.45,
+            this['offTable'] = ![],
+            this[_0x17a086(0x332)] = ![],
+            this[_0x17a086(0x1c5)] = 0x0,
+            this[_0x17a086(0x15c)] = 0x0,
+            this[_0x17a086(0x1e7)] = 0x0,
+            this[_0x17a086(0x261)] = ![],
+            this['serveFlip'] = !![],
+            this['offSide'] = ![],
+            this[_0x17a086(0x457)] = 0x0,
+            this['bounceY'] = 0x0,
+            this[_0x17a086(0x415)] = 0x0,
+            this[_0x17a086(0x310)] = 0x0,
+            this['hitStop'] = ![],
+            this[_0x17a086(0x478)] = 0xf,
+            this[_0x17a086(0x37d)] = 0x0,
+            this[_0x17a086(0x181)] = assetLib[_0x17a086(0x2d8)](_0x17a086(0x1b7)),
+            this[_0x17a086(0x148)](_0x51ef28);
+        }
+        return _0x4ffa88[_0x5c8fc3(0x1f7)][_0x5c8fc3(0x148)] = function(_0x1fb423) {
+            var _0x538f87 = _0x5c8fc3
+              , _0x876b80 = this;
+            if (gameplayState == 0x2)
+                return;
+            this[_0x538f87(0x1e7)] = 0x0,
+            this[_0x538f87(0x261)] = ![],
+            this[_0x538f87(0x218)] = ![],
+            this[_0x538f87(0x21e)] = _0x1fb423,
+            this[_0x538f87(0x1e1)] = ![];
+            if (gameVariation == 0x1 && this[_0x538f87(0x21e)] == _0x538f87(0x1b8))
+                tableTop['newTargetPos'](0x0);
+            else {
+                if (gameVariation == 0x0 || gameVariation == 0x2)
+                    enemyBat[_0x538f87(0x238)]();
+                else
+                    gameVariation == 0x3 && (this['lastHit'] = _0x538f87(0x1b8));
+            }
+            tableTop[_0x538f87(0xed)](0x0, 0x1, this['speed'], this['lastHit'], this[_0x538f87(0x1c5)]),
+            enemyBat[_0x538f87(0x34d)](),
+            rallyHits = 0x0,
+            this['x'] = -0x64,
+            this[_0x538f87(0x110)] = 0x0,
+            this[_0x538f87(0x415)] = 0x0,
+            this[_0x538f87(0x228)] = ![],
+            this[_0x538f87(0x47a)] = ![];
+            if (this[_0x538f87(0x21e)] == 'user')
+                this[_0x538f87(0x3d2)] = 0x0,
+                this[_0x538f87(0x1cf)] = 0.9,
+                this[_0x538f87(0x2f8)] = 0x19 * 1.5,
+                this[_0x538f87(0x4a2)] = 0x0,
+                this[_0x538f87(0x1ba)] = new Array(),
+                this['tableVX'] = 0x0,
+                this[_0x538f87(0x36b)] = 0x0,
+                userBat['tutInc'] = 0x0,
+                userBat[_0x538f87(0x412)] = 0x1;
+            else {
+                this[_0x538f87(0x3d2)] = 0x0,
+                this[_0x538f87(0x1cf)] = 0.2;
+                if (gameVariation == 0x0 || gameVariation == 0x2)
+                    this[_0x538f87(0x2f8)] = 0xf * 1.5;
+                else
+                    (gameVariation == 0x1 || gameVariation == 0x3) && (this[_0x538f87(0x2f8)] = 0x1e * 1.5);
+                this['heightInc'] = 0x0,
+                this[_0x538f87(0x1ba)] = new Array(),
+                userBat[_0x538f87(0x412)] = 0x0;
+            }
+            gameplayState == 0x0 ? (this[_0x538f87(0x448)] = 0x1,
+            this[_0x538f87(0x261)] = !![]) : (this[_0x538f87(0x448)] = 0x0,
+            this[_0x538f87(0xc0)] = TweenLite['to'](this, 0.5, {
+                'servePosInc': 0x1,
+                'ease': _0x538f87(0x251),
+                'onComplete': function() {
+                    _0x876b80['canHit'] = !![];
+                }
+            }));
+        }
+        ,
+        _0x4ffa88[_0x5c8fc3(0x1f7)][_0x5c8fc3(0xc2)] = function() {
+            var _0x34f3fb = _0x5c8fc3;
+            if (gameVariation == 0x0 || gameVariation == 0x2 || gameVariation == 0x3)
+                this[_0x34f3fb(0x18d)](enemyBat[_0x34f3fb(0x38f)](this[_0x34f3fb(0x3d2)], this['tablePosY']));
+            else
+                gameVariation == 0x1 && (playSound(_0x34f3fb(0x2d2), 0.5),
+                this['servingState'] = 0x2,
+                this[_0x34f3fb(0x18d)]({
+                    'x': Math['random']() * 0x1 - 0.5,
+                    'y': 0.8,
+                    'speed': 0.3,
+                    'spin': 0x0
+                }),
+                tableTop['botTween'] && tableTop[_0x34f3fb(0x2f6)][_0x34f3fb(0x2e1)](),
+                tableTop[_0x34f3fb(0x317)] = 0xf,
+                tableTop['botTween'] = TweenLite['to'](tableTop, 0x1, {
+                    'botY': 0x0,
+                    'ease': _0x34f3fb(0x25d),
+                    'onComplete': function() {}
+                }));
+        }
+        ,
+        _0x4ffa88[_0x5c8fc3(0x1f7)]['setBouncePoint'] = function(_0x5b0f62) {
+            var _0x2f05c2 = _0x5c8fc3;
+            this[_0x2f05c2(0x1c5)] = _0x5b0f62[_0x2f05c2(0x1c5)] * 0.65,
+            this['spinInc'] = 0x0;
+            if (this['lastHit'] == _0x2f05c2(0x21d)) {
+                this['targBounceX'] = _0x5b0f62['x'],
+                this['targBounceY'] = _0x5b0f62['y'],
+                this[_0x2f05c2(0x432)] = _0x5b0f62[_0x2f05c2(0x432)] * 0.5,
+                tableTop['tweenToPos'](this[_0x2f05c2(0x3af)], this['targBounceY'], this[_0x2f05c2(0x432)], this[_0x2f05c2(0x21e)], this[_0x2f05c2(0x1c5)]),
+                tableTop[_0x2f05c2(0x46d)](![]);
+                if (this['servingState'] == 0x0)
+                    this['servingState'] = 0x1,
+                    this[_0x2f05c2(0x4a2)] = -((-0x960 + this['height'] * 0x6) * (0.8 - this[_0x2f05c2(0x432)]) * 1.2) * 1.3;
+                else {
+                    if (gameVariation == 0x0 || gameVariation == 0x2 || gameVariation == 0x3)
+                        this[_0x2f05c2(0x4a2)] = (-0x960 + this[_0x2f05c2(0x2f8)] * 0x6) * (0.8 - this[_0x2f05c2(0x432)]) * 1.3;
+                    else
+                        gameVariation == 0x1 && (this['heightInc'] = (-0x7d0 + this[_0x2f05c2(0x2f8)] * 0x6) * (0.8 - this[_0x2f05c2(0x432)]) * 1.3);
+                }
+            } else {
+                this[_0x2f05c2(0x3af)] = _0x5b0f62['x'],
+                this[_0x2f05c2(0x389)] = _0x5b0f62['y'],
+                this[_0x2f05c2(0x432)] = _0x5b0f62[_0x2f05c2(0x432)] * 0.5;
+                if (this[_0x2f05c2(0x432)] == 0.27) {
+                    var _0x51a085 = Math[_0x2f05c2(0x14a)]() * 0x168 * radian;
+                    for (var _0xfa6f7f = 0x0; _0xfa6f7f < 0x8; _0xfa6f7f++) {
+                        var _0x2ba890 = new _0x12800f[(_0x2f05c2(0x2f5))](this['x'],this['y'],0x1,Math[_0x2f05c2(0x14a)]() * 0xc8 + 0x64,_0x51a085 + 0x168 / 0x8 * _0xfa6f7f * radian,0x1,0.5);
+                        aEffects[_0x2f05c2(0x397)](_0x2ba890);
+                    }
+                }
+                this[_0x2f05c2(0x1e7)] == 0x0 ? (this['servingState'] = 0x1,
+                this[_0x2f05c2(0x4a2)] = -((-0x960 + this['height'] * 0x6) * (0.8 - this[_0x2f05c2(0x432)]) * 1.2) * 1.1) : this[_0x2f05c2(0x4a2)] = (-0x960 + this[_0x2f05c2(0x2f8)] * 0x6) * (0.8 - this[_0x2f05c2(0x432)]) * 1.3,
+                tableTop[_0x2f05c2(0xed)](0x0, 0x1, this[_0x2f05c2(0x432)], this[_0x2f05c2(0x21e)], this[_0x2f05c2(0x1c5)]),
+                (gameVariation == 0x0 || gameVariation == 0x2 || gameVariation == 0x3) && enemyBat[_0x2f05c2(0x35c)](this[_0x2f05c2(0x3af)], this[_0x2f05c2(0x389)], this[_0x2f05c2(0x1c5)]);
+            }
+            this['tableVX'] = (this[_0x2f05c2(0x3af)] - this[_0x2f05c2(0x3d2)]) / ((0x1 - this[_0x2f05c2(0x432)]) * 1.1),
+            this[_0x2f05c2(0x36b)] = (this['targBounceY'] - this[_0x2f05c2(0x1cf)]) / ((0x1 - this[_0x2f05c2(0x432)]) * 1.1);
+        }
+        ,
+        _0x4ffa88[_0x5c8fc3(0x1f7)][_0x5c8fc3(0x1eb)] = function(_0x4d3336, _0x583637) {
+            var _0x4a4667 = _0x4d3336 / 0x3
+              , _0x8c5c98 = 0.75
+              , _0x2f91fb = 0x0
+              , _0x2a46d7 = 0.3 + 0.3 / 0.4 * (_0x8c5c98 - 0.6) * 0.25;
+            return {
+                'x': _0x4a4667,
+                'y': _0x8c5c98,
+                'speed': _0x2a46d7,
+                'spin': _0x2f91fb
+            };
+        }
+        ,
+        _0x4ffa88[_0x5c8fc3(0x1f7)][_0x5c8fc3(0x2a1)] = function(_0x331e9b) {
+            var _0x139870 = _0x5c8fc3;
+            _0x331e9b === void 0x0 && (_0x331e9b = ![]);
+            this[_0x139870(0x110)] = 0x0,
+            this[_0x139870(0x21e)] = _0x139870(0x1b8),
+            hitFirstShot = !![],
+            userBat[_0x139870(0x412)] = 0x0,
+            playSound('hit' + Math[_0x139870(0x3b4)](Math[_0x139870(0x14a)]() * 0x6));
+            if (_0x331e9b) {
+                if (gameVariation == 0x0 || gameVariation == 0x2 || gameVariation == 0x3)
+                    this[_0x139870(0x18d)]({
+                        'x': Math['random']() * 0x1 - 0.5,
+                        'y': 0.25,
+                        'speed': 0.3,
+                        'spin': 0x0
+                    });
+                else
+                    gameVariation == 0x1 && this[_0x139870(0x18d)]({
+                        'x': 0x0,
+                        'y': 0.25,
+                        'speed': 0.3,
+                        'spin': 0x0
+                    });
+            } else
+                this[_0x139870(0x18d)](userBat[_0x139870(0x38f)](this[_0x139870(0x3d2)], this['tablePosY']));
+        }
+        ,
+        _0x4ffa88['prototype'][_0x5c8fc3(0x33c)] = function() {
+            var _0x5dea19 = _0x5c8fc3;
+            if (gameplayState == 0x0)
+                this['y'] = onScreenY + tableTop['offsetY'] * 0x32 + this[_0x5dea19(0x1cf)] * this[_0x5dea19(0x1cf)] * tableDepth * (0x1 + tableTop[_0x5dea19(0x340)] / 0x2) + (0x1 - this[_0x5dea19(0x448)]) * 0x64,
+                this[_0x5dea19(0x3d2)] = Math[_0x5dea19(0x258)](Math[_0x5dea19(0x1cb)]((userBat['x'] - canvas[_0x5dea19(0xeb)] / 0x2) / 0x1c2, -0.95), 0.95),
+                this['x'] = canvas[_0x5dea19(0xeb)] / 0x2,
+                this[_0x5dea19(0x284)] = 0.25 + (this['y'] - onScreenY) / 0x320;
+            else {
+                if (gameplayState >= 0x3)
+                    this['y'] = onScreenY + tableTop[_0x5dea19(0x340)] * 0x32 + this[_0x5dea19(0x1cf)] * this[_0x5dea19(0x1cf)] * tableDepth * (0x1 + tableTop[_0x5dea19(0x340)] / 0x2) + (0x1 - this[_0x5dea19(0x448)]) * 0x64,
+                    this['tablePosX'] = Math[_0x5dea19(0x258)](Math['max']((userBat['x'] - canvas[_0x5dea19(0xeb)] / 0x2) / 0x1c2, -0.95), 0.95),
+                    this['x'] = canvas['width'] / 0x2,
+                    this[_0x5dea19(0x284)] = 0.25 + (this['y'] - onScreenY) / 0x320;
+                else {
+                    if (gameplayState == 0x1) {
+                        if (this[_0x5dea19(0x1e7)] == 0x0)
+                            this['lastHit'] == _0x5dea19(0x1b8) ? (this['y'] = onScreenY + tableTop['offsetY'] * 0x32 + this[_0x5dea19(0x1cf)] * this[_0x5dea19(0x1cf)] * tableDepth * (0x1 + tableTop[_0x5dea19(0x340)] / 0x2) + (0x1 - this['servePosInc']) * 0x64,
+                            this[_0x5dea19(0x3d2)] = Math['min'](Math[_0x5dea19(0x1cb)]((userBat['x'] - canvas[_0x5dea19(0xeb)] / 0x2) / 0x1c2, -0.95), 0.95),
+                            this['x'] = canvas[_0x5dea19(0xeb)] / 0x2 + ((this['y'] - onScreenY) * (tableTop[_0x5dea19(0x31d)] + this[_0x5dea19(0x3d2)] * ballPosMultiplier) * num128 * (0x1 + tableTop['offsetY'] / 0x2) + this[_0x5dea19(0x3d2)] * tableBackWidth / 0x2 + tableTop[_0x5dea19(0x31d)] * tableTop[_0x5dea19(0x453)]) + (0x1 - this[_0x5dea19(0x448)]) * -0x1f4,
+                            this[_0x5dea19(0x284)] = 0.25 + (this['y'] - onScreenY) / 0x320,
+                            this[_0x5dea19(0x261)] && userBat[_0x5dea19(0x38f)](this['tablePosX'], this['tablePosY'])['y'] < 0.4 && (userBat['x'] > this['x'] - 0x82 * userBat[_0x5dea19(0x284)] && userBat['x'] < this['x'] + 0x82 * userBat[_0x5dea19(0x284)] && userBat['y'] > this['y'] - this[_0x5dea19(0x2f8)] * (this[_0x5dea19(0x284)] * 0x3) - 0x10 - 0x4b * userBat[_0x5dea19(0x284)] && userBat['y'] < this['y'] - this[_0x5dea19(0x2f8)] * (this['scale'] * 0x3) - 0x10 + 0x64 * userBat[_0x5dea19(0x284)] && this[_0x5dea19(0x2a1)]())) : (this['y'] = onScreenY + tableTop[_0x5dea19(0x340)] * 0x32 + this['tablePosY'] * this['tablePosY'] * tableDepth * (0x1 + tableTop[_0x5dea19(0x340)] / 0x2) + (0x1 - this['servePosInc']) * 0x64,
+                            this['tablePosX'] = 0x0,
+                            this['x'] = canvas[_0x5dea19(0xeb)] / 0x2 + ((this['y'] - onScreenY) * (tableTop[_0x5dea19(0x31d)] + this[_0x5dea19(0x3d2)] * ballPosMultiplier) * num128 * (0x1 + tableTop[_0x5dea19(0x340)] / 0x2) + this[_0x5dea19(0x3d2)] * tableBackWidth / 0x2 + tableTop[_0x5dea19(0x31d)] * tableTop[_0x5dea19(0x453)]) + (0x1 - this[_0x5dea19(0x448)]) * -0x1f4,
+                            this[_0x5dea19(0x284)] = 0.25 + (this['y'] - onScreenY) / 0x320);
+                        else {
+                            !this[_0x5dea19(0x228)] && (this[_0x5dea19(0x21e)] == _0x5dea19(0x1b8) ? this[_0x5dea19(0x15c)] = Math['min'](Math[_0x5dea19(0x1cb)](this[_0x5dea19(0x15c)] + Math[_0x5dea19(0x20f)](this[_0x5dea19(0x1c5)] * 2.5, 0x3) * delta * (0x1 - this[_0x5dea19(0x1cf)]), -0x3), 0x3) : this['spinInc'] = Math[_0x5dea19(0x258)](Math[_0x5dea19(0x1cb)](this[_0x5dea19(0x15c)] + Math['pow'](this[_0x5dea19(0x1c5)] * 0x2, 0x3) * delta * this[_0x5dea19(0x1cf)], -0x2), 0x2),
+                            this[_0x5dea19(0x3d2)] += (this[_0x5dea19(0x281)] + this['spinInc']) * delta,
+                            this[_0x5dea19(0x1cf)] += this[_0x5dea19(0x36b)] * delta);
+                            !this['offTable'] && this['lastHit'] == _0x5dea19(0x1b8) && this[_0x5dea19(0x1cf)] < 0x0 && (this['offTable'] = !![],
+                            this[_0x5dea19(0x193)] = (this['x'] - this[_0x5dea19(0x1ba)][Math['max'](this['aTrailPoints'][_0x5dea19(0x3f5)] - 0x5, 0x0)]['x']) * 0xa,
+                            this[_0x5dea19(0x391)] = (this['y'] - this[_0x5dea19(0x1ba)][Math[_0x5dea19(0x1cb)](this[_0x5dea19(0x1ba)][_0x5dea19(0x3f5)] - 0x5, 0x0)]['y']) * 0xa,
+                            this[_0x5dea19(0x31a)] && this[_0x5dea19(0x31a)]['kill'](),
+                            this[_0x5dea19(0x31a)] = TweenLite['to'](this, 0x2, {
+                                'offTableVX': 0x0,
+                                'offTableVY': 0x0,
+                                'ease': 'Quad.easeOut'
+                            }),
+                            (gameVariation == 0x0 || gameVariation == 0x2) && enemyBat[_0x5dea19(0x3b1)](),
+                            rallyHits > 0x8 && userBat[_0x5dea19(0x15a)]());
+                            this[_0x5dea19(0x4a2)] += 0xed8 * 1.5 * delta,
+                            this[_0x5dea19(0x2f8)] -= this[_0x5dea19(0x4a2)] * this['speed'] * delta;
+                            this[_0x5dea19(0x415)] == 0x1 && this[_0x5dea19(0x1cf)] <= 0.5 && (playSound(_0x5dea19(0x3f2)),
+                            this[_0x5dea19(0x1e1)] = !![],
+                            this[_0x5dea19(0x36b)] *= -0.5,
+                            this[_0x5dea19(0x281)] *= 0.5,
+                            this[_0x5dea19(0x415)] = 0x2,
+                            this['heightInc'] *= 0.2);
+                            gameVariation == 0x3 && this[_0x5dea19(0x21e)] == 'user' && this['tablePosY'] < 0.5 && this[_0x5dea19(0x37d)] == 0x0 && this['height'] < 0x1e && tableTop['checkZombieHit'](this['x'], this['y']);
+                            if (this[_0x5dea19(0x3d2)] > -0x1 && this[_0x5dea19(0x3d2)] < 0x1 && this['tablePosY'] > 0x0 && this['tablePosY'] < 0x1 && this['height'] <= 0x0 && !this[_0x5dea19(0x47a)]) {
+                                this['height'] = 0x0,
+                                this[_0x5dea19(0x4a2)] *= -0.85;
+                                if (this[_0x5dea19(0x415)] == 0x0) {
+                                    var _0x4cd0eb = Math[_0x5dea19(0x3b4)](Math[_0x5dea19(0x14a)]() * 0x6);
+                                    playSound(_0x5dea19(0x331) + _0x4cd0eb);
+                                } else
+                                    this[_0x5dea19(0x2f8)] = -0x3;
+                                this[_0x5dea19(0x110)]++,
+                                this['bounceX'] = this[_0x5dea19(0x3d2)],
+                                this[_0x5dea19(0x35f)] = this[_0x5dea19(0x1cf)],
+                                tableTop[_0x5dea19(0x331)](Math[_0x5dea19(0x1cb)](Math[_0x5dea19(0x258)](-this[_0x5dea19(0x4a2)] / 0x5dc, 0x1), 0.1));
+                                this[_0x5dea19(0x21e)] == _0x5dea19(0x1b8) && this[_0x5dea19(0x1cf)] > 0.5 && this[_0x5dea19(0x1e7)] > 0x1 && (this['spin'] = 0x0,
+                                this[_0x5dea19(0x415)] = 0x1);
+                                if (gameVariation == 0x1 && this[_0x5dea19(0x21e)] == _0x5dea19(0x1b8)) {
+                                    if (this[_0x5dea19(0x1cf)] < 0.5 && this[_0x5dea19(0x37d)] == 0x0) {
+                                        var _0x20ee37 = this['x'] - tableTop[_0x5dea19(0x157)]
+                                          , _0x218f9c = this['y'] - tableTop[_0x5dea19(0x34b)];
+                                        _0x20ee37 * _0x20ee37 / ((0x132 * tableTop[_0x5dea19(0x241)] + 0x32 * this[_0x5dea19(0x284)]) * (0x132 * tableTop[_0x5dea19(0x241)] + 0x32 * this[_0x5dea19(0x284)])) + _0x218f9c * _0x218f9c / ((0x70 * tableTop[_0x5dea19(0x241)] + 0x19 * this[_0x5dea19(0x284)]) * (0x70 * tableTop[_0x5dea19(0x241)] + 0x19 * this[_0x5dea19(0x284)])) <= 0x1 ? (tableTop['holeHit'](),
+                                        setTimeout(function() {
+                                            var _0x57a161 = _0x5dea19
+                                              , _0x15e78d = new _0x12800f[(_0x57a161(0x3a7))](_0x57a161(0x21d));
+                                            aBalls[_0x57a161(0x397)](_0x15e78d),
+                                            _0x15e78d[_0x57a161(0xc2)]();
+                                        }, 0x3e8)) : (tableTop['holeMiss'](),
+                                        userInput[_0x5dea19(0x10e)](_0x5dea19(0x332)),
+                                        setTimeout(function() {
+                                            var _0x478bdf = _0x5dea19;
+                                            playSound('targetGameEnd'),
+                                            curTargetScore > 0xa && playSound(_0x478bdf(0x38a) + Math[_0x478bdf(0x3b4)](Math[_0x478bdf(0x14a)]() * 0x6)),
+                                            initTargetGameEnd();
+                                        }, 0x3e8)),
+                                        this[_0x5dea19(0x37d)] = 0x1;
+                                    }
+                                }
+                            } else
+                                (this[_0x5dea19(0x3d2)] < -0x1 || this[_0x5dea19(0x3d2)] > 0x1) && !this['offTable'] && this['tablePosY'] < 0x1 && this[_0x5dea19(0x2f8)] <= 0x0 && (this['offSide'] = !![]);
+                            if ((this['offTable'] || this[_0x5dea19(0x47a)]) && this['height'] <= -0xc8) {
+                                if (this[_0x5dea19(0x37d)] == 0x1) {
+                                    this[_0x5dea19(0x37d)] = 0x2;
+                                    return;
+                                }
+                                this[_0x5dea19(0x21e)] == 'user' ? this[_0x5dea19(0x110)] == 0x0 || this['hitStop'] || this[_0x5dea19(0x1e1)] ? updateScore(_0x5dea19(0x21d)) : updateScore('user') : this['bounceNum'] == 0x0 ? updateScore(_0x5dea19(0x1b8)) : updateScore(_0x5dea19(0x21d));
+                                ((oGameData[_0x5dea19(0x1d6)] + oGameData[_0x5dea19(0x39c)]) % 0x2 == 0x0 || oGameData[_0x5dea19(0x1d6)] >= 0xa && oGameData[_0x5dea19(0x39c)] >= 0xa) && (this[_0x5dea19(0x128)] = !this['serveFlip']);
+                                !this[_0x5dea19(0x128)] || gameVariation == 0x1 ? (this[_0x5dea19(0x148)]('enemy'),
+                                gameVariation == 0x1 && this[_0x5dea19(0xc2)]()) : this[_0x5dea19(0x148)](_0x5dea19(0x1b8));
+                                return;
+                            }
+                            !this[_0x5dea19(0x228)] ? (this['y'] = onScreenY + tableTop['offsetY'] * 0x32 + this[_0x5dea19(0x1cf)] * this['tablePosY'] * tableDepth * (0x1 + tableTop[_0x5dea19(0x340)] / 0x2),
+                            this['x'] = canvas[_0x5dea19(0xeb)] / 0x2 + (this['y'] - onScreenY) * (tableTop['offsetX'] + this[_0x5dea19(0x3d2)] * ballPosMultiplier) * num128 * (0x1 + tableTop[_0x5dea19(0x340)] / 0x2) + this['tablePosX'] * tableBackWidth / 0x2 + tableTop[_0x5dea19(0x31d)] * tableTop[_0x5dea19(0x453)]) : (this['x'] += this[_0x5dea19(0x193)] * delta,
+                            this['y'] += this[_0x5dea19(0x391)] * delta);
+                            this[_0x5dea19(0x284)] = 0.25 + (this['y'] - onScreenY) / 0x320,
+                            this[_0x5dea19(0x1ba)][_0x5dea19(0x397)]({
+                                'x': this['x'],
+                                'y': this['y'],
+                                'height': this[_0x5dea19(0x2f8)],
+                                'scale': this[_0x5dea19(0x284)],
+                                'power': (this[_0x5dea19(0x432)] - 0.12) / 0.12
+                            });
+                            this[_0x5dea19(0x1ba)][_0x5dea19(0x3f5)] > this[_0x5dea19(0x478)] && this[_0x5dea19(0x1ba)]['shift']();
+                            if (this['y'] > canvas[_0x5dea19(0x2f8)]) {
+                                if (this[_0x5dea19(0x37d)] == 0x1) {
+                                    this['curBallState'] = 0x2;
+                                    return;
+                                }
+                                (gameVariation == 0x0 || gameVariation == 0x2) && (this[_0x5dea19(0x110)] > 0x0 || this['ballShortState'] > 0x0 ? updateScore(_0x5dea19(0x21d)) : updateScore('user'));
+                                (oGameData['userScore'] + oGameData[_0x5dea19(0x39c)]) % 0x2 == 0x0 && (this[_0x5dea19(0x128)] = !this[_0x5dea19(0x128)]);
+                                !this[_0x5dea19(0x128)] || gameVariation == 0x1 ? (this['resetServe'](_0x5dea19(0x21d)),
+                                gameVariation == 0x1 && this[_0x5dea19(0xc2)]()) : this[_0x5dea19(0x148)](_0x5dea19(0x1b8));
+                                return;
+                            }
+                            var _0x3eaa48 = 0x1 + Math[_0x5dea19(0x258)](Math[_0x5dea19(0x247)](userBat[_0x5dea19(0x495)] - userBat['x']), 0x96 * 1.5) * userBat[_0x5dea19(0x44c)]
+                              , _0x636449 = 0x1 + Math['min'](Math['abs'](userBat[_0x5dea19(0x495)] - userBat['x']), 0x96 * 1.5) * userBat['batSpreadMultiplier'];
+                            userBat[_0x5dea19(0x2fb)] -= (userBat['batSpreadX'] - _0x3eaa48) * 0.2,
+                            userBat[_0x5dea19(0x382)] -= (userBat['batSpreadY'] - _0x636449) * 0.2;
+                            this[_0x5dea19(0x21e)] == _0x5dea19(0x21d) && (this[_0x5dea19(0x1e7)] == 0x2 && this[_0x5dea19(0x110)] == 0x1 || this[_0x5dea19(0x1e7)] == 0x1 && this[_0x5dea19(0x110)] == 0x2) && this[_0x5dea19(0x1cf)] > 0.5 && userBat['x'] > this['x'] - 0x82 * userBat[_0x5dea19(0x2fb)] * userBat['scale'] && userBat['x'] < this['x'] + 0x82 * userBat[_0x5dea19(0x2fb)] * userBat[_0x5dea19(0x284)] && userBat['y'] > this['y'] - this[_0x5dea19(0x2f8)] * (this[_0x5dea19(0x284)] * 0x3) - 0x10 - 0x4b * userBat[_0x5dea19(0x284)] && userBat['y'] < this['y'] - this[_0x5dea19(0x2f8)] * (this[_0x5dea19(0x284)] * 0x3) - 0x10 + 0x64 * userBat[_0x5dea19(0x382)] * userBat[_0x5dea19(0x284)] && (playSound('hit' + Math[_0x5dea19(0x3b4)](Math[_0x5dea19(0x14a)]() * 0x6)),
+                            rallyHits++,
+                            this[_0x5dea19(0x1e7)] = 0x2,
+                            this[_0x5dea19(0x110)] = 0x0,
+                            this['lastHit'] = 'user',
+                            this[_0x5dea19(0x18d)](userBat['getHitData'](this[_0x5dea19(0x3d2)], this[_0x5dea19(0x1cf)])));
+                            if (gameVariation == 0x0 || gameVariation == 0x2)
+                                this[_0x5dea19(0x21e)] == 'user' && (this[_0x5dea19(0x1e7)] == 0x2 && this[_0x5dea19(0x110)] == 0x1 || this[_0x5dea19(0x1e7)] == 0x1 && this[_0x5dea19(0x110)] == 0x2) && this[_0x5dea19(0x1cf)] < 0.5 && this[_0x5dea19(0x1cf)] > 0x0 && enemyBat['x'] > this['x'] - 0x46 * enemyBat['scale'] && enemyBat['x'] < this['x'] + 0x46 * enemyBat[_0x5dea19(0x284)] && enemyBat['y'] > this['y'] - this[_0x5dea19(0x2f8)] * (this['scale'] * 0x3) - 0x10 - 0x52 * enemyBat[_0x5dea19(0x284)] && enemyBat['y'] < this['y'] - this[_0x5dea19(0x2f8)] * (this[_0x5dea19(0x284)] * 0x3) - 0x10 + 0x52 * enemyBat['scale'] && (playSound('hit' + Math[_0x5dea19(0x3b4)](Math[_0x5dea19(0x14a)]() * 0x6)),
+                                rallyHits++,
+                                this[_0x5dea19(0x1e7)] = 0x2,
+                                this[_0x5dea19(0x110)] = 0x0,
+                                this[_0x5dea19(0x21e)] = _0x5dea19(0x21d),
+                                this[_0x5dea19(0x18d)](enemyBat[_0x5dea19(0x38f)](this[_0x5dea19(0x3d2)], this[_0x5dea19(0x1cf)])));
+                            else
+                                gameVariation == 0x3 && (this[_0x5dea19(0x21e)] == 'user' && (this[_0x5dea19(0x1e7)] == 0x2 || this[_0x5dea19(0x1e7)] == 0x1) && this['tablePosY'] < 0.1 && (playSound('hit' + Math[_0x5dea19(0x3b4)](Math[_0x5dea19(0x14a)]() * 0x6)),
+                                this[_0x5dea19(0x1e7)] = 0x2,
+                                this[_0x5dea19(0x110)] = 0x0,
+                                this[_0x5dea19(0x21e)] = 'enemy',
+                                this[_0x5dea19(0x18d)]({
+                                    'x': Math[_0x5dea19(0x1cb)](Math['min'](this[_0x5dea19(0x3d2)] * 0.75, 0.8), -0.8),
+                                    'y': 0.8,
+                                    'speed': 0.3,
+                                    'spin': 0x0
+                                })));
+                        }
+                    }
+                }
+            }
+        }
+        ,
+        _0x4ffa88[_0x5c8fc3(0x1f7)]['render'] = function() {
+            var _0xdf393c = _0x5c8fc3;
+            if (gameplayState > 0x1)
+                return;
+            if (this[_0xdf393c(0x3d2)] > -0x1 && this['tablePosX'] < 0x1 && this[_0xdf393c(0x1cf)] > 0x0 && this[_0xdf393c(0x1cf)] < 0x1) {
+                ctx['save'](),
+                ctx[_0xdf393c(0x1dc)] = Math['max'](0x1 - this[_0xdf393c(0x2f8)] / 0x64, 0.25);
+                var _0x43fc55 = this['oGameElementsImgData']['oData'][_0xdf393c(0x202)][oImageIds['ballShadow']]['x']
+                  , _0x24d93f = this[_0xdf393c(0x181)][_0xdf393c(0x35a)]['oAtlasData'][oImageIds[_0xdf393c(0x410)]]['y']
+                  , _0x5a79f0 = this[_0xdf393c(0x181)][_0xdf393c(0x35a)][_0xdf393c(0x202)][oImageIds[_0xdf393c(0x410)]][_0xdf393c(0xeb)]
+                  , _0x31f08a = this[_0xdf393c(0x181)]['oData'][_0xdf393c(0x202)][oImageIds['ballShadow']][_0xdf393c(0x2f8)];
+                ctx[_0xdf393c(0x23c)](this[_0xdf393c(0x181)][_0xdf393c(0x436)], _0x43fc55, _0x24d93f, _0x5a79f0, _0x31f08a, this['x'] - _0x5a79f0 / 0x2 * this[_0xdf393c(0x284)], this['y'] - _0x31f08a / 0x2 * this['scale'], _0x5a79f0 * this['scale'], _0x31f08a * this[_0xdf393c(0x284)]),
+                ctx[_0xdf393c(0x10d)]();
+            } else {}
+            this[_0xdf393c(0x21e)] == 'enemy' && this[_0xdf393c(0x415)] == 0x0 && this['renderTrail']();
+            var _0x43fc55 = this['oGameElementsImgData'][_0xdf393c(0x35a)][_0xdf393c(0x202)][oImageIds[_0xdf393c(0x158) + this[_0xdf393c(0x310)]]]['x']
+              , _0x24d93f = this[_0xdf393c(0x181)][_0xdf393c(0x35a)][_0xdf393c(0x202)][oImageIds[_0xdf393c(0x158) + this[_0xdf393c(0x310)]]]['y']
+              , _0x5a79f0 = this['oGameElementsImgData'][_0xdf393c(0x35a)]['oAtlasData'][oImageIds[_0xdf393c(0x158) + this['ballType']]][_0xdf393c(0xeb)]
+              , _0x31f08a = this[_0xdf393c(0x181)][_0xdf393c(0x35a)]['oAtlasData'][oImageIds[_0xdf393c(0x158) + this[_0xdf393c(0x310)]]][_0xdf393c(0x2f8)];
+            ctx[_0xdf393c(0x23c)](this[_0xdf393c(0x181)][_0xdf393c(0x436)], _0x43fc55, _0x24d93f, _0x5a79f0, _0x31f08a, this['x'] - _0x5a79f0 / 0x2 * this['scale'], this['y'] - _0x31f08a / 0x2 * this[_0xdf393c(0x284)] - this[_0xdf393c(0x2f8)] * (this['scale'] * 0x3) - 0x17, _0x5a79f0 * this['scale'], _0x31f08a * this[_0xdf393c(0x284)]),
+            this[_0xdf393c(0x21e)] == 'user' && this['ballShortState'] == 0x0 && this[_0xdf393c(0x230)]();
+        }
+        ,
+        _0x4ffa88['prototype'][_0x5c8fc3(0x230)] = function() {
+            var _0x5d9ffd = _0x5c8fc3;
+            if (this[_0x5d9ffd(0x1ba)][_0x5d9ffd(0x3f5)] > 0x1)
+                for (var _0x492189 = 0x0; _0x492189 < this[_0x5d9ffd(0x1ba)][_0x5d9ffd(0x3f5)]; _0x492189++) {
+                    ctx[_0x5d9ffd(0x3c9)] = 'rgba(255,\x20255,\x20100,' + _0x492189 / this[_0x5d9ffd(0x1ba)]['length'] * 0.3 + ')',
+                    ctx[_0x5d9ffd(0x1df)](),
+                    ctx[_0x5d9ffd(0x13f)](this[_0x5d9ffd(0x1ba)][_0x492189]['x'], this[_0x5d9ffd(0x1ba)][_0x492189]['y'] - this[_0x5d9ffd(0x1ba)][_0x492189]['height'] * (this[_0x5d9ffd(0x1ba)][_0x492189]['scale'] * 0x3) - 0x17, 0x14 * this['scale'], 0x0, 0x2 * Math['PI']),
+                    ctx['fill']();
+                }
+        }
+        ,
+        _0x4ffa88;
+    }());
+    _0x12800f[_0x7928b2(0x3a7)] = _0x249bc7;
+}(Elements || (Elements = {})));
+var Elements;
+(function(_0x44e3dd) {
+    var _0x342ba5 = _0x47ff64
+      , _0x560bbe = (function() {
+        var _0x5d1930 = _0x2ef4;
+        function _0x37d384() {
+            var _0x4ebaad = _0x2ef4;
+            this['segs'] = 0x64,
+            this[_0x4ebaad(0x31d)] = 0x0,
+            this[_0x4ebaad(0x340)] = 0x0,
+            this[_0x4ebaad(0x434)] = 0x0,
+            this[_0x4ebaad(0x133)] = 0x1,
+            this[_0x4ebaad(0x467)] = 0x0,
+            this['id'] = 0x0,
+            this['sideMultiplier'] = 0x64,
+            this[_0x4ebaad(0x482)] = 0x0,
+            this[_0x4ebaad(0x388)] = 0x0,
+            this[_0x4ebaad(0xd1)] = 0x0,
+            this['stopOffsetX'] = 0x0,
+            this[_0x4ebaad(0x321)] = ![],
+            this[_0x4ebaad(0x1ac)] = 0x1,
+            this[_0x4ebaad(0x207)] = 0x0,
+            this[_0x4ebaad(0x32c)] = 0x0,
+            this[_0x4ebaad(0x119)] = 0x160,
+            this[_0x4ebaad(0x47b)] = 1.46,
+            this[_0x4ebaad(0x317)] = 0x0,
+            this[_0x4ebaad(0x145)] = 0x0,
+            this['zoomAlpha'] = 0x0,
+            this['targId'] = 0x0,
+            this[_0x4ebaad(0x1bd)] = new Array(),
+            this[_0x4ebaad(0x2f2)] = 0x5a,
+            this[_0x4ebaad(0x23e)] = new Array(_0x4ebaad(0x293),'#00ddd9',_0x4ebaad(0x1f4),_0x4ebaad(0x3b5),_0x4ebaad(0x2d9),_0x4ebaad(0xfe),_0x4ebaad(0xdb),_0x4ebaad(0x1b6),_0x4ebaad(0x174),_0x4ebaad(0x111),'#ff6dd4',_0x4ebaad(0x469),_0x4ebaad(0x45b),_0x4ebaad(0x239),_0x4ebaad(0x19f),_0x4ebaad(0x1c8),_0x4ebaad(0x2b6),_0x4ebaad(0x322),'#ffb434',_0x4ebaad(0x338),'#e4d026',_0x4ebaad(0x2cd),_0x4ebaad(0x3ad),'#7bea5c',_0x4ebaad(0x17d),_0x4ebaad(0x17d)),
+            this['aBugColours'] = new Array('#E6B763',_0x4ebaad(0x206),'#CFE458',_0x4ebaad(0x132),_0x4ebaad(0x13a),_0x4ebaad(0x31e),_0x4ebaad(0x394),_0x4ebaad(0x306)),
+            this['oGameElementsImgData'] = assetLib[_0x4ebaad(0x2d8)]('gameElements'),
+            this['id'] = 0x0,
+            this[_0x4ebaad(0x3f7)]();
+        }
+        return _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x43c)] = function() {
+            var _0x23516f = _0x5d1930;
+            this[_0x23516f(0x257)] = {
+                'x': 0x0,
+                'y': 0x0,
+                'offsetX': 0x0,
+                'offsetY': 0.25,
+                'energy': 0x1,
+                'height': 0x0
+            },
+            this[_0x23516f(0x1bd)] = new Array();
+            for (var _0x178b83 = 0x0; _0x178b83 < Math[_0x23516f(0x258)](bugWave + 0x5, 0xf); _0x178b83++) {
+                this[_0x23516f(0x1bd)][_0x23516f(0x397)](this[_0x23516f(0x3e8)](_0x178b83));
+            }
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x3e8)] = function(_0x6c32ff) {
+            var _0x454df7 = _0x5d1930
+              , _0x2b03a1 = {
+                'id': _0x6c32ff,
+                'x': 0x0,
+                'y': 0x0,
+                'offsetX': 0x0,
+                'offsetY': 0x0,
+                'startX': Math['random']() * 0x2 - 0x1,
+                'startY': Math['random']() * 0.3 + 0.1,
+                'endX': Math[_0x454df7(0x14a)]() * 1.6 - 0.8,
+                'endY': Math[_0x454df7(0x14a)]() * 0.3 + 0.1,
+                'energy': 0x1,
+                'height': 0x0,
+                'speed': Math[_0x454df7(0x14a)]() * 0.05 + 0.05,
+                'scale': 0x1,
+                'tweenScale': 0x0,
+                'canHit': !![]
+            }
+              , _0x40440f = TweenLite['to'](_0x2b03a1, 0.5, {
+                'tweenScale': 0x1,
+                'ease': _0x454df7(0x109),
+                'onComplete': function() {}
+            });
+            return _0x2b03a1[_0x454df7(0x2c9)] = _0x40440f,
+            _0x2b03a1;
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x23d)] = function(_0x520f29, _0x2ffec4) {
+            var _0x213a1a = _0x5d1930
+              , _0x149509 = this;
+            for (var _0x257b8e = 0x0; _0x257b8e < this[_0x213a1a(0x1bd)][_0x213a1a(0x3f5)]; _0x257b8e++) {
+                var _0xd7fb79 = _0x520f29 - this['aZombies'][_0x257b8e]['x']
+                  , _0x5ecc6c = _0x2ffec4 - this[_0x213a1a(0x1bd)][_0x257b8e]['y'];
+                if (this[_0x213a1a(0x1bd)][_0x257b8e][_0x213a1a(0x261)] && _0xd7fb79 * _0xd7fb79 / (this[_0x213a1a(0x2f2)] * this[_0x213a1a(0x1bd)][_0x257b8e][_0x213a1a(0x284)] * (this[_0x213a1a(0x2f2)] * this['aZombies'][_0x257b8e][_0x213a1a(0x284)])) + _0x5ecc6c * _0x5ecc6c / (this[_0x213a1a(0x2f2)] * 0.5 * this[_0x213a1a(0x1bd)][_0x257b8e]['scale'] * (this[_0x213a1a(0x2f2)] * 0.37 * this[_0x213a1a(0x1bd)][_0x257b8e][_0x213a1a(0x284)])) <= 0x1) {
+                    bugScore++;
+                    var _0x444918 = 0x1e * radian;
+                    for (var _0x52a20b = 0x0; _0x52a20b < 0x5; _0x52a20b++) {
+                        var _0x28bc3f = new _0x44e3dd[(_0x213a1a(0x2f5))](this[_0x213a1a(0x1bd)][_0x257b8e]['x'],this[_0x213a1a(0x1bd)][_0x257b8e]['y'],Math[_0x213a1a(0x14a)]() * 0.5 + 0.75,Math[_0x213a1a(0x14a)]() * 0xc8 + 0xc8,_0x444918 + 0x78 / 0x4 * _0x52a20b * radian + (Math[_0x213a1a(0x14a)]() * 0xa - 0x5) * radian,0xf,0x1,0x19,this[_0x213a1a(0x3d9)][this[_0x213a1a(0x1bd)][_0x257b8e]['id'] % 0x8]);
+                        aEffects[_0x213a1a(0x397)](_0x28bc3f);
+                    }
+                    panel[_0x213a1a(0x45d)](),
+                    this['aZombies'][_0x257b8e][_0x213a1a(0x261)] = ![],
+                    playSound('bugSplat' + Math[_0x213a1a(0x3b4)](Math[_0x213a1a(0x14a)]() * 0x5), Math['random']() * 0.5 + 0.3);
+                    this[_0x213a1a(0x1bd)][_0x257b8e][_0x213a1a(0x2c9)] && this[_0x213a1a(0x1bd)][_0x257b8e][_0x213a1a(0x2c9)][_0x213a1a(0x2e1)]();
+                    var _0x4e4bc7 = this[_0x213a1a(0x1bd)][_0x257b8e]['id'];
+                    this['aZombies'][_0x257b8e][_0x213a1a(0x2c9)] = TweenLite['to'](this['aZombies'][_0x257b8e], 0.25, {
+                        'tweenScale': 0x0,
+                        'ease': _0x213a1a(0x44e),
+                        'onCompleteParams': [this, _0x4e4bc7],
+                        'onComplete': function(_0x30fe8e, _0x5683a5) {
+                            var _0x12ac14 = _0x213a1a;
+                            bugWaveKilled++,
+                            bugWaveKilled >= bugWave + 0x5 && (playSound(_0x12ac14(0x1de), 0.3),
+                            playSound(_0x12ac14(0x38a) + Math[_0x12ac14(0x3b4)](Math[_0x12ac14(0x14a)]() * 0x6)),
+                            bugWave++,
+                            bugWaveKilled = 0x0,
+                            _0x149509[_0x12ac14(0x43c)](),
+                            panel['addBugTime']());
+                        }
+                    });
+                }
+            }
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)]['setTableCol'] = function() {
+            var _0x5d8759 = _0x5d1930;
+            gameplayState == 0x0 || gameVariation == 0x0 ? this[_0x5d8759(0x16a)] = Math[_0x5d8759(0x3b4)](curLevel) % this['aColours'][_0x5d8759(0x3f5)] : this['colourId'] = Math[_0x5d8759(0x3b4)](Math[_0x5d8759(0x14a)]() * this[_0x5d8759(0x23e)][_0x5d8759(0x3f5)]);
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0xfd)] = function() {
+            var _0x404b60 = _0x5d1930;
+            this[_0x404b60(0x2f6)] && this[_0x404b60(0x2f6)][_0x404b60(0x2e1)](),
+            this[_0x404b60(0x317)] = 0x32,
+            this[_0x404b60(0x2f6)] = TweenLite['to'](this, 0.5, {
+                'botY': 0x0,
+                'ease': _0x404b60(0x44e),
+                'onComplete': function() {}
+            });
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x20c)] = function() {
+            var _0x1bb6bb = _0x5d1930;
+            this[_0x1bb6bb(0x1f5)] && this['targetZoomTween'][_0x1bb6bb(0x2e1)](),
+            this[_0x1bb6bb(0x145)] = this[_0x1bb6bb(0x241)],
+            this[_0x1bb6bb(0x2a6)] = this['holeX'],
+            this[_0x1bb6bb(0x291)] = this[_0x1bb6bb(0x34b)],
+            this[_0x1bb6bb(0x437)] = 0x1,
+            this[_0x1bb6bb(0x1f5)] = TweenLite['to'](tableTop, 0.5, {
+                'zoomScale': this[_0x1bb6bb(0x145)] * 0x3,
+                'zoomAlpha': 0x0,
+                'ease': _0x1bb6bb(0x44e),
+                'onComplete': function() {}
+            });
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x268)] = function() {
+            var _0x2c56e5 = _0x5d1930;
+            this['holeX'] = 0x0,
+            this[_0x2c56e5(0x34b)] = 0x0,
+            this[_0x2c56e5(0x3dd)] = 0x0,
+            this[_0x2c56e5(0x213)] = 0.3,
+            this[_0x2c56e5(0x152)] && this[_0x2c56e5(0x152)][_0x2c56e5(0x2e1)](),
+            this[_0x2c56e5(0x152)] = TweenLite['to'](this, 0.25, {
+                'holeOffsetX': 0x0,
+                'holeOffsetY': 0.3,
+                'holeHitScale': Math[_0x2c56e5(0x1cb)](this['holeFixedScale'] *= 0.97, 0.35),
+                'ease': _0x2c56e5(0x2bf),
+                'onComplete': function() {}
+            });
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x383)] = function() {
+            var _0x1f548d = _0x5d1930;
+            this[_0x1f548d(0x333)] = 0x0,
+            this[_0x1f548d(0x152)] = TweenLite['to'](this, 0.25, {
+                'holeOffsetX': Math[_0x1f548d(0x14a)]() * 1.2 - 0.6,
+                'holeOffsetY': Math['random']() * 0.25 + 0.2,
+                'holeHitScale': Math[_0x1f548d(0x1cb)](this[_0x1f548d(0x1ac)] *= 0.97, 0.35),
+                'ease': _0x1f548d(0x2bf),
+                'onComplete': function() {}
+            });
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x357)] = function() {
+            var _0x359836 = _0x5d1930
+              , _0x4230dd = this;
+            this[_0x359836(0x152)] && this[_0x359836(0x152)][_0x359836(0x2e1)]();
+            playSound(_0x359836(0x225), 0.3),
+            curTargetScore++,
+            saveDataHandler[_0x359836(0x2de)](curTargetScore),
+            panel[_0x359836(0x45d)](),
+            this['zoomTarget'](),
+            this[_0x359836(0x333)] = 0x1;
+            curTargetScore >= 0xa && curTargetScore % 0x5 == 0x0 && playSound(_0x359836(0x38a) + Math[_0x359836(0x3b4)](Math[_0x359836(0x14a)]() * 0x6));
+            this[_0x359836(0x152)] = TweenLite['to'](this, 0.25, {
+                'holeHitScale': 0x0,
+                'ease': 'Back.easeIn',
+                'onComplete': function() {
+                    var _0x49a137 = _0x359836;
+                    _0x4230dd[_0x49a137(0x383)]();
+                }
+            });
+            var _0x204fcb = 0x1e * radian;
+            for (var _0x5df56a = 0x0; _0x5df56a < 0x14; _0x5df56a++) {
+                var _0x98db6a = new _0x44e3dd[(_0x359836(0x2f5))](aBalls[curBallId]['x'],aBalls[curBallId]['y'],Math[_0x359836(0x14a)]() * 0.5 + 0.75,Math[_0x359836(0x14a)]() * 0xc8 + 0xc8,_0x204fcb + 0x78 / 0x13 * _0x5df56a * radian,0xf,0x1,0x19);
+                aEffects[_0x359836(0x397)](_0x98db6a);
+            }
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x4aa)] = function() {
+            var _0x3d2652 = _0x5d1930;
+            playSound(_0x3d2652(0x492), 0.7),
+            this['holeFixedScale'] = 0x1,
+            this[_0x3d2652(0x152)] = TweenLite['to'](this, 0.25, {
+                'holeHitScale': 0x0,
+                'ease': _0x3d2652(0x2d4),
+                'onComplete': function() {}
+            }),
+            tableTop['botTween'] && tableTop[_0x3d2652(0x2f6)][_0x3d2652(0x2e1)](),
+            tableTop[_0x3d2652(0x2f6)] = TweenLite['to'](tableTop, 0x1, {
+                'botY': 0x32,
+                'ease': _0x3d2652(0xfa),
+                'onComplete': function() {}
+            });
+        }
+        ,
+        _0x37d384['prototype'][_0x5d1930(0x46d)] = function(_0xc3768c) {
+            var _0x1e13d8 = _0x5d1930;
+            _0xc3768c ? (this[_0x1e13d8(0x1dd)] && this[_0x1e13d8(0x1dd)][_0x1e13d8(0x2e1)](),
+            this[_0x1e13d8(0x321)] = ![],
+            this[_0x1e13d8(0x1dd)] = TweenLite['to'](this, 0.2, {
+                'stopHeight': Math[_0x1e13d8(0x3b4)](Math[_0x1e13d8(0x14a)]() * 1.5),
+                'ease': _0x1e13d8(0x251)
+            })) : (this[_0x1e13d8(0x1dd)] && this[_0x1e13d8(0x1dd)][_0x1e13d8(0x2e1)](),
+            this[_0x1e13d8(0x321)] = !![],
+            this[_0x1e13d8(0x1dd)] = TweenLite['to'](this, 0.2, {
+                'stopHeight': 0x1,
+                'stopOffsetX': Math[_0x1e13d8(0x14a)]() * 0x1 - 0.5,
+                'ease': _0x1e13d8(0x251)
+            }));
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x331)] = function(_0xb4cba6) {
+            var _0x28deaf = _0x5d1930;
+            this[_0x28deaf(0x482)] = _0xb4cba6;
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0xed)] = function(_0x335d75, _0x2395d1, _0x3f2bdd, _0x24ea6a, _0x3553f0) {
+            var _0x27065f = _0x5d1930;
+            this[_0x27065f(0x288)] && this[_0x27065f(0x288)][_0x27065f(0x2e1)]();
+            var _0x26afca = 0x0
+              , _0x2fff51 = 0x0;
+            (_0x335d75 > 0.3 || _0x335d75 < -0.3) && (_0x26afca = -_0x335d75 / 1.75 - _0x3553f0 / 0x2);
+            var _0x3cb2df = 0x1;
+            _0x24ea6a == _0x27065f(0x21d) && (_0x3cb2df = 0.75,
+            _0x2fff51 = (0x1 - (_0x2395d1 - 0.5) * 0x2) * (0.3 - (_0x3f2bdd - 0.3)) / 0.3),
+            this[_0x27065f(0x288)] = TweenLite['to'](this, _0x3cb2df, {
+                'offsetX': _0x26afca,
+                'offsetY': _0x2fff51,
+                'ease': _0x27065f(0x251)
+            });
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x2ef)] = function(_0x343474) {
+            var _0x21ac07 = _0x5d1930;
+            _0x343474 === void 0x0 && (_0x343474 = null);
+            var _0x40590f;
+            _0x343474 == null ? _0x40590f = Math[_0x21ac07(0x14a)]() * 0xfa - 0x7d : _0x40590f = _0x343474,
+            this[_0x21ac07(0x22f)] && this['targetTween']['kill'](),
+            this[_0x21ac07(0x22f)] = TweenLite['to'](this, 0.75, {
+                'targetX': _0x40590f,
+                'ease': _0x21ac07(0x2bf)
+            });
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0x2be)] = function() {
+            var _0x3639aa = _0x5d1930
+              , _0x46a1bc = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x37f)]][_0x3639aa(0x2f8)];
+            canvas[_0x3639aa(0x2f8)] < canvas['width'] * 1.2 ? onScreenY = canvas[_0x3639aa(0x2f8)] / 0x4 : onScreenY = canvas[_0x3639aa(0x2f8)] * 0.35;
+            this[_0x3639aa(0x26b)] = 0x1 + this[_0x3639aa(0x340)] / 0x3,
+            this[_0x3639aa(0x434)] = onScreenY - _0x46a1bc + this[_0x3639aa(0x119)] / this[_0x3639aa(0x286)] * (0.282 * this['segs']) * this[_0x3639aa(0x26b)] + this[_0x3639aa(0x340)] * 0x32,
+            this[_0x3639aa(0x467)] = _0x46a1bc * this['genScale'];
+            if (gameVariation == 0x1) {
+                var _0x31c729 = this[_0x3639aa(0x181)]['oData']['oAtlasData'][oImageIds['bot']]['x']
+                  , _0x282a9b = this['oGameElementsImgData']['oData'][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x28a)]]['y']
+                  , _0x46d506 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)]['oAtlasData'][oImageIds[_0x3639aa(0x28a)]][_0x3639aa(0xeb)]
+                  , _0x46a1bc = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x28a)]]['height']
+                  , _0x13359d = onScreenY + this[_0x3639aa(0x340)] * 0x32;
+                ctx[_0x3639aa(0x23c)](this[_0x3639aa(0x181)][_0x3639aa(0x436)], _0x31c729, _0x282a9b, _0x46d506, _0x46a1bc, canvas[_0x3639aa(0xeb)] / 0x2 - _0x46d506 / 0x2 * this[_0x3639aa(0x26b)] + this[_0x3639aa(0x31d)] * (0x0 * this[_0x3639aa(0x286)]) * 0x3 * this['edgeMultuplier'] * this[_0x3639aa(0x26b)] + this[_0x3639aa(0x31d)] * this[_0x3639aa(0x47b)] * this[_0x3639aa(0x453)], _0x13359d - 0x64 * this[_0x3639aa(0x26b)] + this['botY'] * this[_0x3639aa(0x26b)], _0x46d506 * this[_0x3639aa(0x26b)], _0x46a1bc * this[_0x3639aa(0x26b)]);
+            }
+            if (gameVariation == 0x3) {
+                var _0x5ec7e9 = getSpriteData(assetLib['getData'](_0x3639aa(0x1ca)), _0x3639aa(0xfc))
+                  , _0x373045 = canvas[_0x3639aa(0xeb)] / 0x2 + this[_0x3639aa(0x31d)] * (0x0 * this['segs']) * 0x3 * this[_0x3639aa(0x47b)] * this[_0x3639aa(0x26b)] + this[_0x3639aa(0x31d)] * this['edgeMultuplier'] * this[_0x3639aa(0x453)]
+                  , _0x2496c7 = onScreenY + this['offsetY'] * 0x32;
+                ctx[_0x3639aa(0x23c)](_0x5ec7e9['img'], _0x5ec7e9['bX'], _0x5ec7e9['bY'], _0x5ec7e9[_0x3639aa(0x2a8)], _0x5ec7e9[_0x3639aa(0x2f0)], _0x373045 - _0x5ec7e9[_0x3639aa(0x2a8)] / 0x2 * this[_0x3639aa(0x26b)], _0x2496c7 - _0x5ec7e9['bHeight'] * 0.4 * this[_0x3639aa(0x26b)], _0x5ec7e9['bWidth'] * this[_0x3639aa(0x26b)], _0x5ec7e9[_0x3639aa(0x2f0)] * this[_0x3639aa(0x26b)]),
+                addDirectText(0x0, 0x32 * this[_0x3639aa(0x26b)], canvas[_0x3639aa(0xeb)] / 0x2, _0x3639aa(0x45c), _0x373045, _0x2496c7 - 0x14 * this['genScale'], 'WAVE\x20' + panel[_0x3639aa(0x435)](bugWave + 0x1), _0x3639aa(0x493));
+            }
+            var _0x31c729 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0xd3)]]['x']
+              , _0x282a9b = this[_0x3639aa(0x181)]['oData']['oAtlasData'][oImageIds[_0x3639aa(0xd3)]]['y']
+              , _0x46d506 = this[_0x3639aa(0x181)]['oData'][_0x3639aa(0x202)][oImageIds[_0x3639aa(0xd3)]][_0x3639aa(0xeb)]
+              , _0x46a1bc = this[_0x3639aa(0x181)][_0x3639aa(0x35a)]['oAtlasData'][oImageIds[_0x3639aa(0xd3)]][_0x3639aa(0x2f8)];
+            ctx[_0x3639aa(0x23c)](this['oGameElementsImgData'][_0x3639aa(0x436)], _0x31c729, _0x282a9b, _0x46d506, _0x46a1bc, canvas[_0x3639aa(0xeb)] / 0x2 - _0x46d506 / 0x2 * (0x1 + this['offsetY'] / 0x3) + this['offsetX'] * (0.282 * this[_0x3639aa(0x286)]) * 0x3 * this[_0x3639aa(0x47b)] * (0x1 + this[_0x3639aa(0x340)] / 0x3) + this['offsetX'] * this[_0x3639aa(0x47b)] * this[_0x3639aa(0x453)] * this[_0x3639aa(0x133)], this[_0x3639aa(0x434)] + this[_0x3639aa(0x467)] - 0x3 * (0x1 + this[_0x3639aa(0x340)] / 0x3), _0x46d506 * (0x1 + this[_0x3639aa(0x340)] / 0x3), _0x46a1bc * (0x1 + this['offsetY'] / 0x3));
+            var _0x469ea6 = 0x160 / 0x2 * this[_0x3639aa(0x26b)]
+              , _0x571376 = ((0x37f - 0x160) * 0.282 + 0x160) / 0x2 * this[_0x3639aa(0x26b)]
+              , _0xd612a1 = 0x37f / 0x2 * this[_0x3639aa(0x26b)]
+              , _0x13359d = onScreenY + this[_0x3639aa(0x340)] * 0x32
+              , _0x146dea = this[_0x3639aa(0x434)] + this[_0x3639aa(0x467)]
+              , _0x1a8066 = onScreenY + 0x160 * (0x1 + this[_0x3639aa(0x340)] / 0x2) + this['offsetY'] * 0x32
+              , _0x40f640 = this[_0x3639aa(0x31d)] * this[_0x3639aa(0x453)] * this[_0x3639aa(0x47b)]
+              , _0x5e6134 = (this['offsetX'] * (0.282 * 0x64) * 0x3 * this[_0x3639aa(0x26b)] + this[_0x3639aa(0x31d)] * this[_0x3639aa(0x453)]) * this[_0x3639aa(0x47b)]
+              , _0x4de58a = (this['offsetX'] * 0x64 * 0x3 * this['genScale'] + this[_0x3639aa(0x31d)] * this[_0x3639aa(0x453)]) * this[_0x3639aa(0x47b)];
+            ctx[_0x3639aa(0x3c9)] = '#333333',
+            ctx['beginPath'](),
+            ctx[_0x3639aa(0x458)](canvas[_0x3639aa(0xeb)] / 0x2 - _0x469ea6 + _0x40f640, _0x13359d),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + _0x469ea6 + _0x40f640, _0x13359d),
+            ctx[_0x3639aa(0x3f0)](canvas['width'] / 0x2 + _0xd612a1 + _0x4de58a, _0x1a8066),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 - _0xd612a1 + _0x4de58a, _0x1a8066),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 - _0x469ea6 + _0x40f640, _0x13359d),
+            ctx[_0x3639aa(0x1a0)](),
+            ctx[_0x3639aa(0x23b)](),
+            ctx['fillStyle'] = _0x3639aa(0x13c),
+            ctx['beginPath'](),
+            ctx[_0x3639aa(0x458)](canvas['width'] / 0x2 - _0x469ea6 + _0x40f640 + 0x2 * this['genScale'], _0x13359d + 0x2 * this[_0x3639aa(0x26b)]),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + _0x469ea6 + _0x40f640 - 0x2 * this[_0x3639aa(0x26b)], _0x13359d + 0x2 * this['genScale']),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + _0xd612a1 + _0x4de58a - 0x6 * this[_0x3639aa(0x26b)], _0x1a8066),
+            ctx[_0x3639aa(0x3f0)](canvas['width'] / 0x2 - _0xd612a1 + _0x4de58a + 0x6 * this[_0x3639aa(0x26b)], _0x1a8066),
+            ctx['lineTo'](canvas[_0x3639aa(0xeb)] / 0x2 - _0x469ea6 + _0x40f640 + 0x2 * this[_0x3639aa(0x26b)], _0x13359d + 0x2 * this['genScale']),
+            ctx[_0x3639aa(0x1a0)](),
+            ctx[_0x3639aa(0x23b)](),
+            ctx[_0x3639aa(0x3c9)] = this['aColours'][this[_0x3639aa(0x16a)]],
+            ctx[_0x3639aa(0x1df)](),
+            ctx[_0x3639aa(0x458)](canvas[_0x3639aa(0xeb)] / 0x2 - _0x469ea6 + _0x40f640 + 0xa * this['genScale'], _0x13359d + 0x4 * this[_0x3639aa(0x26b)]),
+            ctx['lineTo'](canvas[_0x3639aa(0xeb)] / 0x2 - 0x2 * this[_0x3639aa(0x26b)] + _0x40f640, _0x13359d + 0x4 * this['genScale']),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 - 0x8 * this['genScale'] + _0x4de58a, _0x1a8066 - 0xd * this[_0x3639aa(0x26b)]),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 - _0xd612a1 + _0x4de58a + 0x28 * this[_0x3639aa(0x26b)], _0x1a8066 - 0xd * this[_0x3639aa(0x26b)]),
+            ctx['lineTo'](canvas['width'] / 0x2 - _0x469ea6 + _0x40f640 + 0xa * this[_0x3639aa(0x26b)], _0x13359d + 0x4 * this[_0x3639aa(0x26b)]),
+            ctx['closePath'](),
+            ctx[_0x3639aa(0x23b)](),
+            ctx[_0x3639aa(0x1df)](),
+            ctx[_0x3639aa(0x458)](canvas[_0x3639aa(0xeb)] / 0x2 + 0x2 * this[_0x3639aa(0x26b)] + _0x40f640, _0x13359d + 0x4 * this[_0x3639aa(0x26b)]),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + _0x469ea6 + _0x40f640 - 0xa * this[_0x3639aa(0x26b)], _0x13359d + 0x4 * this[_0x3639aa(0x26b)]),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + _0xd612a1 + _0x4de58a - 0x28 * this[_0x3639aa(0x26b)], _0x1a8066 - 0xd * this[_0x3639aa(0x26b)]),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + 0x8 * this[_0x3639aa(0x26b)] + _0x4de58a, _0x1a8066 - 0xd * this[_0x3639aa(0x26b)]),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + 0x2 * this['genScale'] + _0x40f640, _0x13359d + 0x4 * this[_0x3639aa(0x26b)]),
+            ctx[_0x3639aa(0x1a0)](),
+            ctx[_0x3639aa(0x23b)]();
+            if (gameVariation == 0x1) {
+                ctx[_0x3639aa(0x425)](),
+                ctx['beginPath'](),
+                ctx['moveTo'](canvas[_0x3639aa(0xeb)] / 0x2 - _0x469ea6 + _0x40f640 + 0x2 * this[_0x3639aa(0x26b)], _0x13359d + 0x2 * this[_0x3639aa(0x26b)]),
+                ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + _0x469ea6 + _0x40f640 - 0x2 * this[_0x3639aa(0x26b)], _0x13359d + 0x2 * this[_0x3639aa(0x26b)]),
+                ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + _0x571376 + _0x5e6134 - 0x6 * this[_0x3639aa(0x26b)], _0x146dea),
+                ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 - _0x571376 + _0x5e6134 + 0x6 * this['genScale'], _0x146dea),
+                ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 - _0x469ea6 + _0x40f640 + 0x2 * this[_0x3639aa(0x26b)], _0x13359d + 0x2 * this['genScale']),
+                ctx[_0x3639aa(0x1a0)](),
+                ctx[_0x3639aa(0x1b1)]();
+                var _0x57286d = 0x0
+                  , _0x31c729 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)]['oAtlasData'][oImageIds[_0x3639aa(0x30e) + this[_0x3639aa(0x333)]]]['x']
+                  , _0x282a9b = this[_0x3639aa(0x181)]['oData']['oAtlasData'][oImageIds[_0x3639aa(0x30e) + this[_0x3639aa(0x333)]]]['y']
+                  , _0x46d506 = this[_0x3639aa(0x181)]['oData'][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x30e) + this[_0x3639aa(0x333)]]][_0x3639aa(0xeb)]
+                  , _0x46a1bc = this[_0x3639aa(0x181)][_0x3639aa(0x35a)]['oAtlasData'][oImageIds[_0x3639aa(0x30e) + this[_0x3639aa(0x333)]]][_0x3639aa(0x2f8)];
+                this['holeY'] = onScreenY + this[_0x3639aa(0x340)] * 0x32 + this[_0x3639aa(0x213)] * this[_0x3639aa(0x213)] * tableDepth * (0x1 + this[_0x3639aa(0x340)] / 0x2),
+                this[_0x3639aa(0x157)] = canvas['width'] / 0x2 + (this[_0x3639aa(0x34b)] - onScreenY) * (this[_0x3639aa(0x31d)] + this[_0x3639aa(0x3dd)] * ballPosMultiplier) * 0.85 * (0x1 + this[_0x3639aa(0x340)] / 0x2) + this[_0x3639aa(0x3dd)] * tableBackWidth / 0x2 + this[_0x3639aa(0x31d)] * this[_0x3639aa(0x453)],
+                this['holeScale'] = this[_0x3639aa(0x26b)] * (0.3 + this['holeOffsetY'] * 0.5) * this[_0x3639aa(0x207)],
+                ctx['drawImage'](this[_0x3639aa(0x181)]['img'], _0x31c729, _0x282a9b, _0x46d506, _0x46a1bc, this['holeX'] - _0x46d506 / 0x2 * this['holeScale'], this[_0x3639aa(0x34b)] - _0x46a1bc / 0x2 * this[_0x3639aa(0x241)], _0x46d506 * this[_0x3639aa(0x241)], _0x46a1bc * this[_0x3639aa(0x241)]),
+                ctx['restore']();
+            }
+            if (gameVariation == 0x3) {
+                this['aZombies'] = depthSort(this[_0x3639aa(0x1bd)]);
+                for (var _0x22648c = 0x0; _0x22648c < this[_0x3639aa(0x1bd)][_0x3639aa(0x3f5)]; _0x22648c++) {
+                    var _0x5ec7e9 = getSpriteData(assetLib[_0x3639aa(0x2d8)](_0x3639aa(0x1ca)), _0x3639aa(0x449) + this['aZombies'][_0x22648c]['id'] % 0x8);
+                    this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x31d)] = this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x476)] + (this[_0x3639aa(0x1bd)][_0x22648c]['endX'] - this['aZombies'][_0x22648c][_0x3639aa(0x476)]) * (Math[_0x3639aa(0x374)](panel['incY'] * this[_0x3639aa(0x1bd)][_0x22648c]['speed'] + this[_0x3639aa(0x1bd)][_0x22648c]['id']) + 0x1) * 0.5,
+                    this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x340)] = this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x150)] + (this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x441)] - this['aZombies'][_0x22648c][_0x3639aa(0x150)]) * (Math[_0x3639aa(0x374)](panel[_0x3639aa(0x341)] * this['aZombies'][_0x22648c][_0x3639aa(0x432)] + this[_0x3639aa(0x1bd)][_0x22648c]['id']) + 0x1) * 0.5,
+                    this['aZombies'][_0x22648c]['y'] = onScreenY + this[_0x3639aa(0x340)] * 0x32 + this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x340)] * this['aZombies'][_0x22648c]['offsetY'] * tableDepth * (0x1 + this['offsetY'] / 0x2),
+                    this[_0x3639aa(0x1bd)][_0x22648c]['x'] = canvas['width'] / 0x2 + (this[_0x3639aa(0x1bd)][_0x22648c]['y'] - onScreenY) * (this[_0x3639aa(0x31d)] + this[_0x3639aa(0x1bd)][_0x22648c]['offsetX'] * ballPosMultiplier) * 0.85 * (0x1 + this['offsetY'] / 0x2) + this['aZombies'][_0x22648c]['offsetX'] * tableBackWidth / 0x2 + this[_0x3639aa(0x31d)] * this[_0x3639aa(0x453)],
+                    this['aZombies'][_0x22648c][_0x3639aa(0x284)] = this['genScale'] * (0.3 + this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x340)] * 0.5);
+                    var _0x13539e = 0x1 + Math[_0x3639aa(0x374)](panel['incY'] + this[_0x3639aa(0x1bd)][_0x22648c]['id']) * 0.1;
+                    ctx[_0x3639aa(0x23c)](_0x5ec7e9[_0x3639aa(0x436)], _0x5ec7e9['bX'], _0x5ec7e9['bY'], _0x5ec7e9['bWidth'], _0x5ec7e9['bHeight'], this[_0x3639aa(0x1bd)][_0x22648c]['x'] - _0x5ec7e9['bWidth'] / 0x2 * this['aZombies'][_0x22648c]['scale'] * this[_0x3639aa(0x1bd)][_0x22648c]['tweenScale'], this[_0x3639aa(0x1bd)][_0x22648c]['y'] - _0x5ec7e9[_0x3639aa(0x2f0)] * 0.8 * this['aZombies'][_0x22648c][_0x3639aa(0x284)] * _0x13539e * this[_0x3639aa(0x1bd)][_0x22648c]['tweenScale'], _0x5ec7e9[_0x3639aa(0x2a8)] * this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x284)] * this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x3a8)], _0x5ec7e9[_0x3639aa(0x2f0)] * this[_0x3639aa(0x1bd)][_0x22648c][_0x3639aa(0x284)] * this['aZombies'][_0x22648c][_0x3639aa(0x3a8)] * _0x13539e);
+                }
+            }
+            ctx[_0x3639aa(0x425)](),
+            ctx[_0x3639aa(0x1df)](),
+            ctx['moveTo'](canvas[_0x3639aa(0xeb)] / 0x2 - _0x469ea6 + _0x40f640 + 0x2 * this[_0x3639aa(0x26b)], _0x13359d + 0x2 * this['genScale']),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 + _0x469ea6 + _0x40f640 - 0x2 * this['genScale'], _0x13359d + 0x2 * this[_0x3639aa(0x26b)]),
+            ctx['lineTo'](canvas[_0x3639aa(0xeb)] / 0x2 + _0xd612a1 + _0x4de58a - 0x6 * this[_0x3639aa(0x26b)], _0x1a8066),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 - _0xd612a1 + _0x4de58a + 0x6 * this[_0x3639aa(0x26b)], _0x1a8066),
+            ctx[_0x3639aa(0x3f0)](canvas[_0x3639aa(0xeb)] / 0x2 - _0x469ea6 + _0x40f640 + 0x2 * this[_0x3639aa(0x26b)], _0x13359d + 0x2 * this[_0x3639aa(0x26b)]),
+            ctx[_0x3639aa(0x1a0)](),
+            ctx[_0x3639aa(0x1b1)]();
+            var _0x31c729 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0xe3)]]['x']
+              , _0x282a9b = this[_0x3639aa(0x181)]['oData'][_0x3639aa(0x202)][oImageIds[_0x3639aa(0xe3)]]['y']
+              , _0x46d506 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0xe3)]][_0x3639aa(0xeb)]
+              , _0x46a1bc = this[_0x3639aa(0x181)]['oData'][_0x3639aa(0x202)][oImageIds['netReflect']][_0x3639aa(0x2f8)];
+            ctx[_0x3639aa(0x23c)](this[_0x3639aa(0x181)][_0x3639aa(0x436)], _0x31c729, _0x282a9b, _0x46d506, _0x46a1bc, canvas[_0x3639aa(0xeb)] / 0x2 - _0x46d506 / 0x2 * this[_0x3639aa(0x26b)] + this['offsetX'] * (0.282 * this[_0x3639aa(0x286)]) * 0x3 * this[_0x3639aa(0x47b)] * this[_0x3639aa(0x26b)] + this['offsetX'] * this[_0x3639aa(0x47b)] * this['sideMultiplier'] * this[_0x3639aa(0x133)], this[_0x3639aa(0x434)] + (_0x46a1bc - 0x4) * this[_0x3639aa(0x26b)], _0x46d506 * this[_0x3639aa(0x26b)], _0x46a1bc * this[_0x3639aa(0x26b)]);
+            var _0x31c729 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x198)]]['x']
+              , _0x282a9b = this['oGameElementsImgData'][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x198)]]['y']
+              , _0x46d506 = this[_0x3639aa(0x181)]['oData']['oAtlasData'][oImageIds[_0x3639aa(0x198)]][_0x3639aa(0xeb)]
+              , _0x46a1bc = this[_0x3639aa(0x181)][_0x3639aa(0x35a)]['oAtlasData'][oImageIds['batShadow']][_0x3639aa(0x2f8)];
+            ctx[_0x3639aa(0x23c)](this[_0x3639aa(0x181)]['img'], _0x31c729, _0x282a9b, _0x46d506, _0x46a1bc, userBat['x'] - _0x46d506 / 0x2 * userBat[_0x3639aa(0x284)], userBat['y'] - (_0x46a1bc / 0x2 - 0xc8) * userBat[_0x3639aa(0x284)], _0x46d506 * userBat[_0x3639aa(0x284)], _0x46a1bc * userBat['scale']);
+            if (gameVariation == 0x0 || gameVariation == 0x2) {
+                var _0x31c729 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x198)]]['x']
+                  , _0x282a9b = this[_0x3639aa(0x181)][_0x3639aa(0x35a)]['oAtlasData'][oImageIds['batShadow']]['y']
+                  , _0x46d506 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)]['oAtlasData'][oImageIds[_0x3639aa(0x198)]][_0x3639aa(0xeb)]
+                  , _0x46a1bc = this[_0x3639aa(0x181)][_0x3639aa(0x35a)]['oAtlasData'][oImageIds[_0x3639aa(0x198)]][_0x3639aa(0x2f8)];
+                ctx[_0x3639aa(0x23c)](this[_0x3639aa(0x181)][_0x3639aa(0x436)], _0x31c729, _0x282a9b, _0x46d506, _0x46a1bc, enemyBat['x'] - _0x46d506 / 0x2 * enemyBat[_0x3639aa(0x284)] + (this[_0x3639aa(0x31d)] + 0x1 * enemyBat[_0x3639aa(0x219)]) * this['sideMultiplier'] + enemyBat[_0x3639aa(0x41a)] * enemyBat[_0x3639aa(0x284)], enemyBat['y'] - (_0x46a1bc / 0x2 - 0xc8) * enemyBat[_0x3639aa(0x284)], _0x46d506 * enemyBat[_0x3639aa(0x284)], _0x46a1bc * enemyBat[_0x3639aa(0x284)]);
+            }
+            ctx['restore']();
+            var _0x31c729 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x11a)]]['x']
+              , _0x282a9b = this[_0x3639aa(0x181)]['oData'][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x11a)]]['y']
+              , _0x46d506 = this[_0x3639aa(0x181)]['oData']['oAtlasData'][oImageIds['tableEdge']][_0x3639aa(0xeb)]
+              , _0x46a1bc = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x11a)]]['height'];
+            ctx[_0x3639aa(0x23c)](this[_0x3639aa(0x181)][_0x3639aa(0x436)], _0x31c729, _0x282a9b, _0x46d506, _0x46a1bc, canvas['width'] / 0x2 - _0x46d506 / 0x2 * (0x1 + this[_0x3639aa(0x340)] / 0x3) + this[_0x3639aa(0x31d)] * 0x64 * 0x3 * this[_0x3639aa(0x47b)] * (0x1 + this['offsetY'] / 0x3) + this[_0x3639aa(0x31d)] * this[_0x3639aa(0x47b)] * this[_0x3639aa(0x453)], onScreenY + this[_0x3639aa(0x119)] * (0x1 + this['offsetY'] / 0x2) + this['offsetY'] * 0x32, _0x46d506 * (0x1 + this['offsetY'] / 0x3), _0x46a1bc * (0x1 + this[_0x3639aa(0x340)] / 0x3));
+            if (this[_0x3639aa(0x437)] > 0x0) {
+                var _0x5ec7e9 = getSpriteData(assetLib[_0x3639aa(0x2d8)](_0x3639aa(0x1b7)), _0x3639aa(0x2b2));
+                ctx[_0x3639aa(0x425)](),
+                ctx['globalAlpha'] = this[_0x3639aa(0x437)],
+                ctx['drawImage'](_0x5ec7e9[_0x3639aa(0x436)], _0x5ec7e9['bX'], _0x5ec7e9['bY'], _0x5ec7e9[_0x3639aa(0x2a8)], _0x5ec7e9[_0x3639aa(0x2f0)], this[_0x3639aa(0x2a6)] - _0x5ec7e9[_0x3639aa(0x2a8)] / 0x2 * this[_0x3639aa(0x145)], this[_0x3639aa(0x291)] - _0x5ec7e9[_0x3639aa(0x2f0)] / 0x2 * this[_0x3639aa(0x145)], _0x5ec7e9['bWidth'] * this[_0x3639aa(0x145)], _0x5ec7e9['bHeight'] * this[_0x3639aa(0x145)]),
+                ctx[_0x3639aa(0x10d)]();
+            }
+            if (this[_0x3639aa(0x482)] > 0x0 && aBalls[_0x3639aa(0x3f5)] > 0x0) {
+                this['bounceMarkScale'] -= 0x3 * delta;
+                var _0x31c729 = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x12a)]]['x']
+                  , _0x282a9b = this[_0x3639aa(0x181)][_0x3639aa(0x35a)][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x12a)]]['y']
+                  , _0x46d506 = this[_0x3639aa(0x181)]['oData'][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x12a)]][_0x3639aa(0xeb)]
+                  , _0x46a1bc = this[_0x3639aa(0x181)]['oData'][_0x3639aa(0x202)][oImageIds[_0x3639aa(0x12a)]][_0x3639aa(0x2f8)]
+                  , _0x394c21 = onScreenY + this['offsetY'] * 0x32 + aBalls[curBallId][_0x3639aa(0x35f)] * aBalls[curBallId]['bounceY'] * tableDepth * (0x1 + this['offsetY'] / 0x2)
+                  , _0x1d460f = canvas['width'] / 0x2 + (_0x394c21 - onScreenY) * (this[_0x3639aa(0x31d)] + aBalls[curBallId][_0x3639aa(0x457)] * ballPosMultiplier) * num128 * (0x1 + this[_0x3639aa(0x340)] / 0x2) + aBalls[curBallId][_0x3639aa(0x457)] * tableBackWidth / 0x2 + this[_0x3639aa(0x31d)] * this[_0x3639aa(0x453)]
+                  , _0x125c1d = 0.6 + (_0x394c21 - onScreenY) / 0x258;
+                ctx[_0x3639aa(0x23c)](this[_0x3639aa(0x181)][_0x3639aa(0x436)], _0x31c729, _0x282a9b, _0x46d506, _0x46a1bc, _0x1d460f - _0x46d506 / 0x2 * (_0x125c1d * this['bounceMarkScale']), _0x394c21 - _0x46a1bc / 0x2 * (_0x125c1d * this[_0x3639aa(0x482)]), _0x46d506 * (_0x125c1d * this[_0x3639aa(0x482)]), _0x46a1bc * (_0x125c1d * this[_0x3639aa(0x482)]));
+            }
+        }
+        ,
+        _0x37d384[_0x5d1930(0x1f7)][_0x5d1930(0xd9)] = function() {
+            var _0x182646 = _0x5d1930
+              , _0xed0a82 = this[_0x182646(0x181)]['oData'][_0x182646(0x202)][oImageIds[_0x182646(0x37f)]]['x']
+              , _0x56397c = this['oGameElementsImgData']['oData'][_0x182646(0x202)][oImageIds[_0x182646(0x37f)]]['y']
+              , _0x3e36cb = this[_0x182646(0x181)][_0x182646(0x35a)][_0x182646(0x202)][oImageIds['net']][_0x182646(0xeb)]
+              , _0xa5fe01 = this[_0x182646(0x181)][_0x182646(0x35a)][_0x182646(0x202)][oImageIds[_0x182646(0x37f)]][_0x182646(0x2f8)];
+            ctx['drawImage'](this['oGameElementsImgData'][_0x182646(0x436)], _0xed0a82, _0x56397c, _0x3e36cb, _0xa5fe01, canvas[_0x182646(0xeb)] / 0x2 - _0x3e36cb / 0x2 * this[_0x182646(0x26b)] + this[_0x182646(0x31d)] * (0.282 * this[_0x182646(0x286)]) * 0x3 * this[_0x182646(0x47b)] * this[_0x182646(0x26b)] + this[_0x182646(0x31d)] * this[_0x182646(0x47b)] * this[_0x182646(0x453)] * this[_0x182646(0x133)], this[_0x182646(0x434)], _0x3e36cb * this['genScale'], this[_0x182646(0x467)]);
+        }
+        ,
+        _0x37d384;
+    }());
+    _0x44e3dd[_0x342ba5(0x42e)] = _0x560bbe;
+}(Elements || (Elements = {})));
+var Utils;
+(function(_0x18b377) {
+    var _0x593016 = _0x47ff64
+      , _0x216655 = (function() {
+        var _0x5b194f = _0x2ef4;
+        function _0x5efafc() {
+            var _0x4d1d1a = _0x2ef4;
+            this[_0x4d1d1a(0x399)] = {},
+            this[_0x4d1d1a(0x105)] = 0x0,
+            this[_0x4d1d1a(0x345)]();
+        }
+        return _0x5efafc['prototype'][_0x5b194f(0x345)] = function() {
+            var _0x26228f = _0x5b194f
+              , _0x21094e = 0x0;
+            for (var _0x4280cd in assetLib[_0x26228f(0x3f9)][_0x26228f(0xe4)][_0x26228f(0x3fc)][curLang]) {
+                this['oTextData'][_0x4280cd] = {},
+                this[_0x26228f(0x399)][_0x4280cd][_0x26228f(0x2e5)] = this[_0x26228f(0x154)](assetLib['textData']['langText']['text'][curLang][_0x4280cd]['@text'], assetLib[_0x26228f(0x3f9)]['langText']['text'][curLang][_0x4280cd][_0x26228f(0x498)]),
+                this[_0x26228f(0x399)][_0x4280cd][_0x26228f(0xe0)] = this[_0x26228f(0x42a)](this[_0x26228f(0x399)][_0x4280cd]['aLineData']),
+                this['oTextData'][_0x4280cd]['blockWidth'] = this[_0x26228f(0x2d6)](this[_0x26228f(0x399)][_0x4280cd][_0x26228f(0x2e5)]),
+                this[_0x26228f(0x399)][_0x4280cd][_0x26228f(0x2d7)] = this[_0x26228f(0x274)](this['oTextData'][_0x4280cd][_0x26228f(0x2e5)], assetLib['textData'][_0x26228f(0xe4)][_0x26228f(0x3fc)][curLang][_0x4280cd]['@fontId']),
+                this[_0x26228f(0x399)][_0x4280cd][_0x26228f(0xc7)] = parseInt(assetLib[_0x26228f(0x3f9)][_0x26228f(0x191) + assetLib[_0x26228f(0x3f9)][_0x26228f(0xe4)]['text'][curLang][_0x4280cd][_0x26228f(0x498)]][_0x26228f(0x3fc)]['common'][_0x26228f(0x187)]),
+                this[_0x26228f(0x399)][_0x4280cd]['oFontImgData'] = assetLib[_0x26228f(0x2d8)](_0x26228f(0x1ae) + assetLib['textData'][_0x26228f(0xe4)][_0x26228f(0x3fc)][curLang][_0x4280cd][_0x26228f(0x498)]);
+            }
+        }
+        ,
+        _0x5efafc[_0x5b194f(0x1f7)]['getLineWidths'] = function(_0x4ebb4e) {
+            var _0x3fa5e3 = _0x5b194f, _0xa9e11, _0x397dfd = new Array();
+            for (var _0x49af76 = 0x0; _0x49af76 < _0x4ebb4e[_0x3fa5e3(0x3f5)]; _0x49af76++) {
+                _0xa9e11 = 0x0;
+                for (var _0x18f6db = 0x0; _0x18f6db < _0x4ebb4e[_0x49af76][_0x3fa5e3(0x3f5)]; _0x18f6db++) {
+                    _0xa9e11 += parseInt(_0x4ebb4e[_0x49af76][_0x18f6db]['@xadvance']);
+                    if (_0x18f6db == 0x0)
+                        _0xa9e11 -= parseInt(_0x4ebb4e[_0x49af76][_0x18f6db][_0x3fa5e3(0x278)]);
+                    else
+                        _0x18f6db == _0x4ebb4e[_0x49af76]['length'] - 0x1 && (_0xa9e11 += parseInt(_0x4ebb4e[_0x49af76][_0x18f6db]['@xoffset']));
+                }
+                _0x397dfd[_0x3fa5e3(0x397)](_0xa9e11);
+            }
+            return _0x397dfd;
+        }
+        ,
+        _0x5efafc[_0x5b194f(0x1f7)]['getBlockWidth'] = function(_0x4c3c13) {
+            var _0x1373b5 = _0x5b194f, _0x5425f7, _0x4f3a7b = 0x0;
+            for (var _0x1ac94c = 0x0; _0x1ac94c < _0x4c3c13['length']; _0x1ac94c++) {
+                _0x5425f7 = 0x0;
+                for (var _0x30dc55 = 0x0; _0x30dc55 < _0x4c3c13[_0x1ac94c][_0x1373b5(0x3f5)]; _0x30dc55++) {
+                    _0x5425f7 += parseInt(_0x4c3c13[_0x1ac94c][_0x30dc55]['@xadvance']);
+                    if (_0x30dc55 == 0x0)
+                        _0x5425f7 -= parseInt(_0x4c3c13[_0x1ac94c][_0x30dc55][_0x1373b5(0x278)]);
+                    else
+                        _0x30dc55 == _0x4c3c13[_0x1ac94c][_0x1373b5(0x3f5)] - 0x1 && (_0x5425f7 += parseInt(_0x4c3c13[_0x1ac94c][_0x30dc55][_0x1373b5(0x278)]));
+                }
+                _0x5425f7 > _0x4f3a7b && (_0x4f3a7b = _0x5425f7);
+            }
+            return _0x4f3a7b;
+        }
+        ,
+        _0x5efafc[_0x5b194f(0x1f7)][_0x5b194f(0x274)] = function(_0x115567, _0x268a2f) {
+            var _0x5a19ee = _0x5b194f;
+            return _0x115567[_0x5a19ee(0x3f5)] * parseInt(assetLib['textData'][_0x5a19ee(0x191) + _0x268a2f][_0x5a19ee(0x3fc)]['common'][_0x5a19ee(0x187)]);
+        }
+        ,
+        _0x5efafc[_0x5b194f(0x1f7)]['getCharData'] = function(_0x53e436, _0x254b8f) {
+            var _0x999ab9 = _0x5b194f
+              , _0x5abcac = new Array();
+            for (var _0x51fe36 = 0x0; _0x51fe36 < _0x53e436['length']; _0x51fe36++) {
+                _0x5abcac[_0x51fe36] = new Array();
+                for (var _0x3f3ecb = 0x0; _0x3f3ecb < _0x53e436[_0x51fe36][_0x999ab9(0x3f5)]; _0x3f3ecb++) {
+                    for (var _0x864ea4 = 0x0; _0x864ea4 < assetLib['textData'][_0x999ab9(0x191) + _0x254b8f]['text'][_0x999ab9(0x28c)]['char'][_0x999ab9(0x3f5)]; _0x864ea4++) {
+                        _0x53e436[_0x51fe36][_0x3f3ecb]['charCodeAt'](0x0) == assetLib[_0x999ab9(0x3f9)][_0x999ab9(0x191) + _0x254b8f]['text']['chars'][_0x999ab9(0x106)][_0x864ea4]['@id'] && _0x5abcac[_0x51fe36][_0x999ab9(0x397)](assetLib['textData']['fontData' + _0x254b8f][_0x999ab9(0x3fc)]['chars'][_0x999ab9(0x106)][_0x864ea4]);
+                    }
+                }
+            }
+            return _0x5abcac;
+        }
+        ,
+        _0x5efafc['prototype'][_0x5b194f(0x1f0)] = function(_0x413daa) {
+            var _0x131c25 = _0x5b194f, _0x4d5899 = this['oTextData'][_0x413daa[_0x131c25(0x3fc)]][_0x131c25(0x2e5)], _0x546854 = this[_0x131c25(0x399)][_0x413daa[_0x131c25(0x3fc)]][_0x131c25(0xdc)], _0x254a21, _0x339465 = 0x0, _0x5aff47 = 0x0, _0x863f6 = 0x0, _0x271182 = 0x1, _0x36c399 = 0x0;
+            _0x413daa[_0x131c25(0x223)] && (_0x863f6 = _0x413daa['lineOffsetY']);
+            _0x413daa[_0x131c25(0x284)] && (_0x271182 = _0x413daa['scale']);
+            var _0x134b3c = 0x1 * _0x271182;
+            _0x413daa['maxWidth'] && this['oTextData'][_0x413daa[_0x131c25(0x3fc)]]['blockWidth'] * _0x271182 > _0x413daa['maxWidth'] && (_0x134b3c = _0x413daa[_0x131c25(0x47d)] / this[_0x131c25(0x399)][_0x413daa[_0x131c25(0x3fc)]][_0x131c25(0x342)]);
+            _0x413daa[_0x131c25(0xf9)] && (this[_0x131c25(0x105)] += delta * 0x7);
+            for (var _0x175649 = 0x0; _0x175649 < _0x4d5899[_0x131c25(0x3f5)]; _0x175649++) {
+                _0x254a21 = 0x0;
+                _0x413daa[_0x131c25(0xe5)] == _0x131c25(0x137) && (_0x339465 = this[_0x131c25(0x399)][_0x413daa['text']][_0x131c25(0xe0)][_0x175649] / 0x2);
+                _0x413daa[_0x131c25(0x146)] == 'centre' && (_0x5aff47 = this[_0x131c25(0x399)][_0x413daa[_0x131c25(0x3fc)]][_0x131c25(0x2d7)] / 0x2 + _0x863f6 * (_0x4d5899[_0x131c25(0x3f5)] - 0x1) / 0x2);
+                for (var _0x28abe5 = 0x0; _0x28abe5 < _0x4d5899[_0x175649][_0x131c25(0x3f5)]; _0x28abe5++) {
+                    var _0x10b651 = _0x4d5899[_0x175649][_0x28abe5]['@x']
+                      , _0x569479 = _0x4d5899[_0x175649][_0x28abe5]['@y']
+                      , _0x27f065 = _0x4d5899[_0x175649][_0x28abe5][_0x131c25(0x11b)]
+                      , _0x4309e6 = _0x4d5899[_0x175649][_0x28abe5][_0x131c25(0x30d)];
+                    _0x413daa[_0x131c25(0xf9)] && (_0x36c399 = Math['sin'](this[_0x131c25(0x105)] + _0x28abe5 / 0x2) * (_0x4309e6 / 0xf * _0x134b3c)),
+                    ctx['drawImage'](_0x546854[_0x131c25(0x436)], _0x10b651, _0x569479, _0x27f065, _0x4309e6, _0x413daa['x'] + (_0x254a21 + parseInt(_0x4d5899[_0x175649][_0x28abe5][_0x131c25(0x278)]) - _0x339465) * _0x134b3c, _0x413daa['y'] + (parseInt(_0x4d5899[_0x175649][_0x28abe5][_0x131c25(0x29f)]) + _0x175649 * this[_0x131c25(0x399)][_0x413daa['text']][_0x131c25(0xc7)] + _0x175649 * _0x863f6 - _0x5aff47) * _0x134b3c + _0x36c399, _0x27f065 * _0x134b3c, _0x4309e6 * _0x134b3c),
+                    _0x254a21 += parseInt(_0x4d5899[_0x175649][_0x28abe5]['@xadvance']);
+                }
+            }
+        }
+        ,
+        _0x5efafc;
+    }());
+    _0x18b377[_0x593016(0x16f)] = _0x216655;
+}(Utils || (Utils = {})));
+var Utils;
+(function(_0x2f6e11) {
+    var _0x2e9225 = (function() {
+        var _0xc43ce0 = _0x2ef4;
+        function _0x69fc2d(_0x2958d1, _0x1cd15d) {
+            var _0x2a65aa = _0x2ef4;
+            _0x1cd15d === void 0x0 && (_0x1cd15d = ![]);
+            this[_0x2a65aa(0x361)] = {
+                0x0: 'ES',
+                0x1: 'AU',
+                0x2: 'AT',
+                0x3: 'AG',
+                0x4: 'AR',
+                0x5: 'AM',
+                0x6: 'BO',
+                0x7: 'BQ',
+                0x8: 'BA',
+                0x9: 'TL',
+                0xa: 'VN',
+                0xb: 'GA',
+                0xc: 'PT',
+                0xd: 'AZ',
+                0xe: '',
+                0xf: 'AW',
+                0x10: 'BS',
+                0x11: 'BD',
+                0x12: 'BW',
+                0x13: 'BR',
+                0x14: 'BN',
+                0x15: 'HW',
+                0x16: 'GY',
+                0x17: 'GM',
+                0x18: '',
+                0x19: 'AL',
+                0x1a: 'DZ',
+                0x1b: 'BB',
+                0x1c: 'BH',
+                0x1d: 'BY',
+                0x1e: 'BF',
+                0x1f: 'BI',
+                0x20: 'VU',
+                0x21: 'GH',
+                0x22: 'GP',
+                0x23: 'GN',
+                0x24: 'AI',
+                0x25: 'AO',
+                0x26: 'AD',
+                0x27: 'BE',
+                0x28: 'BJ',
+                0x29: 'BG',
+                0x2a: 'GB',
+                0x2b: 'HU',
+                0x2c: 'VE',
+                0x2d: 'GN',
+                0x2e: 'GW',
+                0x2f: 'DE',
+                0x30: 'ZW',
+                0x31: 'IL',
+                0x32: 'IN',
+                0x33: 'KZ',
+                0x34: 'CM',
+                0x35: 'CA',
+                0x36: 'CO',
+                0x37: 'KM',
+                0x38: 'CD',
+                0x39: 'CW',
+                0x3a: 'LA',
+                0x3b: 'LV',
+                0x3c: 'ID',
+                0x3d: 'JO',
+                0x3e: 'IQ',
+                0x3f: 'QA',
+                0x40: 'KE',
+                0x41: 'CY',
+                0x42: 'CG',
+                0x43: 'KP',
+                0x44: 'KR',
+                0x45: 'LS',
+                0x46: 'LR',
+                0x47: 'LB',
+                0x48: 'IR',
+                0x49: 'IE',
+                0x4a: 'IS',
+                0x4b: '',
+                0x4c: 'KG',
+                0x4d: 'KI',
+                0x4e: '',
+                0x4f: 'CR',
+                0x50: 'CI',
+                0x51: 'LY',
+                0x52: 'LT',
+                0x53: 'LI',
+                0x54: 'IT',
+                0x55: '',
+                0x56: '',
+                0x57: 'CN',
+                0x58: '',
+                0x59: '',
+                0x5a: 'CU',
+                0x5b: '',
+                0x5c: 'CK',
+                0x5d: '',
+                0x5e: '',
+                0x5f: '',
+                0x60: '',
+                0x61: '',
+                0x62: '',
+                0x63: '',
+                0x64: '',
+                0x65: '',
+                0x66: '',
+                0x67: '',
+                0x68: '',
+                0x69: 'NL',
+                0x6a: '',
+                0x6b: 'NZ',
+                0x6c: '',
+                0x6d: '',
+                0x6e: '',
+                0x6f: '',
+                0x70: '',
+                0x71: '',
+                0x72: '',
+                0x73: '',
+                0x74: '',
+                0x75: '',
+                0x76: '',
+                0x77: 'TR',
+                0x78: 'RU',
+                0x79: '',
+                0x7a: '',
+                0x7b: '',
+                0x7c: '',
+                0x7d: '',
+                0x7e: '',
+                0x7f: '',
+                0x80: '',
+                0x81: 'UZ',
+                0x82: '',
+                0x83: 'UY',
+                0x84: '',
+                0x85: 'WS',
+                0x86: '',
+                0x87: '',
+                0x88: '',
+                0x89: '',
+                0x8a: '',
+                0x8b: '',
+                0x8c: '',
+                0x8d: '',
+                0x8e: 'PH',
+                0x8f: 'FI',
+                0x90: '',
+                0x91: '',
+                0x92: '',
+                0x93: '',
+                0x94: '',
+                0x95: 'US',
+                0x96: '',
+                0x97: '',
+                0x98: '',
+                0x99: 'FR',
+                0x9a: '',
+                0x9b: '',
+                0x9c: '',
+                0x9d: '',
+                0x9e: '',
+                0x9f: 'CZ',
+                0xa0: 'CL',
+                0xa1: 'CH',
+                0xa2: 'MG',
+                0xa3: '',
+                0xa4: '',
+                0xa5: '',
+                0xa6: '',
+                0xa7: '',
+                0xa8: 'HK',
+                0xa9: '',
+                0xaa: 'GL',
+                0xab: 'SE',
+                0xac: '',
+                0xad: 'EE',
+                0xae: '',
+                0xaf: 'MY',
+                0xb0: '',
+                0xb1: '',
+                0xb2: 'NO',
+                0xb3: '',
+                0xb4: 'GR',
+                0xb5: '',
+                0xb6: 'DK',
+                0xb7: 'ET',
+                0xb8: '',
+                0xb9: 'ZA',
+                0xba: '',
+                0xbb: '',
+                0xbc: '',
+                0xbd: 'AE',
+                0xbe: 'PK',
+                0xbf: '',
+                0xc0: '',
+                0xc1: '',
+                0xc2: '',
+                0xc3: '',
+                0xc4: 'JM',
+                0xc5: 'JP',
+                0xc6: 'PE',
+                0xc7: '',
+                0xc8: 'PL',
+                0xc9: '',
+                0xca: '',
+                0xcb: 'PG'
+            },
+            this[_0x2a65aa(0x276)] = new Array();
+            for (var _0x1b78ce = 0x0; _0x1b78ce < _0x2958d1[_0x2a65aa(0x3f5)]; _0x1b78ce++) {
+                this[_0x2a65aa(0x276)][_0x2a65aa(0x397)](this[_0x2a65aa(0x118)](_0x2958d1[_0x1b78ce]));
+            }
+            _0x1cd15d && (this[_0x2a65aa(0x276)] = this[_0x2a65aa(0x2ca)](this[_0x2a65aa(0x276)]));
+        }
+        return _0x69fc2d[_0xc43ce0(0x1f7)][_0xc43ce0(0x118)] = function(_0x1c5566) {
+            var _0x5515cc = _0xc43ce0
+              , _0x46c31b = 0x0;
+            for (var _0x3c7541 in this[_0x5515cc(0x361)]) {
+                if (this[_0x5515cc(0x361)][_0x3c7541] == _0x1c5566) {
+                    _0x46c31b;
+                    break;
+                }
+                _0x46c31b++;
+            }
+            return _0x46c31b;
+        }
+        ,
+        _0x69fc2d[_0xc43ce0(0x1f7)]['getBData'] = function(_0x5ade03) {
+            var _0x4adb6d = _0xc43ce0
+              , _0x2b9e7a = {
+                'bX': _0x5ade03 % 0xc * 0x7c + 30.5,
+                'bY': Math[_0x4adb6d(0x3b4)](_0x5ade03 / 0xc) * 85.5 + 0xe,
+                'bWidth': 85.5,
+                'bHeight': 0x3b
+            };
+            return _0x2b9e7a;
+        }
+        ,
+        _0x69fc2d[_0xc43ce0(0x1f7)][_0xc43ce0(0x2ca)] = function(_0x2bd4cc) {
+            var _0x416a25 = _0xc43ce0;
+            for (var _0x3be028 = _0x2bd4cc[_0x416a25(0x3f5)] - 0x1; _0x3be028 > 0x0; _0x3be028--) {
+                var _0x57ed25 = Math[_0x416a25(0x3b4)](Math['random']() * (_0x3be028 + 0x1))
+                  , _0x5104f9 = _0x2bd4cc[_0x3be028];
+                _0x2bd4cc[_0x3be028] = _0x2bd4cc[_0x57ed25],
+                _0x2bd4cc[_0x57ed25] = _0x5104f9;
+            }
+            return _0x2bd4cc;
+        }
+        ,
+        _0x69fc2d;
+    }());
+    _0x2f6e11['CountryFlags'] = _0x2e9225;
+}(Utils || (Utils = {})));
+var Elements;
+(function(_0x136d0b) {
+    var _0x4619c5 = function(_0x4d2088) {
+        var _0x35e0ac = _0x2ef4;
+        __extends(_0x2aa954, _0x4d2088);
+        function _0x2aa954() {
+            var _0x2c0348 = _0x2ef4
+              , _0x3ed2cc = _0x4d2088[_0x2c0348(0x14e)](this, assetLib[_0x2c0348(0x2d8)](_0x2c0348(0x210)), 0x1e, 0x1e, _0x2c0348(0x14d)) || this;
+            return _0x3ed2cc['vy'] = 0x0,
+            _0x3ed2cc[_0x2c0348(0x1e3)](_0x2c0348(0x379), 'explode'),
+            _0x3ed2cc[_0x2c0348(0x488)] = function() {
+                var _0x37ec72 = _0x2c0348;
+                this[_0x37ec72(0x418)] = !![];
+            }
+            ,
+            _0x3ed2cc[_0x2c0348(0x42d)] = 0.5,
+            _0x3ed2cc['scaleY'] = 0.5,
+            _0x3ed2cc;
+        }
+        return _0x2aa954[_0x35e0ac(0x1f7)]['blowUp'] = function() {
+            var _0x1ead5f = _0x35e0ac;
+            TweenLite['to'](this, 0.5, {
+                'scaleX': this[_0x1ead5f(0x21c)],
+                'scaleY': this[_0x1ead5f(0x21c)],
+                'ease': _0x1ead5f(0x251)
+            });
+        }
+        ,
+        _0x2aa954[_0x35e0ac(0x1f7)][_0x35e0ac(0x33c)] = function(_0x388c39, _0xb12a44) {
+            var _0x572534 = _0x35e0ac;
+            this['vy'] += 0x96 * delta,
+            this['y'] += this['vy'] * delta,
+            _0x4d2088[_0x572534(0x1f7)]['updateAnimation'][_0x572534(0x14e)](this, delta);
+        }
+        ,
+        _0x2aa954[_0x35e0ac(0x1f7)]['render'] = function() {
+            var _0x4a0372 = _0x35e0ac;
+            _0x4d2088[_0x4a0372(0x1f7)][_0x4a0372(0x3c2)]['call'](this, ctx);
+        }
+        ,
+        _0x2aa954;
+    }(Utils['AnimSprite']);
+    _0x136d0b['Firework'] = _0x4619c5;
+}(Elements || (Elements = {})));
+var Utils;
+(function(_0x36f145) {
+    var _0x44b384 = (function() {
+        var _0x5bf7ad = _0x2ef4;
+        function _0x1163c0(_0x4b4289) {
+            var _0x43553f = _0x2ef4;
+            this['canStore'] = ![],
+            this[_0x43553f(0x21f)] = 0x39,
+            this[_0x43553f(0x2b5)] = 0x38,
+            this['saveDataId'] = _0x4b4289;
+            var _0x287317 = 'test', _0x35141e, _0x52370c = ![];
+            try {
+                _0x35141e = window[_0x43553f(0x40c)],
+                _0x52370c = !![];
+            } catch (_0x402da6) {
+                console[_0x43553f(0x125)](_0x43553f(0x308)),
+                _0x52370c = ![],
+                this[_0x43553f(0x444)] = ![];
+            }
+            if (_0x52370c)
+                try {
+                    _0x35141e['setItem'](_0x287317, '1'),
+                    _0x35141e['removeItem'](_0x287317),
+                    this['canStore'] = !![];
+                } catch (_0x497c97) {
+                    this[_0x43553f(0x444)] = ![];
+                }
+            this[_0x43553f(0x185)](),
+            this['setInitialData']();
+        }
+        return _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x185)] = function() {
+            var _0x4f6bdf = _0x5bf7ad;
+            this[_0x4f6bdf(0x422)] = new Array(),
+            this['aLevelStore'][_0x4f6bdf(0x397)](0x0),
+            this[_0x4f6bdf(0x422)][_0x4f6bdf(0x397)](0x0),
+            this[_0x4f6bdf(0x422)][_0x4f6bdf(0x397)](0x0),
+            this[_0x4f6bdf(0x422)][_0x4f6bdf(0x397)](0x2),
+            this[_0x4f6bdf(0x422)][_0x4f6bdf(0x397)](0x0),
+            this['aLevelStore'][_0x4f6bdf(0x397)](0x2),
+            this[_0x4f6bdf(0x422)][_0x4f6bdf(0x397)](0x0);
+            for (var _0x481c04 = 0x0; _0x481c04 < 0x31; _0x481c04++) {
+                this[_0x4f6bdf(0x422)]['push'](0x0);
+            }
+            for (var _0x481c04 = 0x0; _0x481c04 < this[_0x4f6bdf(0x21f)]; _0x481c04++) {
+                if (_0x481c04 == 0x0)
+                    this[_0x4f6bdf(0x422)][_0x4f6bdf(0x397)](0x2);
+                else
+                    _0x481c04 < 0x3 ? this[_0x4f6bdf(0x422)][_0x4f6bdf(0x397)](0x1) : this[_0x4f6bdf(0x422)][_0x4f6bdf(0x397)](0x0);
+            }
+            for (var _0x481c04 = 0x0; _0x481c04 < 0x10; _0x481c04++) {
+                this['aLevelStore'][_0x4f6bdf(0x397)](0x0);
+            }
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x229)] = function() {
+            var _0x2699a8 = _0x5bf7ad;
+            this[_0x2699a8(0x185)](),
+            this[_0x2699a8(0x358)]();
+        }
+        ,
+        _0x1163c0['prototype']['setInitialData'] = function() {
+            var _0x2b6732 = _0x5bf7ad;
+            if (this[_0x2b6732(0x444)] && typeof Storage !== _0x2b6732(0x179)) {
+                if (localStorage[_0x2b6732(0x1ad)](this['saveDataId']) != null && localStorage['getItem'](this[_0x2b6732(0xd8)]) != '') {
+                    this['aLevelStore'] = localStorage[_0x2b6732(0x1ad)](this[_0x2b6732(0xd8)])[_0x2b6732(0x22a)](',');
+                    for (var _0x4dd63c in this[_0x2b6732(0x422)]) {
+                        this[_0x2b6732(0x422)][_0x4dd63c] = parseInt(this['aLevelStore'][_0x4dd63c]);
+                    }
+                } else
+                    this[_0x2b6732(0x358)]();
+            }
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x204)] = function(_0x5ed4b1) {
+            var _0x46ffc6 = _0x5bf7ad;
+            this[_0x46ffc6(0x422)][0x5] = _0x5ed4b1,
+            this[_0x46ffc6(0x358)]();
+        }
+        ,
+        _0x1163c0['prototype'][_0x5bf7ad(0x3cc)] = function() {
+            var _0x4f0b91 = _0x5bf7ad;
+            return this[_0x4f0b91(0x422)][0x5];
+        }
+        ,
+        _0x1163c0['prototype']['getAwardState'] = function(_0x213bf2) {
+            var _0x38f73a = _0x5bf7ad;
+            return this[_0x38f73a(0x422)][this[_0x38f73a(0x2b5)] + this[_0x38f73a(0x21f)] + _0x213bf2];
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x390)] = function(_0x5debf1) {
+            var _0x24383f = _0x5bf7ad;
+            this[_0x24383f(0x422)][this[_0x24383f(0x2b5)] + this['batCount'] + _0x5debf1] = 0x1,
+            this[_0x24383f(0x358)]();
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)]['getDifficultyLevel'] = function() {
+            return this['aLevelStore'][0x3];
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x104)] = function(_0x3b517b) {
+            var _0xe4a430 = _0x5bf7ad;
+            this[_0xe4a430(0x422)][0x3] = _0x3b517b,
+            this['saveData']();
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x38b)] = function() {
+            return this['aLevelStore'][0x6];
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x130)] = function(_0x542d34) {
+            var _0x3feaa8 = _0x5bf7ad;
+            _0x542d34 > this[_0x3feaa8(0x422)][0x6] && (this[_0x3feaa8(0x422)][0x6] = _0x542d34,
+            this[_0x3feaa8(0x358)]());
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x1a5)] = function() {
+            return this['aLevelStore'][0x2];
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)]['setBestTargetScore'] = function(_0x1548a9) {
+            var _0x407f8e = _0x5bf7ad;
+            _0x1548a9 > this[_0x407f8e(0x422)][0x2] && (this['aLevelStore'][0x2] = _0x1548a9,
+            this[_0x407f8e(0x358)]());
+        }
+        ,
+        _0x1163c0['prototype'][_0x5bf7ad(0x398)] = function(_0x1fe5c4) {
+            var _0x358a1b = _0x5bf7ad;
+            this[_0x358a1b(0x422)][0x0] += _0x1fe5c4,
+            this['saveData']();
+        }
+        ,
+        _0x1163c0['prototype'][_0x5bf7ad(0x12c)] = function() {
+            var _0xf37d7a = _0x5bf7ad;
+            return this[_0xf37d7a(0x422)][0x0];
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x484)] = function() {
+            var _0x470dff = _0x5bf7ad;
+            this['aLevelStore'][0x4]++,
+            this[_0x470dff(0x358)]();
+        }
+        ,
+        _0x1163c0['prototype']['getClassicWins'] = function() {
+            var _0x4945e8 = _0x5bf7ad;
+            return this[_0x4945e8(0x422)][0x4];
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x366)] = function(_0x346bd9) {
+            var _0x1670fb = _0x5bf7ad;
+            this[_0x1670fb(0x422)][0x1] = _0x346bd9,
+            this['saveData']();
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x1d3)] = function() {
+            return this['aLevelStore'][0x1];
+        }
+        ,
+        _0x1163c0['prototype']['unlockBat'] = function(_0x377780) {
+            var _0x515b33 = _0x5bf7ad;
+            this['aLevelStore'][_0x377780 + this[_0x515b33(0x2b5)]] = 0x1,
+            this[_0x515b33(0x358)]();
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x2dc)] = function(_0x587698) {
+            var _0x239f55 = _0x5bf7ad;
+            return this[_0x239f55(0x422)][_0x587698 + this[_0x239f55(0x2b5)]];
+        }
+        ,
+        _0x1163c0['prototype'][_0x5bf7ad(0x1bb)] = function() {
+            var _0x15b33d = _0x5bf7ad
+              , _0x4ec730 = 0x0;
+            for (var _0x1d30d2 = 0x0; _0x1d30d2 < this[_0x15b33d(0x21f)]; _0x1d30d2++) {
+                this[_0x15b33d(0x422)][_0x1d30d2 + this['addedIndex']] > 0x0 && _0x4ec730++;
+            }
+            return _0x4ec730;
+        }
+        ,
+        _0x1163c0['prototype'][_0x5bf7ad(0x41f)] = function(_0x413c56) {
+            var _0xaed45b = _0x5bf7ad;
+            for (var _0x5bc51a = 0x0; _0x5bc51a < this['batCount']; _0x5bc51a++) {
+                if (this[_0xaed45b(0x422)][_0x5bc51a + this['addedIndex']] == 0x2) {
+                    this[_0xaed45b(0x422)][_0x5bc51a + this[_0xaed45b(0x2b5)]] = 0x1;
+                    break;
+                }
+            }
+            this[_0xaed45b(0x422)][_0x413c56 + this[_0xaed45b(0x2b5)]] = 0x2,
+            this['saveData']();
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x326)] = function() {
+            var _0x1857b2 = _0x5bf7ad
+              , _0x115c4b = 0x0;
+            for (var _0x522b3e = 0x0; _0x522b3e < this[_0x1857b2(0x21f)]; _0x522b3e++) {
+                if (this[_0x1857b2(0x422)][_0x522b3e + this['addedIndex']] == 0x2) {
+                    _0x115c4b = _0x522b3e;
+                    break;
+                }
+            }
+            return _0x115c4b;
+        }
+        ,
+        _0x1163c0[_0x5bf7ad(0x1f7)][_0x5bf7ad(0x358)] = function() {
+            var _0x512176 = _0x5bf7ad;
+            if (this[_0x512176(0x444)] && typeof Storage !== _0x512176(0x179)) {
+                var _0x376b81 = '';
+                for (var _0x3aada6 = 0x0; _0x3aada6 < this[_0x512176(0x422)]['length']; _0x3aada6++) {
+                    _0x376b81 += this['aLevelStore'][_0x3aada6],
+                    _0x3aada6 < this[_0x512176(0x422)][_0x512176(0x3f5)] - 0x1 && (_0x376b81 += ',');
+                }
+                localStorage['setItem'](this[_0x512176(0xd8)], _0x376b81);
+            }
+        }
+        ,
+        _0x1163c0;
+    }());
+    _0x36f145['SaveDataHandler'] = _0x44b384;
+}(Utils || (Utils = {})));
+var Elements;
+function _0xd407() {
+    var _0x2b17cb = ['#ffa53c', 'classicGameButOver', 'getClassicWins', '7167480yZUmYc', 'getCurBat', 'world', 'pointerLockElement', 'getContext', 'FpsMeter', 'onload', 'blockOffsetY', 'ceil', 'oLoaderImgData', 'batShopBut', 'showAdBlockMessage', 'bounce', 'pause', 'targId', 'bugGameBut0', 'radius', 'batCollectionBut1', 'panelType', '#ffc42e', 'bat23', 'infoBut', 'bat50', 'update', 'changedTouches', 'buyBat', 'sendBeacon', 'offsetY', 'incY', 'blockWidth', 'info', 'isDown', 'createTextObjects', 'startTouchY', 'setFrame', 'bugGameBut1', 'swipeTween', 'award12', 'holeY', 'totalAssets', 'setEnemyLevel', 'style', 'file', 'batUnlocked', 'id51', 'hitSwipe', 'arcadeFromBugGameEnd', 'minusButOver', 'loop', 'test', 'holeHit', 'saveData', 'scoreDiffMax', 'oData', 'frameInc', 'setBouncePos', 'loseStar', 'webkitAudioContext', 'bounceY', 'rect', 'aAllCountryCodes', 'id55', '#ffffff', 'bat3', 'aEases', 'setLevel', 'bat6', 'scaleY', 'sensitiveLevel', 'starsX', 'tableVY', 'batBehind56', 'assetsLoaded', 'onpagehide', 'targetsHit', 'pointerLockOff', 'spinnerRot', 'winGemCount', 'button', 'sin', 'id76', 'ctx', 'ballX', 'idOver', 'once', 'pauseBut', 'awardsFromStart', 'star0', 'curBallState', 'hitY', 'net', 'startHit', 'fillRect', 'batSpreadY', 'changeHolePos', 'delta', 'id61', 'continueBut', 'tweenWorldComplete', 'targetX', 'targBounceY', 'cheer', 'getBestBugScore', 'id42', 'rewardFromBugGameEnd', 'tutY', 'getHitData', 'setAward', 'offTableVY', 'images/bg1.jpg', 'levelCompleteInc', '#DF7FAB', 'classicGameBut', 'isSpriteSheet', 'push', 'addGems', 'oTextData', 'AssetLoader', 'showAward', 'enemyScore', 'batShopFromWorldComplete', 'id41', 'batShopFromCustomGameEnd', 'bat26', 'checkMoveY', 'EnemyBat', 'reset', 'oAnims', 'unlockBat', '__extends', 'Ball', 'tweenScale', 'award8', 'minusDiffFromSettings', 'bat27', 'unlockWorld', '#a3e342', 'adBlock', 'targBounceX', 'id39', 'flail', 'bugGameFromStart', 'focus', 'floor', '#0bc4ff', 'bgId', 'progressCup3', 'innerHeight', 'startTween', 'mouseX', 'ease', 'rgba(0,\x200,\x200,\x201)', 'timer', 'id47', 'batShopUnderlay', 'suspended', 'area', 'renderSimple', 'match', 'awardTween', 'resetBut', 'updateInc', 'muteBut1', 'platform', 'fillStyle', 'scoreSideY', 'id20', 'getSensitveLevel', 'bat30', 'startRotation', 'maxY', 'classicMatchLose', 'none', 'tablePosX', 'winStar', 'gameplayStop', 'bugGameFromCustomGameEnd', 'award', 'target0', 'fade', 'aBugColours', 'trackBall', 'BatShop', 'bat14', 'holeOffsetX', 'Bangers', 'id6', 'batBehind49', 'animId', 'playButOver', 'hasOwnProperty', 'bat41', 'bat22', 'substring', 'awardsFromBugGameEnd', 'resetZombie', '2193948jlfBsW', 'winGemTarg', 'bugGameButOver', 'gapX', 'prevTutY', 'id56', 'awardInfo', 'lineTo', 'exitPointerLock', 'hitNet', '6caab5cb-54d2-4c8f-aefe-0b0847f7cec6', 'customGameEnd', 'length', 'playFromLevelComplete', 'setTableCol', 'requestAnimationFrame', 'textData', 'id72', 'webkitRequestPointerLock', 'text', 'oUiButsImgData', 'AwardPanel', 'images/splashLogo.png', 'award0', 'levelCompleteTween', 'getTime', 'effectType', 'Bounce.easeInOut', 'challengeFromBugGameEnd', 'best', 'bat44', 'angle', 'startTouch', 'innerWidth', 'tweenBugGameComplete', 'localStorage', 'images/spinBg2.jpg', 'muteBut0Over', 'isDraggable', 'ballShadow', 'id60', 'tutState', 'body', 'fps', 'ballShortState', 'lineWidth', 'animType', 'removeMe', 'newAward', 'swipeOffsetX', 'bonus', 'direction', 'stopPropagation', 'plusBut', 'selectBat', 'mousePointer', 'oUiElementsImgData', 'aLevelStore', 'sort', 'setTimeout', 'save', 'touchmove', 'bat0', 'arcadeButOver', 'game', 'getLineWidths', 'id8', 'id29', 'scaleX', 'TableTop', 'GET', 'bat29', 'id12', 'speed', 'arcadeWin', 'netY', 'twoDigit', 'img', 'zoomAlpha', 'splash', 'changeImgData', 'fadeBg0', 'batLock', 'setZombieStart', 'promptOffScreen', 'fadeBg2', 'playFromBugGameEnd', 'specialSpinner', 'endY', 'getImg', 'minusBut', 'canStore', 'createdBy', 'starsY', 'ballY', 'servePosInc', 'bug', 'hasLeft', 'flipInc', 'batSpreadMultiplier', 'json/text.json', 'Cubic.easeOut', 'images/gameElements.png', 'rtl', 'images/bugs.png', 'Linear.easeNone', 'sideMultiplier', 'award14', 'toLowerCase', 'resume', 'bounceX', 'moveTo', 'resetAnim', 'Back.easeInOut', '#ff7092', 'center', 'tweenTargetGameScore', 'webkitRequestAnimationFrame', 'id23', 'bugGameBut', 'loseSet', '#000000', '#FF3AE7', 'addButs', 'play', 'classicGameLose', 'netHeight', 'customMatchBut0', '#ff70b1', 'awardsFromTargetGameEnd', 'id65', 'send', 'changeStopVert', 'volume', 'target1', 'buy', 'multiTouch', 'renderRect', 'keyCode', 'id10', 'batCollectionBut0', 'startX', 'wheelScroll', 'trailSegs', 'flare', 'offSide', 'edgeMultuplier', 'batShopOverlay1', 'maxWidth', 'strokeStyle', 'levelComplete', 'bug0', 'scoreSideY0', 'bounceMarkScale', 'Rewarded\x20break\x20finished,\x20proceeding\x20to\x20game', 'addClassicWins', 'stroke', 'awardsFromCustomGameEnd', 'bugTimeTween', 'animEndedFunc', 'bat52', 'batBehind55', 'pauseIsOn', 'contextmenu', 'id22', 'mouseY', 'curFrame', 'classicGameWin', 'fallY', 'missTarget', '#FF7000', 'audio/sound.mp3', 'prevX', 'complete', 'id15', '@fontId', 'minusSenseFromSettings', 'batShopOverlay2', 'id21', 'fixedFrame', 'batBehind54', 'batShopFromStart', 'bat17', 'rewardIcon', 'batShopFromLevelComplete', 'heightInc', 'bug7', 'bat15', 'award10', 'batBehind0', 'muteBut1Over', 'oSpecialSpinnerImgData', 'bigGem', 'holeMiss', '#202020', 'tweenLevelComplete', 'servePrepTween', 'batShopUnderlay1', 'enemyServe', 'gem', 'smallGem', 'autotween', 'plusButOver', 'lineHeight', 'backFromWorldComplete', 'customMatchFromWorldComplete', 'mousemove', 'isBeingDragged', 'powerLevel', 'id26', 'id34', 'award11', 'silence', 'stopHeight', 'quitBut', 'tableClip', 'then', 'batScale', 'id17', 'bg4', 'saveDataId', 'renderNet', 'scoreSideY1', '#a4a3ff', 'oFontImgData', 'touchState', 'translate', 'lastIndexOf', 'aLineWidths', 'bat16', 'gameplayStart', 'netReflect', 'langText', 'alignX', 'aOverData', 'flip', 'batUnlock', 'id40', 'images/spinBg0.jpg', 'width', 'customMatchFromLevelComplete', 'tweenToPos', 'prevHitTime', 'rewardMultiplyBut', 'userBatY', 'continueButOver', 'customMatchFromTargetGameEnd', '495141YqJQJT', 'id43', 'addBugTime', 'userBatX', 'right', 'ppgv8', 'anim', 'Bounce.easeOut', 'backBut', 'bugBack', 'startBot', '#8babff', 'bg0', 'id69', 'bugGameFromTargetGameEnd', 'pointerLockOn', 'bat47', 'setDifficultyLevel', 'inc', 'char', 'id31', 'gameStart1', 'Back.easeOut', 'col', 'cropY', 'Background', 'restore', 'removeHitArea', 'posY', 'bounceNum', '#ff70fd', 'id74', 'loading', 'bat55', 'quitFromPause', 'oImgData', 'setRandom', 'getIdFromISO', 'tableHeight', 'tableEdge', '@width', 'align', 'pageY', 'startMoveY', 'checkKeyFocus', 'aButs', 'id75', 'targetIcon', 'batRotation', 'indexOf', 'log', 'left', 'challengeBut1', 'serveFlip', 'BasicSprite', 'bounceMark', 'getSpriteSize', 'getGems', 'id64', 'customMatchFromBugGameEnd', 'butsY', 'setBestBugScore', 'keyUpEvtFunc', '#FC8995', 'segMultiplier', 'gemCost', 'enemyBatX', 'bg3', 'centre', '18sDGXPq', 'bug6', '#F7E497', 'onpageshow', '#FFFFFF', 'challengeFromCustomGameEnd', 'quitButOver', 'arc', 'isBugBrowser', 'images/awards.png', 'tutInc', '#2E24B4', 'bat13', 'zoomScale', 'alignY', 'startInc', 'resetServe', '#FFFC01', 'random', 'id30', 'mozRequestAnimationFrame', 'explode', 'call', 'aHitAreas', 'startY', 'rewardFromLevelComplete', 'holeTween', 'challengeBut', 'getCharData', 'bat10', 'images/bg3.jpg', 'holeX', 'ball', 'centreY', 'successFlip', 'bat19', 'spinInc', 'completeBatShop', 'Cubic.easeIn', 'spriteHeight', 'renderBat', 'rot', 'getElementById', 'centreX', 'playAgain', 'canvasHeight', 'colId', 'isNumber', 'bat35', 'display', 'colourId', 'userAgent', 'rgba(100,\x200,\x200,\x201)', 'keyup', 'bat', 'TextDisplay', 'px\x20', 'prevY', 'id24', 'PokiSDK', '#e085ff', 'continueFromPause', 'challengeBut0', 'frameAverage', 'classicTick1', 'undefined', 'glowBut', 'images/bg0.jpg', 'images/loadSpinner.png', '#42f079', 'audio/music.mp3', 'id5', 'ball0', 'oGameElementsImgData', 'bugGameFromLevelComplete', 'UserInput', 'bat21', 'clearData', 'enemyCardScale', '@lineHeight', 'removeBut', 'loadImage', 'id57', 'toString', 'id1', 'setBouncePoint', '\x20SECS', 'hitDown', 'customMatchBut1', 'fontData', 'userCardScale', 'offTableVX', '88GKffhM', 'Confetti', 'progressCup1', 'loadJSON', 'batShadow', 'backFromTargetGameEnd', 'challengeFromWorldComplete', 'addHitArea', 'youWon', 'bat7', 'arcadeFromCustomGameEnd', '#fc7954', 'closePath', 'charAt', 'tweenGem', 'create', '1436641LFeAmj', 'getBestTargetScore', 'pointerLockState', 'batDropShadow', 'setsBg', 'id35', 'rewardMultiplyButOver', 'requestPointerLock', 'holeFixedScale', 'getItem', 'font', 'Panel', 'mousedown', 'clip', 'rewardedBreak', 'identifier', 'alpha', 'incYRate', '#c098ff', 'gameElements', 'user', '3998210MmCXmq', 'aTrailPoints', 'getTotalBatsUnlocked', 'bat39', 'aZombies', 'adBlockInc', 'pageX', 'hitCancel', 'playBut', '.json', 'bugIcon', 'scoreDiff', 'spin', 'fillText', 'awardBg', '#ff874c', 'starsTween', 'bugs', 'max', '#F658FF', 'getDifficultyLevel', 'id59', 'tablePosY', 'tick', 'updateFreq', 'id13', 'getLevel', 'isOver', 'lineCap', 'userScore', 'CountryFlags', 'rotation', 'id53', 'id0', 'plusDiffFromSettings', 'globalAlpha', 'stopTweenVert', 'winSet', 'beginPath', 'challengeFromStart', 'hasHitNet', 'glowId', 'setAnimType', 'pauseButOver', 'difficulty', 'resetAll', 'servingState', 'classicTick0', 'aPos', 'onresize', 'getTargetHitData', 'id28', 'checkClick', '#0BFF3C', 'checkLoadComplete', 'renderText', 'bat34', 'frameNum', 'flipTween', '#00d2f5', 'targetZoomTween', 'id3', 'prototype', 'deltaY', 'bat32', 'bug4', 'click', 'flipX', 'id14', 'bat49', 'arcadeBut', 'wheel', 'id58', 'oAtlasData', 'keyUp', 'setSensitveLevel', 'id32', '#61F295', 'holeHitScale', 'plusSenseFromSettings', 'id49', 'enemyBatY', 'Quad.easeIn', 'zoomTarget', 'rotate', 'batBehind51', 'pow', 'firework', 'bat45', 'loadedCallback', 'holeOffsetY', 'backFromBatShop', 'infoFromStart', 'id37', 'batSpin', 'hitStop', 'flailInc', 'rgba(0,\x200,\x200,\x200.5)', 'hitUp', 'endScale', 'enemy', 'lastHit', 'batCount', 'images/bg4.jpg', 'progressCup2', 'newBest', 'lineOffsetY', 'batShopGlow', 'hitTarget', 'round', 'skillLevel', 'offTable', 'resetData', 'split', 'aKeys', 'targX', 'rewardFromTargetGameEnd', 'setPrototypeOf', 'targetTween', 'renderTrail', 'oSplashLogoImgData', 'bug3', 'backFromCredits', '127386BUUmSB', 'gemTweenOut', 'startGameTween', 'spriteWidth', 'resetToCentre', '#ff6e71', 'flashInc', 'fill', 'drawImage', 'checkZombieHit', 'aColours', 'bat33', 'touchcancel', 'holeScale', 'hitX', 'backFromLevelComplete', '10px\x20Helvetica', 'nextLevel', 'arcadeBut0', 'abs', 'batShopOverlay0', 'showBar', 'uiButs', '16jtEVdR', 'lineLength', 'id19', 'aSensitiveRates', 'isUp', 'images/flare.png', 'Quad.easeOut', 'celebrateY', 'bugGameEnd', 'bold\x2040px\x20arial', 'batShopUnderlay2', 'accX', 'zombieBase', 'min', 'award5', 'titleLogo', 'onReady', 'bugTimeY', 'Elastic.easeOut', 'award2', 'id2', 'id16', 'canHit', 'challengeButOver', 'batShopTouch', 'loader', 'award13', 'oAssetData', 'cornerLength', 'setTarget', 'cursor', 'adBlockInfo', 'genScale', 'firstShot', 'playFromWorldComplete', 'resetButOver', 'id9', 'fixedScale', 'settings', 'splice', 'images/loader.png', 'getBlockHeight', 'customMatchFromStart', 'aIds', 'batShopButOver', '@xoffset', 'navigator', 'arcadeFromTargetGameEnd', 'gapY', 'targetGameEnd', 'renderPointer', 'tweenTargetGameComplete', 'quit', 'getAwardState', 'tableVX', 'oLoadSpinnerImgData', 'id44', 'scale', 'speedX', 'segs', 'id7', 'offsetTween', 'tweenStars', 'bot', 'mozRequestPointerLock', 'chars', 'stopWatch', 'award1', 'bat51', 'backButOver', 'zoomY', 'targY', '#00e9b2', 'aWinGems', 'progressLine0', 'id11', 'oTopFlareImgData', 'batShopFromBugGameEnd', 'unlockId', 'dist', 'cupFlipInc', 'bugsHit', '879682dHidyz', 'batShopFromTargetGameEnd', '@yoffset', 'slideInc', 'userServe', '#333333', 'rewardFromCustomGameEnd', 'award4', 'load', 'zoomX', 'maxIdx', 'bWidth', 'cos', 'noTween', 'maxTouchPoints', 'flipY', 'removeEventListener', 'uiElements', 'mute', 'parse', 'infoButOver', 'targetZoom', 'bat46', 'image', 'addedIndex', '#ff9644', 'scrollTo', 'rotRate', 'textAlign', 'move', 'removeKey', 'id54', 'bat37', 'render', 'Quad.easeInOut', 'startTut', 'fadeBg1', 'bugGameFromWorldComplete', 'batBehind', 'movePlayerBat', 'award6', 'bezierCurveTo', 'batShop', 'images/uiElements.png', 'tween', 'randomise', 'id73', 'id52', '#c5da2e', 'progressCup', 'id33', 'id18', 'awards', 'botThrow', 'id27', 'Back.easeIn', 'id77', 'getBlockWidth', 'blockHeight', 'getData', '#7ab2ff', 'spinLevel', 'measureText', 'getBatUnlockState', 'playFromTargetGameEnd', 'setBestTargetScore', 'open', 'loadSpinner', 'kill', 'star', 'fadeBg', 'keydown', 'aLineData', 'backFromBugGameEnd', 'moveTween', 'flareRot', 'arcadeBut1', '#FF9A00', 'flash', 'MacIntel', 'maxAcc', 'keyDownEvtFunc', 'newTargetPos', 'bHeight', 'id4', 'zombieScale', 'aTouchIdentifiers', 'lang', 'Particle', 'botTween', 'challengeFromLevelComplete', 'height', 'posX', 'addKey', 'batSpreadX', 'v1.1.2', 'preventDefault', 'displayNumbers', 'switchBut', 'smallCup', 'bat5', 'addEventListener', 'adBlocktween', 'canvas-wrapper', 'readyState', '#80EEF3', 'awardsBut', 'local\x20storage\x20denied', 'backFromCustomGameEnd', 'callback', 'tryAgain', 'bat53', '@height', 'target', 'playFromCustomGameEnd', 'ballType', 'https://leveldata.poki.io/planes', 'muteBut0', 'awardsButOver', 'orientationchange', 'credits', 'bat20', 'botY', 'award3', '#00DAFF', 'offTableTween', 'gameTouch', 'checkForAward', 'offsetX', '#F1394B', 'images/bg2.jpg', 'gameLoadingFinished', 'canChangeStop'];
+    _0xd407 = function() {
+        return _0x2b17cb;
+    }
+    ;
+    return _0xd407();
+}
+(function(_0x4fa87f) {
+    var _0x3e1d7b = _0x47ff64
+      , _0x100818 = (function() {
+        var _0x920e39 = _0x2ef4;
+        function _0x3c00cd(_0x219259, _0x3a82ca, _0x469530, _0x5b3e2c, _0x5b5bcc, _0x259b8f, _0x4b317e, _0xf25051, _0x2db243) {
+            var _0x286e35 = _0x2ef4
+              , _0x532f9e = this;
+            _0x259b8f === void 0x0 && (_0x259b8f = 0xa);
+            _0x4b317e === void 0x0 && (_0x4b317e = 0x1);
+            _0xf25051 === void 0x0 && (_0xf25051 = 0x0);
+            _0x2db243 === void 0x0 && (_0x2db243 = null);
+            this[_0x286e35(0x403)] = 0x1,
+            this['inc'] = 0x0,
+            this[_0x286e35(0x10a)] = _0x286e35(0x13c),
+            this['removeMe'] = ![],
+            this[_0x286e35(0x284)] = -_0x469530 / 0x2,
+            this[_0x286e35(0x270)] = _0x469530,
+            this[_0x286e35(0x408)] = _0x5b5bcc,
+            this['x'] = _0x219259 - _0xf25051 * Math[_0x286e35(0x2a9)](_0x5b5bcc),
+            this['y'] = _0x3a82ca - _0xf25051 * Math[_0x286e35(0x374)](_0x5b5bcc),
+            this['lineLength'] = _0x259b8f * 1.5;
+            _0x2db243 != null && (this[_0x286e35(0x10a)] = _0x2db243);
+            var _0x47efed = _0x4b317e + Math[_0x286e35(0x14a)]() * _0x4b317e;
+            TweenLite['to'](this, _0x47efed, {
+                'scale': _0x469530,
+                'x': this['x'] - _0x5b3e2c * Math[_0x286e35(0x2a9)](_0x5b5bcc),
+                'y': this['y'] - _0x5b3e2c * Math['sin'](_0x5b5bcc),
+                'ease': _0x286e35(0x44e),
+                'onComplete': function() {
+                    var _0xe71e69 = _0x286e35;
+                    _0x532f9e[_0xe71e69(0x418)] = !![];
+                }
+            });
+        }
+        return _0x3c00cd[_0x920e39(0x1f7)][_0x920e39(0x33c)] = function() {}
+        ,
+        _0x3c00cd[_0x920e39(0x1f7)]['render'] = function() {
+            var _0x434b1f = _0x920e39;
+            ctx['strokeStyle'] = this[_0x434b1f(0x10a)],
+            ctx[_0x434b1f(0x416)] = (this[_0x434b1f(0x270)] - Math[_0x434b1f(0x247)](this[_0x434b1f(0x284)])) * 0xa,
+            ctx[_0x434b1f(0x1d5)] = _0x434b1f(0x226),
+            ctx[_0x434b1f(0x1df)](),
+            ctx['moveTo'](this['x'], this['y']),
+            ctx[_0x434b1f(0x3f0)](this['x'] - this[_0x434b1f(0x24c)] * (this[_0x434b1f(0x270)] - Math['abs'](this[_0x434b1f(0x284)])) * Math[_0x434b1f(0x2a9)](this[_0x434b1f(0x408)]), this['y'] - this[_0x434b1f(0x24c)] * (this['fixedScale'] - Math['abs'](this[_0x434b1f(0x284)])) * Math['sin'](this[_0x434b1f(0x408)])),
+            ctx['stroke']();
+        }
+        ,
+        _0x3c00cd;
+    }());
+    _0x4fa87f[_0x3e1d7b(0x2f5)] = _0x100818;
+}(Elements || (Elements = {})));
+var Elements;
+(function(_0x14a021) {
+    var _0x692c19 = _0x47ff64
+      , _0x9c019d = (function() {
+        var _0x51ae65 = _0x2ef4;
+        function _0x507942(_0x43ec9c, _0x106f24, _0x4c8f94, _0x146a5e) {
+            var _0x115ad0 = _0x2ef4
+              , _0x723e39 = this;
+            _0x4c8f94 === void 0x0 && (_0x4c8f94 = 0x0);
+            _0x146a5e === void 0x0 && (_0x146a5e = 0x1);
+            this['x'] = 0x0,
+            this['y'] = 0x0,
+            this[_0x115ad0(0x491)] = 0x0,
+            this[_0x115ad0(0x341)] = 0x0,
+            this['removeMe'] = ![],
+            this[_0x115ad0(0x1b5)] = Math[_0x115ad0(0x14a)]() * -0x3e8,
+            this[_0x115ad0(0x23e)] = new Array(_0x115ad0(0x463),_0x115ad0(0x319),'#00FF25','#FFEE00',_0x115ad0(0x2ea)),
+            this[_0x115ad0(0x284)] = (Math[_0x115ad0(0x14a)]() * 0x14 + 0x14) * _0x146a5e,
+            this[_0x115ad0(0x408)] = Math['random']() * 0x168 * radian,
+            this['rot'] = Math[_0x115ad0(0x14a)]() * 0x168 * radian,
+            this[_0x115ad0(0x166)] = Math['floor'](Math[_0x115ad0(0x14a)]() * this[_0x115ad0(0x23e)]['length']),
+            this[_0x115ad0(0x29a)] = Math['random']() * 0xc8 + 0xc8,
+            this['x'] = _0x43ec9c + 0x4b * Math[_0x115ad0(0x2a9)](this['angle']),
+            this['y'] = _0x106f24 + 0x4b * Math[_0x115ad0(0x374)](this['angle']),
+            this[_0x115ad0(0x2b8)] = Math[_0x115ad0(0x14a)]() * 0x14 - 0xa;
+            var _0xfc8a50 = 0x3 + Math[_0x115ad0(0x14a)]() * 0x3;
+            TweenLite['to'](this, _0xfc8a50, {
+                'scale': 0x0,
+                'x': this['x'] + this[_0x115ad0(0x29a)] * Math[_0x115ad0(0x2a9)](this[_0x115ad0(0x408)]),
+                'y': this['y'] + this[_0x115ad0(0x29a)] * Math['sin'](this[_0x115ad0(0x408)]),
+                'ease': _0x115ad0(0x44e),
+                'onComplete': function() {
+                    var _0x1240f3 = _0x115ad0;
+                    _0x723e39[_0x1240f3(0x418)] = !![];
+                }
+            });
+        }
+        return _0x507942[_0x51ae65(0x1f7)]['update'] = function() {
+            var _0x50ccae = _0x51ae65;
+            this[_0x50ccae(0x161)] += delta * this['rotRate'],
+            this[_0x50ccae(0x1b5)] += delta * 0x1f4,
+            this[_0x50ccae(0x341)] += delta * this[_0x50ccae(0x1b5)];
+        }
+        ,
+        _0x507942[_0x51ae65(0x1f7)][_0x51ae65(0x2be)] = function() {
+            var _0xf05f7 = _0x51ae65;
+            ctx[_0xf05f7(0x47e)] = this['aColours'][this[_0xf05f7(0x166)]],
+            ctx['lineWidth'] = this[_0xf05f7(0x284)],
+            ctx[_0xf05f7(0x1d5)] = 'butt',
+            ctx['beginPath'](),
+            ctx[_0xf05f7(0x458)](this['x'], this['y'] + this[_0xf05f7(0x341)]),
+            ctx[_0xf05f7(0x3f0)](this['x'] - 0x2 * this[_0xf05f7(0x284)] * Math[_0xf05f7(0x2a9)](this[_0xf05f7(0x161)] * 0x2) * Math[_0xf05f7(0x374)](this[_0xf05f7(0x161)]), this['y'] - 0x2 * this[_0xf05f7(0x284)] * Math['sin'](this[_0xf05f7(0x161)]) * Math[_0xf05f7(0x374)](this[_0xf05f7(0x161)] * 0x2) + this[_0xf05f7(0x341)]),
+            ctx[_0xf05f7(0x485)]();
+        }
+        ,
+        _0x507942;
+    }());
+    _0x14a021[_0x692c19(0x195)] = _0x9c019d;
+}(Elements || (Elements = {})));
+var Elements;
+(function(_0x64ca4b) {
+    var _0x5c1c42 = (function() {
+        var _0x9b87f = _0x2ef4;
+        function _0x56d5cc() {
+            var _0xe0678f = _0x2ef4;
+            this[_0xe0678f(0x3ec)] = 0xb4,
+            this['gapY'] = 0xff,
+            this[_0xe0678f(0x2f9)] = -0x0,
+            this[_0xe0678f(0x10f)] = 0x0,
+            this[_0xe0678f(0x10b)] = 0x64,
+            this[_0xe0678f(0x267)] = 0x5,
+            this[_0xe0678f(0xdd)] = 0x0,
+            this[_0xe0678f(0x346)] = 0x0,
+            this[_0xe0678f(0x292)] = 0x0,
+            this[_0xe0678f(0x105)] = 0x0,
+            this[_0xe0678f(0x11e)] = 0x0,
+            this[_0xe0678f(0x1e2)] = null;
+            if (newBatId != null) {
+                var _0x5cce2d = Math[_0xe0678f(0x1cb)](Math[_0xe0678f(0x3b4)]((canvas['width'] + this[_0xe0678f(0x2f9)] - 0x32) / this['gapX']), 0x4);
+                this[_0xe0678f(0x292)] = -(newBatId / _0x5cce2d) * this[_0xe0678f(0x27b)] + canvas[_0xe0678f(0x2f8)] / 0x2 - this[_0xe0678f(0x27b)] / 0x2;
+            }
+        }
+        return _0x56d5cc[_0x9b87f(0x1f7)][_0x9b87f(0x17a)] = function(_0x200237, _0x56f709) {
+            var _0x2ff660 = _0x9b87f;
+            this['glowId'] = null;
+            for (var _0x5adf3e = 0x0; _0x5adf3e < aBatData[_0x2ff660(0x3f5)]; _0x5adf3e++) {
+                _0x200237 > aBatData[_0x5adf3e]['x'] - this[_0x2ff660(0x3ec)] / 0x2 && _0x200237 < aBatData[_0x5adf3e]['x'] + this[_0x2ff660(0x3ec)] / 0x2 && _0x56f709 > aBatData[_0x5adf3e]['y'] - this[_0x2ff660(0x27b)] / 0x2 && _0x56f709 < aBatData[_0x5adf3e]['y'] + this[_0x2ff660(0x27b)] / 0x2 && (this[_0x2ff660(0x1e2)] = _0x5adf3e);
+            }
+        }
+        ,
+        _0x56d5cc[_0x9b87f(0x1f7)][_0x9b87f(0x1ed)] = function(_0x4114b4, _0x50c65f) {
+            var _0x53d993 = _0x9b87f
+              , _0x2ffe59 = ![];
+            for (var _0x5ea408 = 0x0; _0x5ea408 < aBatData['length']; _0x5ea408++) {
+                if (_0x4114b4 > aBatData[_0x5ea408]['x'] - this[_0x53d993(0x3ec)] / 0x2 && _0x4114b4 < aBatData[_0x5ea408]['x'] + this['gapX'] / 0x2 && _0x50c65f > aBatData[_0x5ea408]['y'] - this[_0x53d993(0x27b)] / 0x2 && _0x50c65f < aBatData[_0x5ea408]['y'] + this[_0x53d993(0x27b)] / 0x2) {
+                    if (aBatData[_0x5ea408]['unlockId'] == 0x1)
+                        showRewardAd(_0x53d993(0xe8), _0x5ea408);
+                    else {
+                        if (aBatData[_0x5ea408][_0x53d993(0x299)] == 0x0)
+                            playSound(_0x53d993(0x41f), 0.3),
+                            saveDataHandler[_0x53d993(0x41f)](_0x5ea408),
+                            curBat = saveDataHandler['getCurBat'](),
+                            updateBatShopData();
+                        else
+                            aBatData[_0x5ea408][_0x53d993(0x299)] == 0x2 && gems >= aBatData[_0x5ea408][_0x53d993(0x134)] ? (playSound(_0x53d993(0x33e), 0.5),
+                            saveDataHandler[_0x53d993(0x41f)](_0x5ea408),
+                            curBat = saveDataHandler['getCurBat'](),
+                            saveDataHandler[_0x53d993(0x398)](-aBatData[_0x5ea408]['gemCost']),
+                            gems = saveDataHandler['getGems'](),
+                            updateBatShopData(),
+                            awardPanel[_0x53d993(0x31c)](curLevel),
+                            _0x2ffe59 = !![]) : playSound('lockedBat', 0.3);
+                    }
+                }
+            }
+            _0x2ffe59 && this[_0x53d993(0x350)]();
+        }
+        ,
+        _0x56d5cc[_0x9b87f(0x1f7)]['batUnlocked'] = function() {
+            var _0x4f0788 = _0x9b87f;
+            for (var _0x5da68a = 0x0; _0x5da68a < 0xc8; _0x5da68a++) {
+                var _0x18fad6 = new _0x64ca4b[(_0x4f0788(0x195))](Math[_0x4f0788(0x14a)]() * canvas[_0x4f0788(0xeb)],Math[_0x4f0788(0x14a)]() * canvas[_0x4f0788(0x2f8)]);
+                aEffects[_0x4f0788(0x397)](_0x18fad6);
+            }
+        }
+        ,
+        _0x56d5cc['prototype'][_0x9b87f(0x472)] = function(_0x5e02cc, _0x8f6a26, _0x33f4b7, _0x1c1349, _0x4f40c8, _0x2a75df) {
+            var _0x489203 = _0x9b87f;
+            _0x2a75df === void 0x0 && (_0x2a75df = ![]),
+            ctx[_0x489203(0x47e)] = _0x489203(0x462),
+            ctx['fillStyle'] = _0x4f40c8,
+            ctx[_0x489203(0x416)] = 0x5,
+            ctx[_0x489203(0x1df)](),
+            ctx[_0x489203(0x458)](_0x5e02cc + this[_0x489203(0x267)], _0x8f6a26),
+            ctx[_0x489203(0x3f0)](_0x5e02cc + (_0x33f4b7 - this[_0x489203(0x267)]), _0x8f6a26),
+            ctx[_0x489203(0x2c6)](_0x5e02cc + _0x33f4b7, _0x8f6a26, _0x5e02cc + _0x33f4b7, _0x8f6a26, _0x5e02cc + _0x33f4b7, _0x8f6a26 + this[_0x489203(0x267)]),
+            ctx[_0x489203(0x3f0)](_0x5e02cc + _0x33f4b7, _0x8f6a26 + (_0x1c1349 - this[_0x489203(0x267)])),
+            ctx[_0x489203(0x2c6)](_0x5e02cc + _0x33f4b7, _0x8f6a26 + _0x1c1349, _0x5e02cc + _0x33f4b7, _0x8f6a26 + _0x1c1349, _0x5e02cc + (_0x33f4b7 - this[_0x489203(0x267)]), _0x8f6a26 + _0x1c1349),
+            ctx[_0x489203(0x3f0)](_0x5e02cc + this['cornerLength'], _0x8f6a26 + _0x1c1349),
+            ctx[_0x489203(0x2c6)](_0x5e02cc, _0x8f6a26 + _0x1c1349, _0x5e02cc, _0x8f6a26 + _0x1c1349, _0x5e02cc, _0x8f6a26 + (_0x1c1349 - this[_0x489203(0x267)])),
+            ctx[_0x489203(0x3f0)](_0x5e02cc, _0x8f6a26 + this[_0x489203(0x267)]),
+            ctx[_0x489203(0x2c6)](_0x5e02cc, _0x8f6a26, _0x5e02cc, _0x8f6a26, _0x5e02cc + this[_0x489203(0x267)], _0x8f6a26),
+            ctx[_0x489203(0x1a0)](),
+            ctx[_0x489203(0x23b)](),
+            _0x2a75df && ctx[_0x489203(0x485)]();
+        }
+        ,
+        _0x56d5cc[_0x9b87f(0x1f7)][_0x9b87f(0x33c)] = function() {
+            var _0x45b5dc = _0x9b87f;
+            this[_0x45b5dc(0x105)] += delta;
+        }
+        ,
+        _0x56d5cc['prototype'][_0x9b87f(0x2be)] = function() {
+            var _0x4be0d0 = _0x9b87f
+              , _0x4aaa5e = Math[_0x4be0d0(0x1cb)](Math[_0x4be0d0(0x3b4)]((canvas['width'] + this[_0x4be0d0(0x2f9)] - 0x32) / this[_0x4be0d0(0x3ec)]), 0x4)
+              , _0x2acfba = Math[_0x4be0d0(0x32d)](aBatData[_0x4be0d0(0x3f5)] / _0x4aaa5e) * this[_0x4be0d0(0x27b)] - (canvas[_0x4be0d0(0x2f8)] - 0xc8) + 0x1e;
+            this[_0x4be0d0(0x292)] = Math[_0x4be0d0(0x1cb)](Math[_0x4be0d0(0x258)](this[_0x4be0d0(0x292)], 0x0), -_0x2acfba),
+            this[_0x4be0d0(0x10f)] = 0x64 + this[_0x4be0d0(0x27b)] / 0x2 + this[_0x4be0d0(0x292)] + 0xf;
+            var _0x29db5a = (canvas[_0x4be0d0(0x2f8)] - 0xc8) / (Math['ceil'](aBatData[_0x4be0d0(0x3f5)] / _0x4aaa5e) * this['gapY']);
+            this[_0x4be0d0(0x472)](canvas[_0x4be0d0(0xeb)] - 0xf, 0x64, 0x5, canvas[_0x4be0d0(0x2f8)] - 0xc8, 'rgba(0,\x200,\x200,\x20.5)'),
+            this[_0x4be0d0(0x472)](canvas[_0x4be0d0(0xeb)] - 0xf, 0x64 - this['targY'] / _0x2acfba * (canvas[_0x4be0d0(0x2f8)] - 0xc8 - (canvas[_0x4be0d0(0x2f8)] - 0xc8) * _0x29db5a), 0x5, (canvas[_0x4be0d0(0x2f8)] - 0xc8) * _0x29db5a, _0x4be0d0(0x13c)),
+            ctx[_0x4be0d0(0x425)](),
+            ctx[_0x4be0d0(0x1df)](),
+            ctx[_0x4be0d0(0x458)](0x0, this[_0x4be0d0(0x10b)]),
+            ctx[_0x4be0d0(0x3f0)](canvas['width'], this['cropY']),
+            ctx[_0x4be0d0(0x3f0)](canvas[_0x4be0d0(0xeb)], canvas['height'] - this[_0x4be0d0(0x10b)]),
+            ctx[_0x4be0d0(0x3f0)](0x0, canvas[_0x4be0d0(0x2f8)] - this['cropY']),
+            ctx[_0x4be0d0(0x458)](0x0, this[_0x4be0d0(0x10b)]),
+            ctx[_0x4be0d0(0x1a0)](),
+            ctx[_0x4be0d0(0x1b1)]();
+            var _0x304d04, _0x4276e6;
+            for (var _0x4881a4 = 0x0; _0x4881a4 < aBatData[_0x4be0d0(0x3f5)]; _0x4881a4++) {
+                aBatData[_0x4881a4]['x'] = canvas['width'] / 0x2 + _0x4881a4 % _0x4aaa5e * this[_0x4be0d0(0x3ec)] - this[_0x4be0d0(0x3ec)] * (_0x4aaa5e / 0x2 - 0.5) + this['posX'],
+                aBatData[_0x4881a4]['y'] = this[_0x4be0d0(0x10f)] + Math[_0x4be0d0(0x3b4)](_0x4881a4 / _0x4aaa5e) * this[_0x4be0d0(0x27b)],
+                ctx[_0x4be0d0(0xde)](aBatData[_0x4881a4]['x'], aBatData[_0x4881a4]['y']);
+                if (aBatData[_0x4881a4]['y'] > this[_0x4be0d0(0x10b)] - 0x7d && aBatData[_0x4881a4]['y'] < canvas[_0x4be0d0(0x2f8)] - this[_0x4be0d0(0x10b)] + 0x7d) {
+                    if (aBatData[_0x4881a4][_0x4be0d0(0x299)] == 0x0)
+                        _0x304d04 = 0x1;
+                    else {
+                        if (aBatData[_0x4881a4][_0x4be0d0(0x299)] == 0x1)
+                            _0x304d04 = 0x3;
+                        else {
+                            if (aBatData[_0x4881a4][_0x4be0d0(0x299)] == 0x2)
+                                gems >= aBatData[_0x4881a4][_0x4be0d0(0x134)] ? _0x304d04 = 0x0 : _0x304d04 = 0x2;
+                            else
+                                aBatData[_0x4881a4][_0x4be0d0(0x299)] == 0x3 && (_0x304d04 = 0x2);
+                        }
+                    }
+                    _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x2ae)), _0x4be0d0(0x3bf) + _0x304d04),
+                    ctx[_0x4be0d0(0x23c)](_0x4276e6['img'], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)], -_0x4276e6[_0x4be0d0(0x2a8)] / 0x2, -_0x4276e6[_0x4be0d0(0x2f0)] / 0x2, _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)]);
+                    this[_0x4be0d0(0x1e2)] != null && this[_0x4be0d0(0x1e2)] == _0x4881a4 && _0x304d04 != 0x2 && curBat != _0x4881a4 && (_0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)]('uiElements'), 'batShopGlow'),
+                    ctx[_0x4be0d0(0x23c)](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6['bWidth'], _0x4276e6[_0x4be0d0(0x2f0)], -_0x4276e6[_0x4be0d0(0x2a8)] / 0x2, -_0x4276e6[_0x4be0d0(0x2f0)] / 0x2, _0x4276e6['bWidth'], _0x4276e6['bHeight']));
+                    ctx['scale'](0.75, 0.75),
+                    ctx[_0x4be0d0(0x20d)](0x14 * radian);
+                    _0x4881a4 < 0x31 && (_0x4276e6 = getSpriteData(assetLib['getData']('uiElements'), _0x4be0d0(0x1a7)),
+                    ctx[_0x4be0d0(0x23c)](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6['bWidth'], _0x4276e6[_0x4be0d0(0x2f0)], -_0x4276e6['bWidth'] / 0x2 + 0x3 - 0x5, -_0x4276e6['bHeight'] / 0x2 + 0xa, _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)]));
+                    _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x1b7)), _0x4be0d0(0x16e) + _0x4881a4),
+                    ctx[_0x4be0d0(0x23c)](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6['bHeight'], -_0x4276e6[_0x4be0d0(0x2a8)] / 0x2 - 0xa, -_0x4276e6[_0x4be0d0(0x2f0)] / 0x2, _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)]),
+                    ctx[_0x4be0d0(0x20d)](-0x14 * radian),
+                    ctx[_0x4be0d0(0x284)](0x1 / 0.75, 0x1 / 0.75);
+                    aBatData[_0x4881a4][_0x4be0d0(0x299)] == 0x0 ? _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x2ae)), _0x4be0d0(0x47c)) : _0x304d04 == 0x0 || _0x304d04 == 0x3 ? _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x2ae)), _0x4be0d0(0x49a)) : _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x2ae)), _0x4be0d0(0x248));
+                    ctx[_0x4be0d0(0x23c)](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)], -_0x4276e6[_0x4be0d0(0x2a8)] / 0x2, -_0x4276e6['bHeight'] / 0x2, _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)]);
+                    if (curBat == _0x4881a4)
+                        _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)]('uiElements'), _0x4be0d0(0x1d0)),
+                        ctx[_0x4be0d0(0x23c)](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)], -_0x4276e6[_0x4be0d0(0x2a8)] / 0x2 + 0x28, -_0x4276e6[_0x4be0d0(0x2f0)] / 0x2 + 0x52, _0x4276e6['bWidth'], _0x4276e6[_0x4be0d0(0x2f0)]);
+                    else {
+                        if (_0x304d04 == 0x1 && newBatId == _0x4881a4 && Math[_0x4be0d0(0x374)](this['inc'] * 0xa) > 0x0)
+                            addText(0x0, 0x32, 0xa5, 'center', 0x0, 0x61, 'new', _0x4be0d0(0x13c));
+                        else {
+                            if (aBatData[_0x4881a4][_0x4be0d0(0x299)] != 0x0) {
+                                (aBatData[_0x4881a4][_0x4be0d0(0x299)] == 0x2 && gems < aBatData[_0x4881a4][_0x4be0d0(0x134)] || aBatData[_0x4881a4]['unlockId'] == 0x3) && (_0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x2ae)), _0x4be0d0(0x43b)),
+                                ctx[_0x4be0d0(0x23c)](_0x4276e6['img'], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)], -_0x4276e6[_0x4be0d0(0x2a8)] / 0x2, -_0x4276e6[_0x4be0d0(0x2f0)] / 0x2 + 0x14, _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6['bHeight']));
+                                if (_0x304d04 == 0x3)
+                                    addText(0x0, 0x1e, 0xa5, 'center', 0x0, 0x49, 'unlock', _0x4be0d0(0x13c)),
+                                    _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x2ae)), _0x4be0d0(0x4a0)),
+                                    ctx['drawImage'](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)], -_0x4276e6[_0x4be0d0(0x2a8)] / 0x2, -_0x4276e6[_0x4be0d0(0x2f0)] / 0x2 + 0x61, _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)]);
+                                else {
+                                    if (_0x304d04 == 0x0) {
+                                        addText(0x0, 0x1e, 0xa5, _0x4be0d0(0x45c), 0x0, 0x49, _0x4be0d0(0x470), _0x4be0d0(0x13c)),
+                                        addDirectText(0x0, 0x28, 0x6e, _0x4be0d0(0x126), -0x18, 0x6f, aBatData[_0x4881a4][_0x4be0d0(0x134)], _0x4be0d0(0x13c)),
+                                        _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x2ae)), 'smallGem');
+                                        var _0x42bcf2 = 0.6;
+                                        ctx[_0x4be0d0(0x23c)](_0x4276e6['img'], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)], -_0x4276e6['bWidth'] / 0x2 * _0x42bcf2 - 0x2e, -_0x4276e6['bHeight'] / 0x2 * _0x42bcf2 + 0x61, _0x4276e6[_0x4be0d0(0x2a8)] * _0x42bcf2, _0x4276e6['bHeight'] * _0x42bcf2);
+                                    } else {
+                                        if (aBatData[_0x4881a4][_0x4be0d0(0x299)] == 0x2) {
+                                            addDirectText(0x0, 0x28, 0x6e, _0x4be0d0(0x126), -0x18, 0x6f - 0xf, aBatData[_0x4881a4][_0x4be0d0(0x134)], _0x4be0d0(0x13c)),
+                                            _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)]('uiElements'), _0x4be0d0(0xc4));
+                                            var _0x42bcf2 = 0.6;
+                                            ctx[_0x4be0d0(0x23c)](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6['bHeight'], -_0x4276e6[_0x4be0d0(0x2a8)] / 0x2 * _0x42bcf2 - 0x2e, -_0x4276e6[_0x4be0d0(0x2f0)] / 0x2 * _0x42bcf2 + 0x61 - 0xf, _0x4276e6[_0x4be0d0(0x2a8)] * _0x42bcf2, _0x4276e6[_0x4be0d0(0x2f0)] * _0x42bcf2);
+                                        } else
+                                            _0x304d04 == 0x2 && (addText(0x0, 0x1e, 0xa5, _0x4be0d0(0x45c), 0x0, 0x4d, _0x4be0d0(0x15d), _0x4be0d0(0x13c)),
+                                            addDirectText(0x0, 0x1e, 0xa5, _0x4be0d0(0x45c), 0x0, 0x6d, getText(_0x4be0d0(0x327), 0x0) + '\x20' + aBatData[_0x4881a4]['unlockWorld'], _0x4be0d0(0x13c)));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ctx['translate'](-aBatData[_0x4881a4]['x'], -aBatData[_0x4881a4]['y']);
+            }
+            ctx[_0x4be0d0(0x10d)](),
+            _0x4276e6 = getSpriteData(assetLib['getData']('uiElements'), 'batShopBorder0'),
+            ctx[_0x4be0d0(0x23c)](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)], 0x0, this[_0x4be0d0(0x10b)] - _0x4276e6[_0x4be0d0(0x2f0)] / 0x2, canvas[_0x4be0d0(0xeb)], _0x4276e6[_0x4be0d0(0x2f0)]),
+            _0x4276e6 = getSpriteData(assetLib[_0x4be0d0(0x2d8)](_0x4be0d0(0x2ae)), 'batShopBorder1'),
+            ctx[_0x4be0d0(0x23c)](_0x4276e6[_0x4be0d0(0x436)], _0x4276e6['bX'], _0x4276e6['bY'], _0x4276e6[_0x4be0d0(0x2a8)], _0x4276e6[_0x4be0d0(0x2f0)], 0x0, canvas[_0x4be0d0(0x2f8)] - this['cropY'] - _0x4276e6[_0x4be0d0(0x2f0)] / 0x2, canvas[_0x4be0d0(0xeb)], _0x4276e6['bHeight']);
+        }
+        ,
+        _0x56d5cc;
+    }());
+    _0x64ca4b['BatShop'] = _0x5c1c42;
+}(Elements || (Elements = {})));
+var Elements;
+(function(_0x292325) {
+    var _0x826a2a = _0x47ff64
+      , _0x29e622 = (function() {
+        var _0x3cebad = _0x2ef4;
+        function _0x43480a() {
+            var _0x3533ea = _0x2ef4;
+            this['y'] = 0x1,
+            this['id'] = 0x0,
+            this[_0x3533ea(0x105)] = 0x0;
+        }
+        return _0x43480a[_0x3cebad(0x1f7)][_0x3cebad(0x31c)] = function(_0x580b22) {
+            var _0x237156 = _0x3cebad
+              , _0x4421d9 = Math[_0x237156(0x3b4)](_0x580b22 / levelsPerWorld);
+            if (_0x4421d9 == 0x1 && saveDataHandler[_0x237156(0x280)](0x0) == 0x0)
+                saveDataHandler['setAward'](0x0),
+                awardPanel[_0x237156(0x39b)](0x0);
+            else {
+                if (_0x4421d9 == 0x3 && saveDataHandler[_0x237156(0x280)](0x1) == 0x0)
+                    saveDataHandler[_0x237156(0x390)](0x1),
+                    awardPanel[_0x237156(0x39b)](0x1);
+                else {
+                    if (_0x4421d9 == 0x6 && saveDataHandler[_0x237156(0x280)](0x2) == 0x0)
+                        saveDataHandler['setAward'](0x2),
+                        awardPanel[_0x237156(0x39b)](0x2);
+                    else
+                        _0x4421d9 == 0xa && saveDataHandler['getAwardState'](0x3) == 0x0 && (saveDataHandler[_0x237156(0x390)](0x3),
+                        awardPanel[_0x237156(0x39b)](0x3));
+                }
+            }
+            if (saveDataHandler[_0x237156(0x324)]() == 0x1 && saveDataHandler['getAwardState'](0x4) == 0x0)
+                saveDataHandler[_0x237156(0x390)](0x4),
+                awardPanel['showAward'](0x4);
+            else {
+                if (saveDataHandler['getClassicWins']() == 0x3 && saveDataHandler[_0x237156(0x280)](0x5) == 0x0)
+                    saveDataHandler[_0x237156(0x390)](0x5),
+                    awardPanel['showAward'](0x5);
+                else
+                    saveDataHandler['getClassicWins']() == 0x6 && saveDataHandler['getAwardState'](0x6) == 0x0 && (saveDataHandler['setAward'](0x6),
+                    awardPanel[_0x237156(0x39b)](0x6));
+            }
+            if (saveDataHandler['getTotalBatsUnlocked']() >= 0xa && saveDataHandler[_0x237156(0x280)](0x7) == 0x0)
+                saveDataHandler[_0x237156(0x390)](0x7),
+                awardPanel[_0x237156(0x39b)](0x7);
+            else {
+                if (saveDataHandler[_0x237156(0x1bb)]() >= 0x19 && saveDataHandler[_0x237156(0x280)](0x8) == 0x0)
+                    saveDataHandler[_0x237156(0x390)](0x8),
+                    awardPanel[_0x237156(0x39b)](0x8);
+                else
+                    saveDataHandler[_0x237156(0x1bb)]() >= 0x32 && saveDataHandler[_0x237156(0x280)](0x9) == 0x0 && (saveDataHandler['setAward'](0x9),
+                    awardPanel[_0x237156(0x39b)](0x9));
+            }
+            bugScore >= 0x41 && saveDataHandler[_0x237156(0x280)](0xa) == 0x0 && (saveDataHandler[_0x237156(0x390)](0xa),
+            awardPanel[_0x237156(0x39b)](0xa)),
+            bugScore >= 0x5a && saveDataHandler[_0x237156(0x280)](0xb) == 0x0 && (saveDataHandler[_0x237156(0x390)](0xb),
+            awardPanel['showAward'](0xb)),
+            bugScore >= 0x7d && saveDataHandler[_0x237156(0x280)](0xc) == 0x0 && (saveDataHandler[_0x237156(0x390)](0xc),
+            awardPanel['showAward'](0xc)),
+            curTargetScore >= 0x19 && saveDataHandler['getAwardState'](0xd) == 0x0 && (saveDataHandler[_0x237156(0x390)](0xd),
+            awardPanel[_0x237156(0x39b)](0xd)),
+            curTargetScore >= 0x32 && saveDataHandler[_0x237156(0x280)](0xe) == 0x0 && (saveDataHandler[_0x237156(0x390)](0xe),
+            awardPanel[_0x237156(0x39b)](0xe)),
+            curTargetScore >= 0x50 && saveDataHandler[_0x237156(0x280)](0xf) == 0x0 && (saveDataHandler[_0x237156(0x390)](0xf),
+            awardPanel[_0x237156(0x39b)](0xf));
+        }
+        ,
+        _0x43480a[_0x3cebad(0x1f7)][_0x3cebad(0x39b)] = function(_0x168ef2) {
+            var _0x2ca493 = _0x3cebad
+              , _0xa18b7a = this;
+            this['awardTween'] && this['awardTween'][_0x2ca493(0x2e1)](),
+            playSound(_0x2ca493(0x419)),
+            this['y'] = 0x1,
+            this['id'] = _0x168ef2,
+            this[_0x2ca493(0x3c4)] = TweenLite['to'](this, 0.5, {
+                'y': 0x0,
+                'ease': _0x2ca493(0x44e),
+                'onComplete': function() {
+                    var _0x5162c7 = _0x2ca493;
+                    _0xa18b7a[_0x5162c7(0x3c4)] = TweenLite['to'](_0xa18b7a, 0.5, {
+                        'y': 0x1,
+                        'delay': 0x2,
+                        'ease': _0x5162c7(0x15e),
+                        'onComplete': function() {}
+                    });
+                }
+            });
+        }
+        ,
+        _0x43480a['prototype']['render'] = function() {
+            var _0x325baa = _0x3cebad;
+            if (this['y'] < 0x1) {
+                this[_0x325baa(0x105)] += delta;
+                var _0x54f6fc = getSpriteData(assetLib['getData'](_0x325baa(0x2d1)), _0x325baa(0x1c7))
+                  , _0x446236 = canvas[_0x325baa(0xeb)] - 0x64 - _0x54f6fc['bWidth'] / 0x2
+                  , _0x4baa20 = this['y'] * -0xc8;
+                ctx['drawImage'](_0x54f6fc[_0x325baa(0x436)], _0x54f6fc['bX'], _0x54f6fc['bY'], _0x54f6fc['bWidth'], _0x54f6fc[_0x325baa(0x2f0)], _0x446236 - _0x54f6fc['bWidth'] / 0x2, _0x4baa20, _0x54f6fc[_0x325baa(0x2a8)], _0x54f6fc[_0x325baa(0x2f0)]);
+                Math['sin'](this[_0x325baa(0x105)] * 0xa) > 0x0 && addText(0x0, 0x23, _0x54f6fc[_0x325baa(0x2a8)] - 0x14, _0x325baa(0x45c), _0x446236, _0x4baa20 + 0x2d, _0x325baa(0x419), _0x325baa(0x13c));
+                var _0x54f6fc = getSpriteData(assetLib[_0x325baa(0x2d8)](_0x325baa(0x2d1)), _0x325baa(0x3d6) + this['id'])
+                  , _0x53e65b = 0x1;
+                ctx[_0x325baa(0x23c)](_0x54f6fc[_0x325baa(0x436)], _0x54f6fc['bX'], _0x54f6fc['bY'], _0x54f6fc['bWidth'], _0x54f6fc['bHeight'], _0x446236 - _0x54f6fc[_0x325baa(0x2a8)] / 0x2 * _0x53e65b, _0x4baa20 - _0x54f6fc['bHeight'] / 0x2 * _0x53e65b + 0x7d, _0x54f6fc[_0x325baa(0x2a8)] * _0x53e65b, _0x54f6fc[_0x325baa(0x2f0)] * _0x53e65b);
+                var _0x51b5a2 = getMultiLineTextByChars('awardInfo' + this['id'], 0x10, 0x1);
+                for (var _0x364f2b = 0x0; _0x364f2b < _0x51b5a2[_0x325baa(0x3f5)]; _0x364f2b++) {
+                    addDirectText(0x1, 0x19, 0xc8, 'center', _0x446236, _0x4baa20 + 0x7d + 0x69 + _0x364f2b * 0x19, _0x51b5a2[_0x364f2b], _0x325baa(0x13c));
+                }
+            }
+        }
+        ,
+        _0x43480a;
+    }());
+    _0x292325[_0x826a2a(0x3fe)] = _0x29e622;
+}(Elements || (Elements = {})));
+var requestAnimFrame = (function() {
+    var _0x3703e8 = _0x47ff64;
+    return window[_0x3703e8(0x3f8)] || window[_0x3703e8(0x45e)] || window[_0x3703e8(0x14c)] || window['oRequestAnimationFrame'] || window[_0x3703e8(0x3f8)] || function(_0x3c298e) {
+        var _0x40a818 = _0x3703e8;
+        window[_0x40a818(0x424)](_0x3c298e, 0x3e8 / 0x3c, new Date()[_0x40a818(0x402)]());
+    }
+    ;
+}()), previousTime, canvas = document[_0x47ff64(0x162)]('canvas'), ctx = canvas[_0x47ff64(0x329)]('2d'), maxWidth = 0x320, minWidth = 0x320, maxHeight = 0x320, minHeight = 0x320, canvasX, canvasY, canvasScale = 0x1, div = document[_0x47ff64(0x162)](_0x47ff64(0x304)), sound, music, audioType = 0x0, muted = ![], splashTimer = 0x0, assetLib, preAssetLib, isMobile = ![], gameState = 'loading', aLangs = new Array('EN'), curLang = '', isBugBrowser = ![], isIE10 = ![], delta, radian = Math['PI'] / 0xb4, ios9FirstTouch = ![], isRotated = ![], prevGameState, saveDataHandler = new Utils['SaveDataHandler'](_0x47ff64(0xf8)), hasFocus = !![];
+navigator['userAgent'][_0x47ff64(0x3c3)](/MSIE\s([\d]+)/) && (isIE10 = !![]);
+var deviceAgent = navigator['userAgent'][_0x47ff64(0x455)]();
+(deviceAgent['match'](/(iphone|ipod|ipad)/) || deviceAgent[_0x47ff64(0x3c3)](/(android)/) || deviceAgent[_0x47ff64(0x3c3)](/(iemobile)/) || deviceAgent[_0x47ff64(0x3c3)](/iphone/i) || deviceAgent[_0x47ff64(0x3c3)](/ipad/i) || deviceAgent[_0x47ff64(0x3c3)](/ipod/i) || deviceAgent[_0x47ff64(0x3c3)](/blackberry/i) || deviceAgent[_0x47ff64(0x3c3)](/bada/i) || navigator[_0x47ff64(0x3c8)] === _0x47ff64(0x2ec) && navigator[_0x47ff64(0x2ab)] > 0x1) && (isMobile = !![],
+deviceAgent[_0x47ff64(0x3c3)](/(android)/) && !/Chrome/[_0x47ff64(0x356)](navigator[_0x47ff64(0x16b)]) && (isBugBrowser = !![]));
+function _0x2ef4(_0x2fa6d1, _0xba586c) {
+    var _0xd4075b = _0xd407();
+    return _0x2ef4 = function(_0x2ef445, _0x527b19) {
+        _0x2ef445 = _0x2ef445 - 0xbe;
+        var _0x1ec6bc = _0xd4075b[_0x2ef445];
+        return _0x1ec6bc;
+    }
+    ,
+    _0x2ef4(_0x2fa6d1, _0xba586c);
+}
+var userInput = new Utils['UserInput'](canvas,isBugBrowser);
+resizeCanvas(),
+window[_0x47ff64(0x1ea)] = function() {
+    setTimeout(function() {
+        resizeCanvas();
+    }, 0x1);
+}
+;
+function visibleResume() {
+    var _0x423881 = _0x47ff64;
+    !hasFocus && (userInput && userInput[_0x423881(0x11f)](),
+    Howler['ctx']['state'] == _0x423881(0x3c0) && Howler[_0x423881(0x376)][_0x423881(0x456)](),
+    !muted && gameState != _0x423881(0x332) && gameState != _0x423881(0x438) && gameState != 'loading' && (Howler['mute'](![]),
+    playMusic())),
+    hasFocus = !![];
+}
+function visiblePause() {
+    var _0x798bf6 = _0x47ff64;
+    hasFocus = ![],
+    Howler[_0x798bf6(0x2af)](!![]),
+    music[_0x798bf6(0x332)]();
+}
+window[_0x47ff64(0x13b)] = function() {
+    var _0x191afb = _0x47ff64;
+    !hasFocus && (userInput && userInput['checkKeyFocus'](),
+    !muted && gameState != _0x191afb(0x332) && gameState != _0x191afb(0x438) && gameState != _0x191afb(0x113) && (Howler['mute'](![]),
+    playMusic())),
+    hasFocus = !![];
+}
+,
+window[_0x47ff64(0x36e)] = function() {
+    hasFocus = ![],
+    Howler['mute'](!![]),
+    music['pause']();
+}
+;
+function playMusic() {
+    var _0x410041 = _0x47ff64;
+    !music['playing']() && music[_0x410041(0x465)]();
+}
+window[_0x47ff64(0x302)](_0x47ff64(0x2a5), function() {
+    var _0x48f9e3 = _0x47ff64;
+    setTimeout(function() {
+        resizeCanvas();
+    }, 0x0),
+    window[_0x48f9e3(0x302)](_0x48f9e3(0x314), function() {
+        setTimeout(function() {
+            resizeCanvas();
+        }, 0x1f4),
+        setTimeout(function() {
+            resizeCanvas();
+        }, 0x7d0);
+    }, ![]);
+});
+function isStock() {
+    var _0x4f27eb = _0x47ff64
+      , _0x42a439 = window[_0x4f27eb(0x279)][_0x4f27eb(0x16b)][_0x4f27eb(0x3c3)](/Android.*AppleWebKit\/([\d.]+)/);
+    return _0x42a439 && parseFloat(_0x42a439[0x1]) < 0x219;
+}
+var ua = navigator[_0x47ff64(0x16b)]
+  , isSharpStock = /SHL24|SH-01F/i[_0x47ff64(0x356)](ua) && isStock()
+  , isXperiaAStock = /SO-04E/i[_0x47ff64(0x356)](ua) && isStock()
+  , isFujitsuStock = /F-01F/i[_0x47ff64(0x356)](ua) && isStock();
+!isIE10 && !isSharpStock && !isXperiaAStock && !isFujitsuStock && (typeof window['AudioContext'] !== _0x47ff64(0x179) || typeof window[_0x47ff64(0x35e)] !== _0x47ff64(0x179) || navigator[_0x47ff64(0x16b)][_0x47ff64(0x124)]('Android') == -0x1) ? (audioType = 0x1,
+sound = new Howl({
+    'src': [_0x47ff64(0x494)],
+    'sprite': {
+        'silence': [0x0, 502.87981859410434],
+        'arcadeWin': [0x5dc, 1564.4444444444448],
+        'botThrow': [0xfa0, 234.01360544217732],
+        'bounce0': [0x157c, 215.69160997732428],
+        'bounce1': [0x1b58, 207.16553287981833],
+        'bounce2': [0x2134, 252.51700680272114],
+        'bounce3': [0x2710, 282.63038548752917],
+        'bounce4': [0x2cec, 212.7891156462578],
+        'bounce5': [0x32c8, 232.1995464852602],
+        'buyBat': [0x38a4, 679.9092970521539],
+        'classicGameLose': [0x3e80, 380.22675736961276],
+        'classicGameWin': [0x445c, 915.3061224489783],
+        'classicMatchLose': [0x4a38, 1253.877551020409],
+        'classicMatchWin': [0x53fc, 1404.807256235827],
+        'click': [0x5dc0, 48.934240362811465],
+        'gameStart0': [0x639c, 1651.519274376419],
+        'gameStart1': [0x6d60, 1216.1451247165544],
+        'gem0': [0x7724, 90.3854875283443],
+        'gem1': [0x7d00, 93.24263038548963],
+        'gem2': [0x82dc, 349.97732426303685],
+        'gem3': [0x88b8, 208.9795918367372],
+        'gem4': [0x8e94, 263.21995464852677],
+        'gemReward': [0x9470, 692.5170068027242],
+        'gemTweenOut': [0x9a4c, 1856.530612244896],
+        'hit0': [0xa410, 213.33333333333115],
+        'hit1': [0xa9ec, 213.33333333333115],
+        'hit2': [0xafc8, 252.74376417233668],
+        'hit3': [0xb5a4, 211.15646258503062],
+        'hit4': [0xbb80, 230.38548752834487],
+        'hit5': [0xc15c, 261.04308390022624],
+        'hitTarget': [0xc738, 385.9410430839034],
+        'lockedBat': [0xcd14, 376.5532879818565],
+        'loseSet': [0xd2f0, 564.5804988662135],
+        'loseStar': [0xd8cc, 320.2721088435396],
+        'missTarget': [0xdea8, 377.1428571428572],
+        'selectBat': [0xe484, 341.2244897959198],
+        'targetGameEnd': [0xea60, 1141.4058956916122],
+        'unlockBat': [0xf424, 280.1587301587318],
+        'winSet': [0xfa00, 835.8956916099771],
+        'winStar': [0xffdc, 674.3764172335602],
+        'worldComplete': [0x105b8, 743.015873015878],
+        'cheer0': [0x10b94, 3428.072562358281],
+        'cheer1': [0x11d28, 6597.369614512473],
+        'cheer2': [0x13a74, 4757.188208616782],
+        'cheer3': [0x14ff0, 4461.541950113371],
+        'cheer4': [0x1656c, 3059.2290249433063],
+        'cheer5': [0x17700, 4442.13151927437],
+        'hitNet': [0x18c7c, 1245.170068027207],
+        'bugSplat0': [0x19640, 114.08163265306825],
+        'bugSplat1': [0x19c1c, 155.64625850339553],
+        'bugSplat2': [0x1a1f8, 94.73922902493825],
+        'bugSplat3': [0x1a7d4, 168.4807256235814],
+        'bugSplat4': [0x1adb0, 184.35374149659367]
+    }
+}),
+music = new Howl({
+    'src': [_0x47ff64(0x17e)],
+    'volume': 0x0,
+    'loop': !![]
+})) : audioType = 0x0;
+var panel, background, totalScore = 0x0, levelScore = 0x0, levelNum = 0x0, aLevelUps, levelBonusScore, bonusScore, aTutorials = new Array(), panelFrame, oLogoData = {}, oLogoBut, oImageIds = {}, tableTop, userBat, enemyBat, swipeState = 0x0, countryFlags = new Utils[(_0x47ff64(0x1d7))](['CA', 'CN', 'CZ', 'DK', 'DE', 'FR', 'HK', 'IN', 'IE', 'IT', 'JP', 'NL', 'PL', 'PT', 'KR', 'ES', 'RU', 'TR', 'GB', 'US'],![]), aEnemyCountries = new Array(['IS', 'GL', 'HW', 'CU', 'CA', 'US'],['VE', 'CK', 'WS', 'CO', 'GY', 'CR'],['PE', 'AR', 'UY', 'BO', 'CL', 'BR'],['DZ', 'LY', 'ET', 'ZW', 'KE', 'ZA'],['FR', 'NO', 'PT', 'IT', 'DE', 'GB'],['AT', 'CZ', 'PL', 'TR', 'HU', 'GR'],['IR', 'BD', 'MG', 'IN', 'PK', 'AE'],['PG', 'NZ', 'AU', 'PH', 'ID', 'MY'],['LA', 'VN', 'HK', 'JP', 'KR', 'CN'],['LV', 'EE', 'LT', 'FI', 'UZ', 'RU']), spareEnemyCountry = 'CH', oGameData = {
+    'cupId': 0x0,
+    'gameId': 0x0,
+    'userId': null,
+    'enemyId': null,
+    'userScore': 0x0,
+    'enemyScore': 0x0
+}, firstRun = !![], aMapMarkerPos = new Array([-0xcb, -0x73],[-0x96, -0x1f],[-0x88, 0x62],[0x14, 0x39],[-0x24, -0x6d],[0x32, -0x48],[0x65, -0x10],[0xaa, 0x52],[0xc0, -0x33],[0x8f, -0x79]), justWonCup = ![], controlState = 0x0, startTouchY, aEffects, rallyHits = 0x0, gameType, curLevel = 0x0, curBat = 0x0, opBat = 0x0, aTournamentOrder = new Array(), endChatId = 0x0, tournamentSize = 0x6, charLineUp = 0x0, prevCanvasWidth = 0x0, prevCanvasHeight = 0x0, prevScreen = _0x47ff64(0x113), aProgressButs, hasAnyBats = ![], hasAnyPerks = ![], userCustomBat = null, userPerk = null, userCustomBatHighlight = null, userPerkHighlight = null, curTournLevelId, isSpecialGame, lastUnlockedChar, hasEndGameLink = ![], externalUrl = '', gameVariation = 0x0, curTime, hitFirstShot, bottleGameState, challengeLevel = 0x0, gameplayState = 0x0, gems = 0x0, levelStarTarg = 0x0, curLevelStars = 0x0, onScreenY = 0x0, aEffects, aPointScores = new Array(0xa,0x19), aBatData = new Array(), levelsPerWorld = 0x5, batShop, prevGameplayState, newBatId = null, batUnlockedId = 0x0, butDown = !![], testVar = '>', aBalls, curBallId = 0x0, tableDepth = 0xeb * 1.5, tableBackWidth = 0xe9 * 1.5, ballPosMultiplier = 0.6, curTargetScore = 0x0, firstRun = !![], localTargetHighscore = 0x0, userScore = 0x0, enemyScore = 0x0, userSets = 0x0, enemySets = 0x0, awardPanel, classicGameLevel = 0x0, num128 = 1.28, testPrev = 0x0, testCur = 0x0, rewardButHit = ![], maxMusicVol = 0.5, minMusicVol = 0.2, batShopButDown = ![], bugScore = 0x0, bugTime = 0x0, bugTimeTarg = 0x3c, bugWaveKilled = 0x0, bugWave = 0x0, bugBonusTime = 0x5, firstAdRun = ![];
+function resetBatShopData() {
+    var _0x43ed84 = _0x47ff64;
+    aBatData = new Array({
+        'unlockId': 0x0,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x0,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x0,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x1
+    },{
+        'unlockId': 0x1,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x1,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x2
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x1,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x3
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x1,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x4
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x1,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x5
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x6
+    },{
+        'unlockId': 0x1,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x7
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x1,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x8
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x9
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x3,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0xa
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x9
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    },{
+        'unlockId': 0x2,
+        'x': 0x0,
+        'y': 0x0,
+        'gemCost': 0x0,
+        'unlockWorld': 0x0
+    });
+    var _0x17ac1d = 0x32
+      , _0x3299a2 = 0x32
+      , _0x2fd90b = 1.25
+      , _0xb5f20 = 0x0;
+    for (var _0x1c087e = 0x0; _0x1c087e < aBatData[_0x43ed84(0x3f5)]; _0x1c087e++) {
+        aBatData[_0x1c087e][_0x43ed84(0x299)] == 0x2 && (aBatData[_0x1c087e]['gemCost'] = Math[_0x43ed84(0x226)](_0x17ac1d / 0xa) * 0xa,
+        ++_0xb5f20 % 0x3 == 0x0 && (_0x3299a2 *= _0x2fd90b,
+        _0x17ac1d += _0x3299a2));
+    }
+}
+function loadLang(_0x23f93a) {
+    _0x23f93a === void 0x0 && (_0x23f93a = 'en'),
+    curLang = _0x23f93a,
+    (!curLang || curLang == null || curLang == undefined) && (curLang = 'en'),
+    loadPreAssets();
+}
+function initSplash() {
+    var _0x63c959 = _0x47ff64;
+    window[_0x63c959(0x173)][_0x63c959(0x320)](),
+    curLang == 'ar' && (document[_0x63c959(0x413)]['style'][_0x63c959(0x41c)] = _0x63c959(0x450)),
+    firstRun = !![],
+    gameState = _0x63c959(0x438),
+    audioType == 0x1 && !muted && (playMusic(),
+    !hasFocus && music[_0x63c959(0x332)]()),
+    resetFromSaveData(),
+    awardPanel = new Elements[(_0x63c959(0x3fe))](),
+    updateBatShopData(),
+    opBat = getEnemyBat(),
+    initStartScreen(),
+    resizeCanvas();
+}
+function resetFromSaveData() {
+    var _0x5b380c = _0x47ff64;
+    curBat = saveDataHandler['getCurBat'](),
+    curLevel = saveDataHandler[_0x5b380c(0x1d3)](),
+    gems = saveDataHandler[_0x5b380c(0x12c)](),
+    userInput[_0x5b380c(0x369)] = saveDataHandler[_0x5b380c(0x3cc)](),
+    classicGameLevel = saveDataHandler[_0x5b380c(0x1cd)]();
+}
+function addMuteBut(_0x168d7e) {
+    var _0x40e180 = _0x47ff64;
+    if (audioType == 0x1) {
+        var _0x35ff6d = oImageIds[_0x40e180(0x312)]
+          , _0x5dda6a = oImageIds[_0x40e180(0x40e)];
+        muted && (_0x35ff6d = oImageIds['muteBut1'],
+        _0x5dda6a = oImageIds[_0x40e180(0x4a7)]);
+        var _0x380efa = {
+            'oImgData': assetLib[_0x40e180(0x2d8)]('uiButs'),
+            'aPos': [-0x32, 0x32],
+            'align': [0x1, 0x0],
+            'id': _0x35ff6d,
+            'idOver': _0x5dda6a,
+            'noTween': !![]
+        };
+        userInput['addHitArea'](_0x40e180(0x2af), butEventHandler, null, _0x40e180(0x2b4), _0x380efa);
+        for (var _0x909102 = 0x0; _0x909102 < _0x168d7e['length']; _0x909102++) {
+            if (_0x168d7e[_0x909102]['id'] == oImageIds['muteBut0'] || _0x168d7e[_0x909102]['id'] == oImageIds[_0x40e180(0x3c7)])
+                return;
+        }
+        _0x168d7e[_0x40e180(0x397)](_0x380efa);
+    }
+}
+function initCreditsScreen() {
+    var _0x54223a = _0x47ff64;
+    gameState = _0x54223a(0x315);
+    var _0x507c64 = {
+        'oImgData': assetLib[_0x54223a(0x2d8)]('uiButs'),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x54223a(0xfb)],
+        'idOver': oImageIds['backButOver']
+    }
+      , _0x3d1181 = {
+        'oImgData': assetLib[_0x54223a(0x2d8)]('uiButs'),
+        'aPos': [-0x32, -0x32],
+        'align': [0x1, 0x1],
+        'id': oImageIds[_0x54223a(0x3c5)],
+        'idOver': oImageIds[_0x54223a(0x26e)]
+    };
+    userInput['addHitArea'](_0x54223a(0x233), butEventHandler, null, _0x54223a(0x2b4), _0x507c64),
+    userInput[_0x54223a(0x19b)](_0x54223a(0x229), butEventHandler, null, _0x54223a(0x2b4), _0x3d1181);
+    var _0x307cb2 = new Array(_0x507c64,_0x3d1181);
+    addMuteBut(_0x307cb2),
+    panel = new Elements[(_0x54223a(0x1af))](gameState,_0x307cb2),
+    updateSettingsButs(),
+    panel[_0x54223a(0x3b9)](),
+    previousTime = new Date()[_0x54223a(0x402)](),
+    resizeCanvas(),
+    updateCreditsScreenEvent();
+}
+function updateSettingsButs() {
+    var _0x5d774b = _0x47ff64
+      , _0x1d87d9 = 0x0;
+    userInput[_0x5d774b(0x10e)](_0x5d774b(0x3aa)),
+    userInput[_0x5d774b(0x10e)](_0x5d774b(0x1db)),
+    panel[_0x5d774b(0x188)](oImageIds['minusBut']),
+    panel[_0x5d774b(0x188)](oImageIds[_0x5d774b(0x41e)]),
+    userInput[_0x5d774b(0x10e)](_0x5d774b(0x499)),
+    userInput[_0x5d774b(0x10e)](_0x5d774b(0x208));
+    for (var _0x197443 = 0x0; _0x197443 < 0x3; _0x197443++) {
+        var _0x4e001a = {
+            'oImgData': assetLib[_0x5d774b(0x2d8)](_0x5d774b(0x24a)),
+            'aPos': [-0xaa, 0x42],
+            'align': [0.5, 0.3],
+            'id': oImageIds[_0x5d774b(0x443)],
+            'idOver': oImageIds['minusButOver']
+        }
+          , _0x48244b = {
+            'oImgData': assetLib[_0x5d774b(0x2d8)](_0x5d774b(0x24a)),
+            'aPos': [0xaa, 0x42],
+            'align': [0.5, 0.3],
+            'id': oImageIds[_0x5d774b(0x41e)],
+            'idOver': oImageIds[_0x5d774b(0xc6)]
+        };
+        userInput['addHitArea'](_0x5d774b(0x3aa), butEventHandler, null, _0x5d774b(0x2b4), _0x4e001a),
+        userInput[_0x5d774b(0x19b)]('plusDiffFromSettings', butEventHandler, null, _0x5d774b(0x2b4), _0x48244b),
+        panel[_0x5d774b(0x120)][_0x5d774b(0x397)](_0x4e001a, _0x48244b);
+    }
+    if (!isMobile) {
+        var _0x22a488 = {
+            'oImgData': assetLib['getData']('uiButs'),
+            'aPos': [-0xaa, 0x100],
+            'align': [0.5, 0.3],
+            'id': oImageIds[_0x5d774b(0x443)],
+            'idOver': oImageIds[_0x5d774b(0x354)]
+        }
+          , _0x3e2565 = {
+            'oImgData': assetLib[_0x5d774b(0x2d8)](_0x5d774b(0x24a)),
+            'aPos': [0xaa, 0x100],
+            'align': [0.5, 0.3],
+            'id': oImageIds[_0x5d774b(0x41e)],
+            'idOver': oImageIds[_0x5d774b(0xc6)]
+        };
+        userInput[_0x5d774b(0x19b)](_0x5d774b(0x499), butEventHandler, null, _0x5d774b(0x2b4), _0x22a488),
+        userInput[_0x5d774b(0x19b)]('plusSenseFromSettings', butEventHandler, null, _0x5d774b(0x2b4), _0x3e2565),
+        panel[_0x5d774b(0x120)][_0x5d774b(0x397)](_0x22a488, _0x3e2565);
+    }
+}
+function initStartScreen(_0x4eb19f) {
+    var _0x3398f0 = _0x47ff64;
+    _0x4eb19f === void 0x0 && (_0x4eb19f = !![]);
+    gameState = _0x3398f0(0x429),
+    gameVariation = 0x0,
+    gameplayState = 0x0,
+    curLevel = saveDataHandler[_0x3398f0(0x1d3)]();
+    audioType == 0x1 && music['fade'](music['volume'](), maxMusicVol, 0x1f4);
+    background = new Elements[(_0x3398f0(0x10c))]();
+    var _0x12f17f = new Array()
+      , _0x5732e0 = {
+        'oImgData': assetLib[_0x3398f0(0x2d8)](_0x3398f0(0x24a)),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds['infoBut'],
+        'idOver': oImageIds[_0x3398f0(0x2b1)]
+    };
+    userInput[_0x3398f0(0x19b)](_0x3398f0(0x215), butEventHandler, null, _0x3398f0(0x2b4), _0x5732e0),
+    _0x12f17f[_0x3398f0(0x397)](_0x5732e0),
+    aEffects = new Array(),
+    addMuteBut(_0x12f17f),
+    panel = new Elements[(_0x3398f0(0x1af))](gameState,_0x12f17f),
+    panel[_0x3398f0(0x3b9)](),
+    updateStartScreenButs(),
+    resetGameElements(),
+    aEffects = new Array(),
+    _0x4eb19f && (previousTime = new Date()[_0x3398f0(0x402)](),
+    updateGameEvent());
+}
+function updateStartScreenButs() {
+    var _0x4a6135 = _0x47ff64;
+    userInput[_0x4a6135(0x10e)](_0x4a6135(0x409)),
+    userInput[_0x4a6135(0x10e)](_0x4a6135(0x37b)),
+    userInput[_0x4a6135(0x10e)]('batShopFromStart'),
+    userInput['removeHitArea'](_0x4a6135(0x1e0)),
+    userInput[_0x4a6135(0x10e)](_0x4a6135(0x275)),
+    userInput[_0x4a6135(0x10e)](_0x4a6135(0x3b2)),
+    panel['removeBut'](oImageIds[_0x4a6135(0x307)]),
+    panel['removeBut'](oImageIds[_0x4a6135(0x32f)]),
+    panel[_0x4a6135(0x188)](oImageIds[_0x4a6135(0x153)]),
+    panel[_0x4a6135(0x188)](oImageIds[_0x4a6135(0x395)]),
+    panel[_0x4a6135(0x188)](oImageIds['bugGameBut']),
+    batShopButDown = ![];
+    var _0x12435d, _0x46a836, _0x47cfec, _0x36a347, _0x1b2ef3, _0x1f6b97 = 0xa0;
+    canvas[_0x4a6135(0xeb)] / canvas[_0x4a6135(0x2f8)] < 0.6 ? (_0x12435d = {
+        'oImgData': assetLib[_0x4a6135(0x2d8)](_0x4a6135(0x24a)),
+        'aPos': [_0x1f6b97, -0xfa],
+        'align': [0.5, 0x1],
+        'id': oImageIds['awardsBut'],
+        'idOver': oImageIds[_0x4a6135(0x313)]
+    },
+    _0x46a836 = {
+        'oImgData': assetLib[_0x4a6135(0x2d8)](_0x4a6135(0x24a)),
+        'aPos': [_0x1f6b97 * 0x2, -0xfa],
+        'align': [0.5, 0x1],
+        'id': oImageIds[_0x4a6135(0x32f)],
+        'idOver': oImageIds['batShopButOver']
+    },
+    _0x47cfec = {
+        'oImgData': assetLib['getData'](_0x4a6135(0x24a)),
+        'aPos': [-_0x1f6b97, -0xfa],
+        'align': [0.5, 0x1],
+        'id': oImageIds['challengeBut'],
+        'idOver': oImageIds[_0x4a6135(0x262)]
+    },
+    _0x36a347 = {
+        'oImgData': assetLib[_0x4a6135(0x2d8)]('uiButs'),
+        'aPos': [0x0, -0xfa],
+        'align': [0.5, 0x1],
+        'id': oImageIds[_0x4a6135(0x395)],
+        'idOver': oImageIds[_0x4a6135(0x323)]
+    },
+    _0x1b2ef3 = {
+        'oImgData': assetLib['getData']('uiButs'),
+        'aPos': [-(_0x1f6b97 * 0x2), -0xfa],
+        'align': [0.5, 0x1],
+        'id': oImageIds[_0x4a6135(0x460)],
+        'idOver': oImageIds['bugGameButOver']
+    },
+    userInput['addHitArea'](_0x4a6135(0x409), butEventHandler, null, 'rect', {
+        'aRect': [0xfa, 0x12c, canvas[_0x4a6135(0xeb)] - 0xfa, canvas[_0x4a6135(0x2f8)] - 0x15e]
+    }, !![])) : (_0x12435d = {
+        'oImgData': assetLib[_0x4a6135(0x2d8)](_0x4a6135(0x24a)),
+        'aPos': [-0x5a, -0x1ae],
+        'align': [0x1, 0x1],
+        'id': oImageIds[_0x4a6135(0x307)],
+        'idOver': oImageIds[_0x4a6135(0x313)]
+    },
+    _0x46a836 = {
+        'oImgData': assetLib[_0x4a6135(0x2d8)](_0x4a6135(0x24a)),
+        'aPos': [-0x5a, -0xe6],
+        'align': [0x1, 0x1],
+        'id': oImageIds['batShopBut'],
+        'idOver': oImageIds['batShopButOver']
+    },
+    _0x47cfec = {
+        'oImgData': assetLib[_0x4a6135(0x2d8)](_0x4a6135(0x24a)),
+        'aPos': [0x5a, -0x1ae],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x4a6135(0x153)],
+        'idOver': oImageIds[_0x4a6135(0x262)]
+    },
+    _0x36a347 = {
+        'oImgData': assetLib[_0x4a6135(0x2d8)](_0x4a6135(0x24a)),
+        'aPos': [0x5a, -0xe6],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x4a6135(0x395)],
+        'idOver': oImageIds[_0x4a6135(0x323)]
+    },
+    _0x1b2ef3 = {
+        'oImgData': assetLib['getData'](_0x4a6135(0x24a)),
+        'aPos': [0x5a, -0x276],
+        'align': [0x0, 0x1],
+        'id': oImageIds['bugGameBut'],
+        'idOver': oImageIds[_0x4a6135(0x3eb)]
+    },
+    userInput[_0x4a6135(0x19b)](_0x4a6135(0x409), butEventHandler, null, 'rect', {
+        'aRect': [0xfa, 0x12c, canvas[_0x4a6135(0xeb)] - 0xfa, canvas['height'] - 0x64]
+    }, !![])),
+    userInput[_0x4a6135(0x19b)](_0x4a6135(0x37b), butEventHandler, null, _0x4a6135(0x2b4), _0x12435d),
+    userInput['addHitArea'](_0x4a6135(0x49e), butEventHandler, {
+        'multiTouch': !![]
+    }, _0x4a6135(0x2b4), _0x46a836),
+    userInput['addHitArea'](_0x4a6135(0x1e0), butEventHandler, null, 'image', _0x47cfec),
+    userInput[_0x4a6135(0x19b)](_0x4a6135(0x275), butEventHandler, null, _0x4a6135(0x2b4), _0x36a347),
+    userInput['addHitArea'](_0x4a6135(0x3b2), butEventHandler, null, _0x4a6135(0x2b4), _0x1b2ef3),
+    panel['aButs'][_0x4a6135(0x397)](_0x46a836, _0x36a347, _0x47cfec, _0x12435d, _0x1b2ef3);
+}
+function resetGameElements() {
+    var _0x58f545 = _0x47ff64;
+    tableTop = new Elements[(_0x58f545(0x42e))](),
+    userBat = new Elements['UserBat'](),
+    enemyBat = new Elements['EnemyBat'](),
+    aBalls = new Array();
+    var _0x47da3c = new Elements['Ball']();
+    aBalls[_0x58f545(0x397)](_0x47da3c),
+    background[_0x58f545(0x117)](),
+    tableTop[_0x58f545(0x3f7)]();
+}
+function updateBatShopData() {
+    var _0x51f15b = _0x47ff64;
+    resetBatShopData();
+    for (var _0x162cad = 0x0; _0x162cad < aBatData['length']; _0x162cad++) {
+        saveDataHandler[_0x51f15b(0x2dc)](_0x162cad) > 0x0 && (aBatData[_0x162cad]['unlockId'] = 0x0);
+    }
+}
+function initBatShop() {
+    var _0x352f63 = _0x47ff64;
+    gameState = _0x352f63(0x2c7),
+    updateBatShopData(),
+    butDown = ![];
+    var _0x5f1208 = new Array();
+    aEffects = new Array(),
+    addMuteBut(_0x5f1208),
+    batShop = new Elements[(_0x352f63(0x3db))](),
+    panel = new Elements[(_0x352f63(0x1af))](gameState,_0x5f1208),
+    initBatShopButs(),
+    panel[_0x352f63(0x3b9)](),
+    aEffects = new Array(),
+    previousTime = new Date()[_0x352f63(0x402)](),
+    updateBatShopEvent();
+}
+function initBatShopButs() {
+    var _0x34ff59 = _0x47ff64
+      , _0x3f8d9f = {
+        'oImgData': assetLib[_0x34ff59(0x2d8)](_0x34ff59(0x24a)),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds['backBut'],
+        'idOver': oImageIds['backButOver']
+    };
+    userInput[_0x34ff59(0x19b)](_0x34ff59(0x214), butEventHandler, null, 'image', _0x3f8d9f),
+    panel[_0x34ff59(0x120)][_0x34ff59(0x397)](_0x3f8d9f),
+    userInput[_0x34ff59(0x19b)]('batShopTouch', butEventHandler, {
+        'isDraggable': !![],
+        'multiTouch': !![]
+    }, _0x34ff59(0x360), {
+        'aRect': [0x0, 0x0, canvas['width'], canvas[_0x34ff59(0x2f8)]]
+    }, !![]);
+}
+function getEnemyBat() {
+    var _0x5b0268 = _0x47ff64;
+    if (curLevel == 0x0 || firstRun)
+        return firstRun = ![],
+        0x1;
+    else {
+        var _0x520c70 = Math[_0x5b0268(0x3b4)](Math['random']() * aBatData['length']);
+        while (aBatData[_0x520c70][_0x5b0268(0x3ac)] != 0x0) {
+            _0x520c70 = Math[_0x5b0268(0x3b4)](Math[_0x5b0268(0x14a)]() * aBatData[_0x5b0268(0x3f5)]);
+        }
+        return _0x520c70;
+    }
+}
+function showAd(_0x38d426) {
+    var _0x5d7cd3 = _0x47ff64;
+    _0x38d426();
+    return;
+    firstAdRun ? (userInput[_0x5d7cd3(0x370)](),
+    window[_0x5d7cd3(0x173)]['commercialBreak'](function() {
+        var _0xedd32e = _0x5d7cd3;
+        !muted && (Howler[_0xedd32e(0x2af)](!![]),
+        music['pause']());
+    })[_0x5d7cd3(0xd4)](function() {
+        var _0x85bf7f = _0x5d7cd3;
+        console['log']('Commercial\x20break\x20finished,\x20proceeding\x20to\x20game'),
+        userInput[_0x85bf7f(0x102)](),
+        !muted && (Howler[_0x85bf7f(0x2af)](![]),
+        playMusic()),
+        _0x38d426();
+    })) : _0x38d426();
+}
+function showRewardAd(_0x3a1ba8, _0x3be663) {
+    var _0x504d0f = _0x47ff64;
+    _0x3be663 === void 0x0 && (_0x3be663 = null);
+    rewardAdSuccess(_0x3a1ba8, !![], _0x3be663);
+    return;
+    userInput[_0x504d0f(0x370)](),
+    window[_0x504d0f(0x173)][_0x504d0f(0x1b2)](function() {
+        var _0x1fcc95 = _0x504d0f;
+        !muted && (Howler[_0x1fcc95(0x2af)](!![]),
+        music[_0x1fcc95(0x332)]());
+    })['then'](function(_0x1590fb) {
+        var _0x45b8e7 = _0x504d0f;
+        userInput[_0x45b8e7(0x102)](),
+        !muted && (Howler[_0x45b8e7(0x2af)](![]),
+        playMusic()),
+        rewardAdSuccess(_0x3a1ba8, _0x1590fb, _0x3be663),
+        console[_0x45b8e7(0x125)](_0x45b8e7(0x483));
+    });
+}
+function rewardAdSuccess(_0x4419f8, _0x49914c, _0x333963) {
+    var _0x16ac18 = _0x47ff64;
+    _0x333963 === void 0x0 && (_0x333963 = null);
+    switch (_0x4419f8) {
+    case _0x16ac18(0x3f4):
+        if (_0x49914c) {
+            var _0xee6c31;
+            userSets > enemySets ? _0xee6c31 = 0x64 : _0xee6c31 = 0x19,
+            addRewardGems(_0xee6c31);
+        } else
+            panel[_0x16ac18(0x330)]();
+        initCustomGameEndButs();
+        break;
+    case _0x16ac18(0x47f):
+        if (_0x49914c) {
+            var _0xee6c31;
+            (curLevel + 0x1) % levelsPerWorld == 0x0 ? _0xee6c31 = aPointScores[0x1] : _0xee6c31 = aPointScores[0x0],
+            addRewardGems(_0xee6c31);
+        } else
+            panel['showAdBlockMessage']();
+        initLevelCompleteButs();
+        break;
+    case _0x16ac18(0x27c):
+        _0x49914c ? addRewardGems(Math[_0x16ac18(0x226)](curTargetScore / 0x2)) : panel['showAdBlockMessage']();
+        initTargetGameEndButs();
+        break;
+    case _0x16ac18(0x253):
+        _0x49914c ? addRewardGems(Math[_0x16ac18(0x32d)](bugScore / 0x4)) : panel['showAdBlockMessage']();
+        initBugGameEndButs();
+        break;
+    case _0x16ac18(0xe8):
+        userInput[_0x16ac18(0x10e)]('backFromBatShop'),
+        userInput[_0x16ac18(0x10e)](_0x16ac18(0x263)),
+        panel[_0x16ac18(0x188)](oImageIds[_0x16ac18(0xfb)]);
+        _0x49914c ? (playSound('unlockBat', 0.5),
+        saveDataHandler[_0x16ac18(0x3a5)](_0x333963),
+        saveDataHandler[_0x16ac18(0x41f)](_0x333963),
+        curBat = saveDataHandler[_0x16ac18(0x326)](),
+        updateBatShopData(),
+        awardPanel[_0x16ac18(0x31c)](curLevel),
+        batShop['batUnlocked']()) : panel[_0x16ac18(0x330)]();
+        initBatShopButs();
+        break;
+    }
+}
+function initGame() {
+    var _0x394cbd = _0x47ff64;
+    firstAdRun = !![],
+    window[_0x394cbd(0x173)][_0x394cbd(0xe2)]();
+    audioType == 0x1 && setTimeout(function() {
+        var _0xef55ca = _0x394cbd;
+        music[_0xef55ca(0x3d8)](music['volume'](), minMusicVol, 0x1f4);
+    }, 0x1f4);
+    curLevel = saveDataHandler['getLevel'](),
+    levelStarTarg = 0x2 + Math['min'](Math['floor'](curLevel / levelsPerWorld), 0x3),
+    curLevelStars = 0x0;
+    if (gameVariation == 0x1)
+        localTargetHighscore = saveDataHandler['getBestTargetScore']();
+    else
+        gameVariation == 0x3 && (localTargetHighscore = saveDataHandler[_0x394cbd(0x38b)]());
+    rewardButHit = ![];
+    isMobile && userInput[_0x394cbd(0x19b)]('gameTouch', butEventHandler, {
+        'isDraggable': !![],
+        'multiTouch': !![]
+    }, _0x394cbd(0x360), {
+        'aRect': [0x0, 0x64, canvas[_0x394cbd(0xeb)], canvas['height']]
+    }, !![]);
+    var _0x45c577 = {
+        'oImgData': assetLib[_0x394cbd(0x2d8)](_0x394cbd(0x24a)),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x394cbd(0x37a)],
+        'idOver': oImageIds[_0x394cbd(0x1e4)]
+    };
+    userInput[_0x394cbd(0x19b)](_0x394cbd(0x332), butEventHandler, null, 'image', _0x45c577),
+    panel[_0x394cbd(0x120)]['push'](_0x45c577),
+    panel[_0x394cbd(0x236)](),
+    gameplayState = 0x1,
+    resetGameElements();
+    if (gameVariation == 0x1) {
+        playSound(_0x394cbd(0x108), 0.6),
+        curTargetScore = 0x0,
+        tableTop[_0x394cbd(0x268)](),
+        userBat['x'] = userBat['prevX'] = userBat[_0x394cbd(0x476)] = canvas[_0x394cbd(0xeb)] / 0x2,
+        userBat['y'] = userBat[_0x394cbd(0x171)] = userBat['startY'] = onScreenY + 0x163,
+        userBat[_0x394cbd(0x1d8)] = userBat['startRotation'] = 0x0,
+        aBalls = new Array();
+        var _0x40a78e = new Elements[(_0x394cbd(0x3a7))](_0x394cbd(0x21d));
+        aBalls['push'](_0x40a78e),
+        setTimeout(function() {
+            aBalls[0x0]['enemyServe']();
+        }, 0x3e8),
+        tableTop[_0x394cbd(0xfd)]();
+    } else
+        gameVariation == 0x3 ? (bugScore = 0x0,
+        bugTime = 0x0,
+        bugWaveKilled = 0x0,
+        bugWave = 0x0,
+        playSound(_0x394cbd(0x108), 0.6),
+        curTargetScore = 0x0,
+        tableTop['setZombieStart']()) : playSound('gameStart0');
+    userScore = enemyScore = userSets = enemySets = 0x0;
+}
+function initPause() {
+    var _0x5db841 = _0x47ff64;
+    gameState = 'pause',
+    window['PokiSDK'][_0x5db841(0x3d4)]();
+    var _0x2df611 = {
+        'oImgData': assetLib[_0x5db841(0x2d8)](_0x5db841(0x24a)),
+        'aPos': [0x0, -0x6e],
+        'align': [0.5, 0.5],
+        'id': oImageIds[_0x5db841(0x386)],
+        'idOver': oImageIds[_0x5db841(0xf1)]
+    }
+      , _0x29e666 = {
+        'oImgData': assetLib[_0x5db841(0x2d8)](_0x5db841(0x24a)),
+        'aPos': [0x0, 0x6e],
+        'align': [0.5, 0.5],
+        'id': oImageIds[_0x5db841(0xd2)],
+        'idOver': oImageIds[_0x5db841(0x13e)]
+    };
+    userInput[_0x5db841(0x19b)]('continueFromPause', butEventHandler, null, _0x5db841(0x2b4), _0x2df611),
+    userInput[_0x5db841(0x19b)](_0x5db841(0x115), butEventHandler, {
+        'isDraggable': !![],
+        'multiTouch': !![]
+    }, _0x5db841(0x2b4), _0x29e666);
+    var _0x2ec487 = new Array(_0x2df611,_0x29e666);
+    panel = new Elements['Panel'](gameState,_0x2ec487),
+    panel['startTween'](),
+    previousTime = new Date()[_0x5db841(0x402)](),
+    updatePauseEvent();
+}
+function resumeGame() {
+    var _0x57a272 = _0x47ff64;
+    gameState = _0x57a272(0x429),
+    window[_0x57a272(0x173)][_0x57a272(0xe2)](),
+    background = new Elements[(_0x57a272(0x10c))]();
+    isMobile && userInput['addHitArea'](_0x57a272(0x31b), butEventHandler, {
+        'isDraggable': !![],
+        'multiTouch': !![]
+    }, 'rect', {
+        'aRect': [0x0, 0x64, canvas[_0x57a272(0xeb)], canvas[_0x57a272(0x2f8)]]
+    }, !![]);
+    var _0x351047 = {
+        'oImgData': assetLib['getData']('uiButs'),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x57a272(0x37a)],
+        'idOver': oImageIds[_0x57a272(0x1e4)]
+    };
+    userInput[_0x57a272(0x19b)](_0x57a272(0x332), butEventHandler, null, _0x57a272(0x2b4), _0x351047);
+    var _0x28c56d = new Array(_0x351047);
+    addMuteBut(_0x28c56d),
+    panel = new Elements['Panel'](gameState,_0x28c56d),
+    panel[_0x57a272(0x3b9)](),
+    previousTime = new Date()['getTime'](),
+    updateGameEvent();
+}
+function initTargetGameEnd() {
+    var _0x32243d = _0x47ff64;
+    window[_0x32243d(0x173)][_0x32243d(0x3d4)]();
+    audioType == 0x1 && music[_0x32243d(0x3d8)](music[_0x32243d(0x46e)](), maxMusicVol, 0x1f4);
+    userInput[_0x32243d(0x10e)](_0x32243d(0x31b)),
+    userInput['removeHitArea'](_0x32243d(0x332)),
+    panel['removeBut'](oImageIds[_0x32243d(0x37a)]),
+    gameplayState = 0x7,
+    saveDataHandler[_0x32243d(0x2de)](curTargetScore);
+    Math['round'](curTargetScore / 0x2) > 0x0 ? saveDataHandler[_0x32243d(0x398)](Math[_0x32243d(0x226)](curTargetScore / 0x2)) : setTimeout(function() {
+        initTargetGameEndButs();
+    }, 0x3e8);
+    awardPanel[_0x32243d(0x31c)](curLevel);
+    if (curTargetScore > localTargetHighscore)
+        for (var _0x38fa47 = 0x0; _0x38fa47 < 0xc8; _0x38fa47++) {
+            var _0x5df612 = new Elements['Confetti'](Math[_0x32243d(0x14a)]() * canvas[_0x32243d(0xeb)],Math[_0x32243d(0x14a)]() * canvas[_0x32243d(0x2f8)]);
+            aEffects[_0x32243d(0x397)](_0x5df612);
+        }
+    panel[_0x32243d(0x27e)]();
+}
+function initTargetGameEndButs() {
+    var _0x3b8f5a = _0x47ff64;
+    panel['startTween'](),
+    gameplayState = 0x8,
+    batShopButDown = ![];
+    var _0x568f97 = {
+        'oImgData': assetLib[_0x3b8f5a(0x2d8)](_0x3b8f5a(0x24a)),
+        'aPos': [0x0, 0x32],
+        'align': [0.5, 0.7],
+        'id': oImageIds['playBut'],
+        'idOver': oImageIds[_0x3b8f5a(0x3e2)],
+        'flash': !![]
+    };
+    userInput[_0x3b8f5a(0x19b)](_0x3b8f5a(0x2dd), butEventHandler, null, _0x3b8f5a(0x2b4), _0x568f97),
+    panel[_0x3b8f5a(0x120)][_0x3b8f5a(0x397)](_0x568f97);
+    if (Math['round'](curTargetScore / 0x2) > 0x0) {
+        if (!rewardButHit) {
+            var _0x329050 = {
+                'oImgData': assetLib['getData'](_0x3b8f5a(0x24a)),
+                'aPos': [-0x5a, -0x1ae],
+                'align': [0x1, 0x1],
+                'id': oImageIds[_0x3b8f5a(0xef)],
+                'idOver': oImageIds[_0x3b8f5a(0x1aa)]
+            };
+            userInput[_0x3b8f5a(0x19b)](_0x3b8f5a(0x22d), butEventHandler, null, 'image', _0x329050),
+            panel[_0x3b8f5a(0x120)][_0x3b8f5a(0x397)](_0x329050);
         }
     } else {
-        var s = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [-90, -390],
-            align: [1, 1],
-            id: oImageIds.awardsBut,
-            idOver: oImageIds.awardsButOver
+        var _0x55e24b = {
+            'oImgData': assetLib[_0x3b8f5a(0x2d8)](_0x3b8f5a(0x24a)),
+            'aPos': [-0x5a, -0x1ae],
+            'align': [0x1, 0x1],
+            'id': oImageIds[_0x3b8f5a(0x307)],
+            'idOver': oImageIds[_0x3b8f5a(0x313)]
         };
-        userInput.addHitArea("awardsFromTargetGameEnd", butEventHandler, null, "image", s), panel.aButs.push(s)
+        userInput[_0x3b8f5a(0x19b)](_0x3b8f5a(0x46a), butEventHandler, null, _0x3b8f5a(0x2b4), _0x55e24b),
+        panel[_0x3b8f5a(0x120)][_0x3b8f5a(0x397)](_0x55e24b);
     }
-    var i = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -210],
-        align: [1, 1],
-        id: oImageIds.batShopBut,
-        idOver: oImageIds.batShopButOver
+    var _0x5c6e31 = {
+        'oImgData': assetLib['getData'](_0x3b8f5a(0x24a)),
+        'aPos': [-0x5a, -0xe6],
+        'align': [0x1, 0x1],
+        'id': oImageIds[_0x3b8f5a(0x32f)],
+        'idOver': oImageIds['batShopButOver']
     };
-    userInput.addHitArea("batShopFromTargetGameEnd", butEventHandler, {
-        multiTouch: !0
-    }, "image", i), panel.aButs.push(i);
-    var r = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -390],
-        align: [0, 1],
-        id: oImageIds.arcadeBut,
-        idOver: oImageIds.arcadeButOver
+    userInput[_0x3b8f5a(0x19b)](_0x3b8f5a(0x29e), butEventHandler, {
+        'multiTouch': !![]
+    }, 'image', _0x5c6e31),
+    panel['aButs'][_0x3b8f5a(0x397)](_0x5c6e31);
+    var _0x29bf95 = {
+        'oImgData': assetLib[_0x3b8f5a(0x2d8)](_0x3b8f5a(0x24a)),
+        'aPos': [0x5a, -0x1ae],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x3b8f5a(0x1ff)],
+        'idOver': oImageIds[_0x3b8f5a(0x428)]
     };
-    userInput.addHitArea("arcadeFromTargetGameEnd", butEventHandler, null, "image", r), panel.aButs.push(r);
-    var o = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -210],
-        align: [0, 1],
-        id: oImageIds.careerBut,
-        idOver: oImageIds.careerButOver
+    userInput['addHitArea'](_0x3b8f5a(0x27a), butEventHandler, null, _0x3b8f5a(0x2b4), _0x29bf95),
+    panel[_0x3b8f5a(0x120)][_0x3b8f5a(0x397)](_0x29bf95);
+    var _0x5a1b04 = {
+        'oImgData': assetLib[_0x3b8f5a(0x2d8)](_0x3b8f5a(0x24a)),
+        'aPos': [0x5a, -0xe6],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x3b8f5a(0x395)],
+        'idOver': oImageIds[_0x3b8f5a(0x323)]
     };
-    userInput.addHitArea("careerFromTargetGameEnd", butEventHandler, null, "image", o), panel.aButs.push(o);
-    var n = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -570],
-        align: [0, 1],
-        id: oImageIds.bugGameBut,
-        idOver: oImageIds.bugGameButOver
+    userInput[_0x3b8f5a(0x19b)](_0x3b8f5a(0xf2), butEventHandler, null, _0x3b8f5a(0x2b4), _0x5a1b04),
+    panel[_0x3b8f5a(0x120)]['push'](_0x5a1b04);
+    var _0x2233f6 = {
+        'oImgData': assetLib['getData'](_0x3b8f5a(0x24a)),
+        'aPos': [0x5a, -0x276],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x3b8f5a(0x460)],
+        'idOver': oImageIds[_0x3b8f5a(0x3eb)]
     };
-    userInput.addHitArea("bugGameFromTargetGameEnd", butEventHandler, null, "image", n), panel.aButs.push(n);
-    var l = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -390],
-        align: [1, 1],
-        id: oImageIds.pvpGameBut,
-        idOver: oImageIds.pvpGameButOver,
-        flash: !0
+    userInput['addHitArea'](_0x3b8f5a(0x101), butEventHandler, null, _0x3b8f5a(0x2b4), _0x2233f6),
+    panel[_0x3b8f5a(0x120)][_0x3b8f5a(0x397)](_0x2233f6);
+    var _0x5d6b70 = {
+        'oImgData': assetLib[_0x3b8f5a(0x2d8)]('uiButs'),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x3b8f5a(0xfb)],
+        'idOver': oImageIds['backButOver']
     };
-    userInput.addHitArea("pvpFromTargetGameEnd", butEventHandler, null, "image", l), panel.aButs.push(l);
-    var m = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
-    };
-    userInput.addHitArea("backFromTargetGameEnd", butEventHandler, null, "image", m), panel.aButs.push(m)
+    userInput[_0x3b8f5a(0x19b)](_0x3b8f5a(0x199), butEventHandler, null, _0x3b8f5a(0x2b4), _0x5d6b70),
+    panel['aButs'][_0x3b8f5a(0x397)](_0x5d6b70);
 }
-
 function initBugGameEnd() {
-    if (window.PokiSDK.gameplayStop(), 1 == audioType && music.fade(music.volume(), maxMusicVol, 500), playSound("targetGameEnd"), curTargetScore > 50 && playSound("cheer" + Math.floor(6 * Math.random())), userInput.removeHitArea("gameTouch"), userInput.removeHitArea("pause"), panel.removeBut(oImageIds.pauseBut), userInput.removeKey("keyPauseOn"), gameplayState = 11, saveDataHandler.setBestBugScore(bugScore), Math.ceil(bugScore / 4) > 0 ? saveDataHandler.addGems(Math.ceil(bugScore / 4)) : setTimeout(function() {
-            initBugGameEndButs()
-        }, 1e3), awardPanel.checkForAward(curLevel), bugScore > localTargetHighscore)
-        for (var e = 0; e < 200; e++) {
-            var t = new Elements.Confetti(Math.random() * canvas.width, Math.random() * canvas.height);
-            aEffects.push(t)
+    var _0x14452d = _0x47ff64;
+    window[_0x14452d(0x173)][_0x14452d(0x3d4)]();
+    audioType == 0x1 && music['fade'](music[_0x14452d(0x46e)](), maxMusicVol, 0x1f4);
+    playSound(_0x14452d(0x27c));
+    curTargetScore > 0x32 && playSound(_0x14452d(0x38a) + Math[_0x14452d(0x3b4)](Math[_0x14452d(0x14a)]() * 0x6));
+    userInput['removeHitArea']('gameTouch'),
+    userInput[_0x14452d(0x10e)]('pause'),
+    panel['removeBut'](oImageIds['pauseBut']),
+    gameplayState = 0xb,
+    saveDataHandler[_0x14452d(0x130)](bugScore);
+    Math[_0x14452d(0x32d)](bugScore / 0x4) > 0x0 ? saveDataHandler['addGems'](Math[_0x14452d(0x32d)](bugScore / 0x4)) : setTimeout(function() {
+        initBugGameEndButs();
+    }, 0x3e8);
+    awardPanel['checkForAward'](curLevel);
+    if (bugScore > localTargetHighscore)
+        for (var _0x44177d = 0x0; _0x44177d < 0xc8; _0x44177d++) {
+            var _0x2f1cd8 = new Elements[(_0x14452d(0x195))](Math['random']() * canvas[_0x14452d(0xeb)],Math[_0x14452d(0x14a)]() * canvas[_0x14452d(0x2f8)]);
+            aEffects['push'](_0x2f1cd8);
         }
-    panel.tweenBugGameComplete()
+    panel['tweenBugGameComplete']();
 }
-
 function initBugGameEndButs() {
-    panel.startTween(), gameplayState = 12, batShopButDown = !1;
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, 50],
-        align: [.5, .7],
-        id: oImageIds.playBut,
-        idOver: oImageIds.playButOver,
-        flash: !0
+    var _0x182e5a = _0x47ff64;
+    panel[_0x182e5a(0x3b9)](),
+    gameplayState = 0xc,
+    batShopButDown = ![];
+    var _0x44b4e0 = {
+        'oImgData': assetLib[_0x182e5a(0x2d8)]('uiButs'),
+        'aPos': [0x0, 0x32],
+        'align': [0.5, 0.7],
+        'id': oImageIds[_0x182e5a(0x1c1)],
+        'idOver': oImageIds['playButOver'],
+        'flash': !![]
     };
-    if (userInput.addHitArea("playFromBugGameEnd", butEventHandler, null, "image", e), panel.aButs.push(e), Math.ceil(bugScore / 4) > 0 && !rewardButHit) {
-        t = canvas.height < 1.2 * canvas.width ? .325 : .35;
-        var t, a = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [285, 0],
-            align: [.5, t],
-            id: oImageIds.rewardMultiplyBut,
-            idOver: oImageIds.rewardMultiplyButOver,
-            flash: !0
+    userInput[_0x182e5a(0x19b)]('playFromBugGameEnd', butEventHandler, null, _0x182e5a(0x2b4), _0x44b4e0),
+    panel['aButs']['push'](_0x44b4e0);
+    if (Math[_0x182e5a(0x32d)](bugScore / 0x4) > 0x0) {
+        if (!rewardButHit) {
+            var _0x2b3923 = {
+                'oImgData': assetLib[_0x182e5a(0x2d8)]('uiButs'),
+                'aPos': [-0x5a, -0x1ae],
+                'align': [0x1, 0x1],
+                'id': oImageIds[_0x182e5a(0xef)],
+                'idOver': oImageIds[_0x182e5a(0x1aa)]
+            };
+            userInput[_0x182e5a(0x19b)](_0x182e5a(0x38d), butEventHandler, null, _0x182e5a(0x2b4), _0x2b3923),
+            panel['aButs'][_0x182e5a(0x397)](_0x2b3923);
+        }
+    } else {
+        var _0x27d2e4 = {
+            'oImgData': assetLib[_0x182e5a(0x2d8)]('uiButs'),
+            'aPos': [-0x5a, -0x1ae],
+            'align': [0x1, 0x1],
+            'id': oImageIds['awardsBut'],
+            'idOver': oImageIds[_0x182e5a(0x313)]
         };
-        userInput.addHitArea("rewardFromBugGameEnd", butEventHandler, null, "image", a), panel.aButs.push(a)
+        userInput['addHitArea'](_0x182e5a(0x3e7), butEventHandler, null, _0x182e5a(0x2b4), _0x27d2e4),
+        panel[_0x182e5a(0x120)][_0x182e5a(0x397)](_0x27d2e4);
     }
-    var s = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -210],
-        align: [1, 1],
-        id: oImageIds.batShopBut,
-        idOver: oImageIds.batShopButOver
+    var _0x521169 = {
+        'oImgData': assetLib[_0x182e5a(0x2d8)](_0x182e5a(0x24a)),
+        'aPos': [-0x5a, -0xe6],
+        'align': [0x1, 0x1],
+        'id': oImageIds['batShopBut'],
+        'idOver': oImageIds['batShopButOver']
     };
-    userInput.addHitArea("batShopFromBugGameEnd", butEventHandler, {
-        multiTouch: !0
-    }, "image", s), panel.aButs.push(s);
-    var i = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -390],
-        align: [0, 1],
-        id: oImageIds.arcadeBut,
-        idOver: oImageIds.arcadeButOver
+    userInput[_0x182e5a(0x19b)](_0x182e5a(0x298), butEventHandler, {
+        'multiTouch': !![]
+    }, _0x182e5a(0x2b4), _0x521169),
+    panel[_0x182e5a(0x120)][_0x182e5a(0x397)](_0x521169);
+    var _0x476c25 = {
+        'oImgData': assetLib['getData'](_0x182e5a(0x24a)),
+        'aPos': [0x5a, -0x1ae],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x182e5a(0x1ff)],
+        'idOver': oImageIds[_0x182e5a(0x428)]
     };
-    userInput.addHitArea("arcadeFromBugGameEnd", butEventHandler, null, "image", i), panel.aButs.push(i);
-    var r = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -210],
-        align: [0, 1],
-        id: oImageIds.careerBut,
-        idOver: oImageIds.careerButOver
+    userInput['addHitArea'](_0x182e5a(0x353), butEventHandler, null, _0x182e5a(0x2b4), _0x476c25),
+    panel[_0x182e5a(0x120)][_0x182e5a(0x397)](_0x476c25);
+    var _0x16505e = {
+        'oImgData': assetLib[_0x182e5a(0x2d8)](_0x182e5a(0x24a)),
+        'aPos': [0x5a, -0xe6],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x182e5a(0x395)],
+        'idOver': oImageIds['classicGameButOver']
     };
-    userInput.addHitArea("careerFromBugGameEnd", butEventHandler, null, "image", r), panel.aButs.push(r);
-    var o = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -570],
-        align: [0, 1],
-        id: oImageIds.challengeBut,
-        idOver: oImageIds.challengeButOver
+    userInput[_0x182e5a(0x19b)](_0x182e5a(0x12e), butEventHandler, null, _0x182e5a(0x2b4), _0x16505e),
+    panel[_0x182e5a(0x120)][_0x182e5a(0x397)](_0x16505e);
+    var _0x124678 = {
+        'oImgData': assetLib[_0x182e5a(0x2d8)](_0x182e5a(0x24a)),
+        'aPos': [0x5a, -0x276],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x182e5a(0x153)],
+        'idOver': oImageIds[_0x182e5a(0x262)]
     };
-    userInput.addHitArea("challengeFromBugGameEnd", butEventHandler, null, "image", o), panel.aButs.push(o);
-    var n = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -390],
-        align: [1, 1],
-        id: oImageIds.pvpGameBut,
-        idOver: oImageIds.pvpGameButOver,
-        flash: !0
+    userInput[_0x182e5a(0x19b)](_0x182e5a(0x405), butEventHandler, null, _0x182e5a(0x2b4), _0x124678),
+    panel['aButs'][_0x182e5a(0x397)](_0x124678);
+    var _0x2f4b14 = {
+        'oImgData': assetLib[_0x182e5a(0x2d8)](_0x182e5a(0x24a)),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x182e5a(0xfb)],
+        'idOver': oImageIds['backButOver']
     };
-    userInput.addHitArea("pvpFromBugGameEnd", butEventHandler, null, "image", n), panel.aButs.push(n);
-    var l = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
-    };
-    userInput.addHitArea("backFromBugGameEnd", butEventHandler, null, "image", l), panel.aButs.push(l)
+    userInput['addHitArea'](_0x182e5a(0x2e6), butEventHandler, null, _0x182e5a(0x2b4), _0x2f4b14),
+    panel[_0x182e5a(0x120)][_0x182e5a(0x397)](_0x2f4b14);
 }
-
 function initGameWon() {
-    gameplayState = 2;
-    for (var e = 0; e < 200; e++) {
-        var t = new Elements.Confetti(Math.random() * canvas.width, Math.random() * canvas.height);
-        aEffects.push(t)
+    var _0x4ca823 = _0x47ff64;
+    gameplayState = 0x2;
+    for (var _0x3c85c3 = 0x0; _0x3c85c3 < 0xc8; _0x3c85c3++) {
+        var _0x482261 = new Elements['Confetti'](Math[_0x4ca823(0x14a)]() * canvas[_0x4ca823(0xeb)],Math['random']() * canvas['height']);
+        aEffects[_0x4ca823(0x397)](_0x482261);
     }
-    userInput.removeHitArea("gameTouch"), userInput.removeHitArea("pause"), userInput.removeKey("keyPauseOn"), panel.removeBut(oImageIds.pauseBut), userBat.levelComplete(), enemyBat.levelComplete()
+    userInput[_0x4ca823(0x10e)](_0x4ca823(0x31b)),
+    userInput[_0x4ca823(0x10e)](_0x4ca823(0x332)),
+    panel[_0x4ca823(0x188)](oImageIds['pauseBut']),
+    userBat['levelComplete'](),
+    enemyBat['levelComplete']();
 }
-
-function prepForCareerMatch() {
-    gameplayState = 1, gameVariation = 2, gameState = "game", background = new Elements.Background;
-    var e = [];
-    aEffects = [], addMuteBut(e), (panel = new Elements.Panel(gameState, e)).startTween(), previousTime = new Date().getTime(), updateGameEvent(), initGame()
-}
-
-function initPvpGameComplete() {
-    window.PokiSDK.gameplayStop(), 1 == audioType && music.fade(music.volume(), maxMusicVol, 500), userScore > enemyScore && saveDataHandler.addPvpWins(), userInput.removeHitArea("gameTouch"), userInput.removeHitArea("pause"), panel.removeBut(oImageIds.pauseBut), userInput.removeKey("keyPauseOn"), gameplayState = 13, firstCareerGame = !1;
-    for (var e = 0; e < 200; e++) {
-        var t = new Elements.Confetti(Math.random() * canvas.width, Math.random() * canvas.height);
-        aEffects.push(t)
-    }
-    panel.tweenPvpGameComplete()
-}
-
-function initPvpGameEndButs() {
-    panel.startTween(), gameplayState = 14, batShopButDown = !1;
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, 50],
-        align: [.5, .7],
-        id: oImageIds.playBut,
-        idOver: oImageIds.playButOver,
-        flash: !0
-    };
-    userInput.addHitArea("playFromPvpGameEnd", butEventHandler, null, "image", e), panel.aButs.push(e);
-    var t = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
-    };
-    userInput.addHitArea("backFromPvpGameEnd", butEventHandler, null, "image", t), panel.aButs.push(t)
-}
-
 function initCustomGameComplete() {
-    window.PokiSDK.gameplayStop(), 1 == audioType && music.fade(music.volume(), maxMusicVol, 500), userInput.removeHitArea("gameTouch"), userInput.removeHitArea("pause"), panel.removeBut(oImageIds.pauseBut), userInput.removeKey("keyPauseOn"), gameplayState = 9, firstCareerGame = !1;
-    var e = saveDataHandler.getRank() - aSeasonFlags[saveDataHandler.getRound()].rank;
-    saveDataHandler.setRound(saveDataHandler.getRound() + 1), saveDataHandler.getRound() >= 6 && (saveDataHandler.setSeason(saveDataHandler.getSeason() + 1), saveDataHandler.setRound(0)), userSets > enemySets ? (saveDataHandler.addGems(50 + 10 * saveDataHandler.getSeason() + saveDataHandler.getRound()), saveDataHandler.addClassicWins(), rankChange = Math.ceil(Math.min(Math.max(e / 2, 5), 25))) : (saveDataHandler.addGems(25), rankChange = Math.round(Math.min(Math.max(-e / 2, -25), -5))), saveDataHandler.setRank(Math.max(saveDataHandler.getRank() - rankChange, 1)), awardPanel.checkForAward(curLevel);
-    for (var t = 0; t < 200; t++) {
-        var a = new Elements.Confetti(Math.random() * canvas.width, Math.random() * canvas.height);
-        aEffects.push(a)
+    var _0x43e837 = _0x47ff64;
+    window[_0x43e837(0x173)][_0x43e837(0x3d4)]();
+    audioType == 0x1 && music[_0x43e837(0x3d8)](music[_0x43e837(0x46e)](), maxMusicVol, 0x1f4);
+    userInput[_0x43e837(0x10e)]('gameTouch'),
+    userInput[_0x43e837(0x10e)](_0x43e837(0x332)),
+    panel[_0x43e837(0x188)](oImageIds[_0x43e837(0x37a)]),
+    gameplayState = 0x9;
+    userSets > enemySets ? (saveDataHandler[_0x43e837(0x398)](0x64),
+    saveDataHandler['addClassicWins']()) : saveDataHandler[_0x43e837(0x398)](0x19);
+    awardPanel[_0x43e837(0x31c)](curLevel);
+    for (var _0x2332ec = 0x0; _0x2332ec < 0xc8; _0x2332ec++) {
+        var _0x177b98 = new Elements[(_0x43e837(0x195))](Math[_0x43e837(0x14a)]() * canvas[_0x43e837(0xeb)],Math['random']() * canvas[_0x43e837(0x2f8)]);
+        aEffects['push'](_0x177b98);
     }
-    panel.tweenCustomGameComplete()
+    panel['tweenCustomGameComplete']();
 }
-
 function initCustomGameEndButs() {
-    panel.startTween(), gameplayState = 10, batShopButDown = !1;
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, 50],
-        align: [.5, .7],
-        id: oImageIds.playBut,
-        idOver: oImageIds.playButOver,
-        flash: !0
+    var _0x470467 = _0x47ff64;
+    panel[_0x470467(0x3b9)](),
+    gameplayState = 0xa,
+    batShopButDown = ![];
+    var _0x1ed1aa = {
+        'oImgData': assetLib[_0x470467(0x2d8)]('uiButs'),
+        'aPos': [0x0, 0x32],
+        'align': [0.5, 0.7],
+        'id': oImageIds[_0x470467(0x1c1)],
+        'idOver': oImageIds[_0x470467(0x3e2)],
+        'flash': !![]
     };
-    if (userInput.addHitArea("playFromCustomGameEnd", butEventHandler, null, "image", e), panel.aButs.push(e), !rewardButHit) {
-        var t = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [285, 0],
-            align: [.5, .4],
-            id: oImageIds.rewardMultiplyBut,
-            idOver: oImageIds.rewardMultiplyButOver,
-            flash: !0
+    userInput['addHitArea'](_0x470467(0x30f), butEventHandler, null, _0x470467(0x2b4), _0x1ed1aa),
+    panel['aButs'][_0x470467(0x397)](_0x1ed1aa);
+    if (!rewardButHit) {
+        var _0x5bfc9c = {
+            'oImgData': assetLib[_0x470467(0x2d8)](_0x470467(0x24a)),
+            'aPos': [-0x5a, -0x1ae],
+            'align': [0x1, 0x1],
+            'id': oImageIds[_0x470467(0xef)],
+            'idOver': oImageIds[_0x470467(0x1aa)]
         };
-        userInput.addHitArea("rewardFromCustomGameEnd", butEventHandler, null, "image", t), panel.aButs.push(t)
+        userInput['addHitArea'](_0x470467(0x2a3), butEventHandler, null, _0x470467(0x2b4), _0x5bfc9c),
+        panel[_0x470467(0x120)][_0x470467(0x397)](_0x5bfc9c);
     }
-    var a = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -210],
-        align: [1, 1],
-        id: oImageIds.batShopBut,
-        idOver: oImageIds.batShopButOver
+    var _0x4300e8 = {
+        'oImgData': assetLib[_0x470467(0x2d8)](_0x470467(0x24a)),
+        'aPos': [-0x5a, -0xe6],
+        'align': [0x1, 0x1],
+        'id': oImageIds[_0x470467(0x32f)],
+        'idOver': oImageIds[_0x470467(0x277)]
     };
-    userInput.addHitArea("batShopFromCustomGameEnd", butEventHandler, {
-        multiTouch: !0
-    }, "image", a), panel.aButs.push(a);
-    var s = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -390],
-        align: [0, 1],
-        id: oImageIds.challengeBut,
-        idOver: oImageIds.challengeButOver
+    userInput['addHitArea'](_0x470467(0x39f), butEventHandler, {
+        'multiTouch': !![]
+    }, 'image', _0x4300e8),
+    panel[_0x470467(0x120)][_0x470467(0x397)](_0x4300e8);
+    var _0x59e57e = {
+        'oImgData': assetLib[_0x470467(0x2d8)](_0x470467(0x24a)),
+        'aPos': [0x5a, -0x1ae],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x470467(0x153)],
+        'idOver': oImageIds['challengeButOver']
     };
-    userInput.addHitArea("challengeFromCustomGameEnd", butEventHandler, null, "image", s), panel.aButs.push(s);
-    var i = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -210],
-        align: [0, 1],
-        id: oImageIds.arcadeBut,
-        idOver: oImageIds.arcadeButOver
+    userInput[_0x470467(0x19b)](_0x470467(0x13d), butEventHandler, null, _0x470467(0x2b4), _0x59e57e),
+    panel[_0x470467(0x120)]['push'](_0x59e57e);
+    var _0x4b52ad = {
+        'oImgData': assetLib[_0x470467(0x2d8)]('uiButs'),
+        'aPos': [0x5a, -0xe6],
+        'align': [0x0, 0x1],
+        'id': oImageIds['arcadeBut'],
+        'idOver': oImageIds[_0x470467(0x428)]
     };
-    userInput.addHitArea("arcadeFromCustomGameEnd", butEventHandler, null, "image", i), panel.aButs.push(i);
-    var r = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -570],
-        align: [0, 1],
-        id: oImageIds.bugGameBut,
-        idOver: oImageIds.bugGameButOver
+    userInput[_0x470467(0x19b)]('arcadeFromCustomGameEnd', butEventHandler, null, 'image', _0x4b52ad),
+    panel['aButs'][_0x470467(0x397)](_0x4b52ad);
+    var _0x2ec930 = {
+        'oImgData': assetLib[_0x470467(0x2d8)]('uiButs'),
+        'aPos': [0x5a, -0x276],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x470467(0x460)],
+        'idOver': oImageIds[_0x470467(0x3eb)]
     };
-    userInput.addHitArea("bugGameFromCustomGameEnd", butEventHandler, null, "image", r), panel.aButs.push(r);
-    var o = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
+    userInput[_0x470467(0x19b)](_0x470467(0x3d5), butEventHandler, null, 'image', _0x2ec930),
+    panel[_0x470467(0x120)]['push'](_0x2ec930);
+    var _0x41b027 = {
+        'oImgData': assetLib[_0x470467(0x2d8)](_0x470467(0x24a)),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x470467(0xfb)],
+        'idOver': oImageIds[_0x470467(0x290)]
     };
-    userInput.addHitArea("backFromCustomGameEnd", butEventHandler, null, "image", o), panel.aButs.push(o);
-    var n = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -390],
-        align: [1, 1],
-        id: oImageIds.pvpGameBut,
-        idOver: oImageIds.pvpGameButOver,
-        flash: !0
-    };
-    userInput.addHitArea("pvpFromCustomGameEnd", butEventHandler, null, "image", n), panel.aButs.push(n)
+    userInput[_0x470467(0x19b)](_0x470467(0x309), butEventHandler, null, _0x470467(0x2b4), _0x41b027),
+    panel[_0x470467(0x120)][_0x470467(0x397)](_0x41b027);
 }
-
 function initLevelComplete() {
-    window.PokiSDK.gameplayStop(), navigator.sendBeacon("https://leveldata.poki.io/planes", "4ee6d38c-41e3-4c87-a9f8-85f0b2a0df48"), 1 == audioType && music.fade(music.volume(), maxMusicVol, 500), gameplayState = 3, firstCareerGame = !1, panel.tweenLevelComplete(), saveDataHandler.setLevel(curLevel + 1), saveDataHandler.addGems(panel.winGemTarg), awardPanel.checkForAward(curLevel + 1), anyWorldBatsLeft() && (curLevel + 1) % levelsPerWorld == 0 && (newBatId = batUnlockedId, saveDataHandler.unlockBat(batUnlockedId))
+    var _0x16d745 = _0x47ff64;
+    window[_0x16d745(0x173)]['gameplayStop'](),
+    navigator[_0x16d745(0x33f)](_0x16d745(0x311), _0x16d745(0x3f3)),
+    audioType == 0x1 && music[_0x16d745(0x3d8)](music[_0x16d745(0x46e)](), maxMusicVol, 0x1f4),
+    gameplayState = 0x3,
+    panel[_0x16d745(0xbf)](),
+    saveDataHandler[_0x16d745(0x366)](curLevel + 0x1),
+    saveDataHandler[_0x16d745(0x398)](panel[_0x16d745(0x3ea)]),
+    awardPanel['checkForAward'](curLevel + 0x1),
+    anyWorldBatsLeft() && (curLevel + 0x1) % levelsPerWorld == 0x0 && (newBatId = batUnlockedId,
+    saveDataHandler[_0x16d745(0x3a5)](batUnlockedId));
 }
-
 function anyWorldBatsLeft() {
-    var e = !1;
-    return curLevel < 10 * levelsPerWorld && (e = !0), e
+    var _0x5e7f8e = ![];
+    return curLevel < 0xa * levelsPerWorld && (_0x5e7f8e = !![]),
+    _0x5e7f8e;
 }
-
 function initWorldComplete() {
-    gameplayState = 5, playSound("classicMatchWin", .5), playSound("cheer" + Math.floor(6 * Math.random())), panel.tweenWorldComplete(), awardPanel.checkForAward(curLevel + 1), setTimeout(function() {
-        playSound("worldComplete", .5), initWorldCompleteButs();
-        for (var e = 0; e < 200; e++) {
-            var t = new Elements.Confetti(Math.random() * canvas.width, Math.random() * canvas.height);
-            aEffects.push(t)
+    var _0x201b11 = _0x47ff64;
+    gameplayState = 0x5,
+    playSound('classicMatchWin', 0.5),
+    playSound(_0x201b11(0x38a) + Math['floor'](Math[_0x201b11(0x14a)]() * 0x6)),
+    panel[_0x201b11(0x387)](),
+    awardPanel[_0x201b11(0x31c)](curLevel + 0x1),
+    setTimeout(function() {
+        var _0x4765ec = _0x201b11;
+        playSound('worldComplete', 0.5),
+        initWorldCompleteButs();
+        for (var _0x3a02bf = 0x0; _0x3a02bf < 0xc8; _0x3a02bf++) {
+            var _0x1c73fa = new Elements[(_0x4765ec(0x195))](Math[_0x4765ec(0x14a)]() * canvas[_0x4765ec(0xeb)],Math[_0x4765ec(0x14a)]() * canvas[_0x4765ec(0x2f8)]);
+            aEffects['push'](_0x1c73fa);
         }
-    }, 1500)
+    }, 0x5dc);
 }
-
 function initLevelCompleteButs() {
-    gameplayState = 4, panel.startTween(), batShopButDown = !1;
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, 50],
-        align: [.5, .7],
-        id: oImageIds.playBut,
-        idOver: oImageIds.playButOver,
-        flash: !0
+    var _0x54e607 = _0x47ff64;
+    gameplayState = 0x4,
+    panel[_0x54e607(0x3b9)](),
+    batShopButDown = ![];
+    var _0x26bbde = {
+        'oImgData': assetLib['getData'](_0x54e607(0x24a)),
+        'aPos': [0x0, 0x32],
+        'align': [0.5, 0.7],
+        'id': oImageIds[_0x54e607(0x1c1)],
+        'idOver': oImageIds[_0x54e607(0x3e2)],
+        'flash': !![]
     };
-    if (userInput.addHitArea("playFromLevelComplete", butEventHandler, null, "image", e), panel.aButs.push(e), !rewardButHit) {
-        canvas.height < 1.2 * canvas.width ? (t = .25, a = 218) : (t = .35, a = 158);
-        var t, a, s = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [285, a],
-            align: [.5, t],
-            id: oImageIds.rewardMultiplyBut,
-            idOver: oImageIds.rewardMultiplyButOver,
-            flash: !0
+    userInput[_0x54e607(0x19b)]('playFromLevelComplete', butEventHandler, null, 'image', _0x26bbde),
+    panel[_0x54e607(0x120)][_0x54e607(0x397)](_0x26bbde);
+    if (!rewardButHit) {
+        var _0x375993 = {
+            'oImgData': assetLib[_0x54e607(0x2d8)]('uiButs'),
+            'aPos': [-0x5a, -0x1ae],
+            'align': [0x1, 0x1],
+            'id': oImageIds['rewardMultiplyBut'],
+            'idOver': oImageIds[_0x54e607(0x1aa)]
         };
-        userInput.addHitArea("rewardFromLevelComplete", butEventHandler, null, "image", s), panel.aButs.push(s)
+        userInput[_0x54e607(0x19b)](_0x54e607(0x151), butEventHandler, null, 'image', _0x375993),
+        panel[_0x54e607(0x120)]['push'](_0x375993);
     }
-    var i = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
+    var _0x23afef = {
+        'oImgData': assetLib[_0x54e607(0x2d8)](_0x54e607(0x24a)),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x54e607(0xfb)],
+        'idOver': oImageIds['backButOver']
     };
-    if (userInput.addHitArea("backFromLevelComplete", butEventHandler, null, "image", i), panel.aButs.push(i), anyWorldBatsLeft() && (curLevel + 1) % levelsPerWorld == 0);
-    else {
-        var r = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [-90, -210],
-            align: [1, 1],
-            id: oImageIds.batShopBut,
-            idOver: oImageIds.batShopButOver
+    userInput[_0x54e607(0x19b)](_0x54e607(0x243), butEventHandler, null, _0x54e607(0x2b4), _0x23afef),
+    panel[_0x54e607(0x120)][_0x54e607(0x397)](_0x23afef);
+    if (anyWorldBatsLeft() && (curLevel + 0x1) % levelsPerWorld == 0x0) {} else {
+        var _0x351527 = {
+            'oImgData': assetLib[_0x54e607(0x2d8)](_0x54e607(0x24a)),
+            'aPos': [-0x5a, -0xe6],
+            'align': [0x1, 0x1],
+            'id': oImageIds[_0x54e607(0x32f)],
+            'idOver': oImageIds[_0x54e607(0x277)]
         };
-        userInput.addHitArea("batShopFromLevelComplete", butEventHandler, {
-            multiTouch: !0
-        }, "image", r), panel.aButs.push(r);
-        var o = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [90, -390],
-            align: [0, 1],
-            id: oImageIds.challengeBut,
-            idOver: oImageIds.challengeButOver
+        userInput[_0x54e607(0x19b)]('batShopFromLevelComplete', butEventHandler, {
+            'multiTouch': !![]
+        }, 'image', _0x351527),
+        panel[_0x54e607(0x120)]['push'](_0x351527);
+        var _0x45cecf = {
+            'oImgData': assetLib[_0x54e607(0x2d8)](_0x54e607(0x24a)),
+            'aPos': [0x5a, -0x1ae],
+            'align': [0x0, 0x1],
+            'id': oImageIds[_0x54e607(0x153)],
+            'idOver': oImageIds[_0x54e607(0x262)]
         };
-        userInput.addHitArea("challengeFromLevelComplete", butEventHandler, null, "image", o), panel.aButs.push(o);
-        var n = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [90, -210],
-            align: [0, 1],
-            id: oImageIds.careerBut,
-            idOver: oImageIds.careerButOver
+        userInput[_0x54e607(0x19b)]('challengeFromLevelComplete', butEventHandler, null, _0x54e607(0x2b4), _0x45cecf),
+        panel[_0x54e607(0x120)][_0x54e607(0x397)](_0x45cecf);
+        var _0x33b2d1 = {
+            'oImgData': assetLib[_0x54e607(0x2d8)]('uiButs'),
+            'aPos': [0x5a, -0xe6],
+            'align': [0x0, 0x1],
+            'id': oImageIds[_0x54e607(0x395)],
+            'idOver': oImageIds[_0x54e607(0x323)]
         };
-        userInput.addHitArea("careerFromLevelComplete", butEventHandler, null, "image", n), panel.aButs.push(n);
-        var l = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [90, -570],
-            align: [0, 1],
-            id: oImageIds.bugGameBut,
-            idOver: oImageIds.bugGameButOver
+        userInput['addHitArea'](_0x54e607(0xec), butEventHandler, null, _0x54e607(0x2b4), _0x33b2d1),
+        panel[_0x54e607(0x120)][_0x54e607(0x397)](_0x33b2d1);
+        var _0x12353f = {
+            'oImgData': assetLib['getData'](_0x54e607(0x24a)),
+            'aPos': [0x5a, -0x276],
+            'align': [0x0, 0x1],
+            'id': oImageIds['bugGameBut'],
+            'idOver': oImageIds[_0x54e607(0x3eb)]
         };
-        userInput.addHitArea("bugGameFromLevelComplete", butEventHandler, null, "image", l), panel.aButs.push(l);
-        var m = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [-90, -390],
-            align: [1, 1],
-            id: oImageIds.pvpGameBut,
-            idOver: oImageIds.pvpGameButOver,
-            flash: !0
-        };
-        userInput.addHitArea("pvpFromLevelComplete", butEventHandler, null, "image", m), panel.aButs.push(m)
+        userInput[_0x54e607(0x19b)](_0x54e607(0x182), butEventHandler, null, _0x54e607(0x2b4), _0x12353f),
+        panel[_0x54e607(0x120)][_0x54e607(0x397)](_0x12353f);
     }
 }
-
 function initWorldCompleteButs() {
-    panel.startTween(), gameplayState = 6, batShopButDown = !1;
-    var e = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -210],
-        align: [1, 1],
-        id: oImageIds.batShopBut,
-        idOver: oImageIds.batShopButOver
+    var _0x53d403 = _0x47ff64;
+    panel[_0x53d403(0x3b9)](),
+    gameplayState = 0x6,
+    batShopButDown = ![];
+    var _0x226700 = {
+        'oImgData': assetLib[_0x53d403(0x2d8)](_0x53d403(0x24a)),
+        'aPos': [-0x5a, -0xe6],
+        'align': [0x1, 0x1],
+        'id': oImageIds['batShopBut'],
+        'idOver': oImageIds[_0x53d403(0x277)]
     };
-    userInput.addHitArea("batShopFromWorldComplete", butEventHandler, {
-        multiTouch: !0
-    }, "image", e), panel.aButs.push(e);
-    var t = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [0, 50],
-        align: [.5, .7],
-        id: oImageIds.playBut,
-        idOver: oImageIds.playButOver,
-        flash: !0
+    userInput[_0x53d403(0x19b)](_0x53d403(0x39d), butEventHandler, {
+        'multiTouch': !![]
+    }, _0x53d403(0x2b4), _0x226700),
+    panel['aButs'][_0x53d403(0x397)](_0x226700);
+    var _0x24aecb = {
+        'oImgData': assetLib[_0x53d403(0x2d8)]('uiButs'),
+        'aPos': [0x0, 0x32],
+        'align': [0.5, 0.7],
+        'id': oImageIds[_0x53d403(0x1c1)],
+        'idOver': oImageIds[_0x53d403(0x3e2)],
+        'flash': !![]
     };
-    userInput.addHitArea("playFromWorldComplete", butEventHandler, null, "image", t), panel.aButs.push(t);
-    var a = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -390],
-        align: [0, 1],
-        id: oImageIds.challengeBut,
-        idOver: oImageIds.challengeButOver
+    userInput[_0x53d403(0x19b)](_0x53d403(0x26d), butEventHandler, null, _0x53d403(0x2b4), _0x24aecb),
+    panel[_0x53d403(0x120)][_0x53d403(0x397)](_0x24aecb);
+    var _0x439514 = {
+        'oImgData': assetLib['getData'](_0x53d403(0x24a)),
+        'aPos': [0x5a, -0x1ae],
+        'align': [0x0, 0x1],
+        'id': oImageIds['challengeBut'],
+        'idOver': oImageIds[_0x53d403(0x262)]
     };
-    userInput.addHitArea("challengeFromWorldComplete", butEventHandler, null, "image", a), panel.aButs.push(a);
-    var s = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -210],
-        align: [0, 1],
-        id: oImageIds.careerBut,
-        idOver: oImageIds.careerButOver
+    userInput[_0x53d403(0x19b)]('challengeFromWorldComplete', butEventHandler, null, _0x53d403(0x2b4), _0x439514),
+    panel['aButs'][_0x53d403(0x397)](_0x439514);
+    var _0x610945 = {
+        'oImgData': assetLib[_0x53d403(0x2d8)](_0x53d403(0x24a)),
+        'aPos': [0x5a, -0xe6],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x53d403(0x395)],
+        'idOver': oImageIds[_0x53d403(0x323)]
     };
-    userInput.addHitArea("careerFromWorldComplete", butEventHandler, null, "image", s), panel.aButs.push(s);
-    var i = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [90, -570],
-        align: [0, 1],
-        id: oImageIds.bugGameBut,
-        idOver: oImageIds.bugGameButOver
+    userInput[_0x53d403(0x19b)](_0x53d403(0xc9), butEventHandler, null, _0x53d403(0x2b4), _0x610945),
+    panel[_0x53d403(0x120)][_0x53d403(0x397)](_0x610945);
+    var _0x30777b = {
+        'oImgData': assetLib['getData'](_0x53d403(0x24a)),
+        'aPos': [0x5a, -0x276],
+        'align': [0x0, 0x1],
+        'id': oImageIds[_0x53d403(0x460)],
+        'idOver': oImageIds[_0x53d403(0x3eb)]
     };
-    userInput.addHitArea("bugGameFromWorldComplete", butEventHandler, null, "image", i), panel.aButs.push(i);
-    var r = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [-90, -390],
-        align: [1, 1],
-        id: oImageIds.pvpGameBut,
-        idOver: oImageIds.pvpGameButOver,
-        flash: !0
+    userInput[_0x53d403(0x19b)](_0x53d403(0x2c2), butEventHandler, null, 'image', _0x30777b),
+    panel[_0x53d403(0x120)][_0x53d403(0x397)](_0x30777b);
+    var _0x4ed256 = {
+        'oImgData': assetLib[_0x53d403(0x2d8)](_0x53d403(0x24a)),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x53d403(0xfb)],
+        'idOver': oImageIds[_0x53d403(0x290)]
     };
-    userInput.addHitArea("pvpFromWorldComplete", butEventHandler, null, "image", r), panel.aButs.push(r);
-    var o = {
-        oImgData: assetLib.getData("uiButs"),
-        aPos: [50, -50],
-        align: [0, 1],
-        id: oImageIds.backBut,
-        idOver: oImageIds.backButOver
-    };
-    userInput.addHitArea("backFromWorldComplete", butEventHandler, null, "image", o), panel.aButs.push(o)
+    userInput['addHitArea'](_0x53d403(0xc8), butEventHandler, null, _0x53d403(0x2b4), _0x4ed256),
+    panel[_0x53d403(0x120)][_0x53d403(0x397)](_0x4ed256);
 }
-
 function initNextLevel() {
-    tableTop = new Elements.TableTop, userBat = new Elements.UserBat, enemyBat = new Elements.EnemyBat, aBalls = [];
-    var e = new Elements.Ball;
-    aBalls.push(e), opBat = getEnemyBat(), initGame()
+    var _0x4a48ce = _0x47ff64;
+    tableTop = new Elements[(_0x4a48ce(0x42e))](),
+    userBat = new Elements['UserBat'](),
+    enemyBat = new Elements[(_0x4a48ce(0x3a2))](),
+    aBalls = new Array();
+    var _0x28b2d2 = new Elements[(_0x4a48ce(0x3a7))]();
+    aBalls[_0x4a48ce(0x397)](_0x28b2d2),
+    opBat = getEnemyBat(),
+    initGame();
 }
-
 function initAwards() {
-    gameState = "awards";
-    var e = [],
-        t = {
-            oImgData: assetLib.getData("uiButs"),
-            aPos: [50, -50],
-            align: [0, 1],
-            id: oImageIds.backBut,
-            idOver: oImageIds.backButOver
-        };
-    userInput.addHitArea("backFromBatShop", butEventHandler, null, "image", t), e.push(t), aEffects = [], addMuteBut(e), (panel = new Elements.Panel(gameState, e)).startTween(), aEffects = [], previousTime = new Date().getTime(), updateAwardsEvent()
+    var _0x87cfac = _0x47ff64;
+    gameState = _0x87cfac(0x2d1);
+    var _0x56d331 = new Array()
+      , _0x1d7515 = {
+        'oImgData': assetLib[_0x87cfac(0x2d8)](_0x87cfac(0x24a)),
+        'aPos': [0x32, 0x32],
+        'align': [0x0, 0x0],
+        'id': oImageIds[_0x87cfac(0xfb)],
+        'idOver': oImageIds['backButOver']
+    };
+    userInput[_0x87cfac(0x19b)](_0x87cfac(0x214), butEventHandler, null, _0x87cfac(0x2b4), _0x1d7515),
+    _0x56d331[_0x87cfac(0x397)](_0x1d7515),
+    aEffects = new Array(),
+    addMuteBut(_0x56d331),
+    panel = new Elements[(_0x87cfac(0x1af))](gameState,_0x56d331),
+    panel['startTween'](),
+    aEffects = new Array(),
+    previousTime = new Date()[_0x87cfac(0x402)](),
+    updateAwardsEvent();
 }
-
-function addRewardGems(e) {
-    saveDataHandler.addGems(e), gems = saveDataHandler.getGems(), playSound("gemReward");
-    for (var t = 360 * Math.random() * radian, a = 0; a < 100; a++) {
-        var s = new Elements.Particle(canvas.width - getDirectWidth(0, 75, "00") - 95 + 27, canvas.height - 80 + 25, 1 * Math.random() + 1, 400 * Math.random() + 50, t + 3.6 * a * radian, 20, 1, 50);
-        aEffects.push(s)
+function addRewardGems(_0x524b63) {
+    var _0x67265d = _0x47ff64;
+    saveDataHandler['addGems'](_0x524b63),
+    gems = saveDataHandler[_0x67265d(0x12c)](),
+    playSound('gemReward');
+    var _0x421dd2 = Math[_0x67265d(0x14a)]() * 0x168 * radian;
+    for (var _0x303e65 = 0x0; _0x303e65 < 0x64; _0x303e65++) {
+        var _0x4261d2 = new Elements['Particle'](canvas[_0x67265d(0xeb)] - getDirectWidth(0x0, 0x4b, '00') - 0x5f + 0x1b,canvas['height'] - 0x50 + 0x19,Math[_0x67265d(0x14a)]() * 0x1 + 0x1,Math[_0x67265d(0x14a)]() * 0x190 + 0x32,_0x421dd2 + 0x168 / 0x64 * _0x303e65 * radian,0x14,0x1,0x32);
+        aEffects['push'](_0x4261d2);
     }
-    rewardButHit = !0
+    rewardButHit = !![];
 }
-
-function butEventHandler(e, t) {
-    if (!isRotated) switch (e) {
-        case "infoFromStart":
-            playSound("click"), removeStartButs(), initCreditsScreen();
-            break;
-        case "resetData":
-            playSound("click"), userInput.removeHitArea("backFromCredits"), userInput.removeHitArea("resetData"), userInput.removeHitArea("minusGames"), userInput.removeHitArea("plusGames"), userInput.removeHitArea("minusSets"), userInput.removeHitArea("plusSets"), userInput.removeHitArea("mute"), initResetConfirmScreen();
-            break;
-        case "yesFromResetConfirm":
-            playSound("loseStar", .5), saveDataHandler.resetData(), updateBatShopData(), resetFromSaveData(), userInput.removeHitArea("yesFromResetConfirm"), userInput.removeHitArea("noFromResetConfirm"), userInput.removeHitArea("mute"), initStartScreen();
-            break;
-        case "noFromResetConfirm":
-            playSound("click"), userInput.removeHitArea("yesFromResetConfirm"), userInput.removeHitArea("noFromResetConfirm"), userInput.removeHitArea("mute"), initCreditsScreen();
-            break;
-        case "backFromCredits":
-            playSound("click"), userInput.removeHitArea("backFromCredits"), userInput.removeHitArea("resetData"), userInput.removeHitArea("minusGames"), userInput.removeHitArea("plusGames"), userInput.removeHitArea("minusSets"), userInput.removeHitArea("plusSets"), userInput.removeHitArea("mute"), initStartScreen();
-            break;
-        case "plusGames":
-            playSound("click"), saveDataHandler.setCareerGames(Math.min(saveDataHandler.getCareerGames() + 1, 21));
-            break;
-        case "minusGames":
-            playSound("click"), saveDataHandler.setCareerGames(Math.max(saveDataHandler.getCareerGames() - 1, 8));
-            break;
-        case "plusSets":
-            playSound("click"), saveDataHandler.setCareerSets(Math.min(saveDataHandler.getCareerSets() + 1, 5));
-            break;
-        case "minusSets":
-            playSound("click"), saveDataHandler.setCareerSets(Math.max(saveDataHandler.getCareerSets() - 1, 2));
-            break;
-        case "startTouch":
-            playSound("click"), removeStartButs(), gameVariation = 0, showAd(initGame), enemyBat.trackBall = !0;
-            break;
-        case "batShopFromStart":
-            t.isDown && (batShopButDown = !0), t.isUp && batShopButDown && (batShopButDown = !1, playSound("click"), removeStartButs(), prevGameplayState = gameplayState, initBatShop());
-            break;
-        case "careerFromStart":
-            playSound("click"), removeStartButs(), initMapScreen();
-            break;
-        case "bugGameFromStart":
-            playSound("click"), removeStartButs(), gameVariation = 3, initGame();
-            break;
-        case "pvpFromStart":
-            playSound("click"), removeStartButs(), gameVariation = 4, initPvpGame();
-            break;
-        case "urlFromNetwork":
-        case "urlAreaFromNetwork":
-            playSound("click"), netLib.shareLobbyCode(function(e) {
-                return panel.clipboardCallback(e)
-            }), userInput.removeHitArea("urlFromNetwork"), panel.removeBut(oImageIds.shareBut);
-            break;
-        case "backFromNetwork":
-            userInput.removeHitArea("backFromNetwork"), userInput.removeHitArea("urlFromNetwork"), userInput.removeHitArea("urlAreaFromNetwork"), initStartScreen();
-            break;
-        case "customMatchFromStart":
-            playSound("click"), removeStartButs(), gameVariation = 2, initGame();
-            break;
-        case "challengeFromStart":
-            playSound("click"), removeStartButs(), gameVariation = 1, initGame();
-            break;
-        case "awardsFromStart":
-            playSound("click"), removeStartButs(), prevGameplayState = gameplayState, initAwards();
-            break;
-        case "backFromBatShop":
-            playSound("click"), newBatId = null, userInput.removeHitArea("batShopTouch"), userInput.removeHitArea("backFromBatShop"), panel.removeBut(oImageIds.backBut), 0 == prevGameplayState ? initStartScreen() : 4 == prevGameplayState ? (gameState = "game", panel.aWinGems = [], (curLevel + 1) % levelsPerWorld == 0 ? panel.winGemTarg = aPointScores[1] : panel.winGemTarg = aPointScores[0], panel.winGemCount = 0, initLevelCompleteButs(), previousTime = new Date().getTime(), updateGameEvent()) : 6 == prevGameplayState ? (gameState = "game", initWorldCompleteButs(), previousTime = new Date().getTime(), updateGameEvent()) : 8 == prevGameplayState ? (gameState = "game", panel.aWinGems = [], panel.winGemTarg = Math.round(curTargetScore / 2), panel.winGemCount = 0, initTargetGameEndButs(), previousTime = new Date().getTime(), updateGameEvent()) : 10 == prevGameplayState ? (gameState = "game", panel.aWinGems = [], userSets > enemySets ? panel.winGemTarg = 50 + 10 * saveDataHandler.getSeason() + saveDataHandler.getRound() : panel.winGemTarg = 25, panel.winGemCount = 0, initCustomGameEndButs(), previousTime = new Date().getTime(), updateGameEvent()) : 12 == prevGameplayState && (gameState = "game", panel.aWinGems = [], panel.winGemTarg = Math.ceil(bugScore / 4), panel.winGemCount = 0, initBugGameEndButs(), previousTime = new Date().getTime(), updateGameEvent());
-            break;
-        case "batShopTouch":
-            t.y > 100 && t.y < canvas.height - 100 && (t.isDown && !t.isBeingDragged ? (batShop.startMoveY = batShop.targY, batShop.checkMoveY = 0, t.x < canvas.width / 2 + (batShop.blocksX - 1) * batShop.gapX - batShop.gapX * (batShop.blocksX / 2 - 1) + batShop.posX ? (batShop.sideTouched = 0, batShop.startTouchY = t.y - batShop.targY) : (batShop.sideTouched = 1, batShop.startTouchY = t.y + batShop.targY / (1 / batShop.barPerc)), butDown = !0) : t.isBeingDragged ? 0 == batShop.sideTouched ? (batShop.targY = t.y - batShop.startTouchY, batShop.checkMoveY += Math.abs(batShop.startMoveY - batShop.targY)) : 1 == batShop.sideTouched && (batShop.targY = -(t.y - batShop.startTouchY) * (1 / batShop.barPerc), batShop.checkMoveY += Math.abs(batShop.startMoveY - batShop.targY)) : butDown && (butDown = !1, (!isMobile && batShop.checkMoveY < 3 || isMobile && batShop.checkMoveY < 10) && batShop.checkClick(t.x, t.y)));
-            break;
-        case "gameTouch":
-            t.isDown && !t.isBeingDragged ? (swipeState = 1, startTouchY = t.y - userBat.targY) : 1 == swipeState && t.isBeingDragged ? (userBat.targX = t.x, 0 == controlState ? userBat.targY = t.y : userBat.targY = t.y - startTouchY) : 1 == swipeState && (swipeState = 0);
-            break;
-        case "playFromMapScreen":
-            playSound("click"), userInput.removeHitArea("playFromMapScreen"), userInput.removeHitArea("backFromMapScreen"), firstCareerGame ? prepForCareerMatch() : showAd(prepForCareerMatch);
-            break;
-        case "backFromMapScreen":
-            playSound("click"), userInput.removeHitArea("playFromMapScreen"), userInput.removeHitArea("backFromMapScreen"), initStartScreen();
-            break;
-        case "playFromPvpGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromPvpGameEnd"), userInput.removeHitArea("backFromPvpGameEnd"), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.backBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), startPvpGame(), netLib.send(!0, "rematch");
-            break;
-        case "backFromPvpGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromPvpGameEnd"), userInput.removeHitArea("backFromPvpGameEnd"), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.backBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), netLib.disconnect(), initStartScreen();
-            break;
-        case "playFromCustomGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), initMapScreen();
-            break;
-        case "awardsFromCustomGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), prevGameplayState = gameplayState, initAwards();
-            break;
-        case "batShopFromCustomGameEnd":
-            t.isDown && (batShopButDown = !0), t.isUp && batShopButDown && (batShopButDown = !1, playSound("click"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), prevGameplayState = gameplayState, initBatShop());
-            break;
-        case "challengeFromCustomGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 1, showAd(initGame);
-            break;
-        case "arcadeFromCustomGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 0, showAd(initGame);
-            break;
-        case "bugGameFromCustomGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 3, showAd(initGame);
-            break;
-        case "backFromCustomGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), initStartScreen(!1);
-            break;
-        case "pvpFromCustomGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 4, initPvpGame();
-            break;
-        case "rewardFromCustomGameEnd":
-            userInput.removeHitArea("playFromCustomGameEnd"), userInput.removeHitArea("rewardFromCustomGameEnd"), userInput.removeHitArea("batShopFromCustomGameEnd"), userInput.removeHitArea("challengeFromCustomGameEnd"), userInput.removeHitArea("arcadeFromCustomGameEnd"), userInput.removeHitArea("backFromCustomGameEnd"), userInput.removeHitArea("bugGameFromCustomGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.arcadeBut), userInput.removeHitArea("pvpFromCustomGameEnd"), panel.removeBut(oImageIds.pvpGameBut), showRewardAd("customGameEnd");
-            break;
-        case "playFromLevelComplete":
-            playSound("click"), userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromLevelComplete"), panel.removeBut(oImageIds.pvpGameBut), anyWorldBatsLeft() && (curLevel + 1) % levelsPerWorld == 0 ? initWorldComplete() : (curLevel = saveDataHandler.getLevel(), showAd(initNextLevel));
-            break;
-        case "batShopFromLevelComplete":
-            t.isDown && (batShopButDown = !0), t.isUp && batShopButDown && (batShopButDown = !1, playSound("click"), userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), userInput.removeHitArea("pvpFromLevelComplete"), userInput.removeHitArea("pvpFromLevelComplete"), prevGameplayState = gameplayState, initBatShop());
-            break;
-        case "rewardFromLevelComplete":
-            userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromLevelComplete"), panel.removeBut(oImageIds.pvpGameBut), showRewardAd("levelComplete");
-            break;
-        case "careerFromLevelComplete":
-            playSound("click"), userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromLevelComplete"), panel.removeBut(oImageIds.pvpGameBut), showAd(initMapScreen);
-            break;
-        case "challengeFromLevelComplete":
-            playSound("click"), userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromLevelComplete"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 1, showAd(initGame);
-            break;
-        case "bugGameFromLevelComplete":
-            playSound("click"), userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromLevelComplete"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 3, showAd(initGame);
-            break;
-        case "backFromLevelComplete":
-            playSound("click"), userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromLevelComplete"), panel.removeBut(oImageIds.pvpGameBut), initStartScreen(!1);
-            break;
-        case "pvpFromLevelComplete":
-            playSound("click"), userInput.removeHitArea("playFromLevelComplete"), userInput.removeHitArea("batShopFromLevelComplete"), userInput.removeHitArea("rewardFromLevelComplete"), userInput.removeHitArea("careerFromLevelComplete"), userInput.removeHitArea("challengeFromLevelComplete"), userInput.removeHitArea("backFromLevelComplete"), userInput.removeHitArea("bugGameFromLevelComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromLevelComplete"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 4, initPvpGame();
-            break;
-        case "playFromWorldComplete":
-            playSound("click"), userInput.removeHitArea("playFromWorldComplete"), userInput.removeHitArea("batShopFromWorldComplete"), userInput.removeHitArea("careerFromWorldComplete"), userInput.removeHitArea("challengeFromWorldComplete"), userInput.removeHitArea("backFromWorldComplete"), userInput.removeHitArea("bugGameFromWorldComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromWorldComplete"), panel.removeBut(oImageIds.pvpGameBut), curLevel++, showAd(initNextLevel);
-            break;
-        case "batShopFromWorldComplete":
-            t.isDown && (batShopButDown = !0), t.isUp && batShopButDown && (batShopButDown = !1, playSound("click"), userInput.removeHitArea("playFromWorldComplete"), userInput.removeHitArea("batShopFromWorldComplete"), userInput.removeHitArea("careerFromWorldComplete"), userInput.removeHitArea("challengeFromWorldComplete"), userInput.removeHitArea("backFromWorldComplete"), userInput.removeHitArea("bugGameFromWorldComplete"), userInput.removeHitArea("pvpFromWorldComplete"), prevGameplayState = gameplayState, initBatShop());
-            break;
-        case "customMatchFromWorldComplete":
-            playSound("click"), userInput.removeHitArea("playFromWorldComplete"), userInput.removeHitArea("batShopFromWorldComplete"), userInput.removeHitArea("careerFromWorldComplete"), userInput.removeHitArea("challengeFromWorldComplete"), userInput.removeHitArea("backFromWorldComplete"), userInput.removeHitArea("bugGameFromWorldComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromWorldComplete"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 2, showAd(initGame);
-            break;
-        case "challengeFromWorldComplete":
-            playSound("click"), userInput.removeHitArea("playFromWorldComplete"), userInput.removeHitArea("batShopFromWorldComplete"), userInput.removeHitArea("careerFromWorldComplete"), userInput.removeHitArea("challengeFromWorldComplete"), userInput.removeHitArea("backFromWorldComplete"), userInput.removeHitArea("bugGameFromWorldComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromWorldComplete"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 1, showAd(initGame);
-            break;
-        case "bugGameFromWorldComplete":
-            playSound("click"), userInput.removeHitArea("playFromWorldComplete"), userInput.removeHitArea("batShopFromWorldComplete"), userInput.removeHitArea("careerFromWorldComplete"), userInput.removeHitArea("challengeFromWorldComplete"), userInput.removeHitArea("backFromWorldComplete"), userInput.removeHitArea("bugGameFromWorldComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromWorldComplete"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 3, showAd(initGame);
-            break;
-        case "careerFromWorldComplete":
-            playSound("click"), userInput.removeHitArea("playFromWorldComplete"), userInput.removeHitArea("batShopFromWorldComplete"), userInput.removeHitArea("careerFromWorldComplete"), userInput.removeHitArea("challengeFromWorldComplete"), userInput.removeHitArea("backFromWorldComplete"), userInput.removeHitArea("bugGameFromWorldComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromWorldComplete"), panel.removeBut(oImageIds.pvpGameBut), showAd(initMapScreen);
-            break;
-        case "backFromWorldComplete":
-            playSound("click"), userInput.removeHitArea("playFromWorldComplete"), userInput.removeHitArea("batShopFromWorldComplete"), userInput.removeHitArea("careerFromWorldComplete"), userInput.removeHitArea("challengeFromWorldComplete"), userInput.removeHitArea("backFromWorldComplete"), userInput.removeHitArea("bugGameFromWorldComplete"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromWorldComplete"), panel.removeBut(oImageIds.pvpGameBut), initStartScreen(!1);
-            break;
-        case "rewardFromTargetGameEnd":
-            userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("awardsFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), showRewardAd("targetGameEnd");
-            break;
-        case "playFromTargetGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("awardsFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), showAd(initGame);
-            break;
-        case "batShopFromTargetGameEnd":
-            t.isDown && (batShopButDown = !0), t.isUp && batShopButDown && (batShopButDown = !1, playSound("click"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("awardsFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), prevGameplayState = gameplayState, initBatShop());
-            break;
-        case "backFromTargetGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("awardsFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), initStartScreen(!1);
-            break;
-        case "pvpFromTargetGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("awardsFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 4, initPvpGame();
-            break;
-        case "careerFromTargetGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("awardsFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), showAd(initMapScreen);
-            break;
-        case "arcadeFromTargetGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 0, showAd(initGame);
-            break;
-        case "bugGameFromTargetGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 3, showAd(initGame);
-            break;
-        case "awardsFromTargetGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromTargetGameEnd"), userInput.removeHitArea("batShopFromTargetGameEnd"), userInput.removeHitArea("careerFromTargetGameEnd"), userInput.removeHitArea("arcadeFromTargetGameEnd"), userInput.removeHitArea("awardsFromTargetGameEnd"), userInput.removeHitArea("rewardFromTargetGameEnd"), userInput.removeHitArea("backFromTargetGameEnd"), userInput.removeHitArea("bugGameFromTargetGameEnd"), panel.removeBut(oImageIds.bugGameBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromTargetGameEnd"), panel.removeBut(oImageIds.pvpGameBut), prevGameplayState = gameplayState, initAwards();
-            break;
-        case "rewardFromBugGameEnd":
-            userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), showRewardAd("bugGameEnd");
-            break;
-        case "playFromBugGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), showAd(initGame);
-            break;
-        case "batShopFromBugGameEnd":
-            t.isDown && (batShopButDown = !0), t.isUp && batShopButDown && (batShopButDown = !1, playSound("click"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), prevGameplayState = gameplayState, initBatShop());
-            break;
-        case "backFromBugGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), initStartScreen(!1);
-            break;
-        case "pvpFromBugGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 4, initPvpGame();
-            break;
-        case "careerFromBugGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), showAd(initMapScreen);
-            break;
-        case "arcadeFromBugGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 0, showAd(initGame);
-            break;
-        case "challengeFromBugGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), gameVariation = 1, showAd(initGame);
-            break;
-        case "awardsFromBugGameEnd":
-            playSound("click"), userInput.removeHitArea("playFromBugGameEnd"), userInput.removeHitArea("batShopFromBugGameEnd"), userInput.removeHitArea("careerFromBugGameEnd"), userInput.removeHitArea("arcadeFromBugGameEnd"), userInput.removeHitArea("awardsFromBugGameEnd"), userInput.removeHitArea("rewardFromBugGameEnd"), userInput.removeHitArea("backFromBugGameEnd"), userInput.removeHitArea("challengeFromBugGameEnd"), panel.removeBut(oImageIds.challengeBut), panel.removeBut(oImageIds.backBut), panel.removeBut(oImageIds.rewardMultiplyBut), panel.removeBut(oImageIds.awardsBut), panel.removeBut(oImageIds.playBut), panel.removeBut(oImageIds.batShopBut), panel.removeBut(oImageIds.arcadeBut), panel.removeBut(oImageIds.classicGameBut), panel.removeBut(oImageIds.careerBut), userInput.removeHitArea("pvpFromBugGameEnd"), panel.removeBut(oImageIds.pvpGameBut), prevGameplayState = gameplayState, initAwards();
-            break;
-        case "mute":
-            playSound("click"), toggleMute(), muted ? (panel.switchBut(oImageIds.muteBut0, oImageIds.muteBut1, oImageIds.muteBut1Over), saveDataHandler.setAudioState(1)) : (panel.switchBut(oImageIds.muteBut1, oImageIds.muteBut0, oImageIds.muteBut0Over), saveDataHandler.setAudioState(0));
-            break;
-        case "keyPauseOn":
-            t.isDown || butEventHandler("pause", null);
-            break;
-        case "pause":
-            playSound("click"), 1 == audioType ? (Howler.mute(!0), music.pause()) : 2 == audioType && music.pause(), userInput.removeHitArea("pause"), userInput.removeHitArea("gameTouch"), userInput.removeHitArea("mute"), userInput.removeKey("keyPauseOn"), initPause();
-            break;
-        case "keyPauseOff":
-            t.isDown || butEventHandler("continueFromPause", null);
-            break;
-        case "continueFromPause":
-            playSound("click"), 1 == audioType ? muted || (Howler.mute(!1), playMusic()) : 2 != audioType || muted || playMusic(), userInput.removeHitArea("quitFromPause"), userInput.removeHitArea("continueFromPause"), userInput.removeHitArea("mute"), userInput.removeKey("keyPauseOff"), resumeGame();
-            break;
-        case "quitFromPause":
-            t.isDown || t.isBeingDragged || t.hasLeft || (playSound("click"), 1 == audioType ? muted || (Howler.mute(!1), playMusic()) : 2 != audioType || muted || playMusic(), userInput.removeHitArea("quitFromPause"), userInput.removeHitArea("continueFromPause"), userInput.removeHitArea("mute"), userInput.removeKey("keyPauseOff"), 4 == gameVariation && netLib.disconnect(), gameVariation = 0, initStartScreen())
-    }
-}
-
-function getSeasonFlags(e) {
-    for (var t = [], a = 0; a < aFlags.length; a++) t.push(a);
-    t = shuffleArray(t);
-    for (var s = [], a = 0; a < 6; a++) s.push({
-        id: t[a],
-        rank: getEnemyRank()
-    });
-    return sortBy(s, "rank", !1)
-}
-
-function getEnemyRank() {
-    for (var e = saveDataHandler.getRank(), t = saveDataHandler.getSeason(); e == saveDataHandler.getRank();) e = Math.ceil(Math.random() * Math.max(6 - t, 1) * 30 + 60 * Math.max(6 - t, 0));
-    return e
-}
-
-function shuffleArray(e) {
-    for (var t, a = e.length - 1; a > 0; a--) {
-        var s = Math.floor(Math.random() * (a + 1));
-        t = [e[s], e[a]], e[a] = t[0], e[s] = t[1]
-    }
-    return e
-}
-
-function sortBy(e, t, a) {
-    return (void 0 === a && (a = !0), a) ? e.sort(function(e, a) {
-        return e[t] < a[t] ? -1 : e[t] > a[t] ? 1 : 0
-    }) : e.sort(function(e, a) {
-        return e[t] > a[t] ? -1 : e[t] < a[t] ? 1 : 0
-    })
-}
-
-function getSpriteData(e, t) {
-    return {
-        img: e.img,
-        bX: e.oData.oAtlasData[oImageIds[t]].x,
-        bY: e.oData.oAtlasData[oImageIds[t]].y,
-        bWidth: e.oData.oAtlasData[oImageIds[t]].width,
-        bHeight: e.oData.oAtlasData[oImageIds[t]].height
-    }
-}
-
-function getMultiLineTextByChars(e, t, a) {
-    for (var s = [], i = getText(e, a); i.length > t;) {
-        var r = i.substring(0, t).lastIndexOf(" "); - 1 == r ? (s.push(i.substring(0, t) + "-"), i = i.substring(t + 1)) : (s.push(i.substring(0, r)), i = i.substring(r + 1))
-    }
-    return s.push(i), s
-}
-
-function addDirectText(e, t, a, s, i, r, o, n) {
-    if (void 0 === n && (n = "#202020"), ctx.fillStyle = n, ctx.textAlign = s, a < getDirectWidth(e, t, o))
-        for (t--; a < getDirectWidth(e, t, o) && (t--, 1););
-    ctx.font = t + "px " + assetLib.textData.langText["font" + e][curLang], ctx.fillText(o, i, r)
-}
-
-function addText(e, t, a, s, i, r, o, n) {
-    if (void 0 === n && (n = "#202020"), ctx.fillStyle = n, ctx.textAlign = s, a < getTextWidth(e, t, o))
-        for (t--; a < getTextWidth(e, t, o) && (t--, 1););
-    "ar" == curLang && (r -= t / 15), ctx.font = t + "px " + assetLib.textData.langText["font" + e][curLang], ctx.fillText(getText(o, e), i, r)
-}
-
-function getText(e, t) {
-    var a = assetLib.textData.langText[e][curLang];
-    if ("tr" == curLang) {
-        for (var s, i = "", r = 0; r < a.length;) s = a.charAt(r), "Bangers" == assetLib.textData.langText["font" + t][curLang] && "i" == s && (s = "İ"), i += s, r++;
-        a = i
-    }
-    return a
-}
-
-function getTextWidth(e, t, a) {
-    return ctx.font = t + "px " + assetLib.textData.langText["font" + e][curLang], ctx.measureText(getText(a, e)).width
-}
-
-function getDirectWidth(e, t, a) {
-    return ctx.font = t + "px " + assetLib.textData.langText["font" + e][curLang], ctx.measureText(a).width
-}
-
-function getCorrectedTextWidth(e, t, a, s) {
-    if (a < getTextWidth(e, t, s))
-        for (t--; a < getTextWidth(e, t, s) && (t--, 1););
-    return ctx.font = t + "px " + assetLib.textData.langText["font" + e][curLang], ctx.measureText(getText(s, e)).width
-}
-
-function checkButtonsOver() {
-    if (!isMobile)
-        for (var e = 0; e < panel.aButs.length; e++) panel.aButs[e].isOver = !1, userInput.mouseX > panel.aButs[e].aOverData[0] && userInput.mouseX < panel.aButs[e].aOverData[2] && userInput.mouseY > panel.aButs[e].aOverData[1] && userInput.mouseY < panel.aButs[e].aOverData[3] && (panel.aButs[e].isOver = !0)
-}
-
-function clearButtonOvers() {
-    userInput.mouseX = -100, userInput.mouseY = -100
-}
-
-function updateScore(e) {
-    var t = !1;
-    if ("user" == e && rallyHits > 3 && Math.random() > .5 && (playSound("cheer" + Math.floor(6 * Math.random())), t = !0), 0 == gameVariation) {
-        if ("user" == e) {
-            enemyBat.scoreDiff = Math.min(Math.max(enemyBat.scoreDiff + .025, -enemyBat.scoreDiffMax), enemyBat.scoreDiffMax);
-            for (var a = 0; a < 15; a++) {
-                var s = canvas.width / 2 + 70 * curLevelStars - 70 * (levelStarTarg / 2 - .5) - 100 * panel.starsX,
-                    i = Math.max(onScreenY - 200, 60) - 100 * panel.starsY,
-                    r = new Elements.Particle(s, i, 1, 200, 24 * a * radian, 100);
-                aEffects.push(r)
-            }
-            playSound("winStar"), curLevelStars++, panel.tweenStars(!0), curLevelStars != levelStarTarg || (initGameWon(), playSound("arcadeWin"), t || playSound("cheer" + Math.floor(6 * Math.random())))
-        } else enemyBat.scoreDiff = Math.min(Math.max(enemyBat.scoreDiff - .025, -enemyBat.scoreDiffMax), enemyBat.scoreDiffMax), curLevelStars > 0 && curLevelStars--, panel.tweenStars(!1), playSound("loseStar")
-    } else if (2 == gameVariation || 4 == gameVariation) {
-        var o, n = !1;
-        if ("user" == e) {
-            if (userScore++, enemyBat.scoreDiff = Math.min(Math.max(enemyBat.scoreDiff + .025, -enemyBat.scoreDiffMax), enemyBat.scoreDiffMax), playSound("classicGameWin", .5), panel.tweenCustomGameScore(0), 2 == gameVariation)(enemyScore < saveDataHandler.getCareerGames() - 1 && userScore == saveDataHandler.getCareerGames() || enemyScore >= saveDataHandler.getCareerGames() - 1 && userScore >= enemyScore + 2) && (userSets++, userScore = enemyScore = 0, t || playSound("cheer" + Math.floor(6 * Math.random())), userSets >= saveDataHandler.getCareerSets() ? (initCustomGameComplete(), playSound("classicMatchWin", .5)) : (n = !0, playSound("winSet", .3)));
-            else if (4 == gameVariation) {
-                if (console.log("rallyHits", rallyHits), rallyHits > 8 || Math.random() > .8) {
-                    userBat.successFlip(), panel.showCongrats(), playSound("hitTarget", .3), playSound("cheer" + Math.floor(6 * Math.random()));
-                    for (var a = 0; a < 25; a++) {
-                        var l = new Elements.Confetti(canvas.width / 2 + 400 * Math.random() - 200, .9 * canvas.height);
-                        aEffects.push(l)
+function butEventHandler(_0x31c9ca, _0x1f3bbc) {
+    var _0x299f37 = _0x47ff64;
+    if (isRotated)
+        return;
+    switch (_0x31c9ca) {
+    case _0x299f37(0x215):
+        playSound(_0x299f37(0x1fb)),
+        userInput['removeHitArea'](_0x299f37(0x409)),
+        userInput[_0x299f37(0x10e)]('infoFromStart'),
+        userInput[_0x299f37(0x10e)]('batShopFromStart'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x37b)),
+        userInput[_0x299f37(0x10e)]('customMatchFromStart'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x1e0)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3b2)),
+        initCreditsScreen();
+        break;
+    case _0x299f37(0x229):
+        playSound(_0x299f37(0x35d), 0.5),
+        saveDataHandler[_0x299f37(0x229)](),
+        updateBatShopData(),
+        resetFromSaveData(),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x233)),
+        userInput['removeHitArea'](_0x299f37(0x229)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x499)),
+        userInput['removeHitArea'](_0x299f37(0x208)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3aa)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x1db)),
+        userInput[_0x299f37(0x10e)]('mute'),
+        initStartScreen();
+        break;
+    case 'backFromCredits':
+        playSound('click'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x233)),
+        userInput[_0x299f37(0x10e)]('resetData'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x499)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x208)),
+        userInput[_0x299f37(0x10e)]('minusDiffFromSettings'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x1db)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2af)),
+        initStartScreen();
+        break;
+    case _0x299f37(0x208):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x369)] = Math[_0x299f37(0x258)](userInput[_0x299f37(0x369)] + 0x1, 0x4),
+        saveDataHandler[_0x299f37(0x204)](userInput[_0x299f37(0x369)]);
+        break;
+    case 'minusSenseFromSettings':
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x369)] = Math['max'](userInput[_0x299f37(0x369)] - 0x1, 0x0),
+        saveDataHandler[_0x299f37(0x204)](userInput[_0x299f37(0x369)]);
+        break;
+    case _0x299f37(0x1db):
+        playSound(_0x299f37(0x1fb)),
+        classicGameLevel = Math['min'](classicGameLevel + 0x1, 0x4),
+        saveDataHandler['setDifficultyLevel'](classicGameLevel);
+        break;
+    case _0x299f37(0x3aa):
+        playSound(_0x299f37(0x1fb)),
+        classicGameLevel = Math[_0x299f37(0x1cb)](classicGameLevel - 0x1, 0x0),
+        saveDataHandler[_0x299f37(0x104)](classicGameLevel);
+        break;
+    case _0x299f37(0x409):
+        playSound('click'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x409)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x215)),
+        userInput[_0x299f37(0x10e)]('awardsFromStart'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x49e)),
+        userInput['removeHitArea'](_0x299f37(0x275)),
+        userInput[_0x299f37(0x10e)]('challengeFromStart'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3b2)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds['infoBut']),
+        panel[_0x299f37(0x188)](oImageIds['batShopBut']),
+        panel[_0x299f37(0x188)](oImageIds['awardsBut']),
+        panel[_0x299f37(0x188)](oImageIds['challengeBut']),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        gameVariation = 0x0,
+        showAd(initGame),
+        enemyBat[_0x299f37(0x3da)] = !![];
+        break;
+    case _0x299f37(0x49e):
+        _0x1f3bbc['isDown'] && (batShopButDown = !![]);
+        _0x1f3bbc['isUp'] && batShopButDown && (batShopButDown = ![],
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x409)),
+        userInput[_0x299f37(0x10e)]('infoFromStart'),
+        userInput['removeHitArea'](_0x299f37(0x37b)),
+        userInput[_0x299f37(0x10e)]('batShopFromStart'),
+        userInput['removeHitArea'](_0x299f37(0x275)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x1e0)),
+        userInput['removeHitArea']('bugGameFromStart'),
+        prevGameplayState = gameplayState,
+        initBatShop());
+        break;
+    case _0x299f37(0x3b2):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x409)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x215)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x37b)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x49e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x275)),
+        userInput[_0x299f37(0x10e)]('challengeFromStart'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3b2)),
+        panel[_0x299f37(0x188)](oImageIds['bugGameBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x33a)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds['awardsBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        gameVariation = 0x3,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x275):
+        playSound(_0x299f37(0x1fb)),
+        userInput['removeHitArea'](_0x299f37(0x409)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x215)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x37b)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x49e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x275)),
+        userInput['removeHitArea']('challengeFromStart'),
+        userInput[_0x299f37(0x10e)]('bugGameFromStart'),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds['infoBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x307)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x2,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x1e0):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)]('startTouch'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x215)),
+        userInput[_0x299f37(0x10e)]('awardsFromStart'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x49e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x275)),
+        userInput[_0x299f37(0x10e)]('challengeFromStart'),
+        userInput['removeHitArea'](_0x299f37(0x3b2)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x33a)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds['awardsBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        gameVariation = 0x1,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x37b):
+        playSound(_0x299f37(0x1fb)),
+        userInput['removeHitArea']('startTouch'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x215)),
+        userInput['removeHitArea'](_0x299f37(0x37b)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x49e)),
+        userInput[_0x299f37(0x10e)]('customMatchFromStart'),
+        userInput['removeHitArea'](_0x299f37(0x1e0)),
+        userInput['removeHitArea'](_0x299f37(0x3b2)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x33a)]),
+        panel[_0x299f37(0x188)](oImageIds['batShopBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x307)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        prevGameplayState = gameplayState,
+        initAwards();
+        break;
+    case _0x299f37(0x214):
+        playSound('click'),
+        newBatId = null,
+        userInput['removeHitArea'](_0x299f37(0x263)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x214)),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]);
+        if (prevGameplayState == 0x0)
+            initStartScreen();
+        else {
+            if (prevGameplayState == 0x4)
+                gameState = _0x299f37(0x429),
+                panel[_0x299f37(0x294)] = new Array(),
+                (curLevel + 0x1) % levelsPerWorld == 0x0 ? panel[_0x299f37(0x3ea)] = aPointScores[0x1] : panel['winGemTarg'] = aPointScores[0x0],
+                panel[_0x299f37(0x372)] = 0x0,
+                initLevelCompleteButs(),
+                previousTime = new Date()['getTime'](),
+                updateGameEvent();
+            else {
+                if (prevGameplayState == 0x6)
+                    gameState = 'game',
+                    initWorldCompleteButs(),
+                    previousTime = new Date()[_0x299f37(0x402)](),
+                    updateGameEvent();
+                else {
+                    if (prevGameplayState == 0x8)
+                        gameState = _0x299f37(0x429),
+                        panel[_0x299f37(0x294)] = new Array(),
+                        panel['winGemTarg'] = Math['round'](curTargetScore / 0x2),
+                        panel[_0x299f37(0x372)] = 0x0,
+                        initTargetGameEndButs(),
+                        previousTime = new Date()[_0x299f37(0x402)](),
+                        updateGameEvent();
+                    else {
+                        if (prevGameplayState == 0xa)
+                            gameState = _0x299f37(0x429),
+                            panel[_0x299f37(0x294)] = new Array(),
+                            userSets > enemySets ? panel['winGemTarg'] = 0x64 : panel[_0x299f37(0x3ea)] = 0x19,
+                            panel['winGemCount'] = 0x0,
+                            initCustomGameEndButs(),
+                            previousTime = new Date()[_0x299f37(0x402)](),
+                            updateGameEvent();
+                        else
+                            prevGameplayState == 0xc && (gameState = 'game',
+                            panel['aWinGems'] = new Array(),
+                            panel[_0x299f37(0x3ea)] = Math['ceil'](bugScore / 0x4),
+                            panel[_0x299f37(0x372)] = 0x0,
+                            initBugGameEndButs(),
+                            previousTime = new Date()[_0x299f37(0x402)](),
+                            updateGameEvent());
                     }
-                }(enemyScore < 10 && 11 == userScore || enemyScore >= 10 && userScore >= enemyScore + 2) && (t || playSound("cheer" + Math.floor(6 * Math.random())), initPvpGameComplete(), playSound("classicMatchWin", .5))
+                }
             }
-            o = -80
-        } else enemyScore++, enemyBat.scoreDiff = Math.min(Math.max(enemyBat.scoreDiff - .025, -enemyBat.scoreDiffMax), enemyBat.scoreDiffMax), playSound("classicGameLose", .5), panel.tweenCustomGameScore(1), 2 == gameVariation ? (userScore < saveDataHandler.getCareerGames() - 1 && enemyScore == saveDataHandler.getCareerGames() || userScore >= saveDataHandler.getCareerGames() - 1 && enemyScore >= userScore + 2) && (enemySets++, userScore = enemyScore = 0, t || playSound("cheer" + Math.floor(6 * Math.random())), enemySets >= saveDataHandler.getCareerSets() ? (initCustomGameComplete(), playSound("classicMatchLose", .5)) : (n = !0, playSound("loseSet", .5))) : 4 == gameVariation && (userScore < 10 && 11 == enemyScore || userScore >= 10 && enemyScore >= userScore + 2) && (t || playSound("cheer" + Math.floor(6 * Math.random())), initPvpGameComplete(), playSound("classicMatchLose", .5)), o = 80;
-        for (var s = canvas.width / 2 + o, i = Math.max(onScreenY - 200, 60) - 100 * panel.starsY - 10, a = 0; a < 15; a++) {
-            var r = new Elements.Particle(s, i, 1, 200, 24 * a * radian, 100, .75, 50);
-            aEffects.push(r)
         }
-        if (n)
-            for (var a = 0; a < 50; a++) {
-                var l = new Elements.Confetti(s + 200 * Math.random() - 100, i + 200 * Math.random() - 100);
-                aEffects.push(l)
+        break;
+    case 'batShopTouch':
+        if (_0x1f3bbc[_0x299f37(0x344)] && !_0x1f3bbc['isBeingDragged'])
+            batShop['startTouchY'] = _0x1f3bbc['y'] - batShop['targY'],
+            batShop[_0x299f37(0x11e)] = batShop[_0x299f37(0x292)],
+            batShop['checkMoveY'] = 0x0,
+            butDown = !![];
+        else {
+            if (_0x1f3bbc[_0x299f37(0xcb)])
+                batShop['targY'] = _0x1f3bbc['y'] - batShop['startTouchY'],
+                batShop[_0x299f37(0x3a1)] += Math[_0x299f37(0x247)](batShop[_0x299f37(0x11e)] - batShop[_0x299f37(0x292)]);
+            else
+                butDown && (butDown = ![],
+                (!isMobile && batShop['checkMoveY'] < 0x3 || isMobile && batShop[_0x299f37(0x3a1)] < 0xa) && batShop[_0x299f37(0x1ed)](_0x1f3bbc['x'], _0x1f3bbc['y']));
+        }
+        break;
+    case _0x299f37(0x31b):
+        if (_0x1f3bbc[_0x299f37(0x344)] && !_0x1f3bbc[_0x299f37(0xcb)])
+            swipeState = 0x1,
+            startTouchY = _0x1f3bbc['y'] - userBat['targY'];
+        else
+            swipeState == 0x1 && _0x1f3bbc['isBeingDragged'] ? (userBat[_0x299f37(0x22c)] = _0x1f3bbc['x'],
+            controlState == 0x0 ? userBat[_0x299f37(0x292)] = _0x1f3bbc['y'] : userBat[_0x299f37(0x292)] = _0x1f3bbc['y'] - startTouchY) : swipeState == 0x1 && (swipeState = 0x0);
+        break;
+    case _0x299f37(0x30f):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x30f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2a3)),
+        userInput[_0x299f37(0x10e)]('batShopFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x13d)),
+        userInput[_0x299f37(0x10e)]('arcadeFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)]('backFromCustomGameEnd'),
+        userInput['removeHitArea'](_0x299f37(0x3d5)),
+        panel['removeBut'](oImageIds['bugGameBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds['playBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds['arcadeBut']),
+        showAd(initGame);
+        break;
+    case _0x299f37(0x486):
+        playSound('click'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x30f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2a3)),
+        userInput['removeHitArea']('batShopFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x13d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19e)),
+        userInput['removeHitArea'](_0x299f37(0x309)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3d5)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds['batShopBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds['challengeBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        prevGameplayState = gameplayState,
+        initAwards();
+        break;
+    case _0x299f37(0x39f):
+        _0x1f3bbc['isDown'] && (batShopButDown = !![]);
+        _0x1f3bbc[_0x299f37(0x24f)] && batShopButDown && (batShopButDown = ![],
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x30f)),
+        userInput[_0x299f37(0x10e)]('rewardFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x39f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x13d)),
+        userInput['removeHitArea']('arcadeFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x309)),
+        userInput['removeHitArea'](_0x299f37(0x3d5)),
+        panel['removeBut'](oImageIds['bugGameBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds['challengeBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x1ff)]),
+        prevGameplayState = gameplayState,
+        initBatShop());
+        break;
+    case _0x299f37(0x13d):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)]('playFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2a3)),
+        userInput['removeHitArea'](_0x299f37(0x39f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x13d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19e)),
+        userInput[_0x299f37(0x10e)]('backFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3d5)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds['backBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x1c1)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        gameVariation = 0x1,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x19e):
+        playSound('click'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x30f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2a3)),
+        userInput['removeHitArea'](_0x299f37(0x39f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x13d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19e)),
+        userInput['removeHitArea'](_0x299f37(0x309)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3d5)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds['backBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds['challengeBut']),
+        panel[_0x299f37(0x188)](oImageIds['arcadeBut']),
+        gameVariation = 0x0,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x3d5):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x30f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2a3)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x39f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x13d)),
+        userInput[_0x299f37(0x10e)]('arcadeFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)]('backFromCustomGameEnd'),
+        userInput['removeHitArea'](_0x299f37(0x3d5)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        gameVariation = 0x3,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x309):
+        playSound('click'),
+        userInput[_0x299f37(0x10e)]('playFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2a3)),
+        userInput[_0x299f37(0x10e)]('batShopFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x13d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x309)),
+        userInput[_0x299f37(0x10e)]('bugGameFromCustomGameEnd'),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        initStartScreen(![]);
+        break;
+    case 'rewardFromCustomGameEnd':
+        userInput[_0x299f37(0x10e)](_0x299f37(0x30f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2a3)),
+        userInput[_0x299f37(0x10e)]('batShopFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)]('challengeFromCustomGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x309)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3d5)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        showRewardAd('customGameEnd');
+        break;
+    case _0x299f37(0x3f6):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3f6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x4a1)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x151)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xec)),
+        userInput['removeHitArea']('challengeFromLevelComplete'),
+        userInput['removeHitArea']('backFromLevelComplete'),
+        userInput['removeHitArea'](_0x299f37(0x182)),
+        panel['removeBut'](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds['backBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]);
+        anyWorldBatsLeft() && (curLevel + 0x1) % levelsPerWorld == 0x0 ? initWorldComplete() : (curLevel = saveDataHandler[_0x299f37(0x1d3)](),
+        showAd(initNextLevel));
+        break;
+    case _0x299f37(0x4a1):
+        _0x1f3bbc[_0x299f37(0x344)] && (batShopButDown = !![]);
+        _0x1f3bbc[_0x299f37(0x24f)] && batShopButDown && (batShopButDown = ![],
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3f6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x4a1)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x151)),
+        userInput[_0x299f37(0x10e)]('customMatchFromLevelComplete'),
+        userInput['removeHitArea'](_0x299f37(0x2f7)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x243)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x182)),
+        prevGameplayState = gameplayState,
+        initBatShop());
+        break;
+    case _0x299f37(0x151):
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3f6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x4a1)),
+        userInput[_0x299f37(0x10e)]('rewardFromLevelComplete'),
+        userInput[_0x299f37(0x10e)]('customMatchFromLevelComplete'),
+        userInput['removeHitArea']('challengeFromLevelComplete'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x243)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x182)),
+        panel[_0x299f37(0x188)](oImageIds['bugGameBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xef)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        showRewardAd('levelComplete');
+        break;
+    case 'customMatchFromLevelComplete':
+        playSound(_0x299f37(0x1fb)),
+        userInput['removeHitArea']('playFromLevelComplete'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x4a1)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x151)),
+        userInput[_0x299f37(0x10e)]('customMatchFromLevelComplete'),
+        userInput['removeHitArea']('challengeFromLevelComplete'),
+        userInput['removeHitArea'](_0x299f37(0x243)),
+        userInput['removeHitArea'](_0x299f37(0x182)),
+        panel['removeBut'](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds['backBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x2,
+        showAd(initGame);
+        break;
+    case 'challengeFromLevelComplete':
+        playSound('click'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3f6)),
+        userInput['removeHitArea'](_0x299f37(0x4a1)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x151)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xec)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2f7)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x243)),
+        userInput[_0x299f37(0x10e)]('bugGameFromLevelComplete'),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds['backBut']),
+        panel['removeBut'](oImageIds['playBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x1,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x182):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3f6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x4a1)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x151)),
+        userInput[_0x299f37(0x10e)]('customMatchFromLevelComplete'),
+        userInput[_0x299f37(0x10e)]('challengeFromLevelComplete'),
+        userInput['removeHitArea'](_0x299f37(0x243)),
+        userInput[_0x299f37(0x10e)]('bugGameFromLevelComplete'),
+        panel[_0x299f37(0x188)](oImageIds['bugGameBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds['rewardMultiplyBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x3,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x243):
+        playSound('click'),
+        userInput['removeHitArea'](_0x299f37(0x3f6)),
+        userInput['removeHitArea'](_0x299f37(0x4a1)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x151)),
+        userInput[_0x299f37(0x10e)]('customMatchFromLevelComplete'),
+        userInput[_0x299f37(0x10e)]('challengeFromLevelComplete'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x243)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x182)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds['challengeBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        initStartScreen(![]);
+        break;
+    case 'playFromWorldComplete':
+        playSound(_0x299f37(0x1fb)),
+        userInput['removeHitArea']('playFromWorldComplete'),
+        userInput['removeHitArea'](_0x299f37(0x39d)),
+        userInput[_0x299f37(0x10e)]('customMatchFromWorldComplete'),
+        userInput[_0x299f37(0x10e)]('challengeFromWorldComplete'),
+        userInput['removeHitArea'](_0x299f37(0xc8)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2c2)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds['batShopBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        curLevel++,
+        showAd(initNextLevel);
+        break;
+    case _0x299f37(0x39d):
+        _0x1f3bbc[_0x299f37(0x344)] && (batShopButDown = !![]);
+        _0x1f3bbc[_0x299f37(0x24f)] && batShopButDown && (batShopButDown = ![],
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)]('playFromWorldComplete'),
+        userInput['removeHitArea']('batShopFromWorldComplete'),
+        userInput['removeHitArea'](_0x299f37(0xc9)),
+        userInput[_0x299f37(0x10e)]('challengeFromWorldComplete'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xc8)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2c2)),
+        prevGameplayState = gameplayState,
+        initBatShop());
+        break;
+    case _0x299f37(0xc9):
+        playSound(_0x299f37(0x1fb)),
+        userInput['removeHitArea'](_0x299f37(0x26d)),
+        userInput['removeHitArea'](_0x299f37(0x39d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xc9)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19a)),
+        userInput[_0x299f37(0x10e)]('backFromWorldComplete'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2c2)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds['playBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel['removeBut'](oImageIds['classicGameBut']),
+        gameVariation = 0x2,
+        showAd(initGame);
+        break;
+    case 'challengeFromWorldComplete':
+        playSound('click'),
+        userInput[_0x299f37(0x10e)]('playFromWorldComplete'),
+        userInput[_0x299f37(0x10e)]('batShopFromWorldComplete'),
+        userInput['removeHitArea'](_0x299f37(0xc9)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19a)),
+        userInput['removeHitArea']('backFromWorldComplete'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2c2)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds['backBut']),
+        panel[_0x299f37(0x188)](oImageIds['playBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds['challengeBut']),
+        panel['removeBut'](oImageIds['classicGameBut']),
+        gameVariation = 0x1,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x2c2):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x26d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x39d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xc9)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19a)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xc8)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2c2)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds['batShopBut']),
+        panel[_0x299f37(0x188)](oImageIds['challengeBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x3,
+        showAd(initGame);
+        break;
+    case _0x299f37(0xc8):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x26d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x39d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xc9)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x19a)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xc8)),
+        userInput[_0x299f37(0x10e)]('bugGameFromWorldComplete'),
+        panel[_0x299f37(0x188)](oImageIds['bugGameBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        initStartScreen(![]);
+        break;
+    case _0x299f37(0x22d):
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2dd)),
+        userInput['removeHitArea'](_0x299f37(0x29e)),
+        userInput['removeHitArea'](_0x299f37(0xf2)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x27a)),
+        userInput['removeHitArea']('awardsFromTargetGameEnd'),
+        userInput['removeHitArea']('rewardFromTargetGameEnd'),
+        userInput['removeHitArea'](_0x299f37(0x199)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x101)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds['rewardMultiplyBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x307)]),
+        panel['removeBut'](oImageIds['playBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        showRewardAd(_0x299f37(0x27c));
+        break;
+    case _0x299f37(0x2dd):
+        playSound('click'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2dd)),
+        userInput['removeHitArea']('batShopFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)]('customMatchFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x27a)),
+        userInput['removeHitArea'](_0x299f37(0x46a)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x22d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x199)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x101)),
+        panel['removeBut'](oImageIds[_0x299f37(0x460)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x307)]),
+        panel['removeBut'](oImageIds['playBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds['arcadeBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x395)]),
+        showAd(initGame);
+        break;
+    case _0x299f37(0x29e):
+        _0x1f3bbc[_0x299f37(0x344)] && (batShopButDown = !![]);
+        _0x1f3bbc[_0x299f37(0x24f)] && batShopButDown && (batShopButDown = ![],
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2dd)),
+        userInput[_0x299f37(0x10e)]('batShopFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xf2)),
+        userInput[_0x299f37(0x10e)]('arcadeFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x46a)),
+        userInput['removeHitArea'](_0x299f37(0x22d)),
+        userInput[_0x299f37(0x10e)]('backFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x101)),
+        panel['removeBut'](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds['rewardMultiplyBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x307)]),
+        panel['removeBut'](oImageIds['playBut']),
+        panel[_0x299f37(0x188)](oImageIds['batShopBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        prevGameplayState = gameplayState,
+        initBatShop());
+        break;
+    case _0x299f37(0x199):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2dd)),
+        userInput['removeHitArea'](_0x299f37(0x29e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xf2)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x27a)),
+        userInput[_0x299f37(0x10e)]('awardsFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x22d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x199)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x101)),
+        panel[_0x299f37(0x188)](oImageIds['bugGameBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x307)]),
+        panel['removeBut'](oImageIds['playBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        initStartScreen(![]);
+        break;
+    case _0x299f37(0xf2):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)]('playFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x29e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xf2)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x27a)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x46a)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x22d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x199)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x101)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds['awardsBut']),
+        panel[_0x299f37(0x188)](oImageIds['playBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        gameVariation = 0x2,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x27a):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)]('playFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x29e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xf2)),
+        userInput['removeHitArea'](_0x299f37(0x27a)),
+        userInput['removeHitArea'](_0x299f37(0x22d)),
+        userInput[_0x299f37(0x10e)]('backFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x101)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x307)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x0,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x101):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2dd)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x29e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0xf2)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x27a)),
+        userInput['removeHitArea'](_0x299f37(0x22d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x199)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x101)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds['rewardMultiplyBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x307)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        gameVariation = 0x3,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x46a):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2dd)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x29e)),
+        userInput[_0x299f37(0x10e)]('customMatchFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x27a)),
+        userInput[_0x299f37(0x10e)]('awardsFromTargetGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x22d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x199)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x101)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x460)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x307)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        prevGameplayState = gameplayState,
+        initAwards();
+        break;
+    case _0x299f37(0x38d):
+        userInput[_0x299f37(0x10e)](_0x299f37(0x43f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x298)),
+        userInput['removeHitArea'](_0x299f37(0x12e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x353)),
+        userInput['removeHitArea'](_0x299f37(0x3e7)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x38d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2e6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x405)),
+        panel['removeBut'](oImageIds['challengeBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds['awardsBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        showRewardAd('bugGameEnd');
+        break;
+    case 'playFromBugGameEnd':
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)]('playFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x298)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x12e)),
+        userInput['removeHitArea'](_0x299f37(0x353)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3e7)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x38d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2e6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x405)),
+        panel['removeBut'](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x307)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        showAd(initGame);
+        break;
+    case _0x299f37(0x298):
+        _0x1f3bbc[_0x299f37(0x344)] && (batShopButDown = !![]);
+        _0x1f3bbc[_0x299f37(0x24f)] && batShopButDown && (batShopButDown = ![],
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x43f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x298)),
+        userInput['removeHitArea'](_0x299f37(0x12e)),
+        userInput['removeHitArea'](_0x299f37(0x353)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x3e7)),
+        userInput[_0x299f37(0x10e)]('rewardFromBugGameEnd'),
+        userInput['removeHitArea'](_0x299f37(0x2e6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x405)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x307)]),
+        panel['removeBut'](oImageIds['playBut']),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        prevGameplayState = gameplayState,
+        initBatShop());
+        break;
+    case _0x299f37(0x2e6):
+        playSound('click'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x43f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x298)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x12e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x353)),
+        userInput[_0x299f37(0x10e)]('awardsFromBugGameEnd'),
+        userInput['removeHitArea'](_0x299f37(0x38d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2e6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x405)),
+        panel[_0x299f37(0x188)](oImageIds['challengeBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel['removeBut'](oImageIds['awardsBut']),
+        panel['removeBut'](oImageIds['playBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        initStartScreen(![]);
+        break;
+    case 'customMatchFromBugGameEnd':
+        playSound('click'),
+        userInput['removeHitArea']('playFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x298)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x12e)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x353)),
+        userInput['removeHitArea'](_0x299f37(0x3e7)),
+        userInput[_0x299f37(0x10e)]('rewardFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2e6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x405)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x307)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds['arcadeBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x2,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x353):
+        playSound(_0x299f37(0x1fb)),
+        userInput['removeHitArea']('playFromBugGameEnd'),
+        userInput['removeHitArea']('batShopFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x12e)),
+        userInput['removeHitArea'](_0x299f37(0x353)),
+        userInput[_0x299f37(0x10e)]('awardsFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x38d)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2e6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x405)),
+        panel[_0x299f37(0x188)](oImageIds['challengeBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xfb)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x307)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds['arcadeBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x0,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x405):
+        playSound(_0x299f37(0x1fb)),
+        userInput['removeHitArea']('playFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x298)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x12e)),
+        userInput[_0x299f37(0x10e)]('arcadeFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)]('awardsFromBugGameEnd'),
+        userInput['removeHitArea']('rewardFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)]('backFromBugGameEnd'),
+        userInput['removeHitArea'](_0x299f37(0x405)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xfb)]),
+        panel['removeBut'](oImageIds[_0x299f37(0xef)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x307)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1c1)]),
+        panel['removeBut'](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x395)]),
+        gameVariation = 0x1,
+        showAd(initGame);
+        break;
+    case _0x299f37(0x3e7):
+        playSound(_0x299f37(0x1fb)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x43f)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x298)),
+        userInput[_0x299f37(0x10e)]('customMatchFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x353)),
+        userInput['removeHitArea'](_0x299f37(0x3e7)),
+        userInput[_0x299f37(0x10e)]('rewardFromBugGameEnd'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2e6)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x405)),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x153)]),
+        panel[_0x299f37(0x188)](oImageIds['backBut']),
+        panel[_0x299f37(0x188)](oImageIds['rewardMultiplyBut']),
+        panel[_0x299f37(0x188)](oImageIds['awardsBut']),
+        panel[_0x299f37(0x188)](oImageIds['playBut']),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x32f)]),
+        panel[_0x299f37(0x188)](oImageIds[_0x299f37(0x1ff)]),
+        panel[_0x299f37(0x188)](oImageIds['classicGameBut']),
+        prevGameplayState = gameplayState,
+        initAwards();
+        break;
+    case _0x299f37(0x2af):
+        playSound(_0x299f37(0x1fb)),
+        toggleMute();
+        muted ? panel[_0x299f37(0x2ff)](oImageIds[_0x299f37(0x312)], oImageIds[_0x299f37(0x3c7)], oImageIds[_0x299f37(0x4a7)]) : panel[_0x299f37(0x2ff)](oImageIds[_0x299f37(0x3c7)], oImageIds[_0x299f37(0x312)], oImageIds['muteBut0Over']);
+        break;
+    case 'pause':
+        playSound(_0x299f37(0x1fb));
+        if (audioType == 0x1)
+            Howler[_0x299f37(0x2af)](!![]),
+            music[_0x299f37(0x332)]();
+        else
+            audioType == 0x2 && music['pause']();
+        userInput[_0x299f37(0x10e)]('pause'),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x31b)),
+        userInput[_0x299f37(0x10e)](_0x299f37(0x2af)),
+        initPause();
+        break;
+    case _0x299f37(0x175):
+        playSound(_0x299f37(0x1fb));
+        if (audioType == 0x1)
+            !muted && (Howler[_0x299f37(0x2af)](![]),
+            playMusic());
+        else
+            audioType == 0x2 && (!muted && playMusic());
+        userInput[_0x299f37(0x10e)](_0x299f37(0x115)),
+        userInput['removeHitArea']('continueFromPause'),
+        userInput['removeHitArea'](_0x299f37(0x2af)),
+        resumeGame();
+        break;
+    case _0x299f37(0x115):
+        if (!_0x1f3bbc[_0x299f37(0x344)] && !_0x1f3bbc['isBeingDragged'] && !_0x1f3bbc[_0x299f37(0x44a)]) {
+            playSound(_0x299f37(0x1fb));
+            if (audioType == 0x1)
+                !muted && (Howler[_0x299f37(0x2af)](![]),
+                playMusic());
+            else
+                audioType == 0x2 && (!muted && playMusic());
+            userInput[_0x299f37(0x10e)]('quitFromPause'),
+            userInput[_0x299f37(0x10e)](_0x299f37(0x175)),
+            userInput[_0x299f37(0x10e)]('mute'),
+            gameVariation = 0x0,
+            initStartScreen();
+        }
+        break;
+    }
+}
+function depthSort(_0x570a08) {
+    var _0x5e33d5 = _0x47ff64;
+    return _0x570a08[_0x5e33d5(0x423)](function(_0x2fca3e, _0x2a6de3) {
+        var _0x19d2d4 = _0x5e33d5;
+        if (_0x2fca3e[_0x19d2d4(0x340)] < _0x2a6de3[_0x19d2d4(0x340)])
+            return -0x1;
+        if (_0x2fca3e['y'] > _0x2a6de3['y'])
+            return 0x1;
+        return 0x0;
+    });
+}
+function getSpriteData(_0x5d5fd4, _0x22e622) {
+    var _0x21c628 = _0x47ff64;
+    return {
+        'img': _0x5d5fd4['img'],
+        'bX': _0x5d5fd4['oData'][_0x21c628(0x202)][oImageIds[_0x22e622]]['x'],
+        'bY': _0x5d5fd4[_0x21c628(0x35a)][_0x21c628(0x202)][oImageIds[_0x22e622]]['y'],
+        'bWidth': _0x5d5fd4['oData'][_0x21c628(0x202)][oImageIds[_0x22e622]][_0x21c628(0xeb)],
+        'bHeight': _0x5d5fd4[_0x21c628(0x35a)][_0x21c628(0x202)][oImageIds[_0x22e622]][_0x21c628(0x2f8)]
+    };
+}
+function getMultiLineTextByChars(_0x559f65, _0x27d701, _0x117a36) {
+    var _0xb02f31 = _0x47ff64
+      , _0x5ab5d3 = new Array()
+      , _0x5cc34b = getText(_0x559f65, _0x117a36);
+    while (_0x5cc34b[_0xb02f31(0x3f5)] > _0x27d701) {
+        var _0x27ef62 = _0x5cc34b['substring'](0x0, _0x27d701)
+          , _0x2040d3 = _0x27ef62[_0xb02f31(0xdf)]('\x20');
+        _0x2040d3 == -0x1 ? (_0x5ab5d3[_0xb02f31(0x397)](_0x5cc34b[_0xb02f31(0x3e6)](0x0, _0x27d701) + '-'),
+        _0x5cc34b = _0x5cc34b[_0xb02f31(0x3e6)](_0x27d701 + 0x1)) : (_0x5ab5d3['push'](_0x5cc34b[_0xb02f31(0x3e6)](0x0, _0x2040d3)),
+        _0x5cc34b = _0x5cc34b[_0xb02f31(0x3e6)](_0x2040d3 + 0x1));
+    }
+    return _0x5ab5d3[_0xb02f31(0x397)](_0x5cc34b),
+    _0x5ab5d3;
+}
+function addDirectText(_0x3675ec, _0x582d51, _0x52f622, _0x30fded, _0x412c9c, _0x26ba31, _0x55cb2a, _0x5aecb8) {
+    var _0x25f67e = _0x47ff64;
+    _0x5aecb8 === void 0x0 && (_0x5aecb8 = _0x25f67e(0xbe));
+    ctx[_0x25f67e(0x3c9)] = _0x5aecb8,
+    ctx['textAlign'] = _0x30fded;
+    if (_0x52f622 < getDirectWidth(_0x3675ec, _0x582d51, _0x55cb2a)) {
+        var _0x4ae1c9 = 0x0;
+        _0x582d51--;
+        while (_0x52f622 < getDirectWidth(_0x3675ec, _0x582d51, _0x55cb2a)) {
+            _0x582d51--;
+            if (_0x4ae1c9 > 0x64)
+                break;
+        }
+    }
+    ctx[_0x25f67e(0x1ae)] = _0x582d51 + _0x25f67e(0x170) + assetLib[_0x25f67e(0x3f9)][_0x25f67e(0xe4)]['font' + _0x3675ec][curLang],
+    ctx['fillText'](_0x55cb2a, _0x412c9c, _0x26ba31);
+}
+function addText(_0xcf110e, _0x556c99, _0x5507bf, _0xf655cd, _0x4c358f, _0x3df58c, _0x5cd8f8, _0x5e21c7) {
+    var _0x1e60eb = _0x47ff64;
+    _0x5e21c7 === void 0x0 && (_0x5e21c7 = '#202020');
+    ctx[_0x1e60eb(0x3c9)] = _0x5e21c7,
+    ctx[_0x1e60eb(0x2b9)] = _0xf655cd;
+    if (_0x5507bf < getTextWidth(_0xcf110e, _0x556c99, _0x5cd8f8)) {
+        var _0x1833bd = 0x0;
+        _0x556c99--;
+        while (_0x5507bf < getTextWidth(_0xcf110e, _0x556c99, _0x5cd8f8)) {
+            _0x556c99--;
+            if (_0x1833bd > 0x64)
+                break;
+        }
+    }
+    curLang == 'ar' && (_0x3df58c -= _0x556c99 / 0xf),
+    ctx[_0x1e60eb(0x1ae)] = _0x556c99 + _0x1e60eb(0x170) + assetLib['textData'][_0x1e60eb(0xe4)][_0x1e60eb(0x1ae) + _0xcf110e][curLang],
+    ctx['fillText'](getText(_0x5cd8f8, _0xcf110e), _0x4c358f, _0x3df58c);
+}
+function getText(_0x321376, _0x54c3ca) {
+    var _0xeeb2aa = _0x47ff64
+      , _0x59ec0b = assetLib[_0xeeb2aa(0x3f9)][_0xeeb2aa(0xe4)][_0x321376][curLang];
+    if (curLang == 'de') {}
+    if (curLang == 'tr') {
+        var _0x282405 = '', _0xc100ee = 0x0, _0x516a99;
+        while (_0xc100ee < _0x59ec0b['length']) {
+            _0x516a99 = _0x59ec0b[_0xeeb2aa(0x1a1)](_0xc100ee),
+            assetLib[_0xeeb2aa(0x3f9)]['langText']['font' + _0x54c3ca][curLang] == _0xeeb2aa(0x3de) && _0x516a99 == 'i' && (_0x516a99 = 'İ'),
+            _0x282405 += _0x516a99,
+            _0xc100ee++;
+        }
+        _0x59ec0b = _0x282405;
+    }
+    return _0x59ec0b;
+}
+function getTextWidth(_0x42d078, _0x35e1c3, _0x29c2d2) {
+    var _0x30822c = _0x47ff64;
+    ctx[_0x30822c(0x1ae)] = _0x35e1c3 + 'px\x20' + assetLib[_0x30822c(0x3f9)]['langText'][_0x30822c(0x1ae) + _0x42d078][curLang];
+    var _0x269e40 = ctx[_0x30822c(0x2db)](getText(_0x29c2d2, _0x42d078));
+    return _0x269e40[_0x30822c(0xeb)];
+}
+function getDirectWidth(_0x416f4b, _0x7a046f, _0x58e804) {
+    var _0x14f97c = _0x47ff64;
+    ctx[_0x14f97c(0x1ae)] = _0x7a046f + 'px\x20' + assetLib[_0x14f97c(0x3f9)][_0x14f97c(0xe4)][_0x14f97c(0x1ae) + _0x416f4b][curLang];
+    var _0x17807a = ctx['measureText'](_0x58e804);
+    return _0x17807a[_0x14f97c(0xeb)];
+}
+function getCorrectedTextWidth(_0x5d695f, _0x9b8e00, _0x5261b2, _0x46ea7b) {
+    var _0x5597a5 = _0x47ff64;
+    if (_0x5261b2 < getTextWidth(_0x5d695f, _0x9b8e00, _0x46ea7b)) {
+        var _0x31c7e2 = 0x0;
+        _0x9b8e00--;
+        while (_0x5261b2 < getTextWidth(_0x5d695f, _0x9b8e00, _0x46ea7b)) {
+            _0x9b8e00--;
+            if (_0x31c7e2 > 0x64)
+                break;
+        }
+    }
+    ctx[_0x5597a5(0x1ae)] = _0x9b8e00 + _0x5597a5(0x170) + assetLib['textData'][_0x5597a5(0xe4)][_0x5597a5(0x1ae) + _0x5d695f][curLang];
+    var _0x33dfb3 = ctx[_0x5597a5(0x2db)](getText(_0x46ea7b, _0x5d695f));
+    return _0x33dfb3[_0x5597a5(0xeb)];
+}
+function checkButtonsOver() {
+    var _0x2757fe = _0x47ff64;
+    if (isMobile)
+        return;
+    for (var _0x24c175 = 0x0; _0x24c175 < panel[_0x2757fe(0x120)][_0x2757fe(0x3f5)]; _0x24c175++) {
+        panel[_0x2757fe(0x120)][_0x24c175]['isOver'] = ![],
+        userInput['mouseX'] > panel[_0x2757fe(0x120)][_0x24c175][_0x2757fe(0xe6)][0x0] && userInput[_0x2757fe(0x3ba)] < panel[_0x2757fe(0x120)][_0x24c175]['aOverData'][0x2] && userInput['mouseY'] > panel[_0x2757fe(0x120)][_0x24c175]['aOverData'][0x1] && userInput[_0x2757fe(0x48e)] < panel[_0x2757fe(0x120)][_0x24c175][_0x2757fe(0xe6)][0x3] && (panel[_0x2757fe(0x120)][_0x24c175][_0x2757fe(0x1d4)] = !![]);
+    }
+}
+function clearButtonOvers() {
+    var _0x5b34a6 = _0x47ff64;
+    userInput[_0x5b34a6(0x3ba)] = -0x64,
+    userInput[_0x5b34a6(0x48e)] = -0x64;
+}
+function updateScore(_0x44759d) {
+    var _0x22aa31 = _0x47ff64
+      , _0x3f561 = ![];
+    _0x44759d == _0x22aa31(0x1b8) && (rallyHits > 0x3 && Math['random']() > 0.5 && (playSound(_0x22aa31(0x38a) + Math[_0x22aa31(0x3b4)](Math[_0x22aa31(0x14a)]() * 0x6)),
+    _0x3f561 = !![]));
+    if (gameVariation == 0x0) {
+        if (_0x44759d == _0x22aa31(0x1b8)) {
+            enemyBat[_0x22aa31(0x1c4)] = Math['min'](Math['max'](enemyBat[_0x22aa31(0x1c4)] + 0.025, -enemyBat[_0x22aa31(0x359)]), enemyBat[_0x22aa31(0x359)]);
+            for (var _0x502be8 = 0x0; _0x502be8 < 0xf; _0x502be8++) {
+                var _0x5bf54c = canvas[_0x22aa31(0xeb)] / 0x2 + curLevelStars * 0x46 - 0x46 * (levelStarTarg / 0x2 - 0.5) - panel[_0x22aa31(0x36a)] * 0x64
+                  , _0x43ba5b = Math[_0x22aa31(0x1cb)](onScreenY - 0xc8, 0x3c) - panel[_0x22aa31(0x446)] * 0x64
+                  , _0x23be21 = new Elements['Particle'](_0x5bf54c,_0x43ba5b,0x1,0xc8,0x168 / 0xf * _0x502be8 * radian,0x64);
+                aEffects['push'](_0x23be21);
             }
+            playSound(_0x22aa31(0x3d3)),
+            curLevelStars++,
+            panel[_0x22aa31(0x289)](!![]),
+            curLevelStars == levelStarTarg && (initGameWon(),
+            playSound(_0x22aa31(0x433)),
+            !_0x3f561 && playSound(_0x22aa31(0x38a) + Math[_0x22aa31(0x3b4)](Math[_0x22aa31(0x14a)]() * 0x6)));
+        } else
+            enemyBat[_0x22aa31(0x1c4)] = Math[_0x22aa31(0x258)](Math[_0x22aa31(0x1cb)](enemyBat[_0x22aa31(0x1c4)] - 0.025, -enemyBat['scoreDiffMax']), enemyBat[_0x22aa31(0x359)]),
+            curLevelStars > 0x0 && curLevelStars--,
+            panel['tweenStars'](![]),
+            playSound('loseStar');
+    } else {
+        if (gameVariation == 0x2) {
+            var _0x27598, _0x27cc29 = ![];
+            _0x44759d == 'user' ? (userScore++,
+            enemyBat[_0x22aa31(0x1c4)] = Math['min'](Math['max'](enemyBat[_0x22aa31(0x1c4)] + 0.025, -enemyBat[_0x22aa31(0x359)]), enemyBat[_0x22aa31(0x359)]),
+            playSound(_0x22aa31(0x490), 0.5),
+            panel['tweenCustomGameScore'](0x0),
+            (enemyScore < 0xa && userScore == 0xb || enemyScore >= 0xa && userScore >= enemyScore + 0x2) && (userSets++,
+            userScore = enemyScore = 0x0,
+            !_0x3f561 && playSound('cheer' + Math[_0x22aa31(0x3b4)](Math[_0x22aa31(0x14a)]() * 0x6)),
+            userSets >= 0x3 ? (initCustomGameComplete(),
+            playSound('classicMatchWin', 0.5)) : (_0x27cc29 = !![],
+            playSound(_0x22aa31(0x1de), 0.3))),
+            _0x27598 = -0x50) : (enemyScore++,
+            enemyBat[_0x22aa31(0x1c4)] = Math['min'](Math[_0x22aa31(0x1cb)](enemyBat['scoreDiff'] - 0.025, -enemyBat[_0x22aa31(0x359)]), enemyBat[_0x22aa31(0x359)]),
+            playSound(_0x22aa31(0x466), 0.5),
+            panel['tweenCustomGameScore'](0x1),
+            (userScore < 0xa && enemyScore == 0xb || userScore >= 0xa && enemyScore >= userScore + 0x2) && (enemySets++,
+            userScore = enemyScore = 0x0,
+            !_0x3f561 && playSound(_0x22aa31(0x38a) + Math[_0x22aa31(0x3b4)](Math[_0x22aa31(0x14a)]() * 0x6)),
+            enemySets >= 0x3 ? (initCustomGameComplete(),
+            playSound(_0x22aa31(0x3d0), 0.5)) : (_0x27cc29 = !![],
+            playSound(_0x22aa31(0x461), 0.5))),
+            _0x27598 = 0x50);
+            var _0x5bf54c = canvas['width'] / 0x2 + _0x27598
+              , _0x43ba5b = Math[_0x22aa31(0x1cb)](onScreenY - 0xc8, 0x3c) - panel[_0x22aa31(0x446)] * 0x64 - 0xa;
+            for (var _0x502be8 = 0x0; _0x502be8 < 0xf; _0x502be8++) {
+                var _0x23be21 = new Elements[(_0x22aa31(0x2f5))](_0x5bf54c,_0x43ba5b,0x1,0xc8,0x168 / 0xf * _0x502be8 * radian,0x64,0.75,0x32);
+                aEffects[_0x22aa31(0x397)](_0x23be21);
+            }
+            if (_0x27cc29)
+                for (var _0x502be8 = 0x0; _0x502be8 < 0x32; _0x502be8++) {
+                    var _0x32137a = new Elements['Confetti'](_0x5bf54c + Math['random']() * 0xc8 - 0x64,_0x43ba5b + Math[_0x22aa31(0x14a)]() * 0xc8 - 0x64);
+                    aEffects[_0x22aa31(0x397)](_0x32137a);
+                }
+        }
     }
 }
-
-function addFirework(e, t, a) {
-    if (void 0 === a && (a = 1), !(aEffects.length > 10)) {
-        var s = new Elements.Firework;
-        s.x = e, s.y = t, s.endScale = a, s.blowUp(), aEffects.push(s)
-    }
+function addFirework(_0x1c654c, _0xf712c6, _0x4f4212) {
+    var _0x133687 = _0x47ff64;
+    _0x4f4212 === void 0x0 && (_0x4f4212 = 0x1);
+    if (aEffects[_0x133687(0x3f5)] > 0xa)
+        return;
+    var _0x4114a2 = new Elements['Firework']();
+    _0x4114a2['x'] = _0x1c654c,
+    _0x4114a2['y'] = _0xf712c6,
+    _0x4114a2[_0x133687(0x21c)] = _0x4f4212,
+    _0x4114a2['blowUp'](),
+    aEffects[_0x133687(0x397)](_0x4114a2);
 }
-
 function updateGameEvent() {
-    if ("game" == gameState) {
-        if (delta = getDelta(), background.render(), 4 == gameVariation && (pvpGameTime += delta, netLib.peer && netLib.peer.latency && pvpGameTime > 5 && netLib.peer.latency.average > 250 && (networkMessage("latency"), netLib.send(!0, "latency")), (networkInc += delta) > 1 / 30)) {
-            var e = getSpriteData(assetLib.getData("gameElements"), "tableEdge").bWidth,
-                t = (userBat.x - canvas.width / 2 - 500 * tableTop.offsetX * tableTop.genScale) / (e * tableTop.genScale / 2),
-                a = (userBat.y - (onScreenY + 352 * (1 + tableTop.offsetY / 2) + 50 * tableTop.offsetY)) * .18 + 40;
-            netLib.send(!1, "batPos", [Math.round(1e3 * t) / 1e3, Math.round(1e3 * a) / 1e3, Math.round(1e3 * userBat.rotation) / 1e3]), networkInc = 0
-        }
-        for (var s = 0; s < aBalls.length; s++) 0 == aBalls[s].curBallState && (curBallId = s), 2 == aBalls[s].curBallState && (aBalls.splice(s, 1), s -= 1);
-        for (var s = 0; s < aBalls.length; s++) aBalls[s].update(), s == curBallId && (0 == gameVariation || 2 == gameVariation || 4 == gameVariation) && enemyBat.update(), aBalls[s].offTable || aBalls[s].offSide || aBalls[s].height < 0 && aBalls[s].tablePosY < .5 && (aBalls[s].tablePosX < -1 || aBalls[s].tablePosX > 1) ? (aBalls[s].render(), s == curBallId && (tableTop.render(), (0 == gameVariation || 2 == gameVariation || 4 == gameVariation) && enemyBat.render(), tableTop.renderNet())) : aBalls[s].tablePosY > .5 ? (s == curBallId && (tableTop.render(), (0 == gameVariation || 2 == gameVariation || 4 == gameVariation) && enemyBat.render(), tableTop.renderNet()), aBalls[s].render()) : aBalls[s].tablePosY < .5 && (1 != gameVariation && s == curBallId && aBalls[s].y < enemyBat.y + 200 * enemyBat.scale - 30 ? (tableTop.render(), aBalls[s].render(), (0 == gameVariation || 2 == gameVariation || 4 == gameVariation) && enemyBat.render(), tableTop.renderNet()) : (s == curBallId && (tableTop.render(), (0 == gameVariation || 2 == gameVariation || 4 == gameVariation) && enemyBat.render()), aBalls[s].render(), s == curBallId && tableTop.renderNet()));
-        (0 == aBalls.length || curBallId >= aBalls.length) && (curBallId = 0, tableTop.render(), tableTop.renderNet()), userBat.update(), userBat.render(), panel.update(), panel.render(), awardPanel.render();
-        for (var s = 0; s < aEffects.length; s++) aEffects[s].update(), aEffects[s].render(), aEffects[s].removeMe && (aEffects.splice(s, 1), s -= 1);
-        checkButtonsOver(), panel.renderPointer(), requestAnimFrame(updateGameEvent)
+    var _0x2b4c48 = _0x47ff64;
+    if (gameState != 'game')
+        return;
+    delta = getDelta(),
+    background[_0x2b4c48(0x2be)]();
+    for (var _0x13e771 = 0x0; _0x13e771 < aBalls['length']; _0x13e771++) {
+        aBalls[_0x13e771][_0x2b4c48(0x37d)] == 0x0 && (curBallId = _0x13e771),
+        aBalls[_0x13e771][_0x2b4c48(0x37d)] == 0x2 && (aBalls['splice'](_0x13e771, 0x1),
+        _0x13e771 -= 0x1);
     }
+    for (var _0x13e771 = 0x0; _0x13e771 < aBalls[_0x2b4c48(0x3f5)]; _0x13e771++) {
+        aBalls[_0x13e771][_0x2b4c48(0x33c)]();
+        _0x13e771 == curBallId && (gameVariation == 0x0 || gameVariation == 0x2) && enemyBat[_0x2b4c48(0x33c)]();
+        if (aBalls[_0x13e771][_0x2b4c48(0x228)] || aBalls[_0x13e771][_0x2b4c48(0x47a)] || aBalls[_0x13e771][_0x2b4c48(0x2f8)] < 0x0 && aBalls[_0x13e771][_0x2b4c48(0x1cf)] < 0.5 && (aBalls[_0x13e771][_0x2b4c48(0x3d2)] < -0x1 || aBalls[_0x13e771]['tablePosX'] > 0x1))
+            aBalls[_0x13e771][_0x2b4c48(0x2be)](),
+            _0x13e771 == curBallId && (tableTop[_0x2b4c48(0x2be)](),
+            (gameVariation == 0x0 || gameVariation == 0x2) && enemyBat['render'](),
+            tableTop[_0x2b4c48(0xd9)]());
+        else {
+            if (aBalls[_0x13e771][_0x2b4c48(0x1cf)] > 0.5)
+                _0x13e771 == curBallId && (tableTop['render'](),
+                (gameVariation == 0x0 || gameVariation == 0x2) && enemyBat['render'](),
+                tableTop[_0x2b4c48(0xd9)]()),
+                aBalls[_0x13e771][_0x2b4c48(0x2be)]();
+            else
+                aBalls[_0x13e771][_0x2b4c48(0x1cf)] < 0.5 && (gameVariation != 0x1 && _0x13e771 == curBallId && aBalls[_0x13e771]['y'] < enemyBat['y'] + 0xc8 * enemyBat[_0x2b4c48(0x284)] - 0x1e ? (tableTop[_0x2b4c48(0x2be)](),
+                aBalls[_0x13e771][_0x2b4c48(0x2be)](),
+                (gameVariation == 0x0 || gameVariation == 0x2) && enemyBat[_0x2b4c48(0x2be)](),
+                tableTop['renderNet']()) : (_0x13e771 == curBallId && (tableTop[_0x2b4c48(0x2be)](),
+                (gameVariation == 0x0 || gameVariation == 0x2) && enemyBat['render']()),
+                aBalls[_0x13e771]['render'](),
+                _0x13e771 == curBallId && tableTop[_0x2b4c48(0xd9)]()));
+        }
+    }
+    (aBalls[_0x2b4c48(0x3f5)] == 0x0 || curBallId >= aBalls[_0x2b4c48(0x3f5)]) && (curBallId = 0x0,
+    tableTop[_0x2b4c48(0x2be)](),
+    tableTop[_0x2b4c48(0xd9)]());
+    userBat[_0x2b4c48(0x33c)](),
+    userBat['render'](),
+    panel[_0x2b4c48(0x33c)](),
+    panel[_0x2b4c48(0x2be)](),
+    awardPanel[_0x2b4c48(0x2be)]();
+    for (var _0x13e771 = 0x0; _0x13e771 < aEffects[_0x2b4c48(0x3f5)]; _0x13e771++) {
+        aEffects[_0x13e771][_0x2b4c48(0x33c)](),
+        aEffects[_0x13e771][_0x2b4c48(0x2be)](),
+        aEffects[_0x13e771][_0x2b4c48(0x418)] && (aEffects[_0x2b4c48(0x272)](_0x13e771, 0x1),
+        _0x13e771 -= 0x1);
+    }
+    checkButtonsOver(),
+    panel[_0x2b4c48(0x27d)](),
+    requestAnimFrame(updateGameEvent);
 }
-
 function updateAwardsEvent() {
-    if ("awards" == gameState) {
-        delta = getDelta(), background.render(), panel.update(), panel.render(), awardPanel.render();
-        for (var e = 0; e < aEffects.length; e++) aEffects[e].update(), aEffects[e].render(), aEffects[e].removeMe && (aEffects.splice(e, 1), e -= 1);
-        checkButtonsOver(), panel.renderPointer(), requestAnimFrame(updateAwardsEvent)
+    var _0x2e6b9a = _0x47ff64;
+    if (gameState != _0x2e6b9a(0x2d1))
+        return;
+    delta = getDelta(),
+    background['render'](),
+    panel[_0x2e6b9a(0x33c)](),
+    panel[_0x2e6b9a(0x2be)](),
+    awardPanel[_0x2e6b9a(0x2be)]();
+    for (var _0x249719 = 0x0; _0x249719 < aEffects[_0x2e6b9a(0x3f5)]; _0x249719++) {
+        aEffects[_0x249719][_0x2e6b9a(0x33c)](),
+        aEffects[_0x249719]['render'](),
+        aEffects[_0x249719][_0x2e6b9a(0x418)] && (aEffects[_0x2e6b9a(0x272)](_0x249719, 0x1),
+        _0x249719 -= 0x1);
     }
+    checkButtonsOver(),
+    panel[_0x2e6b9a(0x27d)](),
+    requestAnimFrame(updateAwardsEvent);
 }
-
-function updateMapScreenEvent() {
-    if ("mapScreen" == gameState) {
-        delta = getDelta(), background.render(), panel.update(), panel.render(), awardPanel.render();
-        for (var e = 0; e < aEffects.length; e++) aEffects[e].update(), aEffects[e].render(), aEffects[e].removeMe && (aEffects.splice(e, 1), e -= 1);
-        checkButtonsOver(), panel.renderPointer(), requestAnimFrame(updateMapScreenEvent)
-    }
-}
-
 function updateBatShopEvent() {
-    if ("batShop" == gameState) {
-        delta = getDelta(), background.render(), panel.update(), panel.render(), batShop.update(), batShop.render(), awardPanel.render();
-        for (var e = 0; e < aEffects.length; e++) aEffects[e].update(), aEffects[e].render(), aEffects[e].removeMe && (aEffects.splice(e, 1), e -= 1);
-        checkButtonsOver(), panel.renderPointer(), requestAnimFrame(updateBatShopEvent)
+    var _0x4b1174 = _0x47ff64;
+    if (gameState != _0x4b1174(0x2c7))
+        return;
+    delta = getDelta(),
+    background[_0x4b1174(0x2be)](),
+    panel[_0x4b1174(0x33c)](),
+    panel[_0x4b1174(0x2be)](),
+    batShop[_0x4b1174(0x33c)](),
+    batShop[_0x4b1174(0x2be)](),
+    awardPanel[_0x4b1174(0x2be)]();
+    for (var _0xdf9006 = 0x0; _0xdf9006 < aEffects['length']; _0xdf9006++) {
+        aEffects[_0xdf9006]['update'](),
+        aEffects[_0xdf9006][_0x4b1174(0x2be)](),
+        aEffects[_0xdf9006][_0x4b1174(0x418)] && (aEffects[_0x4b1174(0x272)](_0xdf9006, 0x1),
+        _0xdf9006 -= 0x1);
     }
+    checkButtonsOver(),
+    panel['renderPointer'](),
+    requestAnimFrame(updateBatShopEvent);
 }
-
 function updateCreditsScreenEvent() {
-    "credits" == gameState && (delta = getDelta(), background.render(), panel.update(), panel.render(), awardPanel.render(), checkButtonsOver(), panel.renderPointer(), requestAnimFrame(updateCreditsScreenEvent))
+    var _0x59f468 = _0x47ff64;
+    if (gameState != _0x59f468(0x315))
+        return;
+    delta = getDelta(),
+    background[_0x59f468(0x2be)](),
+    panel[_0x59f468(0x33c)](),
+    panel[_0x59f468(0x2be)](),
+    awardPanel['render'](),
+    checkButtonsOver(),
+    panel[_0x59f468(0x27d)](),
+    requestAnimFrame(updateCreditsScreenEvent);
 }
-
-function updateNetworkScreenEvent() {
-    "network" == gameState && (delta = getDelta(), background.render(), panel.update(), panel.render(), awardPanel.render(), checkButtonsOver(), panel.renderPointer(), requestAnimFrame(updateNetworkScreenEvent))
-}
-
-function updateResetConfirmEvent() {
-    "resetConfirm" == gameState && (delta = getDelta(), background.render(), panel.update(), panel.render(), awardPanel.render(), checkButtonsOver(), panel.renderPointer(), requestAnimFrame(updateResetConfirmEvent))
-}
-
 function updateLoaderEvent() {
-    "loading" == gameState && (delta = getDelta(), assetLib.render(), requestAnimFrame(updateLoaderEvent))
+    var _0x5e2ad2 = _0x47ff64;
+    if (gameState != _0x5e2ad2(0x113))
+        return;
+    delta = getDelta(),
+    assetLib['render'](),
+    requestAnimFrame(updateLoaderEvent);
 }
-
 function updatePauseEvent() {
-    "pause" == gameState && (delta = getDelta(), background.render(), panel.update(), panel.render(), checkButtonsOver(), panel.renderPointer(), requestAnimFrame(updatePauseEvent))
+    var _0xcb7bda = _0x47ff64;
+    if (gameState != _0xcb7bda(0x332))
+        return;
+    delta = getDelta(),
+    background[_0xcb7bda(0x2be)](),
+    panel['update'](),
+    panel[_0xcb7bda(0x2be)](),
+    checkButtonsOver(),
+    panel[_0xcb7bda(0x27d)](),
+    requestAnimFrame(updatePauseEvent);
 }
-
 function getDelta() {
-    var e = new Date().getTime(),
-        t = (e - previousTime) / 1e3;
-    return previousTime = e, t > .5 && (t = 0), t
+    var _0x5c3694 = new Date()['getTime']()
+      , _0x414155 = (_0x5c3694 - previousTime) / 0x3e8;
+    return previousTime = _0x5c3694,
+    _0x414155 > 0.5 && (_0x414155 = 0x0),
+    _0x414155;
 }
-
-function checkSpriteCollision(e, t) {
-    var a = e.x,
-        s = e.y,
-        i = t.x,
-        r = t.y;
-    return (a - i) * (a - i) + (s - r) * (s - r) < e.radius * t.radius
+function checkSpriteCollision(_0x3fd2df, _0x5a7a6a) {
+    var _0x1f79ab = _0x47ff64
+      , _0x7d929a = _0x3fd2df['x']
+      , _0x37a017 = _0x3fd2df['y']
+      , _0x3aa65f = _0x5a7a6a['x']
+      , _0x2df48e = _0x5a7a6a['y']
+      , _0x171ab7 = (_0x7d929a - _0x3aa65f) * (_0x7d929a - _0x3aa65f) + (_0x37a017 - _0x2df48e) * (_0x37a017 - _0x2df48e)
+      , _0x18a7b0 = _0x3fd2df[_0x1f79ab(0x335)] * _0x5a7a6a[_0x1f79ab(0x335)];
+    return _0x171ab7 < _0x18a7b0 ? !![] : ![];
 }
-
-function getScaleImageToMax(e, t) {
-    var a;
-    return e.isSpriteSheet ? t[0] / e.oData.spriteWidth < t[1] / e.oData.spriteHeight ? Math.min(t[0] / e.oData.spriteWidth, 1) : Math.min(t[1] / e.oData.spriteHeight, 1) : t[0] / e.img.width < t[1] / e.img.height ? Math.min(t[0] / e.img.width, 1) : Math.min(t[1] / e.img.height, 1)
+function getScaleImageToMax(_0x4430c4, _0x481403) {
+    var _0x367257 = _0x47ff64, _0x263672;
+    return _0x4430c4[_0x367257(0x396)] ? _0x481403[0x0] / _0x4430c4[_0x367257(0x35a)][_0x367257(0x237)] < _0x481403[0x1] / _0x4430c4['oData'][_0x367257(0x15f)] ? _0x263672 = Math[_0x367257(0x258)](_0x481403[0x0] / _0x4430c4[_0x367257(0x35a)][_0x367257(0x237)], 0x1) : _0x263672 = Math['min'](_0x481403[0x1] / _0x4430c4['oData']['spriteHeight'], 0x1) : _0x481403[0x0] / _0x4430c4[_0x367257(0x436)]['width'] < _0x481403[0x1] / _0x4430c4['img'][_0x367257(0x2f8)] ? _0x263672 = Math['min'](_0x481403[0x0] / _0x4430c4['img']['width'], 0x1) : _0x263672 = Math[_0x367257(0x258)](_0x481403[0x1] / _0x4430c4[_0x367257(0x436)][_0x367257(0x2f8)], 0x1),
+    _0x263672;
 }
-
-function getCentreFromTopLeft(e, t, a) {
-    var s = [];
-    return s.push(e[0] + t.oData.spriteWidth / 2 * a), s.push(e[1] + t.oData.spriteHeight / 2 * a), s
+function getCentreFromTopLeft(_0x5e6443, _0x2f89f8, _0x2122c8) {
+    var _0xd612e5 = _0x47ff64
+      , _0x4a6682 = new Array();
+    return _0x4a6682[_0xd612e5(0x397)](_0x5e6443[0x0] + _0x2f89f8[_0xd612e5(0x35a)][_0xd612e5(0x237)] / 0x2 * _0x2122c8),
+    _0x4a6682[_0xd612e5(0x397)](_0x5e6443[0x1] + _0x2f89f8[_0xd612e5(0x35a)][_0xd612e5(0x15f)] / 0x2 * _0x2122c8),
+    _0x4a6682;
 }
-
 function loadPreAssets() {
-    (preAssetLib = new Utils.AssetLoader(curLang, [{
-        id: "loader",
-        file: "images/loader.png"
+    var _0x47966b = _0x47ff64;
+    preAssetLib = new Utils['AssetLoader'](curLang,[{
+        'id': _0x47966b(0x264),
+        'file': _0x47966b(0x273)
     }, {
-        id: "loadSpinner",
-        file: "images/loadSpinner.png"
-    }], ctx, canvas.width, canvas.height, !1)).onReady(initLoadAssets)
+        'id': _0x47966b(0x2e0),
+        'file': _0x47966b(0x17c)
+    }],ctx,canvas['width'],canvas[_0x47966b(0x2f8)],![]),
+    preAssetLib[_0x47966b(0x25b)](initLoadAssets);
 }
-
 function initLangSelect() {
-    for (var e, t, a, s = 0, i = 0, r = 0; r < aLangs.length; r++)
-        if (e = preAssetLib.getData("lang" + aLangs[r]), (r + 1) * (1 * e.img.width) + (r + 2) * 10 < canvas.width) s++;
-        else break;
-    i = Math.ceil(aLangs.length / s);
-    for (var r = 0; r < aLangs.length; r++) {
-        e = preAssetLib.getData("lang" + aLangs[r]), t = canvas.width / 2 - s / 2 * (1 * e.img.width) - (s - 1) / 2 * 10, t += r % s * (1 * e.img.width + 10), a = canvas.height / 2 - i / 2 * (1 * e.img.height) - (i - 1) / 2 * 10, a += Math.floor(r / s) % i * (1 * e.img.height + 10), ctx.drawImage(e.img, 0, 0, e.img.width, e.img.height, t, a, 1 * e.img.width, 1 * e.img.height);
-        var o = {
-            oImgData: e,
-            aPos: [t + 1 * e.img.width / 2, a + 1 * e.img.height / 2],
-            scale: 1,
-            id: "none",
-            noMove: !0
+    var _0x5e3018 = _0x47ff64, _0x173ae1, _0x4dff6d, _0x356787, _0x5eaa28 = 0xa, _0x2d0130 = 0x0, _0xa62950 = 0x0, _0x4b640f = 0x1;
+    for (var _0x148ab2 = 0x0; _0x148ab2 < aLangs['length']; _0x148ab2++) {
+        _0x173ae1 = preAssetLib[_0x5e3018(0x2d8)](_0x5e3018(0x2f4) + aLangs[_0x148ab2]);
+        if ((_0x148ab2 + 0x1) * (_0x173ae1[_0x5e3018(0x436)][_0x5e3018(0xeb)] * _0x4b640f) + (_0x148ab2 + 0x2) * _0x5eaa28 < canvas[_0x5e3018(0xeb)])
+            _0x2d0130++;
+        else
+            break;
+    }
+    _0xa62950 = Math['ceil'](aLangs[_0x5e3018(0x3f5)] / _0x2d0130);
+    for (var _0x148ab2 = 0x0; _0x148ab2 < aLangs[_0x5e3018(0x3f5)]; _0x148ab2++) {
+        _0x173ae1 = preAssetLib[_0x5e3018(0x2d8)](_0x5e3018(0x2f4) + aLangs[_0x148ab2]),
+        _0x4dff6d = canvas[_0x5e3018(0xeb)] / 0x2 - _0x2d0130 / 0x2 * (_0x173ae1[_0x5e3018(0x436)][_0x5e3018(0xeb)] * _0x4b640f) - (_0x2d0130 - 0x1) / 0x2 * _0x5eaa28,
+        _0x4dff6d += _0x148ab2 % _0x2d0130 * (_0x173ae1['img'][_0x5e3018(0xeb)] * _0x4b640f + _0x5eaa28),
+        _0x356787 = canvas[_0x5e3018(0x2f8)] / 0x2 - _0xa62950 / 0x2 * (_0x173ae1['img'][_0x5e3018(0x2f8)] * _0x4b640f) - (_0xa62950 - 0x1) / 0x2 * _0x5eaa28,
+        _0x356787 += Math[_0x5e3018(0x3b4)](_0x148ab2 / _0x2d0130) % _0xa62950 * (_0x173ae1[_0x5e3018(0x436)]['height'] * _0x4b640f + _0x5eaa28),
+        ctx[_0x5e3018(0x23c)](_0x173ae1[_0x5e3018(0x436)], 0x0, 0x0, _0x173ae1[_0x5e3018(0x436)]['width'], _0x173ae1['img']['height'], _0x4dff6d, _0x356787, _0x173ae1[_0x5e3018(0x436)][_0x5e3018(0xeb)] * _0x4b640f, _0x173ae1[_0x5e3018(0x436)][_0x5e3018(0x2f8)] * _0x4b640f);
+        var _0x3e9fff = {
+            'oImgData': _0x173ae1,
+            'aPos': [_0x4dff6d + _0x173ae1[_0x5e3018(0x436)][_0x5e3018(0xeb)] * _0x4b640f / 0x2, _0x356787 + _0x173ae1[_0x5e3018(0x436)][_0x5e3018(0x2f8)] * _0x4b640f / 0x2],
+            'scale': _0x4b640f,
+            'id': _0x5e3018(0x3d1),
+            'noMove': !![]
         };
-        userInput.addHitArea("langSelect", butEventHandler, {
-            lang: aLangs[r]
-        }, "image", o)
+        userInput[_0x5e3018(0x19b)]('langSelect', butEventHandler, {
+            'lang': aLangs[_0x148ab2]
+        }, 'image', _0x3e9fff);
     }
 }
-
 function initLoadAssets() {
-    loadAssets()
+    loadAssets();
 }
-
 function loadAssets() {
-    assetLib = new Utils.AssetLoader(curLang, [{
-        id: "uiButs",
-        file: "images/uiButs.png",
-        oAtlasData: {
-            id0: {
-                x: 525,
-                y: 138,
-                width: 132,
-                height: 136
+    var _0x5bfd9b = _0x47ff64;
+    assetLib = new Utils['AssetLoader'](curLang,[{
+        'id': _0x5bfd9b(0x24a),
+        'file': 'images/uiButs.png',
+        'oAtlasData': {
+            'id0': {
+                'x': 0x192,
+                'y': 0x114,
+                'width': 0x84,
+                'height': 0x88
             },
-            id1: {
-                x: 525,
-                y: 0,
-                width: 132,
-                height: 136
+            'id1': {
+                'x': 0x86,
+                'y': 0x21e,
+                'width': 0x84,
+                'height': 0x88
             },
-            id10: {
-                x: 0,
-                y: 548,
-                width: 196,
-                height: 200
+            'id10': {
+                'x': 0x0,
+                'y': 0xca,
+                'width': 0xc4,
+                'height': 0xc8
             },
-            id11: {
-                x: 0,
-                y: 346,
-                width: 196,
-                height: 200
+            'id11': {
+                'x': 0x0,
+                'y': 0x0,
+                'width': 0xc4,
+                'height': 0xc8
             },
-            id12: {
-                x: 0,
-                y: 173,
-                width: 255,
-                height: 171
+            'id12': {
+                'x': 0x218,
+                'y': 0x114,
+                'width': 0x84,
+                'height': 0x88
             },
-            id13: {
-                x: 0,
-                y: 0,
-                width: 255,
-                height: 171
+            'id13': {
+                'x': 0x1d2,
+                'y': 0x8a,
+                'width': 0x84,
+                'height': 0x88
             },
-            id14: {
-                x: 84,
-                y: 760,
-                width: 82,
-                height: 82
+            'id14': {
+                'x': 0x54,
+                'y': 0x2a8,
+                'width': 0x52,
+                'height': 0x52
             },
-            id15: {
-                x: 168,
-                y: 760,
-                width: 82,
-                height: 82
+            'id15': {
+                'x': 0x258,
+                'y': 0x0,
+                'width': 0x52,
+                'height': 0x52
             },
-            id16: {
-                x: 0,
-                y: 760,
-                width: 82,
-                height: 82
+            'id16': {
+                'x': 0xa8,
+                'y': 0x2a8,
+                'width': 0x52,
+                'height': 0x52
             },
-            id17: {
-                x: 734,
-                y: 306,
-                width: 82,
-                height: 82
+            'id17': {
+                'x': 0x218,
+                'y': 0x27c,
+                'width': 0x52,
+                'height': 0x52
             },
-            id18: {
-                x: 600,
-                y: 552,
-                width: 132,
-                height: 136
+            'id18': {
+                'x': 0x86,
+                'y': 0x194,
+                'width': 0x84,
+                'height': 0x88
             },
-            id19: {
-                x: 600,
-                y: 414,
-                width: 132,
-                height: 136
+            'id19': {
+                'x': 0x1d2,
+                'y': 0x0,
+                'width': 0x84,
+                'height': 0x88
             },
-            id2: {
-                x: 600,
-                y: 690,
-                width: 132,
-                height: 136
+            'id2': {
+                'x': 0x218,
+                'y': 0x19e,
+                'width': 0x84,
+                'height': 0x88
             },
-            id20: {
-                x: 600,
-                y: 276,
-                width: 132,
-                height: 136
+            'id20': {
+                'x': 0x192,
+                'y': 0x228,
+                'width': 0x84,
+                'height': 0x88
             },
-            id21: {
-                x: 466,
-                y: 690,
-                width: 132,
-                height: 136
+            'id21': {
+                'x': 0x14c,
+                'y': 0x8a,
+                'width': 0x84,
+                'height': 0x88
             },
-            id22: {
-                x: 659,
-                y: 138,
-                width: 82,
-                height: 82
+            'id22': {
+                'x': 0x0,
+                'y': 0x2a8,
+                'width': 0x52,
+                'height': 0x52
             },
-            id23: {
-                x: 734,
-                y: 222,
-                width: 82,
-                height: 82
+            'id23': {
+                'x': 0x218,
+                'y': 0x228,
+                'width': 0x52,
+                'height': 0x52
             },
-            id24: {
-                x: 466,
-                y: 552,
-                width: 132,
-                height: 136
+            'id24': {
+                'x': 0x14c,
+                'y': 0x0,
+                'width': 0x84,
+                'height': 0x88
             },
-            id25: {
-                x: 466,
-                y: 414,
-                width: 132,
-                height: 136
+            'id25': {
+                'x': 0x10c,
+                'y': 0x228,
+                'width': 0x84,
+                'height': 0x88
             },
-            id26: {
-                x: 466,
-                y: 276,
-                width: 132,
-                height: 136
+            'id26': {
+                'x': 0x10c,
+                'y': 0x19e,
+                'width': 0x84,
+                'height': 0x88
             },
-            id27: {
-                x: 391,
-                y: 138,
-                width: 132,
-                height: 136
+            'id27': {
+                'x': 0x10c,
+                'y': 0x114,
+                'width': 0x84,
+                'height': 0x88
             },
-            id28: {
-                x: 391,
-                y: 0,
-                width: 132,
-                height: 136
+            'id28': {
+                'x': 0xc6,
+                'y': 0x8a,
+                'width': 0x84,
+                'height': 0x88
             },
-            id29: {
-                x: 332,
-                y: 690,
-                width: 132,
-                height: 136
+            'id29': {
+                'x': 0xc6,
+                'y': 0x0,
+                'width': 0x84,
+                'height': 0x88
             },
-            id3: {
-                x: 659,
-                y: 0,
-                width: 132,
-                height: 136
+            'id3': {
+                'x': 0x192,
+                'y': 0x19e,
+                'width': 0x84,
+                'height': 0x88
             },
-            id30: {
-                x: 252,
-                y: 760,
-                width: 54,
-                height: 54
+            'id30': {
+                'x': 0xfc,
+                'y': 0x2b2,
+                'width': 0x36,
+                'height': 0x36
             },
-            id31: {
-                x: 793,
-                y: 0,
-                width: 54,
-                height: 54
+            'id31': {
+                'x': 0x134,
+                'y': 0x2b2,
+                'width': 0x36,
+                'height': 0x36
             },
-            id32: {
-                x: 793,
-                y: 56,
-                width: 54,
-                height: 54
+            'id32': {
+                'x': 0xc6,
+                'y': 0x114,
+                'width': 0x36,
+                'height': 0x36
             },
-            id33: {
-                x: 257,
-                y: 276,
-                width: 54,
-                height: 54
+            'id33': {
+                'x': 0xc6,
+                'y': 0x14c,
+                'width': 0x36,
+                'height': 0x36
             },
-            id34: {
-                x: 257,
-                y: 0,
-                width: 132,
-                height: 136
+            'id34': {
+                'x': 0x0,
+                'y': 0x21e,
+                'width': 0x84,
+                'height': 0x88
             },
-            id35: {
-                x: 332,
-                y: 414,
-                width: 132,
-                height: 136
+            'id35': {
+                'x': 0x0,
+                'y': 0x194,
+                'width': 0x84,
+                'height': 0x88
             },
-            id36: {
-                x: 332,
-                y: 552,
-                width: 132,
-                height: 136
+            'id4': {
+                'x': 0x29e,
+                'y': 0x150,
+                'width': 0x52,
+                'height': 0x52
             },
-            id37: {
-                x: 198,
-                y: 346,
-                width: 132,
-                height: 136
+            'id5': {
+                'x': 0x29e,
+                'y': 0xfc,
+                'width': 0x52,
+                'height': 0x52
             },
-            id38: {
-                x: 198,
-                y: 622,
-                width: 132,
-                height: 136
+            'id6': {
+                'x': 0x26c,
+                'y': 0x27c,
+                'width': 0x52,
+                'height': 0x52
             },
-            id39: {
-                x: 198,
-                y: 484,
-                width: 132,
-                height: 136
+            'id7': {
+                'x': 0x26c,
+                'y': 0x228,
+                'width': 0x52,
+                'height': 0x52
             },
-            id4: {
-                x: 734,
-                y: 726,
-                width: 82,
-                height: 82
+            'id8': {
+                'x': 0x258,
+                'y': 0xa8,
+                'width': 0x52,
+                'height': 0x52
             },
-            id40: {
-                x: 257,
-                y: 138,
-                width: 132,
-                height: 136
-            },
-            id41: {
-                x: 332,
-                y: 276,
-                width: 132,
-                height: 136
-            },
-            id5: {
-                x: 734,
-                y: 642,
-                width: 82,
-                height: 82
-            },
-            id6: {
-                x: 734,
-                y: 558,
-                width: 82,
-                height: 82
-            },
-            id7: {
-                x: 734,
-                y: 474,
-                width: 82,
-                height: 82
-            },
-            id8: {
-                x: 734,
-                y: 390,
-                width: 82,
-                height: 82
-            },
-            id9: {
-                x: 743,
-                y: 138,
-                width: 82,
-                height: 82
+            'id9': {
+                'x': 0x258,
+                'y': 0x54,
+                'width': 0x52,
+                'height': 0x52
             }
         }
     }, {
-        id: "flags",
-        file: "images/flags.png",
-        oAtlasData: {
-            id0: {
-                x: 198,
-                y: 297,
-                width: 97,
-                height: 97
+        'id': 'flare',
+        'file': _0x5bfd9b(0x250)
+    }, {
+        'id': 'gameElements',
+        'file': _0x5bfd9b(0x44f),
+        'oAtlasData': {
+            'id0': {
+                'x': 0x0,
+                'y': 0x2f,
+                'width': 0x26a,
+                'height': 0x33
             },
-            id1: {
-                x: 396,
-                y: 495,
-                width: 97,
-                height: 97
+            'id1': {
+                'x': 0xb6,
+                'y': 0x573,
+                'width': 0x3e,
+                'height': 0x3e
             },
-            id10: {
-                x: 297,
-                y: 198,
-                width: 97,
-                height: 97
+            'id10': {
+                'x': 0x4ca,
+                'y': 0x234,
+                'width': 0xac,
+                'height': 0x118
             },
-            id11: {
-                x: 297,
-                y: 99,
-                width: 97,
-                height: 97
+            'id11': {
+                'x': 0x51e,
+                'y': 0x0,
+                'width': 0xac,
+                'height': 0x118
             },
-            id12: {
-                x: 297,
-                y: 0,
-                width: 97,
-                height: 97
+            'id12': {
+                'x': 0x578,
+                'y': 0x69c,
+                'width': 0xac,
+                'height': 0x118
             },
-            id13: {
-                x: 198,
-                y: 495,
-                width: 97,
-                height: 97
+            'id13': {
+                'x': 0x578,
+                'y': 0x468,
+                'width': 0xac,
+                'height': 0x118
             },
-            id14: {
-                x: 198,
-                y: 396,
-                width: 97,
-                height: 97
+            'id14': {
+                'x': 0x626,
+                'y': 0x69c,
+                'width': 0xac,
+                'height': 0x118
             },
-            id15: {
-                x: 495,
-                y: 0,
-                width: 97,
-                height: 97
+            'id15': {
+                'x': 0x626,
+                'y': 0x582,
+                'width': 0xac,
+                'height': 0x118
             },
-            id16: {
-                x: 198,
-                y: 198,
-                width: 97,
-                height: 97
+            'id16': {
+                'x': 0x626,
+                'y': 0x468,
+                'width': 0xac,
+                'height': 0x118
             },
-            id17: {
-                x: 198,
-                y: 99,
-                width: 97,
-                height: 97
+            'id17': {
+                'x': 0x626,
+                'y': 0x34e,
+                'width': 0xac,
+                'height': 0x118
             },
-            id18: {
-                x: 198,
-                y: 0,
-                width: 97,
-                height: 97
+            'id18': {
+                'x': 0x626,
+                'y': 0x234,
+                'width': 0xac,
+                'height': 0x118
             },
-            id19: {
-                x: 99,
-                y: 495,
-                width: 97,
-                height: 97
+            'id19': {
+                'x': 0x5cc,
+                'y': 0x0,
+                'width': 0xac,
+                'height': 0x118
             },
-            id2: {
-                x: 396,
-                y: 396,
-                width: 97,
-                height: 97
+            'id2': {
+                'x': 0xb6,
+                'y': 0x54d,
+                'width': 0x41,
+                'height': 0x24
             },
-            id20: {
-                x: 99,
-                y: 396,
-                width: 97,
-                height: 97
+            'id20': {
+                'x': 0x5c6,
+                'y': 0x11a,
+                'width': 0xac,
+                'height': 0x118
             },
-            id21: {
-                x: 99,
-                y: 297,
-                width: 97,
-                height: 97
+            'id21': {
+                'x': 0x470,
+                'y': 0x0,
+                'width': 0xac,
+                'height': 0x118
             },
-            id22: {
-                x: 99,
-                y: 198,
-                width: 97,
-                height: 97
+            'id22': {
+                'x': 0x578,
+                'y': 0x582,
+                'width': 0xac,
+                'height': 0x118
             },
-            id23: {
-                x: 99,
-                y: 99,
-                width: 97,
-                height: 97
+            'id23': {
+                'x': 0x518,
+                'y': 0x11a,
+                'width': 0xac,
+                'height': 0x118
             },
-            id24: {
-                x: 99,
-                y: 0,
-                width: 97,
-                height: 97
+            'id24': {
+                'x': 0x578,
+                'y': 0x34e,
+                'width': 0xac,
+                'height': 0x118
             },
-            id25: {
-                x: 0,
-                y: 495,
-                width: 97,
-                height: 97
+            'id25': {
+                'x': 0x578,
+                'y': 0x234,
+                'width': 0xac,
+                'height': 0x118
             },
-            id26: {
-                x: 0,
-                y: 396,
-                width: 97,
-                height: 97
+            'id26': {
+                'x': 0x4ca,
+                'y': 0x69c,
+                'width': 0xac,
+                'height': 0x118
             },
-            id27: {
-                x: 0,
-                y: 297,
-                width: 97,
-                height: 97
+            'id27': {
+                'x': 0x4ca,
+                'y': 0x582,
+                'width': 0xac,
+                'height': 0x118
             },
-            id28: {
-                x: 0,
-                y: 198,
-                width: 97,
-                height: 97
+            'id28': {
+                'x': 0x4ca,
+                'y': 0x468,
+                'width': 0xac,
+                'height': 0x118
             },
-            id29: {
-                x: 0,
-                y: 99,
-                width: 97,
-                height: 97
+            'id29': {
+                'x': 0x4ca,
+                'y': 0x34e,
+                'width': 0xac,
+                'height': 0x118
             },
-            id3: {
-                x: 396,
-                y: 297,
-                width: 97,
-                height: 97
+            'id3': {
+                'x': 0x0,
+                'y': 0x34d,
+                'width': 0x12b,
+                'height': 0x57
             },
-            id30: {
-                x: 0,
-                y: 0,
-                width: 97,
-                height: 97
+            'id30': {
+                'x': 0x164,
+                'y': 0x581,
+                'width': 0xac,
+                'height': 0x118
             },
-            id4: {
-                x: 396,
-                y: 198,
-                width: 97,
-                height: 97
+            'id31': {
+                'x': 0x164,
+                'y': 0x467,
+                'width': 0xac,
+                'height': 0x118
             },
-            id5: {
-                x: 396,
-                y: 99,
-                width: 97,
-                height: 97
+            'id32': {
+                'x': 0x46a,
+                'y': 0x11a,
+                'width': 0xac,
+                'height': 0x118
             },
-            id6: {
-                x: 396,
-                y: 0,
-                width: 97,
-                height: 97
+            'id33': {
+                'x': 0x212,
+                'y': 0x581,
+                'width': 0xac,
+                'height': 0x118
             },
-            id7: {
-                x: 297,
-                y: 495,
-                width: 97,
-                height: 97
+            'id34': {
+                'x': 0x164,
+                'y': 0x69b,
+                'width': 0xac,
+                'height': 0x118
             },
-            id8: {
-                x: 297,
-                y: 396,
-                width: 97,
-                height: 97
+            'id35': {
+                'x': 0x41c,
+                'y': 0x6cb,
+                'width': 0xac,
+                'height': 0x118
             },
-            id9: {
-                x: 297,
-                y: 297,
-                width: 97,
-                height: 97
+            'id36': {
+                'x': 0x41c,
+                'y': 0x5b1,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id37': {
+                'x': 0x41c,
+                'y': 0x497,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id38': {
+                'x': 0x41c,
+                'y': 0x37d,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id39': {
+                'x': 0x164,
+                'y': 0x34d,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id4': {
+                'x': 0x0,
+                'y': 0x228,
+                'width': 0x25e,
+                'height': 0xd
+            },
+            'id40': {
+                'x': 0x3c2,
+                'y': 0x0,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id41': {
+                'x': 0x3bc,
+                'y': 0x149,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id42': {
+                'x': 0x36e,
+                'y': 0x700,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id43': {
+                'x': 0x36e,
+                'y': 0x5e6,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id44': {
+                'x': 0x36e,
+                'y': 0x4cc,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id45': {
+                'x': 0x36e,
+                'y': 0x3b2,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id46': {
+                'x': 0x36e,
+                'y': 0x298,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id47': {
+                'x': 0x314,
+                'y': 0x2f,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id48': {
+                'x': 0x30e,
+                'y': 0x17e,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id49': {
+                'x': 0x2c0,
+                'y': 0x690,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id5': {
+                'x': 0x0,
+                'y': 0x0,
+                'width': 0x380,
+                'height': 0x2d
+            },
+            'id50': {
+                'x': 0x2c0,
+                'y': 0x576,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id51': {
+                'x': 0x2c0,
+                'y': 0x45c,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id52': {
+                'x': 0x2c0,
+                'y': 0x342,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id53': {
+                'x': 0x266,
+                'y': 0x64,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id54': {
+                'x': 0x260,
+                'y': 0x228,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id55': {
+                'x': 0x212,
+                'y': 0x69b,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id56': {
+                'x': 0x0,
+                'y': 0x6f4,
+                'width': 0xb2,
+                'height': 0x11c
+            },
+            'id57': {
+                'x': 0x6d4,
+                'y': 0x398,
+                'width': 0xa5,
+                'height': 0x14c
+            },
+            'id58': {
+                'x': 0x0,
+                'y': 0x4be,
+                'width': 0xb4,
+                'height': 0x116
+            },
+            'id59': {
+                'x': 0x774,
+                'y': 0x60d,
+                'width': 0x94,
+                'height': 0x11e
+            },
+            'id6': {
+                'x': 0xb6,
+                'y': 0x5b3,
+                'width': 0x25,
+                'height': 0x15
+            },
+            'id60': {
+                'x': 0x6d4,
+                'y': 0x4e6,
+                'width': 0x9e,
+                'height': 0x125
+            },
+            'id61': {
+                'x': 0x6d4,
+                'y': 0x60d,
+                'width': 0x9e,
+                'height': 0x121
+            },
+            'id62': {
+                'x': 0xb4,
+                'y': 0x6fa,
+                'width': 0xae,
+                'height': 0x122
+            },
+            'id63': {
+                'x': 0x67a,
+                'y': 0x0,
+                'width': 0xa6,
+                'height': 0x123
+            },
+            'id64': {
+                'x': 0xb6,
+                'y': 0x3a6,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id65': {
+                'x': 0x0,
+                'y': 0x237,
+                'width': 0x25e,
+                'height': 0x31
+            },
+            'id66': {
+                'x': 0x0,
+                'y': 0x146,
+                'width': 0x264,
+                'height': 0xe0
+            },
+            'id67': {
+                'x': 0xb6,
+                'y': 0x4c0,
+                'width': 0x78,
+                'height': 0x8b
+            },
+            'id68': {
+                'x': 0x0,
+                'y': 0x5d6,
+                'width': 0xb2,
+                'height': 0x11c
+            },
+            'id69': {
+                'x': 0x6d4,
+                'y': 0x24a,
+                'width': 0xa5,
+                'height': 0x14c
+            },
+            'id7': {
+                'x': 0x212,
+                'y': 0x34d,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id70': {
+                'x': 0x0,
+                'y': 0x3a6,
+                'width': 0xb4,
+                'height': 0x116
+            },
+            'id71': {
+                'x': 0x77b,
+                'y': 0x24a,
+                'width': 0x94,
+                'height': 0x11e
+            },
+            'id72': {
+                'x': 0x774,
+                'y': 0x4e6,
+                'width': 0x9e,
+                'height': 0x125
+            },
+            'id73': {
+                'x': 0x722,
+                'y': 0x0,
+                'width': 0x9e,
+                'height': 0x121
+            },
+            'id74': {
+                'x': 0xb4,
+                'y': 0x5d6,
+                'width': 0xae,
+                'height': 0x122
+            },
+            'id75': {
+                'x': 0x6d4,
+                'y': 0x125,
+                'width': 0xa6,
+                'height': 0x123
+            },
+            'id76': {
+                'x': 0x0,
+                'y': 0x26a,
+                'width': 0x25b,
+                'height': 0xe1
+            },
+            'id77': {
+                'x': 0x0,
+                'y': 0x64,
+                'width': 0x264,
+                'height': 0xe0
+            },
+            'id8': {
+                'x': 0x41c,
+                'y': 0x263,
+                'width': 0xac,
+                'height': 0x118
+            },
+            'id9': {
+                'x': 0x212,
+                'y': 0x467,
+                'width': 0xac,
+                'height': 0x118
             }
         }
     }, {
-        id: "flare",
-        file: "images/flare.png"
-    }, {
-        id: "gameElements",
-        file: "images/gameElements.png",
-        oAtlasData: {
-            id0: {
-                x: 0,
-                y: 47,
-                width: 618,
-                height: 51
-            },
-            id1: {
-                x: 182,
-                y: 1395,
-                width: 62,
-                height: 62
-            },
-            id10: {
-                x: 1226,
-                y: 564,
-                width: 172,
-                height: 280
-            },
-            id11: {
-                x: 1310,
-                y: 0,
-                width: 172,
-                height: 280
-            },
-            id12: {
-                x: 1400,
-                y: 1692,
-                width: 172,
-                height: 280
-            },
-            id13: {
-                x: 1400,
-                y: 1128,
-                width: 172,
-                height: 280
-            },
-            id14: {
-                x: 1574,
-                y: 1692,
-                width: 172,
-                height: 280
-            },
-            id15: {
-                x: 1574,
-                y: 1410,
-                width: 172,
-                height: 280
-            },
-            id16: {
-                x: 1574,
-                y: 1128,
-                width: 172,
-                height: 280
-            },
-            id17: {
-                x: 1574,
-                y: 846,
-                width: 172,
-                height: 280
-            },
-            id18: {
-                x: 1574,
-                y: 564,
-                width: 172,
-                height: 280
-            },
-            id19: {
-                x: 1484,
-                y: 0,
-                width: 172,
-                height: 280
-            },
-            id2: {
-                x: 182,
-                y: 1357,
-                width: 65,
-                height: 36
-            },
-            id20: {
-                x: 1478,
-                y: 282,
-                width: 172,
-                height: 280
-            },
-            id21: {
-                x: 1136,
-                y: 0,
-                width: 172,
-                height: 280
-            },
-            id22: {
-                x: 1400,
-                y: 1410,
-                width: 172,
-                height: 280
-            },
-            id23: {
-                x: 1304,
-                y: 282,
-                width: 172,
-                height: 280
-            },
-            id24: {
-                x: 1400,
-                y: 846,
-                width: 172,
-                height: 280
-            },
-            id25: {
-                x: 1400,
-                y: 564,
-                width: 172,
-                height: 280
-            },
-            id26: {
-                x: 1226,
-                y: 1692,
-                width: 172,
-                height: 280
-            },
-            id27: {
-                x: 1226,
-                y: 1410,
-                width: 172,
-                height: 280
-            },
-            id28: {
-                x: 1226,
-                y: 1128,
-                width: 172,
-                height: 280
-            },
-            id29: {
-                x: 1226,
-                y: 846,
-                width: 172,
-                height: 280
-            },
-            id3: {
-                x: 0,
-                y: 845,
-                width: 299,
-                height: 87
-            },
-            id30: {
-                x: 356,
-                y: 1409,
-                width: 172,
-                height: 280
-            },
-            id31: {
-                x: 356,
-                y: 1127,
-                width: 172,
-                height: 280
-            },
-            id32: {
-                x: 1130,
-                y: 282,
-                width: 172,
-                height: 280
-            },
-            id33: {
-                x: 530,
-                y: 1409,
-                width: 172,
-                height: 280
-            },
-            id34: {
-                x: 356,
-                y: 1691,
-                width: 172,
-                height: 280
-            },
-            id35: {
-                x: 1052,
-                y: 1739,
-                width: 172,
-                height: 280
-            },
-            id36: {
-                x: 1052,
-                y: 1457,
-                width: 172,
-                height: 280
-            },
-            id37: {
-                x: 1052,
-                y: 1175,
-                width: 172,
-                height: 280
-            },
-            id38: {
-                x: 1052,
-                y: 893,
-                width: 172,
-                height: 280
-            },
-            id39: {
-                x: 356,
-                y: 845,
-                width: 172,
-                height: 280
-            },
-            id4: {
-                x: 0,
-                y: 552,
-                width: 606,
-                height: 13
-            },
-            id40: {
-                x: 962,
-                y: 0,
-                width: 172,
-                height: 280
-            },
-            id41: {
-                x: 956,
-                y: 329,
-                width: 172,
-                height: 280
-            },
-            id42: {
-                x: 878,
-                y: 1792,
-                width: 172,
-                height: 280
-            },
-            id43: {
-                x: 878,
-                y: 1510,
-                width: 172,
-                height: 280
-            },
-            id44: {
-                x: 878,
-                y: 1228,
-                width: 172,
-                height: 280
-            },
-            id45: {
-                x: 878,
-                y: 946,
-                width: 172,
-                height: 280
-            },
-            id46: {
-                x: 878,
-                y: 664,
-                width: 172,
-                height: 280
-            },
-            id47: {
-                x: 788,
-                y: 47,
-                width: 172,
-                height: 280
-            },
-            id48: {
-                x: 782,
-                y: 382,
-                width: 172,
-                height: 280
-            },
-            id49: {
-                x: 704,
-                y: 1680,
-                width: 172,
-                height: 280
-            },
-            id5: {
-                x: 0,
-                y: 0,
-                width: 896,
-                height: 45
-            },
-            id50: {
-                x: 704,
-                y: 1398,
-                width: 172,
-                height: 280
-            },
-            id51: {
-                x: 704,
-                y: 1116,
-                width: 172,
-                height: 280
-            },
-            id52: {
-                x: 704,
-                y: 834,
-                width: 172,
-                height: 280
-            },
-            id53: {
-                x: 614,
-                y: 100,
-                width: 172,
-                height: 280
-            },
-            id54: {
-                x: 608,
-                y: 552,
-                width: 172,
-                height: 280
-            },
-            id55: {
-                x: 530,
-                y: 1691,
-                width: 172,
-                height: 280
-            },
-            id56: {
-                x: 0,
-                y: 1780,
-                width: 178,
-                height: 284
-            },
-            id57: {
-                x: 1748,
-                y: 920,
-                width: 165,
-                height: 332
-            },
-            id58: {
-                x: 0,
-                y: 1214,
-                width: 180,
-                height: 278
-            },
-            id59: {
-                x: 1908,
-                y: 1549,
-                width: 148,
-                height: 286
-            },
-            id6: {
-                x: 182,
-                y: 1459,
-                width: 37,
-                height: 21
-            },
-            id60: {
-                x: 1748,
-                y: 1254,
-                width: 158,
-                height: 293
-            },
-            id61: {
-                x: 1748,
-                y: 1549,
-                width: 158,
-                height: 289
-            },
-            id62: {
-                x: 180,
-                y: 1786,
-                width: 174,
-                height: 290
-            },
-            id63: {
-                x: 1658,
-                y: 0,
-                width: 166,
-                height: 291
-            },
-            id64: {
-                x: 182,
-                y: 934,
-                width: 172,
-                height: 280
-            },
-            id65: {
-                x: 0,
-                y: 567,
-                width: 606,
-                height: 49
-            },
-            id66: {
-                x: 0,
-                y: 326,
-                width: 612,
-                height: 224
-            },
-            id67: {
-                x: 182,
-                y: 1216,
-                width: 120,
-                height: 139
-            },
-            id68: {
-                x: 0,
-                y: 1494,
-                width: 178,
-                height: 284
-            },
-            id69: {
-                x: 1748,
-                y: 586,
-                width: 165,
-                height: 332
-            },
-            id7: {
-                x: 530,
-                y: 845,
-                width: 172,
-                height: 280
-            },
-            id70: {
-                x: 0,
-                y: 934,
-                width: 180,
-                height: 278
-            },
-            id71: {
-                x: 1915,
-                y: 586,
-                width: 148,
-                height: 286
-            },
-            id72: {
-                x: 1908,
-                y: 1254,
-                width: 158,
-                height: 293
-            },
-            id73: {
-                x: 1826,
-                y: 0,
-                width: 158,
-                height: 289
-            },
-            id74: {
-                x: 180,
-                y: 1494,
-                width: 174,
-                height: 290
-            },
-            id75: {
-                x: 1748,
-                y: 293,
-                width: 166,
-                height: 291
-            },
-            id76: {
-                x: 0,
-                y: 618,
-                width: 603,
-                height: 225
-            },
-            id77: {
-                x: 0,
-                y: 100,
-                width: 612,
-                height: 224
-            },
-            id8: {
-                x: 1052,
-                y: 611,
-                width: 172,
-                height: 280
-            },
-            id9: {
-                x: 530,
-                y: 1127,
-                width: 172,
-                height: 280
+        'id': _0x5bfd9b(0x2ae),
+        'file': _0x5bfd9b(0x2c8),
+        'oAtlasData': {
+            'id0': {
+                'x': 0x0,
+                'y': 0x0,
+                'width': 0x1f3,
+                'height': 0xfe
+            },
+            'id1': {
+                'x': 0x16e,
+                'y': 0x1f7,
+                'width': 0x46,
+                'height': 0x42
+            },
+            'id10': {
+                'x': 0x2c1,
+                'y': 0x1b4,
+                'width': 0x3a,
+                'height': 0x38
+            },
+            'id11': {
+                'x': 0x2c1,
+                'y': 0x178,
+                'width': 0x3e,
+                'height': 0x3a
+            },
+            'id12': {
+                'x': 0x260,
+                'y': 0x2ef,
+                'width': 0x55,
+                'height': 0x56
+            },
+            'id13': {
+                'x': 0xae,
+                'y': 0x23c,
+                'width': 0xab,
+                'height': 0xf9
+            },
+            'id14': {
+                'x': 0x218,
+                'y': 0xf7,
+                'width': 0xa7,
+                'height': 0xf5
+            },
+            'id15': {
+                'x': 0x1f5,
+                'y': 0x0,
+                'width': 0xa8,
+                'height': 0xf5
+            },
+            'id16': {
+                'x': 0x208,
+                'y': 0x1f7,
+                'width': 0xa8,
+                'height': 0xf6
+            },
+            'id17': {
+                'x': 0x16e,
+                'y': 0x100,
+                'width': 0xa8,
+                'height': 0xf5
+            },
+            'id18': {
+                'x': 0x0,
+                'y': 0x23c,
+                'width': 0xac,
+                'height': 0x119
+            },
+            'id19': {
+                'x': 0x0,
+                'y': 0x141,
+                'width': 0xbf,
+                'height': 0x46
+            },
+            'id2': {
+                'x': 0x0,
+                'y': 0x189,
+                'width': 0xb6,
+                'height': 0xb1
+            },
+            'id20': {
+                'x': 0x104,
+                'y': 0x337,
+                'width': 0x28,
+                'height': 0x25
+            },
+            'id21': {
+                'x': 0x301,
+                'y': 0x1b3,
+                'width': 0x38,
+                'height': 0x39
+            },
+            'id22': {
+                'x': 0xc1,
+                'y': 0x141,
+                'width': 0xab,
+                'height': 0xf9
+            },
+            'id23': {
+                'x': 0x15b,
+                'y': 0x23c,
+                'width': 0xab,
+                'height': 0xf9
+            },
+            'id24': {
+                'x': 0x0,
+                'y': 0x100,
+                'width': 0x137,
+                'height': 0x1f
+            },
+            'id25': {
+                'x': 0x0,
+                'y': 0x121,
+                'width': 0x137,
+                'height': 0x1e
+            },
+            'id26': {
+                'x': 0x29f,
+                'y': 0x0,
+                'width': 0xa5,
+                'height': 0xf2
+            },
+            'id27': {
+                'x': 0x300,
+                'y': 0x326,
+                'width': 0x3b,
+                'height': 0x3c
+            },
+            'id28': {
+                'x': 0xae,
+                'y': 0x337,
+                'width': 0x54,
+                'height': 0x30
+            },
+            'id29': {
+                'x': 0x301,
+                'y': 0x178,
+                'width': 0x38,
+                'height': 0x39
+            },
+            'id3': {
+                'x': 0x300,
+                'y': 0x2e8,
+                'width': 0x3b,
+                'height': 0x3c
+            },
+            'id30': {
+                'x': 0x302,
+                'y': 0x137,
+                'width': 0x36,
+                'height': 0x36
+            },
+            'id31': {
+                'x': 0x12e,
+                'y': 0x337,
+                'width': 0x1f,
+                'height': 0x2f
+            },
+            'id32': {
+                'x': 0x2b7,
+                'y': 0x2e8,
+                'width': 0x47,
+                'height': 0x51
+            },
+            'id33': {
+                'x': 0x2c1,
+                'y': 0x137,
+                'width': 0x3f,
+                'height': 0x3f
+            },
+            'id4': {
+                'x': 0x2c,
+                'y': 0x357,
+                'width': 0x2a,
+                'height': 0xb
+            },
+            'id5': {
+                'x': 0x0,
+                'y': 0x357,
+                'width': 0x2a,
+                'height': 0xb
+            },
+            'id6': {
+                'x': 0x1b6,
+                'y': 0x1f7,
+                'width': 0x41,
+                'height': 0x41
+            },
+            'id7': {
+                'x': 0x208,
+                'y': 0x2ef,
+                'width': 0x56,
+                'height': 0x56
+            },
+            'id8': {
+                'x': 0x2b2,
+                'y': 0x1ee,
+                'width': 0xa0,
+                'height': 0xf8
+            },
+            'id9': {
+                'x': 0x2c1,
+                'y': 0xf4,
+                'width': 0x41,
+                'height': 0x41
             }
         }
     }, {
-        id: "uiElements",
-        file: "images/uiElements.png",
-        oAtlasData: {
-            id0: {
-                x: 193,
-                y: 1054,
-                width: 70,
-                height: 66
+        'id': 'awards',
+        'file': _0x5bfd9b(0x141),
+        'oAtlasData': {
+            'id0': {
+                'x': 0x126,
+                'y': 0x14a,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id1: {
-                x: 271,
-                y: 825,
-                width: 182,
-                height: 177
+            'id1': {
+                'x': 0x24c,
+                'y': 0x14a,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id10: {
-                x: 653,
-                y: 1067,
-                width: 62,
-                height: 58
+            'id10': {
+                'x': 0xf0,
+                'y': 0xa5,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id11: {
-                x: 359,
-                y: 1034,
-                width: 85,
-                height: 86
+            'id11': {
+                'x': 0xf0,
+                'y': 0x0,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id12: {
-                x: 628,
-                y: 751,
-                width: 171,
-                height: 249
+            'id12': {
+                'x': 0x93,
+                'y': 0x24f,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id13: {
-                x: 868,
-                y: 248,
-                width: 167,
-                height: 245
+            'id13': {
+                'x': 0x93,
+                'y': 0x1aa,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id14: {
-                x: 801,
-                y: 747,
-                width: 168,
-                height: 245
+            'id14': {
+                'x': 0x0,
+                'y': 0x24f,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id15: {
-                x: 868,
-                y: 0,
-                width: 168,
-                height: 246
+            'id15': {
+                'x': 0x0,
+                'y': 0x1aa,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id16: {
-                x: 751,
-                y: 500,
-                width: 168,
-                height: 245
+            'id16': {
+                'x': 0x0,
+                'y': 0x116,
+                'width': 0x99,
+                'height': 0x92
             },
-            id17: {
-                x: 404,
-                y: 500,
-                width: 172,
-                height: 281
+            'id17': {
+                'x': 0x0,
+                'y': 0x0,
+                'width': 0xee,
+                'height': 0x114
             },
-            id18: {
-                x: 0,
-                y: 1054,
-                width: 191,
-                height: 70
+            'id2': {
+                'x': 0x216,
+                'y': 0xa5,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id19: {
-                x: 894,
-                y: 1053,
-                width: 40,
-                height: 37
+            'id3': {
+                'x': 0x216,
+                'y': 0x0,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id2: {
-                x: 718,
-                y: 1002,
-                width: 59,
-                height: 60
+            'id4': {
+                'x': 0x1b9,
+                'y': 0x1ef,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id20: {
-                x: 837,
-                y: 994,
-                width: 56,
-                height: 57
+            'id5': {
+                'x': 0x1b9,
+                'y': 0x14a,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id21: {
-                x: 578,
-                y: 500,
-                width: 171,
-                height: 249
+            'id6': {
+                'x': 0x183,
+                'y': 0xa5,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id22: {
-                x: 455,
-                y: 783,
-                width: 171,
-                height: 249
+            'id7': {
+                'x': 0x183,
+                'y': 0x0,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id23: {
-                x: 0,
-                y: 792,
-                width: 311,
-                height: 31
+            'id8': {
+                'x': 0x126,
+                'y': 0x1ef,
+                'width': 0x91,
+                'height': 0xa3
             },
-            id24: {
-                x: 0,
-                y: 760,
-                width: 311,
-                height: 30
-            },
-            id25: {
-                x: 921,
-                y: 495,
-                width: 165,
-                height: 242
-            },
-            id26: {
-                x: 717,
-                y: 1067,
-                width: 59,
-                height: 60
-            },
-            id27: {
-                x: 313,
-                y: 760,
-                width: 84,
-                height: 48
-            },
-            id28: {
-                x: 779,
-                y: 1002,
-                width: 56,
-                height: 57
-            },
-            id29: {
-                x: 838,
-                y: 1053,
-                width: 54,
-                height: 54
-            },
-            id3: {
-                x: 271,
-                y: 1017,
-                width: 42,
-                height: 11
-            },
-            id30: {
-                x: 936,
-                y: 1044,
-                width: 31,
-                height: 47
-            },
-            id31: {
-                x: 446,
-                y: 1034,
-                width: 71,
-                height: 81
-            },
-            id32: {
-                x: 653,
-                y: 1002,
-                width: 63,
-                height: 63
-            },
-            id33: {
-                x: 0,
-                y: 0,
-                width: 866,
-                height: 498
-            },
-            id34: {
-                x: 0,
-                y: 825,
-                width: 269,
-                height: 227
-            },
-            id35: {
-                x: 895,
-                y: 994,
-                width: 36,
-                height: 48
-            },
-            id36: {
-                x: 933,
-                y: 994,
-                width: 36,
-                height: 48
-            },
-            id37: {
-                x: 0,
-                y: 630,
-                width: 402,
-                height: 128
-            },
-            id38: {
-                x: 399,
-                y: 783,
-                width: 49,
-                height: 38
-            },
-            id39: {
-                x: 0,
-                y: 500,
-                width: 402,
-                height: 128
-            },
-            id4: {
-                x: 271,
-                y: 1004,
-                width: 42,
-                height: 11
-            },
-            id40: {
-                x: 315,
-                y: 1004,
-                width: 33,
-                height: 28
-            },
-            id5: {
-                x: 519,
-                y: 1034,
-                width: 65,
-                height: 65
-            },
-            id6: {
-                x: 271,
-                y: 1034,
-                width: 86,
-                height: 86
-            },
-            id7: {
-                x: 971,
-                y: 739,
-                width: 160,
-                height: 248
-            },
-            id8: {
-                x: 586,
-                y: 1034,
-                width: 65,
-                height: 65
-            },
-            id9: {
-                x: 778,
-                y: 1064,
-                width: 58,
-                height: 56
+            'id9': {
+                'x': 0x24c,
+                'y': 0x1ef,
+                'width': 0x91,
+                'height': 0xa3
             }
         }
     }, {
-        id: "awards",
-        file: "images/awards.png",
-        oAtlasData: {
-            id0: {
-                x: 294,
-                y: 330,
-                width: 145,
-                height: 163
+        'id': 'bugs',
+        'file': _0x5bfd9b(0x451),
+        'oAtlasData': {
+            'id0': {
+                'x': 0x7c,
+                'y': 0x12c,
+                'width': 0x7a,
+                'height': 0x73
             },
-            id1: {
-                x: 588,
-                y: 330,
-                width: 145,
-                height: 163
+            'id1': {
+                'x': 0x174,
+                'y': 0xc2,
+                'width': 0x7a,
+                'height': 0x68
             },
-            id10: {
-                x: 240,
-                y: 165,
-                width: 145,
-                height: 163
+            'id2': {
+                'x': 0xf8,
+                'y': 0x12d,
+                'width': 0x7a,
+                'height': 0x65
             },
-            id11: {
-                x: 240,
-                y: 0,
-                width: 145,
-                height: 163
+            'id3': {
+                'x': 0xf8,
+                'y': 0xc2,
+                'width': 0x7a,
+                'height': 0x69
             },
-            id12: {
-                x: 147,
-                y: 591,
-                width: 145,
-                height: 163
+            'id4': {
+                'x': 0x174,
+                'y': 0x12c,
+                'width': 0x7a,
+                'height': 0x88
             },
-            id13: {
-                x: 147,
-                y: 426,
-                width: 145,
-                height: 163
+            'id5': {
+                'x': 0x7c,
+                'y': 0xc2,
+                'width': 0x7a,
+                'height': 0x68
             },
-            id14: {
-                x: 0,
-                y: 591,
-                width: 145,
-                height: 163
+            'id6': {
+                'x': 0x0,
+                'y': 0x130,
+                'width': 0x7a,
+                'height': 0x69
             },
-            id15: {
-                x: 0,
-                y: 426,
-                width: 145,
-                height: 163
+            'id7': {
+                'x': 0x0,
+                'y': 0xc2,
+                'width': 0x7a,
+                'height': 0x6c
             },
-            id16: {
-                x: 0,
-                y: 278,
-                width: 153,
-                height: 146
-            },
-            id17: {
-                x: 0,
-                y: 0,
-                width: 238,
-                height: 276
-            },
-            id2: {
-                x: 534,
-                y: 165,
-                width: 145,
-                height: 163
-            },
-            id3: {
-                x: 534,
-                y: 0,
-                width: 145,
-                height: 163
-            },
-            id4: {
-                x: 441,
-                y: 495,
-                width: 145,
-                height: 163
-            },
-            id5: {
-                x: 441,
-                y: 330,
-                width: 145,
-                height: 163
-            },
-            id6: {
-                x: 387,
-                y: 165,
-                width: 145,
-                height: 163
-            },
-            id7: {
-                x: 387,
-                y: 0,
-                width: 145,
-                height: 163
-            },
-            id8: {
-                x: 294,
-                y: 495,
-                width: 145,
-                height: 163
-            },
-            id9: {
-                x: 588,
-                y: 495,
-                width: 145,
-                height: 163
+            'id8': {
+                'x': 0x0,
+                'y': 0x0,
+                'width': 0x1f6,
+                'height': 0xc0
             }
         }
     }, {
-        id: "bugs",
-        file: "images/bugs.png",
-        oAtlasData: {
-            id0: {
-                x: 124,
-                y: 300,
-                width: 122,
-                height: 115
-            },
-            id1: {
-                x: 372,
-                y: 194,
-                width: 122,
-                height: 104
-            },
-            id2: {
-                x: 248,
-                y: 301,
-                width: 122,
-                height: 101
-            },
-            id3: {
-                x: 248,
-                y: 194,
-                width: 122,
-                height: 105
-            },
-            id4: {
-                x: 372,
-                y: 300,
-                width: 122,
-                height: 136
-            },
-            id5: {
-                x: 124,
-                y: 194,
-                width: 122,
-                height: 104
-            },
-            id6: {
-                x: 0,
-                y: 304,
-                width: 122,
-                height: 105
-            },
-            id7: {
-                x: 0,
-                y: 194,
-                width: 122,
-                height: 108
-            },
-            id8: {
-                x: 0,
-                y: 0,
-                width: 502,
-                height: 192
-            }
-        }
+        'id': _0x5bfd9b(0xe4),
+        'file': _0x5bfd9b(0x44d)
     }, {
-        id: "langText",
-        file: "json/text.json"
+        'id': 'info',
+        'file': _0x5bfd9b(0x3ff)
     }, {
-        id: "info",
-        file: "images/splashLogo.png"
+        'id': _0x5bfd9b(0xff),
+        'file': _0x5bfd9b(0x17b)
     }, {
-        id: "bg0",
-        file: "images/bg0.jpg"
+        'id': 'bg1',
+        'file': _0x5bfd9b(0x392)
     }, {
-        id: "bg1",
-        file: "images/bg1.jpg"
+        'id': 'bg2',
+        'file': _0x5bfd9b(0x31f)
     }, {
-        id: "bg2",
-        file: "images/bg2.jpg"
+        'id': _0x5bfd9b(0x136),
+        'file': _0x5bfd9b(0x156)
     }, {
-        id: "bg3",
-        file: "images/bg3.jpg"
+        'id': _0x5bfd9b(0xd7),
+        'file': _0x5bfd9b(0x220)
     }, {
-        id: "bg4",
-        file: "images/bg4.jpg"
+        'id': _0x5bfd9b(0x43a),
+        'file': _0x5bfd9b(0xea)
     }, {
-        id: "fadeBg0",
-        file: "images/spinBg0.jpg"
+        'id': _0x5bfd9b(0x2c1),
+        'file': 'images/spinBg1.jpg'
     }, {
-        id: "fadeBg1",
-        file: "images/spinBg1.jpg"
-    }, {
-        id: "fadeBg2",
-        file: "images/spinBg2.jpg"
-    }], ctx, canvas.width, canvas.height), oImageIds.net = "id0", oImageIds.ball0 = "id1", oImageIds.ballShadow = "id2", oImageIds.batShadow = "id3", oImageIds.tableClip = "id4", oImageIds.tableEdge = "id5", oImageIds.bounceMark = "id6", oImageIds.bat0 = "id7", oImageIds.bat1 = "id8", oImageIds.bat2 = "id9", oImageIds.bat3 = "id10", oImageIds.bat4 = "id11", oImageIds.bat5 = "id12", oImageIds.bat6 = "id13", oImageIds.bat7 = "id14", oImageIds.bat8 = "id15", oImageIds.bat9 = "id16", oImageIds.bat10 = "id17", oImageIds.bat11 = "id18", oImageIds.bat12 = "id19", oImageIds.bat13 = "id20", oImageIds.bat14 = "id21", oImageIds.bat15 = "id22", oImageIds.bat16 = "id23", oImageIds.bat17 = "id24", oImageIds.bat18 = "id25", oImageIds.bat19 = "id26", oImageIds.bat20 = "id27", oImageIds.bat21 = "id28", oImageIds.bat22 = "id29", oImageIds.bat23 = "id30", oImageIds.bat24 = "id31", oImageIds.bat25 = "id32", oImageIds.bat26 = "id33", oImageIds.bat27 = "id34", oImageIds.bat28 = "id35", oImageIds.bat29 = "id36", oImageIds.bat30 = "id37", oImageIds.bat31 = "id38", oImageIds.bat32 = "id39", oImageIds.bat33 = "id40", oImageIds.bat34 = "id41", oImageIds.bat35 = "id42", oImageIds.bat36 = "id43", oImageIds.bat37 = "id44", oImageIds.bat38 = "id45", oImageIds.bat39 = "id46", oImageIds.bat40 = "id47", oImageIds.bat41 = "id48", oImageIds.bat42 = "id49", oImageIds.bat43 = "id50", oImageIds.bat44 = "id51", oImageIds.bat45 = "id52", oImageIds.bat46 = "id53", oImageIds.bat47 = "id54", oImageIds.bat48 = "id55", oImageIds.bat49 = "id56", oImageIds.bat50 = "id57", oImageIds.bat51 = "id58", oImageIds.bat52 = "id59", oImageIds.bat53 = "id60", oImageIds.bat54 = "id61", oImageIds.bat55 = "id62", oImageIds.bat56 = "id63", oImageIds.batBehind0 = "id64", oImageIds.netReflect = "id65", oImageIds.target0 = "id66", oImageIds.bot = "id67", oImageIds.batBehind49 = "id68", oImageIds.batBehind50 = "id69", oImageIds.batBehind51 = "id70", oImageIds.batBehind52 = "id71", oImageIds.batBehind53 = "id72", oImageIds.batBehind54 = "id73", oImageIds.batBehind55 = "id74", oImageIds.batBehind56 = "id75", oImageIds.targetZoom = "id76", oImageIds.target1 = "id77", oImageIds.bug0 = "id0", oImageIds.bug1 = "id1", oImageIds.bug2 = "id2", oImageIds.bug3 = "id3", oImageIds.bug4 = "id4", oImageIds.bug5 = "id5", oImageIds.bug6 = "id6", oImageIds.bug7 = "id7", oImageIds.bugBack = "id8", oImageIds.award0 = "id0", oImageIds.award1 = "id1", oImageIds.award2 = "id2", oImageIds.award3 = "id3", oImageIds.award4 = "id4", oImageIds.award5 = "id5", oImageIds.award6 = "id6", oImageIds.award7 = "id7", oImageIds.award8 = "id8", oImageIds.award9 = "id9", oImageIds.award10 = "id10", oImageIds.award11 = "id11", oImageIds.award12 = "id12", oImageIds.award13 = "id13", oImageIds.award14 = "id14", oImageIds.award15 = "id15", oImageIds.award16 = "id16", oImageIds.awardBg = "id17", oImageIds.batShopBut = "id0", oImageIds.batShopButOver = "id1", oImageIds.pvpGameBut = "id2", oImageIds.pvpGameButOver = "id3", oImageIds.infoBut = "id4", oImageIds.infoButOver = "id5", oImageIds.muteBut1 = "id6", oImageIds.muteBut1Over = "id7", oImageIds.muteBut0 = "id8", oImageIds.muteBut0Over = "id9", oImageIds.playBut = "id10", oImageIds.playButOver = "id11", oImageIds.rewardMultiplyBut = "id12", oImageIds.rewardMultiplyButOver = "id13", oImageIds.backBut = "id14", oImageIds.backButOver = "id15", oImageIds.pauseBut = "id16", oImageIds.pauseButOver = "id17", oImageIds.quitBut = "id18", oImageIds.quitButOver = "id19", oImageIds.continueBut = "id20", oImageIds.continueButOver = "id21", oImageIds.resetBut = "id22", oImageIds.resetButOver = "id23", oImageIds.awardsBut = "id24", oImageIds.awardsButOver = "id25", oImageIds.challengeBut = "id26", oImageIds.challengeButOver = "id27", oImageIds.arcadeBut = "id28", oImageIds.arcadeButOver = "id29", oImageIds.minusBut = "id30", oImageIds.minusButOver = "id31", oImageIds.plusBut = "id32", oImageIds.plusButOver = "id33", oImageIds.bugGameBut = "id34", oImageIds.bugGameButOver = "id35", oImageIds.tickBut = "id36", oImageIds.tickButOver = "id37", oImageIds.careerBut = "id38", oImageIds.careerButOver = "id39", oImageIds.shareBut = "id40", oImageIds.shareButOver = "id41", oImageIds.smallGem = getAssetId(!0), oImageIds.bigGem = getAssetId(), oImageIds.smallCup = getAssetId(), oImageIds.progressLine0 = getAssetId(), oImageIds.progressLine1 = getAssetId(), oImageIds.progressCup0 = getAssetId(), oImageIds.progressCup2 = getAssetId(), oImageIds.startFinger = getAssetId(), oImageIds.progressCup1 = getAssetId(), oImageIds.star1 = getAssetId(), oImageIds.star0 = getAssetId(), oImageIds.progressCup3 = getAssetId(), oImageIds.batShopOverlay0 = getAssetId(), oImageIds.batShopUnderlay0 = getAssetId(), oImageIds.batShopUnderlay1 = getAssetId(), oImageIds.batShopUnderlay2 = getAssetId(), oImageIds.batShopUnderlay3 = getAssetId(), oImageIds.batDropShadow = getAssetId(), oImageIds.batLock = getAssetId(), oImageIds.rewardIcon = getAssetId(), oImageIds.tick = getAssetId(), oImageIds.batShopOverlay1 = getAssetId(), oImageIds.batShopOverlay2 = getAssetId(), oImageIds.batShopBorder0 = getAssetId(), oImageIds.batShopBorder1 = getAssetId(), oImageIds.batShopGlow = getAssetId(), oImageIds.targetIcon = getAssetId(), oImageIds.setsBg = getAssetId(), oImageIds.classicTick1 = getAssetId(), oImageIds.classicTick0 = getAssetId(), oImageIds.mousePointer = getAssetId(), oImageIds.stopWatch = getAssetId(), oImageIds.bugIcon = getAssetId(), oImageIds.map = getAssetId(), oImageIds.pin0 = getAssetId(), oImageIds.pin1 = getAssetId(), oImageIds.pin2 = getAssetId(), oImageIds.shareHeader0 = getAssetId(), oImageIds.shareTick = getAssetId(), oImageIds.shareHeader1 = getAssetId(), oImageIds.crown = getAssetId(), oImageIds.flag0 = getAssetId(!0);
-    for (var e = 1; e < aFlags.length; e++) oImageIds["flag" + e] = getAssetId();
-    assetLib.onReady(initSplash), gameState = "loading", previousTime = new Date().getTime(), updateLoaderEvent()
+        'id': _0x5bfd9b(0x43e),
+        'file': _0x5bfd9b(0x40d)
+    }],ctx,canvas[_0x5bfd9b(0xeb)],canvas[_0x5bfd9b(0x2f8)]),
+    oImageIds[_0x5bfd9b(0x37f)] = 'id0',
+    oImageIds[_0x5bfd9b(0x180)] = _0x5bfd9b(0x18c),
+    oImageIds[_0x5bfd9b(0x410)] = _0x5bfd9b(0x25f),
+    oImageIds['batShadow'] = _0x5bfd9b(0x1f6),
+    oImageIds['tableClip'] = 'id4',
+    oImageIds[_0x5bfd9b(0x11a)] = _0x5bfd9b(0x17f),
+    oImageIds[_0x5bfd9b(0x12a)] = _0x5bfd9b(0x3df),
+    oImageIds[_0x5bfd9b(0x427)] = 'id7',
+    oImageIds['bat1'] = _0x5bfd9b(0x42b),
+    oImageIds['bat2'] = 'id9',
+    oImageIds[_0x5bfd9b(0x364)] = 'id10',
+    oImageIds['bat4'] = _0x5bfd9b(0x296),
+    oImageIds[_0x5bfd9b(0x301)] = _0x5bfd9b(0x431),
+    oImageIds[_0x5bfd9b(0x367)] = _0x5bfd9b(0x1d2),
+    oImageIds[_0x5bfd9b(0x19d)] = _0x5bfd9b(0x1fd),
+    oImageIds['bat8'] = 'id15',
+    oImageIds['bat9'] = _0x5bfd9b(0x260),
+    oImageIds[_0x5bfd9b(0x155)] = 'id17',
+    oImageIds['bat11'] = 'id18',
+    oImageIds['bat12'] = _0x5bfd9b(0x24d),
+    oImageIds[_0x5bfd9b(0x144)] = _0x5bfd9b(0x3cb),
+    oImageIds[_0x5bfd9b(0x3dc)] = _0x5bfd9b(0x49b),
+    oImageIds[_0x5bfd9b(0x4a4)] = 'id22',
+    oImageIds[_0x5bfd9b(0xe1)] = _0x5bfd9b(0x45f),
+    oImageIds[_0x5bfd9b(0x49f)] = _0x5bfd9b(0x172),
+    oImageIds['bat18'] = 'id25',
+    oImageIds[_0x5bfd9b(0x15b)] = _0x5bfd9b(0xcd),
+    oImageIds[_0x5bfd9b(0x316)] = _0x5bfd9b(0x2d3),
+    oImageIds[_0x5bfd9b(0x184)] = _0x5bfd9b(0x1ec),
+    oImageIds[_0x5bfd9b(0x3e5)] = 'id29',
+    oImageIds[_0x5bfd9b(0x339)] = _0x5bfd9b(0x14b),
+    oImageIds['bat24'] = 'id31',
+    oImageIds['bat25'] = _0x5bfd9b(0x205),
+    oImageIds[_0x5bfd9b(0x3a0)] = _0x5bfd9b(0x2cf),
+    oImageIds[_0x5bfd9b(0x3ab)] = _0x5bfd9b(0xce),
+    oImageIds['bat28'] = _0x5bfd9b(0x1a9),
+    oImageIds[_0x5bfd9b(0x430)] = 'id36',
+    oImageIds[_0x5bfd9b(0x3cd)] = _0x5bfd9b(0x216),
+    oImageIds['bat31'] = 'id38',
+    oImageIds[_0x5bfd9b(0x1f9)] = _0x5bfd9b(0x3b0),
+    oImageIds[_0x5bfd9b(0x23f)] = _0x5bfd9b(0xe9),
+    oImageIds[_0x5bfd9b(0x1f1)] = _0x5bfd9b(0x39e),
+    oImageIds[_0x5bfd9b(0x168)] = _0x5bfd9b(0x38c),
+    oImageIds['bat36'] = _0x5bfd9b(0xf4),
+    oImageIds[_0x5bfd9b(0x2bd)] = _0x5bfd9b(0x283),
+    oImageIds['bat38'] = 'id45',
+    oImageIds[_0x5bfd9b(0x1bc)] = 'id46',
+    oImageIds['bat40'] = _0x5bfd9b(0x3be),
+    oImageIds[_0x5bfd9b(0x3e4)] = 'id48',
+    oImageIds['bat42'] = _0x5bfd9b(0x209),
+    oImageIds['bat43'] = 'id50',
+    oImageIds[_0x5bfd9b(0x407)] = _0x5bfd9b(0x351),
+    oImageIds[_0x5bfd9b(0x211)] = _0x5bfd9b(0x2cc),
+    oImageIds[_0x5bfd9b(0x2b3)] = _0x5bfd9b(0x1d9),
+    oImageIds[_0x5bfd9b(0x103)] = _0x5bfd9b(0x2bc),
+    oImageIds['bat48'] = _0x5bfd9b(0x362),
+    oImageIds[_0x5bfd9b(0x1fe)] = _0x5bfd9b(0x3ee),
+    oImageIds[_0x5bfd9b(0x33b)] = _0x5bfd9b(0x18a),
+    oImageIds[_0x5bfd9b(0x28f)] = _0x5bfd9b(0x201),
+    oImageIds[_0x5bfd9b(0x489)] = _0x5bfd9b(0x1ce),
+    oImageIds[_0x5bfd9b(0x30c)] = _0x5bfd9b(0x411),
+    oImageIds['bat54'] = _0x5bfd9b(0x385),
+    oImageIds[_0x5bfd9b(0x114)] = 'id62',
+    oImageIds['bat56'] = 'id63',
+    oImageIds[_0x5bfd9b(0x4a6)] = _0x5bfd9b(0x12d),
+    oImageIds['netReflect'] = _0x5bfd9b(0x46b),
+    oImageIds[_0x5bfd9b(0x3d7)] = 'id66',
+    oImageIds['bot'] = 'id67',
+    oImageIds[_0x5bfd9b(0x3e0)] = 'id68',
+    oImageIds['batBehind50'] = _0x5bfd9b(0x100),
+    oImageIds[_0x5bfd9b(0x20e)] = 'id70',
+    oImageIds['batBehind52'] = 'id71',
+    oImageIds['batBehind53'] = _0x5bfd9b(0x3fa),
+    oImageIds[_0x5bfd9b(0x49d)] = _0x5bfd9b(0x2cb),
+    oImageIds[_0x5bfd9b(0x48a)] = _0x5bfd9b(0x112),
+    oImageIds[_0x5bfd9b(0x36c)] = _0x5bfd9b(0x121),
+    oImageIds[_0x5bfd9b(0x2b2)] = _0x5bfd9b(0x375),
+    oImageIds[_0x5bfd9b(0x46f)] = _0x5bfd9b(0x2d5),
+    oImageIds[_0x5bfd9b(0x480)] = _0x5bfd9b(0x1da),
+    oImageIds['bug1'] = _0x5bfd9b(0x18c),
+    oImageIds['bug2'] = _0x5bfd9b(0x25f),
+    oImageIds[_0x5bfd9b(0x232)] = _0x5bfd9b(0x1f6),
+    oImageIds[_0x5bfd9b(0x1fa)] = _0x5bfd9b(0x2f1),
+    oImageIds['bug5'] = _0x5bfd9b(0x17f),
+    oImageIds[_0x5bfd9b(0x139)] = 'id6',
+    oImageIds[_0x5bfd9b(0x4a3)] = 'id7',
+    oImageIds['bugBack'] = 'id8',
+    oImageIds[_0x5bfd9b(0x400)] = _0x5bfd9b(0x1da),
+    oImageIds[_0x5bfd9b(0x28e)] = 'id1',
+    oImageIds[_0x5bfd9b(0x25e)] = 'id2',
+    oImageIds[_0x5bfd9b(0x318)] = _0x5bfd9b(0x1f6),
+    oImageIds[_0x5bfd9b(0x2a4)] = 'id4',
+    oImageIds[_0x5bfd9b(0x259)] = _0x5bfd9b(0x17f),
+    oImageIds[_0x5bfd9b(0x2c5)] = 'id6',
+    oImageIds['award7'] = _0x5bfd9b(0x287),
+    oImageIds[_0x5bfd9b(0x3a9)] = _0x5bfd9b(0x42b),
+    oImageIds['award9'] = _0x5bfd9b(0x26f),
+    oImageIds[_0x5bfd9b(0x4a5)] = _0x5bfd9b(0x474),
+    oImageIds[_0x5bfd9b(0xcf)] = 'id11',
+    oImageIds[_0x5bfd9b(0x34a)] = 'id12',
+    oImageIds[_0x5bfd9b(0x265)] = _0x5bfd9b(0x1d2),
+    oImageIds[_0x5bfd9b(0x454)] = _0x5bfd9b(0x1fd),
+    oImageIds['award15'] = 'id15',
+    oImageIds['award16'] = _0x5bfd9b(0x260),
+    oImageIds[_0x5bfd9b(0x1c7)] = _0x5bfd9b(0xd6),
+    oImageIds['batShopBut'] = _0x5bfd9b(0x1da),
+    oImageIds[_0x5bfd9b(0x277)] = _0x5bfd9b(0x18c),
+    oImageIds[_0x5bfd9b(0x395)] = _0x5bfd9b(0x25f),
+    oImageIds['classicGameButOver'] = _0x5bfd9b(0x1f6),
+    oImageIds[_0x5bfd9b(0x33a)] = 'id4',
+    oImageIds[_0x5bfd9b(0x2b1)] = 'id5',
+    oImageIds[_0x5bfd9b(0x3c7)] = _0x5bfd9b(0x3df),
+    oImageIds['muteBut1Over'] = _0x5bfd9b(0x287),
+    oImageIds[_0x5bfd9b(0x312)] = _0x5bfd9b(0x42b),
+    oImageIds[_0x5bfd9b(0x40e)] = _0x5bfd9b(0x26f),
+    oImageIds[_0x5bfd9b(0x1c1)] = 'id10',
+    oImageIds['playButOver'] = _0x5bfd9b(0x296),
+    oImageIds[_0x5bfd9b(0xef)] = _0x5bfd9b(0x431),
+    oImageIds[_0x5bfd9b(0x1aa)] = _0x5bfd9b(0x1d2),
+    oImageIds['backBut'] = _0x5bfd9b(0x1fd),
+    oImageIds[_0x5bfd9b(0x290)] = _0x5bfd9b(0x497),
+    oImageIds[_0x5bfd9b(0x37a)] = 'id16',
+    oImageIds[_0x5bfd9b(0x1e4)] = _0x5bfd9b(0xd6),
+    oImageIds['quitBut'] = _0x5bfd9b(0x2d0),
+    oImageIds[_0x5bfd9b(0x13e)] = _0x5bfd9b(0x24d),
+    oImageIds[_0x5bfd9b(0x386)] = _0x5bfd9b(0x3cb),
+    oImageIds[_0x5bfd9b(0xf1)] = _0x5bfd9b(0x49b),
+    oImageIds[_0x5bfd9b(0x3c5)] = _0x5bfd9b(0x48d),
+    oImageIds['resetButOver'] = _0x5bfd9b(0x45f),
+    oImageIds['awardsBut'] = 'id24',
+    oImageIds[_0x5bfd9b(0x313)] = 'id25',
+    oImageIds[_0x5bfd9b(0x153)] = _0x5bfd9b(0xcd),
+    oImageIds[_0x5bfd9b(0x262)] = _0x5bfd9b(0x2d3),
+    oImageIds['arcadeBut'] = 'id28',
+    oImageIds['arcadeButOver'] = _0x5bfd9b(0x42c),
+    oImageIds['minusBut'] = 'id30',
+    oImageIds[_0x5bfd9b(0x354)] = _0x5bfd9b(0x107),
+    oImageIds[_0x5bfd9b(0x41e)] = 'id32',
+    oImageIds[_0x5bfd9b(0xc6)] = _0x5bfd9b(0x2cf),
+    oImageIds['bugGameBut'] = _0x5bfd9b(0xce),
+    oImageIds['bugGameButOver'] = _0x5bfd9b(0x1a9),
+    oImageIds[_0x5bfd9b(0x25a)] = _0x5bfd9b(0x1da),
+    oImageIds[_0x5bfd9b(0xc4)] = _0x5bfd9b(0x18c),
+    oImageIds[_0x5bfd9b(0x4a9)] = _0x5bfd9b(0x25f),
+    oImageIds['smallCup'] = _0x5bfd9b(0x1f6),
+    oImageIds[_0x5bfd9b(0x295)] = 'id4',
+    oImageIds['progressLine1'] = 'id5',
+    oImageIds['progressCup0'] = _0x5bfd9b(0x3df),
+    oImageIds[_0x5bfd9b(0x221)] = 'id7',
+    oImageIds['startFinger'] = _0x5bfd9b(0x42b),
+    oImageIds[_0x5bfd9b(0x196)] = _0x5bfd9b(0x26f),
+    oImageIds['star1'] = _0x5bfd9b(0x474),
+    oImageIds[_0x5bfd9b(0x37c)] = _0x5bfd9b(0x296),
+    oImageIds[_0x5bfd9b(0x3b7)] = _0x5bfd9b(0x431),
+    oImageIds[_0x5bfd9b(0x248)] = _0x5bfd9b(0x1d2),
+    oImageIds['batShopUnderlay0'] = _0x5bfd9b(0x1fd),
+    oImageIds[_0x5bfd9b(0xc1)] = _0x5bfd9b(0x497),
+    oImageIds[_0x5bfd9b(0x255)] = 'id16',
+    oImageIds['batShopUnderlay3'] = _0x5bfd9b(0xd6),
+    oImageIds[_0x5bfd9b(0x1a7)] = 'id18',
+    oImageIds[_0x5bfd9b(0x43b)] = _0x5bfd9b(0x24d),
+    oImageIds['rewardIcon'] = _0x5bfd9b(0x3cb),
+    oImageIds[_0x5bfd9b(0x1d0)] = _0x5bfd9b(0x49b),
+    oImageIds[_0x5bfd9b(0x47c)] = _0x5bfd9b(0x48d),
+    oImageIds['batShopOverlay2'] = _0x5bfd9b(0x45f),
+    oImageIds['batShopBorder0'] = 'id24',
+    oImageIds['batShopBorder1'] = 'id25',
+    oImageIds[_0x5bfd9b(0x224)] = _0x5bfd9b(0xcd),
+    oImageIds[_0x5bfd9b(0x122)] = 'id27',
+    oImageIds[_0x5bfd9b(0x1a8)] = _0x5bfd9b(0x1ec),
+    oImageIds[_0x5bfd9b(0x178)] = _0x5bfd9b(0x42c),
+    oImageIds[_0x5bfd9b(0x1e8)] = _0x5bfd9b(0x14b),
+    oImageIds[_0x5bfd9b(0x420)] = _0x5bfd9b(0x107),
+    oImageIds[_0x5bfd9b(0x28d)] = _0x5bfd9b(0x205),
+    oImageIds['bugIcon'] = _0x5bfd9b(0x2cf),
+    assetLib[_0x5bfd9b(0x25b)](initSplash),
+    gameState = _0x5bfd9b(0x113),
+    previousTime = new Date()[_0x5bfd9b(0x402)](),
+    updateLoaderEvent();
 }
-
-function getAssetId(e) {
-    return void 0 === e && (e = !1), e && (assetIdInc = 0), "id" + assetIdInc++
-}
-
 function resizeCanvas() {
-    var e, t, a, s, i = window.innerWidth,
-        r = window.innerHeight;
-    switch (canvas.height = r, canvas.width = i, canvas.style.width = i + "px", canvas.style.height = r + "px", canvasScale = 1, i < r ? (e = maxWidth, t = maxHeight, a = minWidth, s = minHeight) : (e = maxHeight, t = maxWidth, a = minHeight, s = minWidth), canvas.width / canvas.height < a / s ? (canvas.width = e, canvas.height = e * (r / i), canvasScale = e / i) : (canvas.height = s, canvas.width = s * (i / r), canvasScale = s / r), gameState) {
-        case "network":
-            userInput.removeHitArea("urlAreaFromNetwork"), userInput.addHitArea("urlAreaFromNetwork", butEventHandler, null, "rect", {
-                aRect: [200, 200, canvas.width - 200, canvas.height - 200]
-            }, !0);
-            break;
-        case "game":
-            isMobile && 1 == gameplayState ? (userInput.removeHitArea("gameTouch"), userInput.addHitArea("gameTouch", butEventHandler, {
-                isDraggable: !0,
-                multiTouch: !0
-            }, "rect", {
-                aRect: [0, 100, canvas.width, canvas.height]
-            }, !0)) : 0 == gameplayState && 4 != gameVariation && updateStartScreenButs();
-            break;
-        case "batShop":
-            userInput.removeHitArea("batShopTouch"), userInput.addHitArea("batShopTouch", butEventHandler, {
-                isDraggable: !0,
-                multiTouch: !0
-            }, "rect", {
-                aRect: [0, 0, canvas.width, canvas.height]
-            }, !0)
+    var _0x384074 = _0x47ff64
+      , _0x1bdccb = window[_0x384074(0x40a)]
+      , _0x31cdbc = window[_0x384074(0x3b8)];
+    canvas['height'] = _0x31cdbc,
+    canvas[_0x384074(0xeb)] = _0x1bdccb,
+    canvas['style']['width'] = _0x1bdccb + 'px',
+    canvas[_0x384074(0x34e)][_0x384074(0x2f8)] = _0x31cdbc + 'px';
+    var _0x293581, _0x4b1692, _0x1dcb9c, _0x4cc656;
+    canvasScale = 0x1;
+    _0x1bdccb < _0x31cdbc ? (_0x293581 = maxWidth,
+    _0x4b1692 = maxHeight,
+    _0x1dcb9c = minWidth,
+    _0x4cc656 = minHeight) : (_0x293581 = maxHeight,
+    _0x4b1692 = maxWidth,
+    _0x1dcb9c = minHeight,
+    _0x4cc656 = minWidth);
+    canvas['width'] / canvas[_0x384074(0x2f8)] < _0x1dcb9c / _0x4cc656 ? (canvas[_0x384074(0xeb)] = _0x293581,
+    canvas[_0x384074(0x2f8)] = _0x293581 * (_0x31cdbc / _0x1bdccb),
+    canvasScale = _0x293581 / _0x1bdccb) : (canvas[_0x384074(0x2f8)] = _0x4cc656,
+    canvas[_0x384074(0xeb)] = _0x4cc656 * (_0x1bdccb / _0x31cdbc),
+    canvasScale = _0x4cc656 / _0x31cdbc);
+    switch (gameState) {
+    case _0x384074(0x429):
+        if (isMobile && gameplayState == 0x1)
+            userInput[_0x384074(0x10e)](_0x384074(0x31b)),
+            userInput[_0x384074(0x19b)](_0x384074(0x31b), butEventHandler, {
+                'isDraggable': !![],
+                'multiTouch': !![]
+            }, _0x384074(0x360), {
+                'aRect': [0x0, 0x64, canvas[_0x384074(0xeb)], canvas[_0x384074(0x2f8)]]
+            }, !![]);
+        else {
+            if (gameplayState == 0x0)
+                updateStartScreenButs();
+            else {
+                if (gameplayState == 0x4) {}
+            }
+        }
+        break;
+    case _0x384074(0x2c7):
+        userInput['removeHitArea']('batShopTouch'),
+        userInput[_0x384074(0x19b)]('batShopTouch', butEventHandler, {
+            'isDraggable': !![],
+            'multiTouch': !![]
+        }, _0x384074(0x360), {
+            'aRect': [0x0, 0x0, canvas[_0x384074(0xeb)], canvas[_0x384074(0x2f8)]]
+        }, !![]);
+        break;
+    case _0x384074(0x315):
+        break;
+    case _0x384074(0x332):
+        break;
     }
-    prevCanvasWidth = i, prevCanvasHeight = r, window.scrollTo(0, 0)
+    prevCanvasWidth = _0x1bdccb,
+    prevCanvasHeight = _0x31cdbc,
+    window[_0x384074(0x2b7)](0x0, 0x0);
 }
-
-function playSound(e, t) {
-    if (void 0 === t && (t = 1), 1 == audioType) {
-        var a = sound.play(e);
-        sound.volume(t, a)
+function playSound(_0x53ce48, _0x56c357) {
+    var _0x2eb5f3 = _0x47ff64;
+    _0x56c357 === void 0x0 && (_0x56c357 = 0x1);
+    if (audioType == 0x1) {
+        var _0x23b459 = sound[_0x2eb5f3(0x465)](_0x53ce48);
+        sound['volume'](_0x56c357, _0x23b459);
     }
 }
-
 function toggleMute() {
-    muted = !muted, 1 == audioType ? muted ? (Howler.mute(!0), music.pause()) : (Howler.mute(!1), playMusic(), 1 == gameplayState ? music.volume(minMusicVol) : music.volume(maxMusicVol)) : 2 == audioType && (muted ? music.pause() : playMusic())
+    var _0x17a28e = _0x47ff64;
+    muted = !muted;
+    if (audioType == 0x1)
+        muted ? (Howler['mute'](!![]),
+        music[_0x17a28e(0x332)]()) : (Howler[_0x17a28e(0x2af)](![]),
+        playMusic(),
+        gameplayState == 0x1 ? music[_0x17a28e(0x46e)](minMusicVol) : music[_0x17a28e(0x46e)](maxMusicVol));
+    else
+        audioType == 0x2 && (muted ? music['pause']() : playMusic());
 }
