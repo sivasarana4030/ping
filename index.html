@@ -11,7 +11,7 @@
             margin: 0px;
             padding: 0px;
             width: 100%;
-            overflow: hidden
+            overflow: hidden;
         }
 
         canvas {
@@ -30,7 +30,6 @@
         }
     </style>
 
-
     <style type="text/css">
         @font-face {
             font-family: "luckiestGuy";
@@ -43,13 +42,13 @@
         }
     </style>
 </head>
-<script src="https://game-cdn.poki.com/scripts/v2/poki-sdk.js"></script>
 
 <body>
     <div id="canvas-wrapper" style="overflow:visible; width:100%; height:100%; margin:0; padding:0; position:absolute;">
         <canvas id="canvas" moz-opaque></canvas>
     </div>
 </body>
+
 <script src="netlib.js"></script>
 <script src="seedRandom.js"></script>
 <script src="gsap.min.js"></script>
@@ -57,25 +56,15 @@
 <script src="VisibilityManager.js"></script>
 <script src="app.js"></script>
 <script type="text/javascript">
-    var tempBrowserLang = (navigator.language).slice(0, 2)
-    var tempLang = "en"
+    var tempBrowserLang = (navigator.language).slice(0, 2);
+    var tempLang = "en";
 
-    if (tempBrowserLang == "fr" || tempBrowserLang == "de" || tempBrowserLang == "pt" || tempBrowserLang == "es") {
-        tempLang = tempBrowserLang
+    if (["fr", "de", "pt", "es"].includes(tempBrowserLang)) {
+        tempLang = tempBrowserLang;
     }
 
-
-    PokiSDK.init().then(() => {
-        console.log("Poki SDK successfully initialized");
-        // fire your function to continue to game
-
-        loadLang(tempLang);
-    }).catch(() => {
-        console.log("Initialized, something went wrong, load you game anyway");
-        // fire your function to continue to game
-
-        loadLang(tempLang);
-    });
+    // Directly load language without Poki SDK
+    loadLang(tempLang);
 </script>
 
 </html>
