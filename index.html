@@ -47,24 +47,30 @@
     <div id="canvas-wrapper" style="overflow:visible; width:100%; height:100%; margin:0; padding:0; position:absolute;">
         <canvas id="canvas" moz-opaque></canvas>
     </div>
+
+    <script src="netlib.js"></script>
+    <script src="seedRandom.js"></script>
+    <script src="gsap.min.js"></script>
+    <script src="Howler.min.js"></script>
+    <script src="VisibilityManager.js"></script>
+    <script src="app.js"></script>
+    <script type="text/javascript">
+        window.addEventListener("load", function () {
+            var tempBrowserLang = (navigator.language || navigator.userLanguage).slice(0, 2);
+            var tempLang = "en";
+
+            if (["fr", "de", "pt", "es"].includes(tempBrowserLang)) {
+                tempLang = tempBrowserLang;
+            }
+
+            // Load language and start game
+            if (typeof loadLang === "function") {
+                loadLang(tempLang);
+            } else {
+                console.error("loadLang function is not defined.");
+            }
+        });
+    </script>
 </body>
-
-<script src="netlib.js"></script>
-<script src="seedRandom.js"></script>
-<script src="gsap.min.js"></script>
-<script src="Howler.min.js"></script>
-<script src="VisibilityManager.js"></script>
-<script src="app.js"></script>
-<script type="text/javascript">
-    var tempBrowserLang = (navigator.language).slice(0, 2);
-    var tempLang = "en";
-
-    if (["fr", "de", "pt", "es"].includes(tempBrowserLang)) {
-        tempLang = tempBrowserLang;
-    }
-
-    // Directly load language without Poki SDK
-    loadLang(tempLang);
-</script>
 
 </html>
